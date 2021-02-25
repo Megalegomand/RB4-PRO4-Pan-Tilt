@@ -53,10 +53,15 @@ dkms.conf
 /.metadata/
 
 # CCS ignore
-/[Dd]ebug/
-/[Rr]elease/
+*/[Dd]ebug/
+*/[Rr]elease/
 .xdhelp
-/.config/
-/.launches/
+*/.config/
+*/.launches/
 /RemoteSystemsTempFiles/
 /.jxbrowser-data/
+
+# Vivado
+*/FPGA.cache/
+*/FPGA.ip_user_files/
+*/FPGA.hw/
