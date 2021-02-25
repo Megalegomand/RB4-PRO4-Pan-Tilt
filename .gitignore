@@ -50,3 +50,13 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/.metadata/
+
+# CCS ignore
+/[Dd]ebug/
+/[Rr]elease/
+.xdhelp
+/.config/
+/.launches/
+/RemoteSystemsTempFiles/
+/.jxbrowser-data/
