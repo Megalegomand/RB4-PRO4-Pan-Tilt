@@ -62,6 +62,8 @@ dkms.conf
 /.jxbrowser-data/
 
 # Vivado
-*/FPGA.cache/
-*/FPGA.ip_user_files/
-*/FPGA.hw/
+*/*.cache/
+*/*.ip_user_files/
+*/*.hw/
+*/*.sim/
+*.insyncdl
