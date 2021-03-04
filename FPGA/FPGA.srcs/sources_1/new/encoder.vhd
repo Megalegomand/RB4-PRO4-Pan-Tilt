@@ -48,35 +48,35 @@ begin
     process (a,b)
         variable dir : INTEGER := 0;
     begin
-        if (a'event) then
-            if (a = '1') then
-                if (b = '1') then
-                    dir := 1;
-                elsif (b = '0') then
-                    dir := -1;
-                end if;
-            elsif (a = '0') then
-                if (b = '1') then
-                    dir := -1;
-                elsif (b = '0') then
-                    dir := 1;
-                end if;
-            end if;
-        elsif (b'event) then
+        if (a'event and a = '1') then
             if (b = '1') then
-                if (a = '1') then
-                    dir := -1;
-                elsif (a = '0') then
-                    dir := 1;
-                end if;
+                dir := 1;
             elsif (b = '0') then
-                if (a = '1') then
-                    dir := 1;
-                elsif (a = '0') then
-                    dir := -1;
-                end if;
+                dir := -1;
             end if;
         end if;
+        if (a'event and a = '0') then
+            if (b = '1') then
+                dir := -1;
+            elsif (b = '0') then
+                dir := 1;
+            end if;
+        end if;
+        if (b'event and b = '1') then
+            if (a = '1') then
+                dir := -1;
+            elsif (a = '0') then
+                dir := 1;
+            end if;
+        end if;
+        if (b'event and b = '0') then
+            if (a = '1') then
+                dir := 1;
+        elsif (a = '0') then
+                dir := -1;
+            end if;
+        end if;
+        
         cnt_t <= STD_LOGIC_VECTOR(signed(cnt_t) + dir);
     end process;
     
