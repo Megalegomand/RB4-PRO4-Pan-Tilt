@@ -21,10 +21,10 @@
 #define SPI_H_
 /***************** Variables ******************/ 
 /***************** Functions ******************/
-void Read_SPI(); // Read from the SPI register
-void Write_SPI(); // Write to the SPI register
-void Init_CLK(); // Initialize shared clock
-void Slave_Sel(); // Selecet slave
+void spi_read(); // Read from the SPI register
+void spi_write(); // Write to the SPI register
+void spi_init(); // Initialize shared clock
+void spi_sel(); // Select slave
 /********************************************** 
 * Input: 
 * Output: 
