@@ -61,6 +61,13 @@ begin
     b <= enc2 when dir = '1' else
          enc1 when dir = '0';
     
-    encoder_uut : entity work.encoder generic map (n_bits => n_bits) port map (a => a, b => b, cnt => cnt);
+    encoder_uut : entity work.encoder 
+    generic map (
+        n_bits => n_bits
+    ) port map (
+        a => a, 
+        b => b, 
+        cnt => cnt
+    );
 
 end Behavioral;
