@@ -16,8 +16,9 @@
 
 /***************** Header *********************/ 
 /***************** Include files **************/ 
-#include "tm4c123gh6pm.h"
 #include "emp_type.h"
+#include "tm4c123gh6pm.h"
+#include "stdint.h"
 /***************** Defines ********************/ 
 #ifndef SPI_H_
 #define SPI_H_
