@@ -16,11 +16,17 @@
 
 /***************** Header *********************/ 
 /***************** Include files **************/ 
+#include "tm4c123gh6pm.h"
+#include "emp_type.h"
 /***************** Defines ********************/ 
 #ifndef SPI_H_
 #define SPI_H_
 /***************** Variables ******************/ 
 /***************** Functions ******************/
+void spi_read(); // Read from the SPI register
+void spi_write(); // Write to the SPI register
+void spi_init(); // Initialize shared clock
+void spi_sel(); // Select slave
 /********************************************** 
 * Input: 
 * Output: 
