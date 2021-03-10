@@ -18,7 +18,7 @@
 /***************** Include files **************/ 
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
-#include "emp_type.h"
+#include "stdint.h"
 /***************** Defines ********************/ 
 #ifndef SPI_H_
 #define SPI_H_
