@@ -16,6 +16,7 @@
 
 /***************** Header *********************/ 
 /***************** Include files **************/ 
+#include <stdint.h>
 #include "tm4c123gh6pm.h"
 #include "emp_type.h"
 /***************** Defines ********************/ 
