@@ -36,6 +36,7 @@ entity encoder is
         n_bits : POSITIVE := 1);
     Port ( a : in STD_LOGIC;
            b : in STD_LOGIC;
+           rst : in STD_LOGIC;
            cnt : out STD_LOGIC_VECTOR (n_bits-1 downto 0));
 end encoder;
 
@@ -44,9 +45,12 @@ architecture Behavioral of encoder is
     
 begin
 
-    process (a,b)
+    process (a,b,rst)
         variable dir : INTEGER := 0;
     begin
+        if (rst = '1') then
+            cnt <= (others => '0');
+        end if;
         if (a'event and a = '1') then
             if (b = '1') then
                 dir := 1;

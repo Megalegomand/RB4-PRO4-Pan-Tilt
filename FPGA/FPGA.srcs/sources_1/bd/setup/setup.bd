@@ -7,8 +7,7 @@
       "name": "setup",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2020.2",
-      "validated": "true"
+      "tool_version": "2020.2"
     },
     "design_tree": {
       "spi_0": "",
@@ -17,17 +16,7 @@
     "ports": {
       "rst": {
         "type": "rst",
-        "direction": "I",
-        "parameters": {
-          "INSERT_VIP": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "POLARITY": {
-            "value": "ACTIVE_LOW",
-            "value_src": "default"
-          }
-        }
+        "direction": "I"
       },
       "encoder_a": {
         "direction": "I"
@@ -110,6 +99,10 @@
           "b": {
             "direction": "I"
           },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
           "cnt": {
             "direction": "O",
             "left": "7",
@@ -122,7 +115,8 @@
       "rst_0_1": {
         "ports": [
           "rst",
-          "spi_0/rst"
+          "spi_0/rst",
+          "encoder_0/rst"
         ]
       },
       "a_0_1": {
