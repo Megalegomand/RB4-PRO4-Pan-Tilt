@@ -33,8 +33,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity encoder is
     Generic (
-        n_bits : POSITIVE := 1;
-        half_time : TIME := 5ns);
+        n_bits : POSITIVE := 1);
     Port ( a : in STD_LOGIC;
            b : in STD_LOGIC;
            cnt : out STD_LOGIC_VECTOR (n_bits-1 downto 0));
