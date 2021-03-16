@@ -1,13 +1,172 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x0",
+      "boundary_crc": "0x169A72D5F7100FA8",
+      "device": "xcku025-ffva1156-1-c",
       "gen_directory": "../../../../FPGA.gen/sources_1/bd/setup",
       "name": "setup",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2020.2"
+      "tool_version": "2020.2",
+      "validated": "true"
     },
-    "design_tree": {}
+    "design_tree": {
+      "spi_0": "",
+      "encoder_0": ""
+    },
+    "ports": {
+      "rst": {
+        "type": "rst",
+        "direction": "I",
+        "parameters": {
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "POLARITY": {
+            "value": "ACTIVE_LOW",
+            "value_src": "default"
+          }
+        }
+      },
+      "encoder_a": {
+        "direction": "I"
+      },
+      "encoder_b": {
+        "direction": "I"
+      },
+      "sclk": {
+        "direction": "I"
+      },
+      "ss": {
+        "direction": "I"
+      },
+      "mosi": {
+        "direction": "I"
+      },
+      "miso": {
+        "direction": "O"
+      }
+    },
+    "components": {
+      "spi_0": {
+        "vlnv": "xilinx.com:module_ref:spi:1.0",
+        "xci_name": "setup_spi_0_0",
+        "xci_path": "ip/setup_spi_0_0/setup_spi_0_0.xci",
+        "inst_hier_path": "spi_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "spi",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "data_in": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "data_out": {
+            "direction": "O",
+            "left": "7",
+            "right": "0"
+          },
+          "sclk": {
+            "direction": "I"
+          },
+          "ss": {
+            "direction": "I"
+          },
+          "mosi": {
+            "direction": "I"
+          },
+          "miso": {
+            "direction": "O"
+          }
+        }
+      },
+      "encoder_0": {
+        "vlnv": "xilinx.com:module_ref:encoder:1.0",
+        "xci_name": "setup_encoder_0_0",
+        "xci_path": "ip/setup_encoder_0_0/setup_encoder_0_0.xci",
+        "inst_hier_path": "encoder_0",
+        "parameters": {
+          "n_bits": {
+            "value": "8"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "encoder",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "a": {
+            "direction": "I"
+          },
+          "b": {
+            "direction": "I"
+          },
+          "cnt": {
+            "direction": "O",
+            "left": "7",
+            "right": "0"
+          }
+        }
+      }
+    },
+    "nets": {
+      "rst_0_1": {
+        "ports": [
+          "rst",
+          "spi_0/rst"
+        ]
+      },
+      "a_0_1": {
+        "ports": [
+          "encoder_a",
+          "encoder_0/a"
+        ]
+      },
+      "b_0_1": {
+        "ports": [
+          "encoder_b",
+          "encoder_0/b"
+        ]
+      },
+      "encoder_0_cnt": {
+        "ports": [
+          "encoder_0/cnt",
+          "spi_0/data_in"
+        ]
+      },
+      "sclk_0_1": {
+        "ports": [
+          "sclk",
+          "spi_0/sclk"
+        ]
+      },
+      "ss_0_1": {
+        "ports": [
+          "ss",
+          "spi_0/ss"
+        ]
+      },
+      "mosi_0_1": {
+        "ports": [
+          "mosi",
+          "spi_0/mosi"
+        ]
+      },
+      "spi_0_miso": {
+        "ports": [
+          "spi_0/miso",
+          "miso"
+        ]
+      }
+    }
   }
 }
