@@ -11,7 +11,9 @@
     },
     "design_tree": {
       "spi_0": "",
-      "encoder_0": ""
+      "encoder_0": "",
+      "pwm_0": "",
+      "clk_wiz": ""
     },
     "ports": {
       "rst": {
@@ -35,6 +37,18 @@
       },
       "miso": {
         "direction": "O"
+      },
+      "pwm": {
+        "direction": "O"
+      },
+      "clk_100MHz": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "FREQ_HZ": {
+            "value": "100000000"
+          }
+        }
       }
     },
     "components": {
@@ -109,6 +123,42 @@
             "right": "0"
           }
         }
+      },
+      "pwm_0": {
+        "vlnv": "xilinx.com:module_ref:pwm:1.0",
+        "xci_name": "setup_pwm_0_0",
+        "xci_path": "ip/setup_pwm_0_0/setup_pwm_0_0.xci",
+        "inst_hier_path": "pwm_0",
+        "parameters": {
+          "n_bits": {
+            "value": "8"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "pwm",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "duty_cycle": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "o": {
+            "direction": "O"
+          }
+        }
+      },
+      "clk_wiz": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "xci_name": "setup_clk_wiz_0",
+        "xci_path": "ip/setup_clk_wiz_0/setup_clk_wiz_0.xci",
+        "inst_hier_path": "clk_wiz"
       }
     },
     "nets": {
@@ -116,7 +166,8 @@
         "ports": [
           "rst",
           "spi_0/rst",
-          "encoder_0/rst"
+          "encoder_0/rst",
+          "clk_wiz/reset"
         ]
       },
       "a_0_1": {
@@ -159,6 +210,30 @@
         "ports": [
           "spi_0/miso",
           "miso"
+        ]
+      },
+      "clk_wiz_clk_out1": {
+        "ports": [
+          "clk_wiz/clk_out1",
+          "pwm_0/clk"
+        ]
+      },
+      "spi_0_data_out": {
+        "ports": [
+          "spi_0/data_out",
+          "pwm_0/duty_cycle"
+        ]
+      },
+      "pwm_0_o": {
+        "ports": [
+          "pwm_0/o",
+          "pwm"
+        ]
+      },
+      "clk_100MHz_1": {
+        "ports": [
+          "clk_100MHz",
+          "clk_wiz/clk_in1"
         ]
       }
     }
