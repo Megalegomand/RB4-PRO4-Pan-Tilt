@@ -51,6 +51,9 @@ architecture Behavioral of spi is
     
     signal reg : STD_LOGIC_VECTOR(register_bits-1 downto 0);
     signal reg_n : STD_LOGIC_VECTOR(reg_n_bits-1 downto 0);
+    
+    type    STATE_TYPE      is  (s_idle, s_read, s_write);    --  add states here
+    signal  current_state   :   STATE_TYPE  :=  s_idle;
 begin
 
     process(ss, sclk)
