@@ -2,7 +2,7 @@
   "design": {
     "design_info": {
       "boundary_crc": "0x169A72D5F7100FA8",
-      "device": "xcku025-ffva1156-1-c",
+      "device": "xc7z020clg400-1",
       "gen_directory": "../../../../FPGA.gen/sources_1/bd/setup",
       "name": "setup",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
@@ -10,10 +10,10 @@
       "tool_version": "2020.2"
     },
     "design_tree": {
-      "spi_0": "",
+      "clk_wiz": "",
       "encoder_0": "",
       "pwm_0": "",
-      "clk_wiz": ""
+      "spi_0": ""
     },
     "ports": {
       "rst": {
@@ -52,44 +52,11 @@
       }
     },
     "components": {
-      "spi_0": {
-        "vlnv": "xilinx.com:module_ref:spi:1.0",
-        "xci_name": "setup_spi_0_0",
-        "xci_path": "ip/setup_spi_0_0/setup_spi_0_0.xci",
-        "inst_hier_path": "spi_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "spi",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "rst": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "data_in": {
-            "direction": "I",
-            "left": "7",
-            "right": "0"
-          },
-          "data_out": {
-            "direction": "O",
-            "left": "7",
-            "right": "0"
-          },
-          "sclk": {
-            "direction": "I"
-          },
-          "ss": {
-            "direction": "I"
-          },
-          "mosi": {
-            "direction": "I"
-          },
-          "miso": {
-            "direction": "O"
-          }
-        }
+      "clk_wiz": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "xci_name": "setup_clk_wiz_0",
+        "xci_path": "ip/setup_clk_wiz_0/setup_clk_wiz_0.xci",
+        "inst_hier_path": "clk_wiz"
       },
       "encoder_0": {
         "vlnv": "xilinx.com:module_ref:encoder:1.0",
@@ -154,20 +121,53 @@
           }
         }
       },
-      "clk_wiz": {
-        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
-        "xci_name": "setup_clk_wiz_0",
-        "xci_path": "ip/setup_clk_wiz_0/setup_clk_wiz_0.xci",
-        "inst_hier_path": "clk_wiz"
+      "spi_0": {
+        "vlnv": "xilinx.com:module_ref:spi:1.0",
+        "xci_name": "setup_spi_0_0",
+        "xci_path": "ip/setup_spi_0_0/setup_spi_0_0.xci",
+        "inst_hier_path": "spi_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "spi",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "data_in": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "data_out": {
+            "direction": "O",
+            "left": "7",
+            "right": "0"
+          },
+          "sclk": {
+            "direction": "I"
+          },
+          "ss": {
+            "direction": "I"
+          },
+          "mosi": {
+            "direction": "I"
+          },
+          "miso": {
+            "direction": "O"
+          }
+        }
       }
     },
     "nets": {
       "rst_0_1": {
         "ports": [
           "rst",
-          "spi_0/rst",
+          "clk_wiz/reset",
           "encoder_0/rst",
-          "clk_wiz/reset"
+          "spi_0/rst"
         ]
       },
       "a_0_1": {
