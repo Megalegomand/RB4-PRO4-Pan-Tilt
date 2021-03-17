@@ -8,7 +8,7 @@
  */
 int main(void)
 {
-
-
-	return 0;
+    spi_init();
+    while(1);
+    return(0);
 }
