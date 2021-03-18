@@ -55,56 +55,44 @@ architecture Behavioral of spi is
     type    STATE_TYPE      is  (s_idle, s_read, s_write);    --  add states here
     signal  current_state   :   STATE_TYPE  :=  s_idle;
     
-    signal kage : STD_LOGIC_VECTOR(reg_n_bits-1 downto 0);
 begin
 
-    next_state : process (ss, sclk, rst)
+    process (ss, sclk, rst)
+        variable miso_t : STD_LOGIC;
     begin
         if (rst = '1') then
             current_state <= s_idle;
             data_out <= (others => '0');
             reg <= (others => '0');
             reg_n <= (others => '1');
-        elsif (falling_edge(ss)) then
+        end if;
+        if (ss'event and ss = '0') then
             if (current_state = s_idle) then
                 current_state <= s_read;
                 reg_n <= (others => '1');
                 reg <= data_in;
-                miso <= data_in(register_bits-1);
+                miso_t := data_in(register_bits-1);
             end if;
-        elsif (rising_edge(sclk)) then
+        end if;
+        if (sclk'event and sclk = '1') then
             if (current_state = s_read) then
                 current_state <= s_write;
                 reg <=  reg(register_bits-2 downto 0) & mosi;
                 reg_n <= STD_LOGIC_VECTOR(unsigned(reg_n) + 1);
             end if;
-        elsif (falling_edge(sclk)) then
+        end if;
+        if (sclk'event and sclk = '0') then
             if (current_state = s_write) then
                 if (reg_n = STD_LOGIC_VECTOR(to_unsigned(register_bits-1, reg_n_bits))) then
                     current_state <= s_idle;
                     data_out <= reg;
                 else
                     current_state <= s_read;
-                    miso <= reg(register_bits-1);
+                    miso_t := reg(register_bits-1);
                 end if;
             end if;
         end if;
+        
+        miso <= miso_t;
     end process;
-
---    process(ss, sclk)
---    begin
---        if (ss'event and ss = '0') then
---            reg <= data_in;
---            miso <= data_in(register_bits-1);
---        end if;
---        if (unsigned(reg_n) /= register_bits) then
---            if (sclk'event and sclk = '1') then
---                reg <=  reg(register_bits-2 downto 0) & mosi;
---            end if;
---            if (sclk'event and sclk = '0') then
---                miso <= reg(register_bits-1);
---            end if;
---        end if;
---    end process;
-
 end Behavioral;
