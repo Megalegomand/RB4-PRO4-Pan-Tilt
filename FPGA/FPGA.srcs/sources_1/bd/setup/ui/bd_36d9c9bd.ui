@@ -13,7 +13,7 @@ preplace port ss -pg 1 -lvl 0 -x -10 -y 180 -defaultsOSRD
 preplace port mosi -pg 1 -lvl 0 -x -10 -y 200 -defaultsOSRD
 preplace port miso -pg 1 -lvl 4 -x 780 -y 170 -defaultsOSRD
 preplace port pwm -pg 1 -lvl 4 -x 780 -y 310 -defaultsOSRD
-preplace port clk_100MHz -pg 1 -lvl 0 -x -10 -y 320 -defaultsOSRD
+preplace port clk_125MHz -pg 1 -lvl 0 -x -10 -y 320 -defaultsOSRD
 preplace inst clk_wiz -pg 1 -lvl 2 -x 380 -y 310 -defaultsOSRD
 preplace inst encoder_0 -pg 1 -lvl 1 -x 120 -y 80 -defaultsOSRD
 preplace inst pwm_0 -pg 1 -lvl 3 -x 640 -y 310 -defaultsOSRD

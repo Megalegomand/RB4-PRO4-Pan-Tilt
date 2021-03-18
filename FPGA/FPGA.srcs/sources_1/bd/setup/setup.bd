@@ -41,7 +41,7 @@
       "pwm": {
         "direction": "O"
       },
-      "clk_100MHz": {
+      "clk_125MHz": {
         "type": "clk",
         "direction": "I",
         "parameters": {
@@ -56,7 +56,54 @@
         "vlnv": "xilinx.com:ip:clk_wiz:6.0",
         "xci_name": "setup_clk_wiz_0",
         "xci_path": "ip/setup_clk_wiz_0/setup_clk_wiz_0.xci",
-        "inst_hier_path": "clk_wiz"
+        "inst_hier_path": "clk_wiz",
+        "parameters": {
+          "CLKIN1_JITTER_PS": {
+            "value": "80.0"
+          },
+          "CLKIN2_JITTER_PS": {
+            "value": "133.33"
+          },
+          "CLKOUT1_JITTER": {
+            "value": "529.616"
+          },
+          "CLKOUT1_PHASE_ERROR": {
+            "value": "319.966"
+          },
+          "CLKOUT1_REQUESTED_OUT_FREQ": {
+            "value": "5.000"
+          },
+          "CLK_IN1_BOARD_INTERFACE": {
+            "value": "sys_clock"
+          },
+          "MMCM_CLKFBOUT_MULT_F": {
+            "value": "25.500"
+          },
+          "MMCM_CLKIN1_PERIOD": {
+            "value": "8.000"
+          },
+          "MMCM_CLKIN2_PERIOD": {
+            "value": "10.0"
+          },
+          "MMCM_CLKOUT0_DIVIDE_F": {
+            "value": "127.500"
+          },
+          "MMCM_DIVCLK_DIVIDE": {
+            "value": "5"
+          },
+          "PRIM_IN_FREQ": {
+            "value": "125.000"
+          },
+          "SECONDARY_IN_FREQ": {
+            "value": "100.000"
+          },
+          "SECONDARY_SOURCE": {
+            "value": "Single_ended_clock_capable_pin"
+          },
+          "USE_INCLK_SWITCHOVER": {
+            "value": "false"
+          }
+        }
       },
       "encoder_0": {
         "vlnv": "xilinx.com:module_ref:encoder:1.0",
@@ -232,7 +279,7 @@
       },
       "clk_100MHz_1": {
         "ports": [
-          "clk_100MHz",
+          "clk_125MHz",
           "clk_wiz/clk_in1"
         ]
       }
