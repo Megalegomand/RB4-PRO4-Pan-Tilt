@@ -52,9 +52,9 @@ void spi_init(){
 
 }
 /********************************************** 
-* Input: 
-* Output: 
-* Function: 
+* Input: Data
+* Output: N/A
+* Function: spi_write
 ***********************************************/ 
 void spi_write(char data){
 
@@ -64,9 +64,9 @@ void spi_write(char data){
 
 }
 /**********************************************
-* Input:
-* Output:
-* Function:
+* Input: N/A
+* Output: data
+* Function: spi_read
 ***********************************************/
 char spi_read(){
     char data_in;
