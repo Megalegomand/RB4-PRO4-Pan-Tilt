@@ -39,7 +39,7 @@ void spi_init(){
     //SYSCTL_PRSSI_R = SYSCTL_PRSSI_R0; //The PRSSI register indicates whether the SSI modules are ready to be accessed by software following a change in status of power, Run mode clocking, or reset
 
     // Setup of SSI format
-    SSI0_CR0_R = SSI_CR0_FRF_MOTO | SSI_CR0_DSS_8 | SSI_CR0_SPH | SSI_CR0_SPO; // Setting up Freescale SPI
+    SSI0_CR0_R = SSI_CR0_FRF_MOTO | SSI_CR0_DSS_8 | SSI_CR0_SPH /*| SSI_CR0_SPO*/; // Setting up Freescale SPI
     SSI0_CC_R=0;
     SSI0_CPSR_R=1;
 

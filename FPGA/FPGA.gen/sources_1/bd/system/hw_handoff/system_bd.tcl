@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# encoder, spi
+# encoder, pwm, spi
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -173,6 +173,25 @@ proc create_root_design { parentCell } {
   set rst [ create_bd_port -dir I -type rst rst ]
   set sclk [ create_bd_port -dir I sclk ]
   set ss [ create_bd_port -dir I ss ]
+  set sysclk [ create_bd_port -dir I -type clk -freq_hz 125000000 sysclk ]
+
+  # Create instance: clk_wiz_0, and set properties
+  set clk_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_0 ]
+  set_property -dict [ list \
+   CONFIG.CLKIN1_JITTER_PS {80.0} \
+   CONFIG.CLKOUT1_JITTER {529.616} \
+   CONFIG.CLKOUT1_PHASE_ERROR {319.966} \
+   CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {5} \
+   CONFIG.CLK_IN1_BOARD_INTERFACE {sys_clock} \
+   CONFIG.MMCM_CLKFBOUT_MULT_F {25.500} \
+   CONFIG.MMCM_CLKIN1_PERIOD {8.000} \
+   CONFIG.MMCM_CLKIN2_PERIOD {10.0} \
+   CONFIG.MMCM_CLKOUT0_DIVIDE_F {127.500} \
+   CONFIG.MMCM_DIVCLK_DIVIDE {5} \
+   CONFIG.RESET_PORT {resetn} \
+   CONFIG.RESET_TYPE {ACTIVE_LOW} \
+   CONFIG.USE_LOCKED {false} \
+ ] $clk_wiz_0
 
   # Create instance: encoder_0, and set properties
   set block_name encoder
@@ -188,6 +207,20 @@ proc create_root_design { parentCell } {
    CONFIG.n_bits {8} \
  ] $encoder_0
 
+  # Create instance: pwm_0, and set properties
+  set block_name pwm
+  set block_cell_name pwm_0
+  if { [catch {set pwm_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $pwm_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+    set_property -dict [ list \
+   CONFIG.n_bits {8} \
+ ] $pwm_0
+
   # Create instance: spi_0, and set properties
   set block_name spi
   set block_cell_name spi_0
@@ -199,23 +232,19 @@ proc create_root_design { parentCell } {
      return 1
    }
   
-  # Create instance: xlslice_0, and set properties
-  set xlslice_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_0 ]
-  set_property -dict [ list \
-   CONFIG.DIN_WIDTH {8} \
- ] $xlslice_0
-
   # Create port connections
   connect_bd_net -net a_0_1 [get_bd_ports encoder_a] [get_bd_pins encoder_0/a]
   connect_bd_net -net b_0_1 [get_bd_ports encoder_b] [get_bd_pins encoder_0/b]
+  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins pwm_0/clk]
   connect_bd_net -net encoder_0_cnt [get_bd_pins encoder_0/cnt] [get_bd_pins spi_0/data_in]
   connect_bd_net -net mosi_0_1 [get_bd_ports mosi] [get_bd_pins spi_0/mosi]
-  connect_bd_net -net rst_0_1 [get_bd_ports rst] [get_bd_pins encoder_0/rst] [get_bd_pins spi_0/rst]
+  connect_bd_net -net pwm_0_o [get_bd_ports pwm] [get_bd_pins pwm_0/o]
+  connect_bd_net -net rst_0_1 [get_bd_ports rst] [get_bd_pins clk_wiz_0/resetn] [get_bd_pins encoder_0/rst] [get_bd_pins spi_0/rst]
   connect_bd_net -net sclk_0_1 [get_bd_ports sclk] [get_bd_pins spi_0/sclk]
-  connect_bd_net -net spi_0_data_out [get_bd_pins spi_0/data_out] [get_bd_pins xlslice_0/Din]
+  connect_bd_net -net spi_0_data_out [get_bd_pins pwm_0/duty_cycle] [get_bd_pins spi_0/data_out]
   connect_bd_net -net spi_0_miso [get_bd_ports miso] [get_bd_pins spi_0/miso]
   connect_bd_net -net ss_0_1 [get_bd_ports ss] [get_bd_pins spi_0/ss]
-  connect_bd_net -net xlslice_0_Dout [get_bd_ports pwm] [get_bd_pins xlslice_0/Dout]
+  connect_bd_net -net sysclk_1 [get_bd_ports sysclk] [get_bd_pins clk_wiz_0/clk_in1]
 
   # Create address segments
 
