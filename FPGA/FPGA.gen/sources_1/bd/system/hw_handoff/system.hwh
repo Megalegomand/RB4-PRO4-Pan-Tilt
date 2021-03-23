@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue Mar 23 10:19:51 2021" VIVADOVERSION="2020.2">
+
+  <SYSTEMINFO ARCH="zynq" BOARD="tul.com.tw:pynq-z2:part0:1.0" DEVICE="7z020" NAME="system" PACKAGE="clg400" SPEEDGRADE="-1"/>
+
+  <EXTERNALPORTS>
+    <PORT DIR="I" NAME="encoder_b" SIGIS="undef" SIGNAME="External_Ports_encoder_b">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="encoder_0" PORT="b"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="encoder_a" SIGIS="undef" SIGNAME="External_Ports_encoder_a">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="encoder_0" PORT="a"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="rst" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="External_Ports_rst">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="encoder_0" PORT="rst"/>
+        <CONNECTION INSTANCE="spi_0" PORT="rst"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="sclk" SIGIS="undef" SIGNAME="External_Ports_sclk">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="spi_0" PORT="sclk"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="mosi" SIGIS="undef" SIGNAME="External_Ports_mosi">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="spi_0" PORT="mosi"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="ss" SIGIS="undef" SIGNAME="External_Ports_ss">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="spi_0" PORT="ss"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="miso" SIGIS="undef" SIGNAME="spi_0_miso">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="spi_0" PORT="miso"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="pwm" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_0_Dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlslice_0" PORT="Dout"/>
+      </CONNECTIONS>
+    </PORT>
+  </EXTERNALPORTS>
+
+  <EXTERNALINTERFACES/>
+
+  <MODULES>
+    <MODULE COREREVISION="1" FULLNAME="/encoder_0" HWVERSION="1.0" INSTANCE="encoder_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="encoder" VLNV="xilinx.com:module_ref:encoder:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="n_bits" VALUE="8"/>
+        <PARAMETER NAME="Component_Name" VALUE="system_encoder_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="a" SIGIS="undef" SIGNAME="External_Ports_encoder_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="encoder_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="b" SIGIS="undef" SIGNAME="External_Ports_encoder_b">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="encoder_b"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rst" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="External_Ports_rst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="rst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="cnt" RIGHT="0" SIGIS="undef" SIGNAME="encoder_0_cnt">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="spi_0" PORT="data_in"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/spi_0" HWVERSION="1.0" INSTANCE="spi_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="spi" VLNV="xilinx.com:module_ref:spi:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="register_bits" VALUE="8"/>
+        <PARAMETER NAME="Component_Name" VALUE="system_spi_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="rst" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="External_Ports_rst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="rst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="data_in" RIGHT="0" SIGIS="undef" SIGNAME="encoder_0_cnt">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="encoder_0" PORT="cnt"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="data_out" RIGHT="0" SIGIS="undef" SIGNAME="spi_0_data_out">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_0" PORT="Din"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="sclk" SIGIS="undef" SIGNAME="External_Ports_sclk">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="sclk"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ss" SIGIS="undef" SIGNAME="External_Ports_ss">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ss"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="mosi" SIGIS="undef" SIGNAME="External_Ports_mosi">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="mosi"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="miso" SIGIS="undef" SIGNAME="spi_0_miso">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="miso"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_0" HWVERSION="1.0" INSTANCE="xlslice_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="8"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="0"/>
+        <PARAMETER NAME="DIN_TO" VALUE="0"/>
+        <PARAMETER NAME="Component_Name" VALUE="system_xlslice_0_0"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="spi_0_data_out">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="spi_0" PORT="data_out"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="0" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_0_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="pwm"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+  </MODULES>
+
+</EDKSYSTEM>
