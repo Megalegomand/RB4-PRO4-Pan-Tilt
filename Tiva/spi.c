@@ -39,7 +39,7 @@ void spi_init(){
     //SYSCTL_PRSSI_R = SYSCTL_PRSSI_R0; //The PRSSI register indicates whether the SSI modules are ready to be accessed by software following a change in status of power, Run mode clocking, or reset
 
     // Setup of SSI format
-    SSI0_CR0_R = SSI_CR0_FRF_MOTO | SSI_CR0_DSS_8 | SSI_CR0_SPH /*| SSI_CR0_SPO*/; // Setting up Freescale SPI
+    SSI0_CR0_R = SSI_CR0_FRF_MOTO | SSI_CR0_DSS_16 | SSI_CR0_SPH /*| SSI_CR0_SPO*/; // Setting up Freescale SPI
     SSI0_CC_R=0;
     SSI0_CPSR_R=1;
 
@@ -57,11 +57,9 @@ void spi_init(){
 * Function: spi_write
 ***********************************************/ 
 void spi_write(char data){
-
-    while((SSI0_SR_R & (1<<1))){
-        SSI0_DR_R = data;
+    SSI0_DR_R = data;
+    while((SSI0_SR_R & (1<<0))){
     }
-
 }
 /**********************************************
 * Input: N/A
@@ -69,12 +67,12 @@ void spi_write(char data){
 * Function: spi_read
 ***********************************************/
 char spi_read(){
-    char data_in;
+    int i=0;
     while((SSI0_SR_R & (2<<1))){
-       data_in=SSI0_DR_R;
+       data_in[i]=SSI0_DR_R;
+       i++;
     }
-    return data_in;
-}
 
+}
 
 /***************** End of module **************/
