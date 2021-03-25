@@ -58,6 +58,7 @@ void spi_init(){
 ***********************************************/ 
 void spi_write(char data){
 
+    SSI0_CR1_R |= SSI_CR1_SSE;
     while((SSI0_SR_R & (1<<1))){
         SSI0_DR_R = data;
     }
