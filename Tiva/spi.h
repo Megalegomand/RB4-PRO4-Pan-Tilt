@@ -22,6 +22,7 @@
 /***************** Defines ********************/ 
 #ifndef SPI_H_
 #define SPI_H_
+char data_in[16];
 /***************** Variables ******************/ 
 /***************** Functions ******************/
 char spi_read(); // Read from the SPI register
@@ -33,6 +34,6 @@ void spi_sel(char slave); // Select slave
 * Output: 
 * Function: 
 ***********************************************/ 
-
-#endif /* SPI_H_ */
 /***************** End of module **************/
+#endif /* SPI_H_ */
+
