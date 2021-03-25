@@ -34,6 +34,6 @@ void spi_sel(char slave); // Select slave
 * Output: 
 * Function: 
 ***********************************************/ 
-
-#endif /* SPI_H_ */
 /***************** End of module **************/
+#endif /* SPI_H_ */
+
