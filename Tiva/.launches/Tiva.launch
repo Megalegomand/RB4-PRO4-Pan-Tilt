@@ -7,6 +7,7 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT./home/megalegomand/OneDrive/Uni/4Semester/PRO4/Tiva/targetConfigs/Tiva TM4C123GH6PM.ccxml.Stellaris In-Circuit Debug Interface/CORTEX_M4_0" value="Tiva"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.C:\Users\Philip\Documents\Project\RB4-PRO4-Pan-Tilt\Tiva\targetConfigs\Tiva TM4C123GH6PM.ccxml.Stellaris In-Circuit Debug Interface/CORTEX_M4_0" value="Tiva"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:Tiva}"/>
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM./home/megalegomand/OneDrive/Uni/4Semester/PRO4/Tiva/targetConfigs/Tiva TM4C123GH6PM.ccxml.Stellaris In-Circuit Debug Interface/CORTEX_M4_0" value="/home/megalegomand/OneDrive/Uni/4Semester/PRO4/Tiva/Debug/Tiva.out"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/Tiva"/>
 </listAttribute>
