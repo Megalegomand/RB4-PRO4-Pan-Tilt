@@ -9,6 +9,8 @@
 int main(void)
 {
     spi_init();
-    while(1);
+    while(1) {
+        spi_write(0b11101000);
+    }
     return(0);
 }

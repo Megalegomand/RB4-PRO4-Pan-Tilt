@@ -8,11 +8,11 @@
 preplace port encoder_b -pg 1 -lvl 0 -x -10 -y 100 -defaultsOSRD
 preplace port encoder_a -pg 1 -lvl 0 -x -10 -y 80 -defaultsOSRD
 preplace port rst -pg 1 -lvl 0 -x -10 -y 120 -defaultsOSRD
-preplace port sclk -pg 1 -lvl 0 -x -10 -y 180 -defaultsOSRD
 preplace port mosi -pg 1 -lvl 0 -x -10 -y 20 -defaultsOSRD
 preplace port ss -pg 1 -lvl 0 -x -10 -y 200 -defaultsOSRD
 preplace port miso -pg 1 -lvl 4 -x 800 -y 190 -defaultsOSRD
 preplace port sysclk -pg 1 -lvl 0 -x -10 -y 340 -defaultsOSRD
+preplace port sck -pg 1 -lvl 0 -x -10 -y 180 -defaultsOSRD
 preplace portBus pwm -pg 1 -lvl 4 -x 800 -y 340 -defaultsOSRD
 preplace inst encoder_0 -pg 1 -lvl 1 -x 120 -y 100 -defaultsOSRD
 preplace inst spi_0 -pg 1 -lvl 2 -x 390 -y 180 -defaultsOSRD
