@@ -21,6 +21,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_MISC.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -52,59 +53,54 @@ architecture Behavioral of spi is
     signal reg : STD_LOGIC_VECTOR(register_bits-1 downto 0);
     signal reg_n : STD_LOGIC_VECTOR(reg_n_bits-1 downto 0);
     
+    signal data_in_t : STD_LOGIC_VECTOR(register_bits-1 downto 0);
+    
     type    STATE_TYPE      is  (s_idle, s_read, s_write);    --  add states here
     signal  current_state   :   STATE_TYPE  :=  s_idle;
     
-    signal kage : STD_LOGIC_VECTOR(reg_n_bits-1 downto 0);
 begin
 
-    next_state : process (ss, sclk, rst)
+    process (ss, sclk, rst)
     begin
         if (rst = '1') then
             current_state <= s_idle;
             data_out <= (others => '0');
-            reg <= (others => '0');
+            --reg <= (others => '0');
             reg_n <= (others => '1');
-        elsif (falling_edge(ss)) then
+            miso <= '0';
+        end if;
+        if (ss'event and ss = '0') then
             if (current_state = s_idle) then
-                current_state <= s_read;
-                reg_n <= (others => '1');
-                reg <= data_in;
-                miso <= data_in(register_bits-1);
-            end if;
-        elsif (rising_edge(sclk)) then
-            if (current_state = s_read) then
                 current_state <= s_write;
-                reg <=  reg(register_bits-2 downto 0) & mosi;
+                reg_n <= (others => '1');
+            end if;
+        end if;
+        if (sclk'event and sclk = '1') then
+            if (current_state = s_write) then
+                if (and_reduce(reg_n) = '1') then
+                    data_in_t <= data_in;
+                    miso <= data_in(register_bits-1);
+                else
+                    miso <= reg(register_bits-1);
+                end if;
+                current_state <= s_read;
                 reg_n <= STD_LOGIC_VECTOR(unsigned(reg_n) + 1);
             end if;
-        elsif (falling_edge(sclk)) then
-            if (current_state = s_write) then
+        end if;
+        if (sclk'event and sclk = '0') then
+            if (current_state = s_read) then
                 if (reg_n = STD_LOGIC_VECTOR(to_unsigned(register_bits-1, reg_n_bits))) then
                     current_state <= s_idle;
-                    data_out <= reg;
+                    data_out <= reg(register_bits-2 downto 0) & mosi;
                 else
-                    current_state <= s_read;
-                    miso <= reg(register_bits-1);
+                    current_state <= s_write;
+                    if (or_reduce(reg_n) = '0') then
+                        reg <=  data_in_t(register_bits-2 downto 0) & mosi;
+                    else
+                        reg <=  reg(register_bits-2 downto 0) & mosi;
+                    end if;
                 end if;
             end if;
         end if;
     end process;
-
---    process(ss, sclk)
---    begin
---        if (ss'event and ss = '0') then
---            reg <= data_in;
---            miso <= data_in(register_bits-1);
---        end if;
---        if (unsigned(reg_n) /= register_bits) then
---            if (sclk'event and sclk = '1') then
---                reg <=  reg(register_bits-2 downto 0) & mosi;
---            end if;
---            if (sclk'event and sclk = '0') then
---                miso <= reg(register_bits-1);
---            end if;
---        end if;
---    end process;
-
 end Behavioral;

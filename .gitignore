@@ -68,3 +68,13 @@ dkms.conf
 */*.sim/
 */*.runs/
 *.insyncdl
+
+FPGA/vivado.jou
+
+FPGA/vivado.log
+
+FPGA/FPGA.srcs/sources_1/bd/system/ui/bd_c954508f.ui
+
+FPGA/FPGA.gen/sources_1/bd/system/system.bxml
+
+FPGA/FPGA.srcs/sources_1/bd/system/system.bd

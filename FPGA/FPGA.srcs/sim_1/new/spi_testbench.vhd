@@ -40,9 +40,9 @@ entity spi_testbench is
 end spi_testbench;
 
 architecture Behavioral of spi_testbench is
-    signal data_in : STD_LOGIC_VECTOR(register_bits-1 downto 0) := "10101010";
+    signal data_in : STD_LOGIC_VECTOR(register_bits-1 downto 0) := "11101000";
     signal data_out : STD_LOGIC_VECTOR(register_bits-1 downto 0);
-    signal send : STD_LOGIC_VECTOR(register_bits-1 downto 0):= "01010101";
+    signal send : STD_LOGIC_VECTOR(register_bits-1 downto 0):= "00010111";
     signal sclk : STD_LOGIC := '0';
     signal ss : STD_LOGIC := '0';
     signal mosi : STD_LOGIC := '0';
@@ -69,18 +69,16 @@ begin
         ss <= '1';
         wait for period;
         ss <= '0';
-        mosi <= send(register_bits-1);
         wait for 2*period;
-        for i in register_bits-2 downto 0 loop
+        for i in register_bits-1 downto 0 loop
             sclk <= '1';
-            wait for period;
             mosi <= send(i);
+            wait for period;
             sclk <= '0';
             wait for period;
         end loop;
         sclk <= '1';
         wait for period;
-        mosi <= '0';
         sclk <= '0';
         wait for period;
     end process;
