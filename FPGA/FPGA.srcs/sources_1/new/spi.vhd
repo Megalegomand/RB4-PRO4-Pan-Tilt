@@ -69,7 +69,14 @@ begin
             reg_n <= (others => '1');
             miso <= '0';
         end if;
-        if (ss'event and ss = '0') then
+        
+        case current_state is_x
+            when s_idle =>
+            
+            when others =>
+                null;
+        end case;
+        if (ss = '0') then
             if (current_state = s_idle) then
                 current_state <= s_write;
                 reg_n <= (others => '1');
@@ -90,7 +97,11 @@ begin
         if (sclk'event and sclk = '0') then
             if (current_state = s_read) then
                 if (reg_n = STD_LOGIC_VECTOR(to_unsigned(register_bits-1, reg_n_bits))) then
-                    current_state <= s_idle;
+                    if (ss = '1') then
+                        current_state <= s_idle;
+                    else
+                        current_state <= s_write;
+                    end if;
                     data_out <= reg(register_bits-2 downto 0) & mosi;
                 else
                     current_state <= s_write;

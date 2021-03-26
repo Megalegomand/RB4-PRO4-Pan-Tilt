@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Tue Mar 23 11:11:48 2021
+--Date        : Fri Mar 26 20:45:34 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target system_wrapper.bd
 --Design      : system_wrapper
@@ -13,15 +13,14 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity system_wrapper is
   port (
+    clk : in STD_LOGIC;
     encoder_a : in STD_LOGIC;
     encoder_b : in STD_LOGIC;
     miso : out STD_LOGIC;
     mosi : in STD_LOGIC;
     pwm : out STD_LOGIC_VECTOR ( 0 to 0 );
-    rst : in STD_LOGIC;
-    sclk : in STD_LOGIC;
-    ss : in STD_LOGIC;
-    sysclk : in STD_LOGIC
+    sck : in STD_LOGIC;
+    ss : in STD_LOGIC
   );
 end system_wrapper;
 
@@ -30,26 +29,24 @@ architecture STRUCTURE of system_wrapper is
   port (
     encoder_b : in STD_LOGIC;
     encoder_a : in STD_LOGIC;
-    rst : in STD_LOGIC;
-    sclk : in STD_LOGIC;
+    sck : in STD_LOGIC;
     mosi : in STD_LOGIC;
     ss : in STD_LOGIC;
     miso : out STD_LOGIC;
     pwm : out STD_LOGIC_VECTOR ( 0 to 0 );
-    sysclk : in STD_LOGIC
+    clk : in STD_LOGIC
   );
   end component system;
 begin
 system_i: component system
      port map (
+      clk => clk,
       encoder_a => encoder_a,
       encoder_b => encoder_b,
       miso => miso,
       mosi => mosi,
       pwm(0) => pwm(0),
-      rst => rst,
-      sclk => sclk,
-      ss => ss,
-      sysclk => sysclk
+      sck => sck,
+      ss => ss
     );
 end STRUCTURE;

@@ -34,7 +34,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity spi_testbench is
     Generic (
         register_bits : POSITIVE := 8;
-        period : time := 1ns
+        period : time := 1us
     );
 --  Port ( );
 end spi_testbench;
@@ -64,12 +64,10 @@ begin
     process
     begin
         sclk <= '0';
-        ss <= '0';
-        wait for period;
         ss <= '1';
         wait for period;
         ss <= '0';
-        wait for 2*period;
+        wait for period;
         for i in register_bits-1 downto 0 loop
             sclk <= '1';
             mosi <= send(i);
@@ -77,10 +75,13 @@ begin
             sclk <= '0';
             wait for period;
         end loop;
-        sclk <= '1';
-        wait for period;
-        sclk <= '0';
-        wait for period;
+        for i in register_bits-1 downto 0 loop
+            sclk <= '1';
+            mosi <= send(i);
+            wait for period;
+            sclk <= '0';
+            wait for period;
+        end loop;
     end process;
             
 end Behavioral;
