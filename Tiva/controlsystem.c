@@ -21,11 +21,6 @@
 /***************** Constants ******************/
 
 /***************** Variables ******************/
-double current_position;
-double error;
-double integral;
-double derivative;
-double last_error;
 /**********************************************
 Functions: See module specification (h.file)
 ***********************************************/
