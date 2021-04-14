@@ -34,7 +34,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity spi_testbench is
     Generic (
         register_bits : POSITIVE := 8;
-        period : time := 1us
+        period_s : time := 1us;
+        period_c : time  := 10ns
     );
 --  Port ( );
 end spi_testbench;
@@ -47,6 +48,7 @@ architecture Behavioral of spi_testbench is
     signal ss : STD_LOGIC := '0';
     signal mosi : STD_LOGIC := '0';
     signal miso : STD_LOGIC := '0';
+    signal clk : STD_LOGIC := '0';
 begin
     encoder_uut : entity work.spi 
     generic map (
@@ -56,32 +58,41 @@ begin
         data_out => data_out,
         sclk => sclk,
         ss => ss,
-        mosi => mosi,
-        miso => miso,
-        rst => '0'
+        sdi => mosi,
+        sdo => miso,
+        rst => '0',
+        clk => clk
     );
     
     process
     begin
         sclk <= '0';
         ss <= '1';
-        wait for period;
+        wait for period_s;
         ss <= '0';
-        wait for period;
+        wait for period_s;
         for i in register_bits-1 downto 0 loop
             sclk <= '1';
             mosi <= send(i);
-            wait for period;
+            wait for period_s;
             sclk <= '0';
-            wait for period;
+            wait for period_s;
         end loop;
         for i in register_bits-1 downto 0 loop
             sclk <= '1';
             mosi <= send(i);
-            wait for period;
+            wait for period_s;
             sclk <= '0';
-            wait for period;
+            wait for period_s;
         end loop;
+    end process;
+   
+    process
+    begin
+        clk <= '0';
+        wait for period_c / 2;
+        clk <= '1';
+        wait for period_c / 2;
     end process;
             
 end Behavioral;

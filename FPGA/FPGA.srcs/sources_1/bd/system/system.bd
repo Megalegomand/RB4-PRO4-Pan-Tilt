@@ -195,15 +195,15 @@
             "type": "rst",
             "direction": "I"
           },
-          "data_in": {
+          "clk": {
+            "type": "clk",
             "direction": "I",
-            "left": "7",
-            "right": "0"
-          },
-          "data_out": {
-            "direction": "O",
-            "left": "7",
-            "right": "0"
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
           },
           "sclk": {
             "direction": "I"
@@ -211,16 +211,21 @@
           "ss": {
             "direction": "I"
           },
-          "mosi": {
+          "sdi": {
             "direction": "I"
           },
-          "state": {
-            "direction": "O",
-            "left": "1",
+          "data_in": {
+            "direction": "I",
+            "left": "7",
             "right": "0"
           },
-          "miso": {
+          "sdo": {
             "direction": "O"
+          },
+          "data_out": {
+            "direction": "O",
+            "left": "7",
+            "right": "0"
           }
         }
       }
@@ -254,8 +259,7 @@
       },
       "mosi_0_1": {
         "ports": [
-          "mosi",
-          "spi_0/mosi"
+          "mosi"
         ]
       },
       "ss_0_1": {
@@ -266,7 +270,6 @@
       },
       "spi_0_miso": {
         "ports": [
-          "spi_0/miso",
           "miso"
         ]
       },
@@ -302,7 +305,6 @@
       },
       "spi_0_state": {
         "ports": [
-          "spi_0/state",
           "state"
         ]
       }
