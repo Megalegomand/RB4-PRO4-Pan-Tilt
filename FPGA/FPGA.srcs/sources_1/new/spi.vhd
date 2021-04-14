@@ -43,6 +43,7 @@ entity spi is
            sclk : in STD_LOGIC;
            ss : in STD_LOGIC;
            mosi : in STD_LOGIC;
+           state : out STD_LOGIC_VECTOR(1 downto 0);
            miso : out STD_LOGIC
            );
 end spi;
@@ -70,48 +71,57 @@ begin
             miso <= '0';
         end if;
         
-        case current_state is_x
+        case current_state is
             when s_idle =>
-            
+                if (ss = '0') then
+                    current_state <= s_write;
+                    reg_n <= (others => '1');
+                end if;
+            when (s_write) =>
+                if (sclk = '1') then
+                    if (and_reduce(reg_n) = '1') then
+                        data_in_t <= data_in;
+                        miso <= data_in(register_bits-1);
+                    else
+                        miso <= reg(register_bits-1);
+                    end if;
+                    current_state <= s_read;
+                    reg_n <= STD_LOGIC_VECTOR(unsigned(reg_n) + 1);
+                end if;
+            when s_read =>
+                if (sclk = '0') then
+                    if (reg_n = STD_LOGIC_VECTOR(to_unsigned(register_bits-1, reg_n_bits))) then
+                        if (ss = '1') then
+                            current_state <= s_idle;
+                        else
+                            current_state <= s_write;
+                        end if;
+                        data_out <= reg(register_bits-2 downto 0) & mosi;
+                    else
+                        current_state <= s_write;
+                        if (or_reduce(reg_n) = '0') then
+                            reg <=  data_in_t(register_bits-2 downto 0) & mosi;
+                        else
+                            reg <=  reg(register_bits-2 downto 0) & mosi;
+                        end if;
+                    end if;
+                end if;
             when others =>
                 null;
         end case;
-        if (ss = '0') then
-            if (current_state = s_idle) then
-                current_state <= s_write;
-                reg_n <= (others => '1');
-            end if;
-        end if;
-        if (sclk'event and sclk = '1') then
-            if (current_state = s_write) then
-                if (and_reduce(reg_n) = '1') then
-                    data_in_t <= data_in;
-                    miso <= data_in(register_bits-1);
-                else
-                    miso <= reg(register_bits-1);
-                end if;
-                current_state <= s_read;
-                reg_n <= STD_LOGIC_VECTOR(unsigned(reg_n) + 1);
-            end if;
-        end if;
-        if (sclk'event and sclk = '0') then
-            if (current_state = s_read) then
-                if (reg_n = STD_LOGIC_VECTOR(to_unsigned(register_bits-1, reg_n_bits))) then
-                    if (ss = '1') then
-                        current_state <= s_idle;
-                    else
-                        current_state <= s_write;
-                    end if;
-                    data_out <= reg(register_bits-2 downto 0) & mosi;
-                else
-                    current_state <= s_write;
-                    if (or_reduce(reg_n) = '0') then
-                        reg <=  data_in_t(register_bits-2 downto 0) & mosi;
-                    else
-                        reg <=  reg(register_bits-2 downto 0) & mosi;
-                    end if;
-                end if;
-            end if;
-        end if;
+    end process;
+    
+    process (current_state)
+    begin
+        case current_state is
+            when s_idle =>
+                state <= "00";
+            when s_write =>
+                state <= "10";
+            when s_read =>
+                state <= "01";
+            when others =>
+                null;
+        end case;
     end process;
 end Behavioral;

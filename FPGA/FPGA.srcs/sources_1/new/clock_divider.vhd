@@ -44,7 +44,7 @@ architecture Behavioral of clock_divider is
     signal cnt : STD_LOGIC_VECTOR(n_bits-1 downto 0) := (others => '0');
 begin
 
-    process(clk)
+    process(clk, rst)
     
     begin
         if (rst = '1') then
