@@ -34,8 +34,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity spi_testbench is
     Generic (
         register_bits : POSITIVE := 8;
-        period_s : time := 1us;
-        period_c : time  := 10ns
+        period_s : time := 16us;
+        period_c : time  := 8ns
     );
 --  Port ( );
 end spi_testbench;
@@ -49,26 +49,33 @@ architecture Behavioral of spi_testbench is
     signal mosi : STD_LOGIC := '0';
     signal miso : STD_LOGIC := '0';
     signal clk : STD_LOGIC := '0';
+    
+    signal led : STD_LOGIC_VECTOR(3 downto 0);
+    signal state : STD_LOGIC_VECTOR(3 downto 0);
 begin
-    encoder_uut : entity work.spi 
-    generic map (
-        register_bits => register_bits
-    ) port map (
-        data_in => data_in,
-        data_out => data_out,
+    encoder_uut : entity work.assembly_wrapper
+    --generic map (
+        --register_bits => register_bits
+    --) 
+    port map (
+        --data_in => data_in,
+        --data_out => data_out,
         sclk => sclk,
         ss => ss,
         sdi => mosi,
         sdo => miso,
-        rst => '0',
-        clk => clk
+        --rst => '0',
+        clk => clk,
+        
+        led => led,
+        state => state
     );
     
     process
     begin
         sclk <= '0';
         ss <= '1';
-        wait for period_s;
+        wait for 4*period_s;
         ss <= '0';
         wait for period_s;
         for i in register_bits-1 downto 0 loop
@@ -78,13 +85,13 @@ begin
             sclk <= '0';
             wait for period_s;
         end loop;
-        for i in register_bits-1 downto 0 loop
-            sclk <= '1';
-            mosi <= send(i);
-            wait for period_s;
-            sclk <= '0';
-            wait for period_s;
-        end loop;
+--        for i in register_bits-1 downto 0 loop
+--            sclk <= '1';
+--            mosi <= send(i);
+--            wait for period_s;
+--            sclk <= '0';
+--            wait for period_s;
+--        end loop;
     end process;
    
     process

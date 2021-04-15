@@ -1,0 +1,234 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0x51A170AB8E8142F0",
+      "device": "xc7z020clg400-1",
+      "gen_directory": "../../../../FPGA.gen/sources_1/bd/assembly",
+      "name": "assembly",
+      "rev_ctrl_bd_flag": "RevCtrlBdOff",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2020.2",
+      "validated": "true"
+    },
+    "design_tree": {
+      "xlconstant_0": "",
+      "xlconstant_1": "",
+      "xlslice_0": "",
+      "spi_0": ""
+    },
+    "ports": {
+      "clk": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "assembly_clk_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.000",
+            "value_src": "default"
+          }
+        }
+      },
+      "ss": {
+        "direction": "I"
+      },
+      "state": {
+        "direction": "O",
+        "left": "3",
+        "right": "0"
+      },
+      "sclk": {
+        "direction": "I"
+      },
+      "sdo": {
+        "direction": "O"
+      },
+      "sdi": {
+        "direction": "I"
+      },
+      "led": {
+        "direction": "O",
+        "left": "3",
+        "right": "0"
+      }
+    },
+    "components": {
+      "xlconstant_0": {
+        "vlnv": "xilinx.com:ip:xlconstant:1.1",
+        "xci_name": "assembly_xlconstant_0_0",
+        "xci_path": "ip/assembly_xlconstant_0_0/assembly_xlconstant_0_0.xci",
+        "inst_hier_path": "xlconstant_0",
+        "parameters": {
+          "CONST_VAL": {
+            "value": "0b11010111"
+          },
+          "CONST_WIDTH": {
+            "value": "8"
+          }
+        }
+      },
+      "xlconstant_1": {
+        "vlnv": "xilinx.com:ip:xlconstant:1.1",
+        "xci_name": "assembly_xlconstant_1_0",
+        "xci_path": "ip/assembly_xlconstant_1_0/assembly_xlconstant_1_0.xci",
+        "inst_hier_path": "xlconstant_1",
+        "parameters": {
+          "CONST_VAL": {
+            "value": "0"
+          }
+        }
+      },
+      "xlslice_0": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "xci_name": "assembly_xlslice_0_0",
+        "xci_path": "ip/assembly_xlslice_0_0/assembly_xlslice_0_0.xci",
+        "inst_hier_path": "xlslice_0",
+        "parameters": {
+          "DIN_FROM": {
+            "value": "3"
+          },
+          "DIN_WIDTH": {
+            "value": "8"
+          },
+          "DOUT_WIDTH": {
+            "value": "4"
+          }
+        }
+      },
+      "spi_0": {
+        "vlnv": "xilinx.com:module_ref:spi:1.0",
+        "xci_name": "assembly_spi_0_0",
+        "xci_path": "ip/assembly_spi_0_0/assembly_spi_0_0.xci",
+        "inst_hier_path": "spi_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "spi",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "assembly_clk_0",
+                "value_src": "default_prop"
+              }
+            }
+          },
+          "sclk": {
+            "direction": "I"
+          },
+          "ss": {
+            "direction": "I"
+          },
+          "sdi": {
+            "direction": "I"
+          },
+          "data_in": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "sdo": {
+            "direction": "O"
+          },
+          "state": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "data_out": {
+            "direction": "O",
+            "left": "7",
+            "right": "0"
+          }
+        }
+      }
+    },
+    "nets": {
+      "clk_0_1": {
+        "ports": [
+          "clk",
+          "spi_0/clk"
+        ]
+      },
+      "ss_0_1": {
+        "ports": [
+          "ss",
+          "spi_0/ss"
+        ]
+      },
+      "spi_0_state": {
+        "ports": [
+          "spi_0/state",
+          "state"
+        ]
+      },
+      "sclk_0_1": {
+        "ports": [
+          "sclk",
+          "spi_0/sclk"
+        ]
+      },
+      "spi_0_sdo": {
+        "ports": [
+          "spi_0/sdo",
+          "sdo"
+        ]
+      },
+      "sdi_0_1": {
+        "ports": [
+          "sdi",
+          "spi_0/sdi"
+        ]
+      },
+      "xlconstant_0_dout": {
+        "ports": [
+          "xlconstant_0/dout",
+          "spi_0/data_in"
+        ]
+      },
+      "xlconstant_1_dout": {
+        "ports": [
+          "xlconstant_1/dout",
+          "spi_0/rst"
+        ]
+      },
+      "spi_0_data_out": {
+        "ports": [
+          "spi_0/data_out",
+          "xlslice_0/Din"
+        ]
+      },
+      "xlslice_0_Dout": {
+        "ports": [
+          "xlslice_0/Dout",
+          "led"
+        ]
+      }
+    }
+  }
+}

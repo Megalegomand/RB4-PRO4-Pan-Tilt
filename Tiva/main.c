@@ -40,13 +40,14 @@ int main(void)
     TIMER0_TAILR_R = 0xFF00;
     /* END PWM TEST */
 
-    while (1) {
+    //while (1) {
 
-    }
+    //}
 
     spi_init();
     while(1) {
-        spi_write(0b11101000);
+        spi_write(0b01010101);
+
         while(!(SSI0_SR_R & (1<<1))){
 
         }
