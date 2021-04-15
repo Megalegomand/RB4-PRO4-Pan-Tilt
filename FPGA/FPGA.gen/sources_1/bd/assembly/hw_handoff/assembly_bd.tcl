@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# spi
+# clock_divider, spi
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -173,6 +173,20 @@ proc create_root_design { parentCell } {
   set ss [ create_bd_port -dir I ss ]
   set state [ create_bd_port -dir O -from 3 -to 0 state ]
 
+  # Create instance: clock_divider_0, and set properties
+  set block_name clock_divider
+  set block_cell_name clock_divider_0
+  if { [catch {set clock_divider_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $clock_divider_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+    set_property -dict [ list \
+   CONFIG.n_bits {8} \
+ ] $clock_divider_0
+
   # Create instance: spi_0, and set properties
   set block_name spi
   set block_cell_name spi_0
@@ -206,7 +220,8 @@ proc create_root_design { parentCell } {
  ] $xlslice_0
 
   # Create port connections
-  connect_bd_net -net clk_0_1 [get_bd_ports clk] [get_bd_pins spi_0/clk]
+  connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk]
+  connect_bd_net -net clock_divider_0_clk_div [get_bd_pins clock_divider_0/clk_div] [get_bd_pins spi_0/clk]
   connect_bd_net -net sclk_0_1 [get_bd_ports sclk] [get_bd_pins spi_0/sclk]
   connect_bd_net -net sdi_0_1 [get_bd_ports sdi] [get_bd_pins spi_0/sdi]
   connect_bd_net -net spi_0_data_out [get_bd_pins spi_0/data_out] [get_bd_pins xlslice_0/Din]
@@ -214,7 +229,7 @@ proc create_root_design { parentCell } {
   connect_bd_net -net spi_0_state [get_bd_ports state] [get_bd_pins spi_0/state]
   connect_bd_net -net ss_0_1 [get_bd_ports ss] [get_bd_pins spi_0/ss]
   connect_bd_net -net xlconstant_0_dout [get_bd_pins spi_0/data_in] [get_bd_pins xlconstant_0/dout]
-  connect_bd_net -net xlconstant_1_dout [get_bd_pins spi_0/rst] [get_bd_pins xlconstant_1/dout]
+  connect_bd_net -net xlconstant_1_dout [get_bd_pins clock_divider_0/rst] [get_bd_pins spi_0/rst] [get_bd_pins xlconstant_1/dout]
   connect_bd_net -net xlslice_0_Dout [get_bd_ports led] [get_bd_pins xlslice_0/Dout]
 
   # Create address segments

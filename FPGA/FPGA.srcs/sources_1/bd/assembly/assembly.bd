@@ -14,6 +14,7 @@
       "xlconstant_0": "",
       "xlconstant_1": "",
       "xlslice_0": "",
+      "clock_divider_0": "",
       "spi_0": ""
     },
     "ports": {
@@ -109,6 +110,45 @@
           }
         }
       },
+      "clock_divider_0": {
+        "vlnv": "xilinx.com:module_ref:clock_divider:1.0",
+        "xci_name": "assembly_clock_divider_0_0",
+        "xci_path": "ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci",
+        "inst_hier_path": "clock_divider_0",
+        "parameters": {
+          "n_bits": {
+            "value": "8"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "clock_divider",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "assembly_clk_0",
+                "value_src": "default_prop"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "clk_div": {
+            "direction": "O"
+          }
+        }
+      },
       "spi_0": {
         "vlnv": "xilinx.com:module_ref:spi:1.0",
         "xci_name": "assembly_spi_0_0",
@@ -131,10 +171,6 @@
               "ASSOCIATED_RESET": {
                 "value": "rst",
                 "value_src": "constant"
-              },
-              "CLK_DOMAIN": {
-                "value": "assembly_clk_0",
-                "value_src": "default_prop"
               }
             }
           },
@@ -169,12 +205,6 @@
       }
     },
     "nets": {
-      "clk_0_1": {
-        "ports": [
-          "clk",
-          "spi_0/clk"
-        ]
-      },
       "ss_0_1": {
         "ports": [
           "ss",
@@ -214,6 +244,7 @@
       "xlconstant_1_dout": {
         "ports": [
           "xlconstant_1/dout",
+          "clock_divider_0/rst",
           "spi_0/rst"
         ]
       },
@@ -227,6 +258,18 @@
         "ports": [
           "xlslice_0/Dout",
           "led"
+        ]
+      },
+      "clk_1": {
+        "ports": [
+          "clk",
+          "clock_divider_0/clk"
+        ]
+      },
+      "clock_divider_0_clk_div": {
+        "ports": [
+          "clock_divider_0/clk_div",
+          "spi_0/clk"
         ]
       }
     }

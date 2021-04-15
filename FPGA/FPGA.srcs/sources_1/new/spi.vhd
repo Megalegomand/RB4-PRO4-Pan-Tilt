@@ -124,7 +124,7 @@ begin
     ------------------------------------------------------------------------------
 
     ------------------------------------------------------------------------------
-    next_state_logic    :   process(clk)  -- Add input signals to sensitivity list
+    next_state_logic    :   process(current_state, ss, sclk)  -- Add input signals to sensitivity list
     ------------------------------------------------------------------------------
     -- Next state logic process. Here goes state transition conditions. 
     -- Sensitive to state change and input signals.
@@ -135,8 +135,7 @@ begin
             when s_rst =>
                 if (ss = '1') then
                     next_state  <=  s_rst;
-                end if;
-                if (ss = '0') then
+                else
                     next_state <= s_low;
                 end if;
             when s_low =>
@@ -160,7 +159,7 @@ begin
                     next_state <= s_high;
                 end if;
             when others =>
-                null;
+                next_state <= s_rst;
         end case;
     ------------------------------------------------------------------------------
     end process next_state_logic;
@@ -176,7 +175,7 @@ begin
     ------------------------------------------------------------------------------
         case (current_state) is
             when s_rst =>
-                sdo <= '0';
+                sdo <= sdo_t;
                 state <= "1001";
                 data_out <= data_out_t;
             when s_low =>
@@ -188,8 +187,6 @@ begin
                 data_out <= data_out_t;
                 state <= "1010";
             when others =>
-                sdo <= '0';
-                data_out <= data_out_t;
                 state <= "0001";
         end case;
     ------------------------------------------------------------------------------

@@ -53,17 +53,17 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-ENTITY system_clock_divider_0_0 IS
+ENTITY assembly_clock_divider_0_0 IS
   PORT (
     clk : IN STD_LOGIC;
     rst : IN STD_LOGIC;
     clk_div : OUT STD_LOGIC
   );
-END system_clock_divider_0_0;
+END assembly_clock_divider_0_0;
 
-ARCHITECTURE system_clock_divider_0_0_arch OF system_clock_divider_0_0 IS
+ARCHITECTURE assembly_clock_divider_0_0_arch OF assembly_clock_divider_0_0 IS
   ATTRIBUTE DowngradeIPIdentifiedWarnings : STRING;
-  ATTRIBUTE DowngradeIPIdentifiedWarnings OF system_clock_divider_0_0_arch: ARCHITECTURE IS "yes";
+  ATTRIBUTE DowngradeIPIdentifiedWarnings OF assembly_clock_divider_0_0_arch: ARCHITECTURE IS "yes";
   COMPONENT clock_divider IS
     GENERIC (
       n_bits : INTEGER
@@ -75,12 +75,12 @@ ARCHITECTURE system_clock_divider_0_0_arch OF system_clock_divider_0_0 IS
     );
   END COMPONENT clock_divider;
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
-  ATTRIBUTE IP_DEFINITION_SOURCE OF system_clock_divider_0_0_arch: ARCHITECTURE IS "module_ref";
+  ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_clock_divider_0_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER OF rst: SIGNAL IS "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF rst: SIGNAL IS "xilinx.com:signal:reset:1.0 rst RST";
-  ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 125000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, CLK_DOMAIN system_clk, INSERT_VIP 0";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, CLK_DOMAIN assembly_clk_0, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF clk: SIGNAL IS "xilinx.com:signal:clock:1.0 clk CLK";
 BEGIN
   U0 : clock_divider
@@ -92,4 +92,4 @@ BEGIN
       rst => rst,
       clk_div => clk_div
     );
-END system_clock_divider_0_0_arch;
+END assembly_clock_divider_0_0_arch;

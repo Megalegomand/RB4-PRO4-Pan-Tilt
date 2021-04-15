@@ -46,7 +46,7 @@ int main(void)
 
     spi_init();
     while(1) {
-        spi_write(0b01010101);
+        spi_write(0b11010001);
 
         while(!(SSI0_SR_R & (1<<1))){
 
