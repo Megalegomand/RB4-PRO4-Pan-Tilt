@@ -260,16 +260,16 @@
           "led"
         ]
       },
-      "clk_1": {
-        "ports": [
-          "clk",
-          "clock_divider_0/clk"
-        ]
-      },
       "clock_divider_0_clk_div": {
         "ports": [
           "clock_divider_0/clk_div",
           "spi_0/clk"
+        ]
+      },
+      "clk_1": {
+        "ports": [
+          "clk",
+          "clock_divider_0/clk"
         ]
       }
     }

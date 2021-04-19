@@ -176,20 +176,18 @@ begin
         case (current_state) is
             when s_rst =>
                 sdo <= sdo_t;
-                state <= "1001";
                 data_out <= data_out_t;
             when s_low =>
                 sdo <= sdo_t;
                 data_out <= data_out_t;
-                state <= "0110";
             when s_high =>
                 sdo <= sdo_t;
                 data_out <= data_out_t;
-                state <= "1010";
             when others =>
-                state <= "0001";
         end case;
     ------------------------------------------------------------------------------
     end process output_logic;
     ------------------------------------------------------------------------------
+    
+    state <= data_out_t(3 downto 0);
 end Behavioral;
