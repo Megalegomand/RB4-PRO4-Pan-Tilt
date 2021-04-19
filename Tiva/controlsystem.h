@@ -23,6 +23,7 @@
 /***************** Defines ********************/
 #ifndef CONTROLSYSTEM_H_
 #define CONTROLSYSTEM_H_
+typedef unsigned char  PID;
 typedef struct{
     float Kp;
     float Ki;
@@ -37,23 +38,23 @@ typedef struct{
 
     float integrator;
     float prev_error;
-    float differentiatior;
+    float differentiator;
     float prev_position;
 
     float out;
 } PIDController;
-
-};
+#define NUMBER_OF_CONTROLLERS  2
 
 /***************** Variables ******************/
+
 /***************** Functions ******************/
-void pid_int(PIDController *pid);
+void pid_int(INT8U pid);
 /**********************************************
 * Input: N/A
 * Output: readPosition
 * Function: getPosition()
 ***********************************************/
-float update_pid(PIDController *pid, float setpoint, float position);
+float update_pid(INT8U pid, float setpoint, float position);
 /**********************************************
 * Input: N/A
 * Output: N/A
