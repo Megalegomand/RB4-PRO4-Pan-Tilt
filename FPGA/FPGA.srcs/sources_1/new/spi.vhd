@@ -1,123 +1,136 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 04.03.2021 10:22:37
--- Design Name: 
--- Module Name: spi - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_MISC.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
-use IEEE.NUMERIC_STD.ALL;
+use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.MATH_REAL.ALL;
+use IEEE.STD_LOGIC_MISC.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
-entity spi is
+entity spi_slave is
     Generic (
-        register_bits : POSITIVE := 8
+        data_width : POSITIVE := 8;
+        spo : STD_LOGIC := '0';
+        sph : STD_LOGIC := '0'
     );
-    Port ( rst      : in  STD_LOGIC;
-           clk      : in  STD_LOGIC;
-           sclk     : in  STD_LOGIC;
-           ss       : in  STD_LOGIC;
-           sdi      : in  STD_LOGIC;
-           data_in  : in  STD_LOGIC_VECTOR(register_bits-1 downto 0);
-           sdo      : out STD_LOGIC;
-           state : out STD_LOGIC_VECTOR(3 downto 0);
-           data_out : out STD_LOGIC_VECTOR(register_bits-1 downto 0)           
+    Port ( clk : in STD_LOGIC;
+           rst : in STD_LOGIC;
+           sclk : in STD_LOGIC;
+           sdi : in STD_LOGIC;
+           data_in : in STD_LOGIC_VECTOR(data_width-1 downto 0);
+           ss : in STD_LOGIC;
+           sdo : out STD_LOGIC;
+           data_out : out STD_LOGIC_VECTOR(data_width-1 downto 0)
     );
-end spi;
+end spi_slave;
 
-architecture Behavioral of spi is
-    constant reg_n_bits : natural := integer(ceil(log2(real(register_bits))));
+architecture Behavioral of spi_slave is
+    constant cnt_bits : natural :=  integer(ceil(log2(real(data_width))));
     
-    signal reg   : STD_LOGIC_VECTOR(register_bits-1 downto 0);
-    signal reg_n : STD_LOGIC_VECTOR(reg_n_bits-1 downto 0);
+    signal reg   : STD_LOGIC_VECTOR(data_width-1 downto 0) := (others => '0');
+    signal reg_cnt : STD_LOGIC_VECTOR(cnt_bits-1 downto 0) := (others => '0');
     
-    signal sdo_t      : STD_LOGIC;
-    signal data_out_t : STD_LOGIC_VECTOR(register_bits-1 downto 0);
+    signal data_out_t : STD_LOGIC_VECTOR(data_width-1 downto 0) := (others => '0');
+    signal sdo_t : STD_LOGIC := '0';
     
-    type    STATE_TYPE      is  (s_rst, s_low, s_high);    --  add states here
+    type    STATE_TYPE      is  (s_rst, s_wait, s_high, s_low);    --  add states here
     signal  current_state   :   STATE_TYPE  :=  s_rst;
     signal  next_state      :   STATE_TYPE  :=  s_rst;
 begin
     ------------------------------------------------------------------------------
-    current_state_logic : process(clk, rst)
+    current_state_logic :   process(clk, rst)
     ------------------------------------------------------------------------------
     -- Current state logic process. Here goes state transitions and state 
     -- transition assignments. Clock and reset sensitive.
     ------------------------------------------------------------------------------
     begin
     ------------------------------------------------------------------------------
-        
         if (rst = '1') then
-            current_state   <=  s_rst;
+            current_state   <=  s_rst;              -- Reset state
             data_out_t <= (others => '0');
+            reg_cnt <= (others => '0');
             reg <= (others => '0');
-            reg_n <= (others => '1');
-            sdo_t <= '0';
-        elsif (rising_edge(clk)) then
-            current_state <= next_state;         -- State transition (only valid from process exit)
-        
-            case current_state is
-                when s_rst =>
-                    case next_state is
+        elsif (rising_edge(clk)) then --if (sclk'event or ss'event) then
+            current_state   <=  next_state;         -- State transition (only valid from process exit)
+
+            case current_state is                   -- State transition assignments
+                when s_rst =>                       -- Remember all possibilities
+                    case next_state is              -- Use others and null for default
                         when s_rst =>
-                            sdo_t <= '0';
-                        when s_low =>
-                            reg_n <= (others => '1');
-                            reg <= data_in;
+                            null;
+                        when s_wait =>
+                            if (sph='0') then
+                                -- First write
+                                reg <= data_in;
+                                sdo_t <= data_in(data_width-1);
+                                reg_cnt <= (others => '0');
+                            end if;
                         when others =>
                             null;
                     end case;
-                when s_low =>
+                when s_wait =>
                     case next_state is
+                        when s_wait =>
+                            null;
+                        when s_rst =>
+                            null;
                         when s_high =>
-                            -- Write
-                            --if (and_reduce(reg_n) = '1') then
-                            --    reg <= data_in;
-                            --    sdo_t <= data_in(register_bits-1);
-                            --else 
-                                sdo_t <= reg(register_bits-1);
-                            --end if;
-                            reg_n <= STD_LOGIC_VECTOR(unsigned(reg_n) + 1);
+                            if (sph='1') then
+                                -- First write
+                                reg <= data_in;
+                                sdo_t <= data_in(data_width-1);
+                                reg_cnt <= (others => '0');
+                            else 
+                                -- Read
+                                reg <= reg(data_width-2 downto 0) & sdi;
+                            end if;
                         when others =>
                             null;
                     end case;
                 when s_high =>
                     case next_state is
-                        when s_low =>
-                            -- Read
-                            reg <= reg(register_bits-2 downto 0) & sdi;
+                        when s_high =>
+                            null;
                         when s_rst =>
-                            data_out_t <= reg(register_bits-2 downto 0) & sdi;
+                            null;
+                        when s_low =>
+                            if (sph='1') then
+                                -- Read
+                                reg <= reg(data_width-2 downto 0) & sdi;
+                            else
+                                -- Write
+                                sdo_t <= reg(data_width-1);
+                                reg_cnt <= STD_LOGIC_VECTOR(unsigned(reg_cnt) + 1);
+                            end if;
+                        when s_wait =>
+                            -- Last read
+                            data_out_t <= reg(data_width-2 downto 0) & sdi;
                         when others =>
                             null;
-                     end case;
+                    end case;
+                when s_low =>
+                    case next_state is
+                        when s_low =>
+                            null;
+                        when s_rst =>
+                            null;
+                        when s_high =>
+                            if (sph='1') then
+                                -- Write
+                                sdo_t <= reg(data_width-1);
+                                reg_cnt <= STD_LOGIC_VECTOR(unsigned(reg_cnt) + 1);
+                            else
+                                -- Read
+                                reg <= reg(data_width-2 downto 0) & sdi;   
+                            end if;
+                        when s_wait =>
+                            -- Last read
+                            data_out_t <= reg(data_width-2 downto 0) & sdi;
+                        when others =>
+                            null;
+                    end case;
                 when others =>
                     null;
             end case;
+
         end if;
     ------------------------------------------------------------------------------
     end process current_state_logic;
@@ -131,40 +144,60 @@ begin
     ------------------------------------------------------------------------------
     begin
     ------------------------------------------------------------------------------
-        case current_state is                       -- Remember all state transition cases 
+        case current_state is                       -- Remember all state transition cases
             when s_rst =>
-                if (ss = '1') then
-                    next_state  <=  s_rst;
+                if (ss = '0') then
+                    --if (sph = '0') then
+                    --    next_state <= s_low;
+                    --else
+                        next_state <= s_wait;
+                    --end if;
                 else
-                    next_state <= s_low;
+                    next_state <= s_rst;
                 end if;
-            when s_low =>
+            when s_wait =>
                 if (ss = '1') then
                     next_state <= s_rst;
-                elsif (sclk = '1') then
-                    next_state <= s_high;
+                elsif (sclk = not spo) then
+                    if ((sph='0' and and_reduce(reg_cnt) /= '1') or sph='1') then
+                        next_state <= s_high;
+                    else 
+                        next_state <= s_wait;
+                    end if;
                 else
-                    next_state <= s_low;
+                    next_state <= s_wait;
                 end if;
             when s_high =>
                 if (ss = '1') then
                     next_state <= s_rst;
-                elsif (sclk = '0') then
-                    if (reg_n = STD_LOGIC_VECTOR(to_unsigned(register_bits-1, reg_n_bits))) then
-                        next_state <= s_rst;
+                elsif (sclk = spo) then
+                    if (and_reduce(reg_cnt) = '1') then
+                        next_state <= s_wait;
                     else
                         next_state <= s_low;
                     end if;
-                else
+                else 
                     next_state <= s_high;
                 end if;
+            when s_low =>
+                if (ss = '1') then
+                    next_state <= s_rst;
+                elsif (sclk = not spo) then
+                    if (and_reduce(reg_cnt) = '1') then
+                        next_state <= s_wait;
+                    else 
+                        next_state <= s_high;
+                    end if;
+                else 
+                    next_state <= s_low;
+                end if;
             when others =>
-                next_state <= s_rst;
+                null;
         end case;
     ------------------------------------------------------------------------------
     end process next_state_logic;
     ------------------------------------------------------------------------------
-    --state <= '1' & reg_n(2 downto 0);
+
     ------------------------------------------------------------------------------
     output_logic        :   process(current_state)
     ------------------------------------------------------------------------------
@@ -173,21 +206,23 @@ begin
     ------------------------------------------------------------------------------
     begin
     ------------------------------------------------------------------------------
-        case (current_state) is
-            when s_rst =>
-                sdo <= sdo_t;
+        case current_state is                       -- Remember all states
+            when s_rst => 
+                sdo <= '0';
                 data_out <= data_out_t;
-            when s_low =>
+            when s_wait =>
                 sdo <= sdo_t;
                 data_out <= data_out_t;
             when s_high =>
                 sdo <= sdo_t;
                 data_out <= data_out_t;
+            when s_low =>
+                sdo <= sdo_t;
+                data_out <= data_out_t;
             when others =>
+                null;
         end case;
     ------------------------------------------------------------------------------
     end process output_logic;
     ------------------------------------------------------------------------------
-    
-    state <= data_out_t(3 downto 0);
 end Behavioral;

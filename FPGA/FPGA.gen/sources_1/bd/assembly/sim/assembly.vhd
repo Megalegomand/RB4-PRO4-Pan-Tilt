@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Thu Apr 15 18:26:42 2021
+--Date        : Mon Apr 19 10:36:08 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -54,7 +54,6 @@ architecture STRUCTURE of assembly is
   component assembly_spi_0_0 is
   port (
     rst : in STD_LOGIC;
-    clk : in STD_LOGIC;
     sclk : in STD_LOGIC;
     ss : in STD_LOGIC;
     sdi : in STD_LOGIC;
@@ -65,7 +64,6 @@ architecture STRUCTURE of assembly is
   );
   end component assembly_spi_0_0;
   signal clk_1 : STD_LOGIC;
-  signal clock_divider_0_clk_div : STD_LOGIC;
   signal sclk_0_1 : STD_LOGIC;
   signal sdi_0_1 : STD_LOGIC;
   signal spi_0_data_out : STD_LOGIC_VECTOR ( 7 downto 0 );
@@ -75,6 +73,7 @@ architecture STRUCTURE of assembly is
   signal xlconstant_0_dout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal xlconstant_1_dout : STD_LOGIC_VECTOR ( 0 to 0 );
   signal xlslice_0_Dout : STD_LOGIC_VECTOR ( 3 downto 0 );
+  signal NLW_clock_divider_0_clk_div_UNCONNECTED : STD_LOGIC;
   attribute X_INTERFACE_INFO : string;
   attribute X_INTERFACE_INFO of clk : signal is "xilinx.com:signal:clock:1.0 CLK.CLK CLK";
   attribute X_INTERFACE_PARAMETER : string;
@@ -90,12 +89,11 @@ begin
 clock_divider_0: component assembly_clock_divider_0_0
      port map (
       clk => clk_1,
-      clk_div => clock_divider_0_clk_div,
+      clk_div => NLW_clock_divider_0_clk_div_UNCONNECTED,
       rst => xlconstant_1_dout(0)
     );
 spi_0: component assembly_spi_0_0
      port map (
-      clk => clock_divider_0_clk_div,
       data_in(7 downto 0) => xlconstant_0_dout(7 downto 0),
       data_out(7 downto 0) => spi_0_data_out(7 downto 0),
       rst => xlconstant_1_dout(0),

@@ -56,7 +56,6 @@ USE ieee.numeric_std.ALL;
 ENTITY assembly_spi_0_0 IS
   PORT (
     rst : IN STD_LOGIC;
-    clk : IN STD_LOGIC;
     sclk : IN STD_LOGIC;
     ss : IN STD_LOGIC;
     sdi : IN STD_LOGIC;
@@ -72,11 +71,10 @@ ARCHITECTURE assembly_spi_0_0_arch OF assembly_spi_0_0 IS
   ATTRIBUTE DowngradeIPIdentifiedWarnings OF assembly_spi_0_0_arch: ARCHITECTURE IS "yes";
   COMPONENT spi IS
     GENERIC (
-      register_bits : INTEGER
+      cnt_bits : INTEGER
     );
     PORT (
       rst : IN STD_LOGIC;
-      clk : IN STD_LOGIC;
       sclk : IN STD_LOGIC;
       ss : IN STD_LOGIC;
       sdi : IN STD_LOGIC;
@@ -90,18 +88,15 @@ ARCHITECTURE assembly_spi_0_0_arch OF assembly_spi_0_0 IS
   ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_spi_0_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
-  ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0";
-  ATTRIBUTE X_INTERFACE_INFO OF clk: SIGNAL IS "xilinx.com:signal:clock:1.0 clk CLK";
   ATTRIBUTE X_INTERFACE_PARAMETER OF rst: SIGNAL IS "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF rst: SIGNAL IS "xilinx.com:signal:reset:1.0 rst RST";
 BEGIN
   U0 : spi
     GENERIC MAP (
-      register_bits => 8
+      cnt_bits => 3
     )
     PORT MAP (
       rst => rst,
-      clk => clk,
       sclk => sclk,
       ss => ss,
       sdi => sdi,

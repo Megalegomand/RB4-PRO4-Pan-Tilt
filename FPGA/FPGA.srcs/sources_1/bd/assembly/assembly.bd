@@ -154,6 +154,11 @@
         "xci_name": "assembly_spi_0_0",
         "xci_path": "ip/assembly_spi_0_0/assembly_spi_0_0.xci",
         "inst_hier_path": "spi_0",
+        "parameters": {
+          "cnt_bits": {
+            "value": "3"
+          }
+        },
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "spi",
@@ -163,16 +168,6 @@
           "rst": {
             "type": "rst",
             "direction": "I"
-          },
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "rst",
-                "value_src": "constant"
-              }
-            }
           },
           "sclk": {
             "direction": "I"
@@ -258,12 +253,6 @@
         "ports": [
           "xlslice_0/Dout",
           "led"
-        ]
-      },
-      "clock_divider_0_clk_div": {
-        "ports": [
-          "clock_divider_0/clk_div",
-          "spi_0/clk"
         ]
       },
       "clk_1": {
