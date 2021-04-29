@@ -39,6 +39,8 @@ void spi_init()
     //SYSCTL_SRSSI_R = SYSCTL_SRSSI_R0; //The SRSSI register provides software the capability to reset the available SSI modules
     //SYSCTL_PRSSI_R = SYSCTL_PRSSI_R0; //The PRSSI register indicates whether the SSI modules are ready to be accessed by software following a change in status of power, Run mode clocking, or reset
 
+    dummy = SYSCTL_RCGC2_R; // Time delay
+
     // Setup of SSI format
     SSI0_CR0_R =
             SSI_CR0_FRF_MOTO | SSI_CR0_DSS_16 | SSI_CR0_SPH /*| SSI_CR0_SPO*/; // Setting up Freescale SPI

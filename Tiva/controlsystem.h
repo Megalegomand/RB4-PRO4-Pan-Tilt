@@ -1,18 +1,3 @@
-/**********************************************
-* Univeristy of Southern Denmark
-* Embedded Programming (EMP)
-*
-* MODULENAME: controlsystem.h
-* PROJECT: controlsystem
-* DESCRIPTION: See module specification file (.h-file)
-* Change log:
-**********************************************
-* Date Ud Change
-* 25032021
-* ----------------
-* 25. mar. 2021 PO Module created.
-*
-***********************************************/
 
 /***************** Header *********************/
 /***************** Include files **************/
