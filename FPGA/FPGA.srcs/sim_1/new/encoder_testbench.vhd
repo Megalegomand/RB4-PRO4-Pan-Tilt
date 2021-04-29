@@ -36,17 +36,19 @@ entity encoder_testbench is
         n_bits : POSITIVE := 5;
         period : TIME := 1ns
     );
-    Port ( 
-        dir : in STD_LOGIC
-    );
+    --Port ( 
+
+    --);
 end encoder_testbench;
 
 architecture Behavioral of encoder_testbench is
+    signal dir : STD_LOGIC := '1';
     signal enc1 : STD_LOGIC := '1';
     signal enc2 : STD_LOGIC := '0';
     signal a : STD_LOGIC;
     signal b : STD_LOGIC;
     signal cnt : STD_LOGIC_VECTOR(n_bits-1 downto 0);
+    signal state : STD_LOGIC_VECTOR(3 downto 0);
 begin
     
     process
@@ -67,7 +69,9 @@ begin
     ) port map (
         a => a, 
         b => b, 
-        cnt => cnt
+        cnt => cnt,
+        rst => '0',
+        state => state
     );
 
 end Behavioral;

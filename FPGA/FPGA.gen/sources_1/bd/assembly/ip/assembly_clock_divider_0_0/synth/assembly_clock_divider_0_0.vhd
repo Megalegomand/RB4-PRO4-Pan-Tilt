@@ -79,7 +79,7 @@ ARCHITECTURE assembly_clock_divider_0_0_arch OF assembly_clock_divider_0_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF assembly_clock_divider_0_0_arch : ARCHITECTURE IS "assembly_clock_divider_0_0,clock_divider,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF assembly_clock_divider_0_0_arch: ARCHITECTURE IS "assembly_clock_divider_0_0,clock_divider,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=clock_divider,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=8}";
+  ATTRIBUTE CORE_GENERATION_INFO OF assembly_clock_divider_0_0_arch: ARCHITECTURE IS "assembly_clock_divider_0_0,clock_divider,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=clock_divider,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=3}";
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
   ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_clock_divider_0_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
@@ -91,7 +91,7 @@ ARCHITECTURE assembly_clock_divider_0_0_arch OF assembly_clock_divider_0_0 IS
 BEGIN
   U0 : clock_divider
     GENERIC MAP (
-      n_bits => 8
+      n_bits => 3
     )
     PORT MAP (
       clk => clk,

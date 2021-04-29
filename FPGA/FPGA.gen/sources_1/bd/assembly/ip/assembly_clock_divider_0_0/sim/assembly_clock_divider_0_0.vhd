@@ -85,7 +85,7 @@ ARCHITECTURE assembly_clock_divider_0_0_arch OF assembly_clock_divider_0_0 IS
 BEGIN
   U0 : clock_divider
     GENERIC MAP (
-      n_bits => 8
+      n_bits => 3
     )
     PORT MAP (
       clk => clk,

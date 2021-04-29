@@ -5,7 +5,7 @@ use IEEE.MATH_REAL.ALL;
 use IEEE.STD_LOGIC_MISC.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity spi_slave is
+entity spi is
     Generic (
         data_width : POSITIVE := 8;
         spo : STD_LOGIC := '0';
@@ -20,9 +20,9 @@ entity spi_slave is
            sdo : out STD_LOGIC;
            data_out : out STD_LOGIC_VECTOR(data_width-1 downto 0)
     );
-end spi_slave;
+end spi;
 
-architecture Behavioral of spi_slave is
+architecture Behavioral of spi is
     constant cnt_bits : natural :=  integer(ceil(log2(real(data_width))));
     
     signal reg   : STD_LOGIC_VECTOR(data_width-1 downto 0) := (others => '0');

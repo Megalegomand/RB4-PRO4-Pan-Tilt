@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Thu Apr 15 18:17:01 2021
+-- Date        : Thu Apr 29 09:26:11 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0_sim_netlist.vhdl
@@ -25,22 +25,11 @@ end assembly_clock_divider_0_0_clock_divider;
 
 architecture STRUCTURE of assembly_clock_divider_0_0_clock_divider is
   signal \^clk_div\ : STD_LOGIC;
-  signal \cnt[7]_i_2_n_0\ : STD_LOGIC;
-  signal \cnt_reg_n_0_[0]\ : STD_LOGIC;
-  signal \cnt_reg_n_0_[1]\ : STD_LOGIC;
-  signal \cnt_reg_n_0_[2]\ : STD_LOGIC;
-  signal \cnt_reg_n_0_[3]\ : STD_LOGIC;
-  signal \cnt_reg_n_0_[4]\ : STD_LOGIC;
-  signal \cnt_reg_n_0_[5]\ : STD_LOGIC;
-  signal \cnt_reg_n_0_[6]\ : STD_LOGIC;
-  signal plusOp : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal cnt : STD_LOGIC_VECTOR ( 1 downto 0 );
+  signal plusOp : STD_LOGIC_VECTOR ( 2 downto 0 );
   attribute SOFT_HLUTNM : string;
-  attribute SOFT_HLUTNM of \cnt[1]_i_1\ : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of \cnt[2]_i_1\ : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of \cnt[3]_i_1\ : label is "soft_lutpair0";
-  attribute SOFT_HLUTNM of \cnt[4]_i_1\ : label is "soft_lutpair0";
-  attribute SOFT_HLUTNM of \cnt[6]_i_1\ : label is "soft_lutpair1";
-  attribute SOFT_HLUTNM of \cnt[7]_i_1\ : label is "soft_lutpair1";
+  attribute SOFT_HLUTNM of \cnt[1]_i_1\ : label is "soft_lutpair0";
+  attribute SOFT_HLUTNM of \cnt[2]_i_1\ : label is "soft_lutpair0";
 begin
   clk_div <= \^clk_div\;
 \cnt[0]_i_1\: unisim.vcomponents.LUT1
@@ -48,7 +37,7 @@ begin
       INIT => X"1"
     )
         port map (
-      I0 => \cnt_reg_n_0_[0]\,
+      I0 => cnt(0),
       O => plusOp(0)
     );
 \cnt[1]_i_1\: unisim.vcomponents.LUT2
@@ -56,8 +45,8 @@ begin
       INIT => X"6"
     )
         port map (
-      I0 => \cnt_reg_n_0_[0]\,
-      I1 => \cnt_reg_n_0_[1]\,
+      I0 => cnt(0),
+      I1 => cnt(1),
       O => plusOp(1)
     );
 \cnt[2]_i_1\: unisim.vcomponents.LUT3
@@ -65,78 +54,10 @@ begin
       INIT => X"78"
     )
         port map (
-      I0 => \cnt_reg_n_0_[0]\,
-      I1 => \cnt_reg_n_0_[1]\,
-      I2 => \cnt_reg_n_0_[2]\,
-      O => plusOp(2)
-    );
-\cnt[3]_i_1\: unisim.vcomponents.LUT4
-    generic map(
-      INIT => X"7F80"
-    )
-        port map (
-      I0 => \cnt_reg_n_0_[1]\,
-      I1 => \cnt_reg_n_0_[0]\,
-      I2 => \cnt_reg_n_0_[2]\,
-      I3 => \cnt_reg_n_0_[3]\,
-      O => plusOp(3)
-    );
-\cnt[4]_i_1\: unisim.vcomponents.LUT5
-    generic map(
-      INIT => X"7FFF8000"
-    )
-        port map (
-      I0 => \cnt_reg_n_0_[2]\,
-      I1 => \cnt_reg_n_0_[0]\,
-      I2 => \cnt_reg_n_0_[1]\,
-      I3 => \cnt_reg_n_0_[3]\,
-      I4 => \cnt_reg_n_0_[4]\,
-      O => plusOp(4)
-    );
-\cnt[5]_i_1\: unisim.vcomponents.LUT6
-    generic map(
-      INIT => X"7FFFFFFF80000000"
-    )
-        port map (
-      I0 => \cnt_reg_n_0_[3]\,
-      I1 => \cnt_reg_n_0_[1]\,
-      I2 => \cnt_reg_n_0_[0]\,
-      I3 => \cnt_reg_n_0_[2]\,
-      I4 => \cnt_reg_n_0_[4]\,
-      I5 => \cnt_reg_n_0_[5]\,
-      O => plusOp(5)
-    );
-\cnt[6]_i_1\: unisim.vcomponents.LUT2
-    generic map(
-      INIT => X"6"
-    )
-        port map (
-      I0 => \cnt[7]_i_2_n_0\,
-      I1 => \cnt_reg_n_0_[6]\,
-      O => plusOp(6)
-    );
-\cnt[7]_i_1\: unisim.vcomponents.LUT3
-    generic map(
-      INIT => X"78"
-    )
-        port map (
-      I0 => \cnt[7]_i_2_n_0\,
-      I1 => \cnt_reg_n_0_[6]\,
+      I0 => cnt(0),
+      I1 => cnt(1),
       I2 => \^clk_div\,
-      O => plusOp(7)
-    );
-\cnt[7]_i_2\: unisim.vcomponents.LUT6
-    generic map(
-      INIT => X"8000000000000000"
-    )
-        port map (
-      I0 => \cnt_reg_n_0_[5]\,
-      I1 => \cnt_reg_n_0_[3]\,
-      I2 => \cnt_reg_n_0_[1]\,
-      I3 => \cnt_reg_n_0_[0]\,
-      I4 => \cnt_reg_n_0_[2]\,
-      I5 => \cnt_reg_n_0_[4]\,
-      O => \cnt[7]_i_2_n_0\
+      O => plusOp(2)
     );
 \cnt_reg[0]\: unisim.vcomponents.FDRE
     generic map(
@@ -146,7 +67,7 @@ begin
       C => clk,
       CE => '1',
       D => plusOp(0),
-      Q => \cnt_reg_n_0_[0]\,
+      Q => cnt(0),
       R => '0'
     );
 \cnt_reg[1]\: unisim.vcomponents.FDRE
@@ -157,7 +78,7 @@ begin
       C => clk,
       CE => '1',
       D => plusOp(1),
-      Q => \cnt_reg_n_0_[1]\,
+      Q => cnt(1),
       R => '0'
     );
 \cnt_reg[2]\: unisim.vcomponents.FDRE
@@ -168,61 +89,6 @@ begin
       C => clk,
       CE => '1',
       D => plusOp(2),
-      Q => \cnt_reg_n_0_[2]\,
-      R => '0'
-    );
-\cnt_reg[3]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => '1',
-      D => plusOp(3),
-      Q => \cnt_reg_n_0_[3]\,
-      R => '0'
-    );
-\cnt_reg[4]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => '1',
-      D => plusOp(4),
-      Q => \cnt_reg_n_0_[4]\,
-      R => '0'
-    );
-\cnt_reg[5]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => '1',
-      D => plusOp(5),
-      Q => \cnt_reg_n_0_[5]\,
-      R => '0'
-    );
-\cnt_reg[6]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => '1',
-      D => plusOp(6),
-      Q => \cnt_reg_n_0_[6]\,
-      R => '0'
-    );
-\cnt_reg[7]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => '1',
-      D => plusOp(7),
       Q => \^clk_div\,
       R => '0'
     );

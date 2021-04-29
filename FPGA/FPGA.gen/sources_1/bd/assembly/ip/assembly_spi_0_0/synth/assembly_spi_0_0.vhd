@@ -55,13 +55,13 @@ USE ieee.numeric_std.ALL;
 
 ENTITY assembly_spi_0_0 IS
   PORT (
+    clk : IN STD_LOGIC;
     rst : IN STD_LOGIC;
     sclk : IN STD_LOGIC;
-    ss : IN STD_LOGIC;
     sdi : IN STD_LOGIC;
     data_in : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    ss : IN STD_LOGIC;
     sdo : OUT STD_LOGIC;
-    state : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     data_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
   );
 END assembly_spi_0_0;
@@ -71,16 +71,18 @@ ARCHITECTURE assembly_spi_0_0_arch OF assembly_spi_0_0 IS
   ATTRIBUTE DowngradeIPIdentifiedWarnings OF assembly_spi_0_0_arch: ARCHITECTURE IS "yes";
   COMPONENT spi IS
     GENERIC (
-      cnt_bits : INTEGER
+      data_width : INTEGER;
+      spo : STD_LOGIC;
+      sph : STD_LOGIC
     );
     PORT (
+      clk : IN STD_LOGIC;
       rst : IN STD_LOGIC;
       sclk : IN STD_LOGIC;
-      ss : IN STD_LOGIC;
       sdi : IN STD_LOGIC;
       data_in : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      ss : IN STD_LOGIC;
       sdo : OUT STD_LOGIC;
-      state : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
       data_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
     );
   END COMPONENT spi;
@@ -89,26 +91,30 @@ ARCHITECTURE assembly_spi_0_0_arch OF assembly_spi_0_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF assembly_spi_0_0_arch : ARCHITECTURE IS "assembly_spi_0_0,spi,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF assembly_spi_0_0_arch: ARCHITECTURE IS "assembly_spi_0_0,spi,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=spi,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,cnt_bits=3}";
+  ATTRIBUTE CORE_GENERATION_INFO OF assembly_spi_0_0_arch: ARCHITECTURE IS "assembly_spi_0_0,spi,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=spi,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,data_width=8,spo=0,sph=0}";
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
   ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_spi_0_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER OF rst: SIGNAL IS "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF rst: SIGNAL IS "xilinx.com:signal:reset:1.0 rst RST";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0";
+  ATTRIBUTE X_INTERFACE_INFO OF clk: SIGNAL IS "xilinx.com:signal:clock:1.0 clk CLK";
 BEGIN
   U0 : spi
     GENERIC MAP (
-      cnt_bits => 3
+      data_width => 8,
+      spo => '0',
+      sph => '0'
     )
     PORT MAP (
+      clk => clk,
       rst => rst,
       sclk => sclk,
-      ss => ss,
       sdi => sdi,
       data_in => data_in,
+      ss => ss,
       sdo => sdo,
-      state => state,
       data_out => data_out
     );
 END assembly_spi_0_0_arch;
