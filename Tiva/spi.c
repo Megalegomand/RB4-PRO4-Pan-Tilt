@@ -73,7 +73,7 @@ void spi_write(char data)
  ***********************************************/
 char spi_read()
 {
-    while ((SSI0_SR_R & (2 << 1)))
+    while ((SSI0_SR_R & SSI_SR_RNE))
     {
         return SSI0_DR_R;
     }

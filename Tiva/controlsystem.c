@@ -67,58 +67,58 @@ float update_pid(INT8U pid, float setpoint, float position)
     {
         lim_max_int = 0.0f;
 
-}
-if (controllers[pid].lim_min < p_term)
-{
-    lim_min_int = controllers[pid].lim_min - p_term;
-}
-else
-{
-    lim_min_int = 0.0f;
-}
+    }
+    if (controllers[pid].lim_min < p_term)
+    {
+        lim_min_int = controllers[pid].lim_min - p_term;
+    }
+    else
+    {
+        lim_min_int = 0.0f;
+    }
 
-/* Clamp the integrator (anti-windup) */
+    /* Clamp the integrator (anti-windup) */
 
-if (controllers[pid].integrator > lim_max_int)
-{
-    controllers[pid].integrator = lim_max_int;
-}
-else if (controllers[pid].integrator < lim_min_int)
-{
-    controllers[pid].integrator = lim_min_int;
-}
+    if (controllers[pid].integrator > lim_max_int)
+    {
+        controllers[pid].integrator = lim_max_int;
+    }
+    else if (controllers[pid].integrator < lim_min_int)
+    {
+        controllers[pid].integrator = lim_min_int;
+    }
 
-/* Derivative (band-limited differentiator) */
+    /* Derivative (band-limited differentiator) */
 
-controllers[pid].differentiator = -(2.0f * controllers[pid].Kd
-        * (position - controllers[pid].prev_position)
-        + (2.0f * controllers[pid].tau - controllers[pid].t)
-                * controllers[pid].differentiator)
-        / (2.0f * controllers[pid].tau + controllers[pid].t); /* Note: derivative on measurement, therefore minus sign in front of equation! */
+    controllers[pid].differentiator = -(2.0f * controllers[pid].Kd
+            * (position - controllers[pid].prev_position)
+            + (2.0f * controllers[pid].tau - controllers[pid].t)
+                    * controllers[pid].differentiator)
+            / (2.0f * controllers[pid].tau + controllers[pid].t); /* Note: derivative on measurement, therefore minus sign in front of equation! */
 
-/* Compute output and apply limits */
-controllers[pid].out = p_term + controllers[pid].integrator
-        + controllers[pid].differentiator;
+    /* Compute output and apply limits */
+    controllers[pid].out = p_term + controllers[pid].integrator
+            + controllers[pid].differentiator;
 
-if (controllers[pid].out > controllers[pid].lim_max)
-{
+    if (controllers[pid].out > controllers[pid].lim_max)
+    {
 
-    controllers[pid].out = controllers[pid].lim_max;
+        controllers[pid].out = controllers[pid].lim_max;
 
-}
-else if (controllers[pid].out < controllers[pid].lim_min)
-{
+    }
+    else if (controllers[pid].out < controllers[pid].lim_min)
+    {
 
-    controllers[pid].out = controllers[pid].lim_min;
+        controllers[pid].out = controllers[pid].lim_min;
 
-}
+    }
 
-/* Store error and measurement for later use */
-controllers[pid].prev_error = error;
-controllers[pid].prev_position = position;
+    /* Store error and measurement for later use */
+    controllers[pid].prev_error = error;
+    controllers[pid].prev_position = position;
 
-/* Return controllers output */
-return controllers[pid].out;
+    /* Return controllers output */
+    return controllers[pid].out;
 }
 /***************** End of module **************/
 

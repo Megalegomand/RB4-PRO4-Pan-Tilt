@@ -41,28 +41,85 @@ void vUART2spi()
         }
     }
 }
-
-int main(void)
+/*****************************************************************************
+ *   Input    : -
+ *   Output   : -
+ *   Function : UART has data, send to SPI
+ ******************************************************************************/
+static void setupHardware(void)
 {
-    // Initialzation
     spi_init();
     uart0_init(9600, 8, 1, 0);
-    // Create tasks
-    // SPI to UART task
-    xTaskCreate(vSpi2UART, "SPI2UART", configMINIMAL_STACK_SIZE, NULL, 0,
-                NULL);
+void pid_int(0);
+void pid_int(1);
+}
+/*****************************************************************************
+ *   Input    : -
+ *   Output   : -
+ *   Function : UART has data, send to SPI
+ ******************************************************************************/
+void PIDtask(void p*)
+{
+while(1)
+{
+    update_pid((INT8U*) p, (float*) setpoint, (float*) position);
+}
+}
+/*****************************************************************************
+ *   Input    : -
+ *   Output   : -
+ *   Function : UART has data, send to SPI
+ ******************************************************************************/
+void SPIWriteTask(void p*){
+    while(1){
+        spi_write();
+    }
 
+}
+/*****************************************************************************
+ *   Input    : -
+ *   Output   : -
+ *   Function : UART has data, send to SPI
+ ******************************************************************************/
+void SPIReadTask(void p*){
+    while(1){
+        spi_read();
+    }
+
+}
+int main(void)
+{
+// Initialzation
+setupHardware();
+
+portBASE_TYPE return_value = pdTRUE;
+// Create tasks
+// SPI to UART task
+return_value &= xTaskCreate(vSpi2UART, "SPI2UART", configMINIMAL_STACK_SIZE,
+                            LOW_PRIO, 0, NULL);
 // UART to SPI task
-    xTaskCreate(vUART2spi, "UART2SPI", configMINIMAL_STACK_SIZE, NULL, 0,
-                NULL);
+return_value &= xTaskCreate(vUART2spi, "UART2SPI", configMINIMAL_STACK_SIZE,
+                            LOW_PRIO, 0, NULL);
+// SPI RTOS
+return_value &= xTaskCreate(SPIReadTask, "SPI_READ",
+configMINIMAL_STACK_SIZE,
+                            NULL, LOW_PRIO, NULL);
+return_value &= xTaskCreate(SPIWriteTask, (signed portCHAR *) "SPI_WRITE",
+configMINIMAL_STACK_SIZE,
+                            NULL, LOW_PRIO, NULL);
+// PID task
+return_value &= xTaskCreate(PIDtask, "UPADTE_PID",
+configMINIMAL_STACK_SIZE,
+                            NULL, LOW_PRIO, NULL);
+// Check if the task were created correctly
+if (return_value != pdTRUE)
+{
+    while (1)
+        ;  // cold not create one or more tasks.
+}
+//Start scheduler
+//
+vTaskStartScheduler();
 
-    //Start scheduler
-    //
-    vTaskStartScheduler();
-
-    //while(1) {
-    //spi_write(0b11101000);
-
-    //}
-    return (0);
+return (1);
 }
