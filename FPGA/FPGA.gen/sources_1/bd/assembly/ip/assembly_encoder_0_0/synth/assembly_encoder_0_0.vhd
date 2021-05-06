@@ -60,7 +60,7 @@ ENTITY assembly_encoder_0_0 IS
     b : IN STD_LOGIC;
     rst : IN STD_LOGIC;
     state : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-    cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    cnt : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
   );
 END assembly_encoder_0_0;
 
@@ -77,7 +77,7 @@ ARCHITECTURE assembly_encoder_0_0_arch OF assembly_encoder_0_0 IS
       b : IN STD_LOGIC;
       rst : IN STD_LOGIC;
       state : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-      cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+      cnt : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
     );
   END COMPONENT encoder;
   ATTRIBUTE X_CORE_INFO : STRING;
@@ -85,19 +85,19 @@ ARCHITECTURE assembly_encoder_0_0_arch OF assembly_encoder_0_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF assembly_encoder_0_0_arch : ARCHITECTURE IS "assembly_encoder_0_0,encoder,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF assembly_encoder_0_0_arch: ARCHITECTURE IS "assembly_encoder_0_0,encoder,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=encoder,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=8}";
+  ATTRIBUTE CORE_GENERATION_INFO OF assembly_encoder_0_0_arch: ARCHITECTURE IS "assembly_encoder_0_0,encoder,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=encoder,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=10}";
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
   ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_encoder_0_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER OF rst: SIGNAL IS "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF rst: SIGNAL IS "xilinx.com:signal:reset:1.0 rst RST";
-  ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, CLK_DOMAIN assembly_clk_0, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF clk: SIGNAL IS "xilinx.com:signal:clock:1.0 clk CLK";
 BEGIN
   U0 : encoder
     GENERIC MAP (
-      n_bits => 8
+      n_bits => 10
     )
     PORT MAP (
       clk => clk,

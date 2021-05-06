@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Thu Apr 29 13:26:44 2021
+-- Date        : Thu May  6 09:58:17 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode synth_stub
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_stub.vhdl
@@ -19,7 +19,7 @@ entity assembly_encoder_0_0 is
     b : in STD_LOGIC;
     rst : in STD_LOGIC;
     state : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
+    cnt : out STD_LOGIC_VECTOR ( 9 downto 0 )
   );
 
 end assembly_encoder_0_0;
@@ -28,7 +28,7 @@ architecture stub of assembly_encoder_0_0 is
 attribute syn_black_box : boolean;
 attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;
-attribute black_box_pad_pin of stub : architecture is "clk,a,b,rst,state[3:0],cnt[7:0]";
+attribute black_box_pad_pin of stub : architecture is "clk,a,b,rst,state[3:0],cnt[9:0]";
 attribute x_core_info : string;
 attribute x_core_info of stub : architecture is "encoder,Vivado 2020.2";
 begin

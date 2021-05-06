@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Thu Apr 29 13:26:44 2021
+// Date        : Thu May  6 09:58:17 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_sim_netlist.v
@@ -22,17 +22,17 @@ module assembly_encoder_0_0
     rst,
     state,
     cnt);
-  (* x_interface_info = "xilinx.com:signal:clock:1.0 clk CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0" *) input clk;
+  (* x_interface_info = "xilinx.com:signal:clock:1.0 clk CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, CLK_DOMAIN assembly_clk_0, INSERT_VIP 0" *) input clk;
   input a;
   input b;
   (* x_interface_info = "xilinx.com:signal:reset:1.0 rst RST" *) (* x_interface_parameter = "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0" *) input rst;
   output [3:0]state;
-  output [7:0]cnt;
+  output [9:0]cnt;
 
   wire a;
   wire b;
   wire clk;
-  wire [7:0]cnt;
+  wire [9:0]cnt;
   wire rst;
   wire [1:0]\^state ;
 
@@ -57,7 +57,7 @@ module assembly_encoder_0_0_encoder
     a,
     rst);
   output [1:0]state;
-  output [7:0]cnt;
+  output [9:0]cnt;
   input b;
   input clk;
   input a;
@@ -66,27 +66,31 @@ module assembly_encoder_0_0_encoder
   wire a;
   wire b;
   wire clk;
-  wire [7:0]cnt;
+  wire [9:0]cnt;
   wire \cnt_t[4]_i_2_n_0 ;
   wire \cnt_t[4]_i_3_n_0 ;
   wire \cnt_t[4]_i_4_n_0 ;
   wire \cnt_t[4]_i_5_n_0 ;
-  wire \cnt_t[7]_i_2_n_0 ;
-  wire \cnt_t[7]_i_3_n_0 ;
-  wire \cnt_t[7]_i_4_n_0 ;
+  wire \cnt_t[8]_i_2_n_0 ;
+  wire \cnt_t[8]_i_3_n_0 ;
+  wire \cnt_t[8]_i_4_n_0 ;
+  wire \cnt_t[8]_i_5_n_0 ;
+  wire \cnt_t[9]_i_2_n_0 ;
   wire cnt_t__0;
   wire cnt_t_n_0;
   wire \cnt_t_reg[4]_i_1_n_0 ;
   wire \cnt_t_reg[4]_i_1_n_1 ;
   wire \cnt_t_reg[4]_i_1_n_2 ;
   wire \cnt_t_reg[4]_i_1_n_3 ;
-  wire \cnt_t_reg[7]_i_1_n_2 ;
-  wire \cnt_t_reg[7]_i_1_n_3 ;
-  wire [7:0]p_0_in;
+  wire \cnt_t_reg[8]_i_1_n_0 ;
+  wire \cnt_t_reg[8]_i_1_n_1 ;
+  wire \cnt_t_reg[8]_i_1_n_2 ;
+  wire \cnt_t_reg[8]_i_1_n_3 ;
+  wire [9:0]p_0_in;
   wire rst;
   wire [1:0]state;
-  wire [3:2]\NLW_cnt_t_reg[7]_i_1_CO_UNCONNECTED ;
-  wire [3:3]\NLW_cnt_t_reg[7]_i_1_O_UNCONNECTED ;
+  wire [3:0]\NLW_cnt_t_reg[9]_i_1_CO_UNCONNECTED ;
+  wire [3:1]\NLW_cnt_t_reg[9]_i_1_O_UNCONNECTED ;
 
   LUT5 #(
     .INIT(32'h90000090)) 
@@ -160,31 +164,49 @@ module assembly_encoder_0_0_encoder
         .O(\cnt_t[4]_i_5_n_0 ));
   LUT5 #(
     .INIT(32'hDA5225AD)) 
-    \cnt_t[7]_i_2 
+    \cnt_t[8]_i_2 
+       (.I0(b),
+        .I1(state[0]),
+        .I2(state[1]),
+        .I3(a),
+        .I4(cnt[8]),
+        .O(\cnt_t[8]_i_2_n_0 ));
+  LUT5 #(
+    .INIT(32'hDA5225AD)) 
+    \cnt_t[8]_i_3 
        (.I0(b),
         .I1(state[0]),
         .I2(state[1]),
         .I3(a),
         .I4(cnt[7]),
-        .O(\cnt_t[7]_i_2_n_0 ));
+        .O(\cnt_t[8]_i_3_n_0 ));
   LUT5 #(
     .INIT(32'hDA5225AD)) 
-    \cnt_t[7]_i_3 
+    \cnt_t[8]_i_4 
        (.I0(b),
         .I1(state[0]),
         .I2(state[1]),
         .I3(a),
         .I4(cnt[6]),
-        .O(\cnt_t[7]_i_3_n_0 ));
+        .O(\cnt_t[8]_i_4_n_0 ));
   LUT5 #(
     .INIT(32'hDA5225AD)) 
-    \cnt_t[7]_i_4 
+    \cnt_t[8]_i_5 
        (.I0(b),
         .I1(state[0]),
         .I2(state[1]),
         .I3(a),
         .I4(cnt[5]),
-        .O(\cnt_t[7]_i_4_n_0 ));
+        .O(\cnt_t[8]_i_5_n_0 ));
+  LUT5 #(
+    .INIT(32'hDA5225AD)) 
+    \cnt_t[9]_i_2 
+       (.I0(b),
+        .I1(state[0]),
+        .I2(state[1]),
+        .I3(a),
+        .I4(cnt[9]),
+        .O(\cnt_t[9]_i_2_n_0 ));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[0] 
@@ -257,14 +279,38 @@ module assembly_encoder_0_0_encoder
         .D(p_0_in[7]),
         .Q(cnt[7]),
         .R(cnt_t__0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[8] 
+       (.C(clk),
+        .CE(cnt_t_n_0),
+        .D(p_0_in[8]),
+        .Q(cnt[8]),
+        .R(cnt_t__0));
   (* ADDER_THRESHOLD = "35" *) 
-  CARRY4 \cnt_t_reg[7]_i_1 
+  CARRY4 \cnt_t_reg[8]_i_1 
        (.CI(\cnt_t_reg[4]_i_1_n_0 ),
-        .CO({\NLW_cnt_t_reg[7]_i_1_CO_UNCONNECTED [3:2],\cnt_t_reg[7]_i_1_n_2 ,\cnt_t_reg[7]_i_1_n_3 }),
+        .CO({\cnt_t_reg[8]_i_1_n_0 ,\cnt_t_reg[8]_i_1_n_1 ,\cnt_t_reg[8]_i_1_n_2 ,\cnt_t_reg[8]_i_1_n_3 }),
         .CYINIT(1'b0),
-        .DI({1'b0,1'b0,cnt[6:5]}),
-        .O({\NLW_cnt_t_reg[7]_i_1_O_UNCONNECTED [3],p_0_in[7:5]}),
-        .S({1'b0,\cnt_t[7]_i_2_n_0 ,\cnt_t[7]_i_3_n_0 ,\cnt_t[7]_i_4_n_0 }));
+        .DI(cnt[8:5]),
+        .O(p_0_in[8:5]),
+        .S({\cnt_t[8]_i_2_n_0 ,\cnt_t[8]_i_3_n_0 ,\cnt_t[8]_i_4_n_0 ,\cnt_t[8]_i_5_n_0 }));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[9] 
+       (.C(clk),
+        .CE(cnt_t_n_0),
+        .D(p_0_in[9]),
+        .Q(cnt[9]),
+        .R(cnt_t__0));
+  (* ADDER_THRESHOLD = "35" *) 
+  CARRY4 \cnt_t_reg[9]_i_1 
+       (.CI(\cnt_t_reg[8]_i_1_n_0 ),
+        .CO(\NLW_cnt_t_reg[9]_i_1_CO_UNCONNECTED [3:0]),
+        .CYINIT(1'b0),
+        .DI({1'b0,1'b0,1'b0,1'b0}),
+        .O({\NLW_cnt_t_reg[9]_i_1_O_UNCONNECTED [3:1],p_0_in[9]}),
+        .S({1'b0,1'b0,1'b0,\cnt_t[9]_i_2_n_0 }));
 endmodule
 `ifndef GLBL
 `define GLBL

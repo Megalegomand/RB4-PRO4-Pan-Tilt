@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# clock_divider, encoder, spi
+# clock_divider, clock_divider, encoder, pwm, spi
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -190,6 +190,20 @@ proc create_root_design { parentCell } {
    CONFIG.n_bits {3} \
  ] $clock_divider_0
 
+  # Create instance: clock_divider_1, and set properties
+  set block_name clock_divider
+  set block_cell_name clock_divider_1
+  if { [catch {set clock_divider_1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $clock_divider_1 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+    set_property -dict [ list \
+   CONFIG.n_bits {15} \
+ ] $clock_divider_1
+
   # Create instance: encoder_0, and set properties
   set block_name encoder
   set block_cell_name encoder_0
@@ -201,8 +215,22 @@ proc create_root_design { parentCell } {
      return 1
    }
     set_property -dict [ list \
-   CONFIG.n_bits {8} \
+   CONFIG.n_bits {10} \
  ] $encoder_0
+
+  # Create instance: pwm_0, and set properties
+  set block_name pwm
+  set block_cell_name pwm_0
+  if { [catch {set pwm_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $pwm_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+    set_property -dict [ list \
+   CONFIG.n_bits {8} \
+ ] $pwm_0
 
   # Create instance: spi_0, and set properties
   set block_name spi
@@ -218,48 +246,43 @@ proc create_root_design { parentCell } {
   # Create instance: xlconcat_0, and set properties
   set xlconcat_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0 ]
   set_property -dict [ list \
-   CONFIG.IN2_WIDTH {2} \
-   CONFIG.NUM_PORTS {3} \
+   CONFIG.IN0_WIDTH {1} \
+   CONFIG.IN1_WIDTH {3} \
  ] $xlconcat_0
 
   # Create instance: xlconstant_0, and set properties
   set xlconstant_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0 ]
   set_property -dict [ list \
-   CONFIG.CONST_VAL {0b11010111} \
-   CONFIG.CONST_WIDTH {8} \
+   CONFIG.CONST_VAL {7} \
+   CONFIG.CONST_WIDTH {3} \
  ] $xlconstant_0
-
-  # Create instance: xlconstant_1, and set properties
-  set xlconstant_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_1 ]
-  set_property -dict [ list \
-   CONFIG.CONST_VAL {0} \
-   CONFIG.CONST_WIDTH {2} \
- ] $xlconstant_1
 
   # Create instance: xlslice_0, and set properties
   set xlslice_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_0 ]
   set_property -dict [ list \
-   CONFIG.DIN_FROM {7} \
-   CONFIG.DIN_TO {4} \
-   CONFIG.DIN_WIDTH {8} \
-   CONFIG.DOUT_WIDTH {4} \
+   CONFIG.DIN_FROM {9} \
+   CONFIG.DIN_TO {2} \
+   CONFIG.DIN_WIDTH {10} \
+   CONFIG.DOUT_WIDTH {8} \
  ] $xlslice_0
 
   # Create port connections
-  connect_bd_net -net a_0_1 [get_bd_ports encoderA] [get_bd_pins encoder_0/a] [get_bd_pins xlconcat_0/In0]
-  connect_bd_net -net b_0_1 [get_bd_ports encoderB] [get_bd_pins encoder_0/b] [get_bd_pins xlconcat_0/In1]
-  connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk]
-  connect_bd_net -net clock_divider_0_clk_div [get_bd_pins clock_divider_0/clk_div] [get_bd_pins encoder_0/clk] [get_bd_pins spi_0/clk]
+  connect_bd_net -net a_0_1 [get_bd_ports encoderA] [get_bd_pins encoder_0/a]
+  connect_bd_net -net b_0_1 [get_bd_ports encoderB] [get_bd_pins encoder_0/b]
+  connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk] [get_bd_pins clock_divider_1/clk]
+  connect_bd_net -net clock_divider_0_clk_div [get_bd_pins clock_divider_0/clk_div] [get_bd_pins pwm_0/clk] [get_bd_pins spi_0/clk]
+  connect_bd_net -net clock_divider_1_clk_div [get_bd_pins clock_divider_1/clk_div] [get_bd_pins encoder_0/clk]
   connect_bd_net -net encoder_0_cnt [get_bd_pins encoder_0/cnt] [get_bd_pins xlslice_0/Din]
-  connect_bd_net -net encoder_0_state [get_bd_ports state] [get_bd_pins encoder_0/state]
-  connect_bd_net -net rst_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins encoder_0/rst] [get_bd_pins spi_0/rst]
+  connect_bd_net -net pwm_0_o [get_bd_pins pwm_0/o] [get_bd_pins xlconcat_0/In0]
+  connect_bd_net -net rst_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins clock_divider_1/rst] [get_bd_pins encoder_0/rst] [get_bd_pins spi_0/rst]
   connect_bd_net -net sclk_0_1 [get_bd_ports sclk] [get_bd_pins spi_0/sclk]
   connect_bd_net -net sdi_0_1 [get_bd_ports sdi] [get_bd_pins spi_0/sdi]
+  connect_bd_net -net spi_0_data_out [get_bd_pins pwm_0/duty_cycle] [get_bd_pins spi_0/data_out]
   connect_bd_net -net spi_0_sdo [get_bd_ports sdo] [get_bd_pins spi_0/sdo]
   connect_bd_net -net ss_0_1 [get_bd_ports ss] [get_bd_pins spi_0/ss]
-  connect_bd_net -net xlconstant_0_dout [get_bd_pins spi_0/data_in] [get_bd_pins xlconstant_0/dout]
-  connect_bd_net -net xlconstant_1_dout [get_bd_pins xlconcat_0/In2] [get_bd_pins xlconstant_1/dout]
-  connect_bd_net -net xlslice_0_Dout [get_bd_ports led] [get_bd_pins xlslice_0/Dout]
+  connect_bd_net -net xlconcat_0_dout [get_bd_ports state] [get_bd_pins xlconcat_0/dout]
+  connect_bd_net -net xlconstant_0_dout [get_bd_pins xlconcat_0/In1] [get_bd_pins xlconstant_0/dout]
+  connect_bd_net -net xlslice_0_Dout [get_bd_pins spi_0/data_in] [get_bd_pins xlslice_0/Dout]
 
   # Create address segments
 
