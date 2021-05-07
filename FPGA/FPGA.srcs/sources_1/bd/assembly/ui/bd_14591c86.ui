@@ -1,46 +1,46 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.783077",
-   "Default View_TopLeft":"-204,0",
+   "Default View_ScaleFactor":"0.771212",
+   "Default View_TopLeft":"-197,0",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port clk -pg 1 -lvl 0 -x 0 -y 80 -defaultsOSRD
-preplace port ss -pg 1 -lvl 0 -x 0 -y 370 -defaultsOSRD
-preplace port sclk -pg 1 -lvl 0 -x 0 -y 230 -defaultsOSRD
-preplace port sdo -pg 1 -lvl 5 -x 1020 -y 230 -defaultsOSRD
-preplace port sdi -pg 1 -lvl 0 -x 0 -y 250 -defaultsOSRD
-preplace port encoderB -pg 1 -lvl 0 -x 0 -y 160 -defaultsOSRD
-preplace port encoderA -pg 1 -lvl 0 -x 0 -y 20 -defaultsOSRD
-preplace port rst -pg 1 -lvl 0 -x 0 -y 100 -defaultsOSRD
-preplace portBus state -pg 1 -lvl 5 -x 1020 -y 580 -defaultsOSRD
-preplace portBus led -pg 1 -lvl 5 -x 1020 -y 20 -defaultsOSRD
-preplace inst clock_divider_0 -pg 1 -lvl 2 -x 350 -y 440 -defaultsOSRD
-preplace inst spi_0 -pg 1 -lvl 4 -x 860 -y 240 -defaultsOSRD
-preplace inst encoder_0 -pg 1 -lvl 2 -x 350 -y 120 -defaultsOSRD
-preplace inst xlslice_0 -pg 1 -lvl 3 -x 590 -y 310 -defaultsOSRD
-preplace inst pwm_0 -pg 1 -lvl 3 -x 590 -y 440 -defaultsOSRD
-preplace inst xlconcat_0 -pg 1 -lvl 4 -x 860 -y 580 -defaultsOSRD
-preplace inst xlconstant_0 -pg 1 -lvl 3 -x 590 -y 590 -defaultsOSRD
-preplace inst clock_divider_1 -pg 1 -lvl 1 -x 130 -y 90 -defaultsOSRD
-preplace netloc ss_0_1 1 0 4 NJ 370 NJ 370 NJ 370 720J
-preplace netloc sclk_0_1 1 0 4 NJ 230 NJ 230 NJ 230 NJ
-preplace netloc spi_0_sdo 1 4 1 NJ 230
-preplace netloc sdi_0_1 1 0 4 NJ 250 NJ 250 NJ 250 NJ
-preplace netloc b_0_1 1 0 2 NJ 160 230J
-preplace netloc a_0_1 1 0 2 NJ 20 230J
-preplace netloc rst_0_1 1 0 4 20 170 240 210 NJ 210 NJ
-preplace netloc clock_divider_0_clk_div 1 2 2 470 190 NJ
-preplace netloc pwm_0_o 1 3 1 710 440n
-preplace netloc xlconstant_0_dout 1 3 1 NJ 590
-preplace netloc spi_0_data_out 1 2 3 460 510 NJ 510 1000
-preplace netloc clk_1 1 0 2 30 430 NJ
-preplace netloc clock_divider_1_clk_div 1 1 1 N 90
-preplace netloc xlconcat_0_dout 1 4 1 NJ 580
-preplace netloc encoder_0_cnt 1 2 1 460 130n
-preplace netloc xlslice_0_Dout 1 3 1 710J 270n
-levelinfo -pg 1 0 130 350 590 860 1020
-pagesize -pg 1 -db -bbox -sgen -120 0 1140 650
+preplace port clk -pg 1 -lvl 0 -x -20 -y 140 -defaultsOSRD
+preplace port ss -pg 1 -lvl 0 -x -20 -y 380 -defaultsOSRD
+preplace port sclk -pg 1 -lvl 0 -x -20 -y 240 -defaultsOSRD
+preplace port sdo -pg 1 -lvl 5 -x 1060 -y 240 -defaultsOSRD
+preplace port sdi -pg 1 -lvl 0 -x -20 -y 260 -defaultsOSRD
+preplace port encoderB -pg 1 -lvl 0 -x -20 -y 220 -defaultsOSRD
+preplace port encoderA -pg 1 -lvl 0 -x -20 -y 80 -defaultsOSRD
+preplace port rst -pg 1 -lvl 0 -x -20 -y 160 -defaultsOSRD
+preplace portBus state -pg 1 -lvl 5 -x 1060 -y 590 -defaultsOSRD
+preplace portBus led -pg 1 -lvl 5 -x 1060 -y 100 -defaultsOSRD
+preplace inst clock_divider_0 -pg 1 -lvl 1 -x 120 -y 150 -defaultsOSRD
+preplace inst spi_0 -pg 1 -lvl 4 -x 900 -y 250 -defaultsOSRD
+preplace inst xlslice_0 -pg 1 -lvl 3 -x 630 -y 320 -defaultsOSRD
+preplace inst pwm_0 -pg 1 -lvl 3 -x 630 -y 450 -defaultsOSRD
+preplace inst xlconcat_0 -pg 1 -lvl 4 -x 900 -y 590 -defaultsOSRD
+preplace inst xlconstant_0 -pg 1 -lvl 3 -x 630 -y 600 -defaultsOSRD
+preplace inst xlslice_1 -pg 1 -lvl 4 -x 900 -y 100 -defaultsOSRD
+preplace inst encoder_0 -pg 1 -lvl 2 -x 360 -y 90 -defaultsOSRD
+preplace netloc ss_0_1 1 0 4 NJ 380 NJ 380 500J 260 750J
+preplace netloc sclk_0_1 1 0 4 NJ 240 NJ 240 NJ 240 NJ
+preplace netloc spi_0_sdo 1 4 1 NJ 240
+preplace netloc sdi_0_1 1 0 4 NJ 260 NJ 260 480J 250 760J
+preplace netloc b_0_1 1 0 2 0J 60 240J
+preplace netloc a_0_1 1 0 2 10J 70 230J
+preplace netloc rst_0_1 1 0 4 20 80 220 220 NJ 220 NJ
+preplace netloc clock_divider_0_clk_div 1 1 3 250 180 470 200 NJ
+preplace netloc pwm_0_o 1 3 1 760 450n
+preplace netloc xlconstant_0_dout 1 3 1 NJ 600
+preplace netloc spi_0_data_out 1 2 3 510 40 NJ 40 1040
+preplace netloc clk_1 1 0 1 NJ 140
+preplace netloc xlconcat_0_dout 1 4 1 NJ 590
+preplace netloc encoder_0_cnt 1 2 2 490 100 NJ
+preplace netloc xlslice_0_Dout 1 3 1 760J 280n
+preplace netloc xlslice_1_Dout 1 4 1 NJ 100
+levelinfo -pg 1 -20 120 360 630 900 1060
+pagesize -pg 1 -db -bbox -sgen -140 0 1180 660
 "
 }
 0

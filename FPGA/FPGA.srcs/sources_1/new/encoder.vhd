@@ -43,49 +43,31 @@ entity encoder is
 end encoder;
 
 architecture Behavioral of encoder is
-    signal cnt_t : STD_LOGIC_VECTOR (n_bits-1 downto 0) := (others => '0');
+    signal cnt_t : signed (n_bits-1 downto 0) := (others => '0');
     signal a_t : STD_LOGIC;
     signal b_t : STD_LOGIC;
 begin
-    
-    cnt <= cnt_t;
-    state <= a & b & a_t & b_t;
+    cnt_update : process (clk)
+    begin
+        if (rising_edge(clk)) then
+            cnt <= STD_LOGIC_VECTOR(cnt_t);
+        end if;
+    end process;
 
-
-    process (clk,rst)
+    encoder_update : process (a,rst)
     begin
         if (rst = '1') then
             cnt_t <= (others => '0');
         end if;
-        if (rising_edge(clk)) then
-            a_t <= a; -- Valid from process exit
-            b_t <= b; -- Valid from process exit
+        if (rising_edge(a)) then
+            --if (a_t = '0' and a = '1') then
+                if (b = '1') then
+                    cnt_t <= cnt_t + "1";
+                else
+                    cnt_t <= cnt_t - "1";
+                end if;
+            --end if;
 
-            if (a_t = '0' and a='1') then
-                if (b = '1') then
-                    cnt_t <= STD_LOGIC_VECTOR(signed(cnt_t) + 1);
-                else
-                    cnt_t <= STD_LOGIC_VECTOR(signed(cnt_t) - 1);
-                end if;
-            elsif (a_t = '1' and a = '0') then
-                if (b = '1') then
-                    cnt_t <= STD_LOGIC_VECTOR(signed(cnt_t) - 1);
-                else
-                    cnt_t <= STD_LOGIC_VECTOR(signed(cnt_t) + 1);
-                end if;
-            elsif (b_t = '0' and b = '1') then
-                if (a = '1') then
-                    cnt_t <= STD_LOGIC_VECTOR(signed(cnt_t) - 1);
-                else
-                    cnt_t <= STD_LOGIC_VECTOR(signed(cnt_t) + 1);
-                end if;
-            elsif (b_t = '1' and b = '0') then
-                if (a = '1') then
-                    cnt_t <= STD_LOGIC_VECTOR(signed(cnt_t) + 1);
-                else
-                    cnt_t <= STD_LOGIC_VECTOR(signed(cnt_t) - 1);
-                end if;
-            end if;
         end if;
     end process;
 end Behavioral;

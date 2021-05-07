@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Thu May  6 09:58:17 2021
+// Date        : Thu May  6 12:04:33 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_sim_netlist.v
@@ -22,295 +22,298 @@ module assembly_encoder_0_0
     rst,
     state,
     cnt);
-  (* x_interface_info = "xilinx.com:signal:clock:1.0 clk CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, CLK_DOMAIN assembly_clk_0, INSERT_VIP 0" *) input clk;
+  (* x_interface_info = "xilinx.com:signal:clock:1.0 clk CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0" *) input clk;
   input a;
   input b;
   (* x_interface_info = "xilinx.com:signal:reset:1.0 rst RST" *) (* x_interface_parameter = "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0" *) input rst;
   output [3:0]state;
   output [9:0]cnt;
 
+  wire \<const0> ;
   wire a;
   wire b;
   wire clk;
   wire [9:0]cnt;
-  wire rst;
-  wire [1:0]\^state ;
 
-  assign state[3] = a;
-  assign state[2] = b;
-  assign state[1:0] = \^state [1:0];
+  assign state[3] = \<const0> ;
+  assign state[2] = \<const0> ;
+  assign state[1] = \<const0> ;
+  assign state[0] = \<const0> ;
+  GND GND
+       (.G(\<const0> ));
   assembly_encoder_0_0_encoder U0
        (.a(a),
         .b(b),
         .clk(clk),
-        .cnt(cnt),
-        .rst(rst),
-        .state(\^state ));
+        .cnt(cnt));
 endmodule
 
 (* ORIG_REF_NAME = "encoder" *) 
 module assembly_encoder_0_0_encoder
-   (state,
-    cnt,
+   (cnt,
     b,
-    clk,
     a,
-    rst);
-  output [1:0]state;
+    clk);
   output [9:0]cnt;
   input b;
-  input clk;
   input a;
-  input rst;
+  input clk;
 
   wire a;
   wire b;
   wire clk;
   wire [9:0]cnt;
-  wire \cnt_t[4]_i_2_n_0 ;
-  wire \cnt_t[4]_i_3_n_0 ;
-  wire \cnt_t[4]_i_4_n_0 ;
-  wire \cnt_t[4]_i_5_n_0 ;
-  wire \cnt_t[8]_i_2_n_0 ;
-  wire \cnt_t[8]_i_3_n_0 ;
-  wire \cnt_t[8]_i_4_n_0 ;
-  wire \cnt_t[8]_i_5_n_0 ;
-  wire \cnt_t[9]_i_2_n_0 ;
-  wire cnt_t__0;
-  wire cnt_t_n_0;
-  wire \cnt_t_reg[4]_i_1_n_0 ;
-  wire \cnt_t_reg[4]_i_1_n_1 ;
-  wire \cnt_t_reg[4]_i_1_n_2 ;
-  wire \cnt_t_reg[4]_i_1_n_3 ;
-  wire \cnt_t_reg[8]_i_1_n_0 ;
-  wire \cnt_t_reg[8]_i_1_n_1 ;
-  wire \cnt_t_reg[8]_i_1_n_2 ;
-  wire \cnt_t_reg[8]_i_1_n_3 ;
-  wire [9:0]p_0_in;
-  wire rst;
-  wire [1:0]state;
-  wire [3:0]\NLW_cnt_t_reg[9]_i_1_CO_UNCONNECTED ;
-  wire [3:1]\NLW_cnt_t_reg[9]_i_1_O_UNCONNECTED ;
+  wire [9:0]cnt_t;
+  wire cnt_t0__0_n_0;
+  wire cnt_t0__0_n_1;
+  wire cnt_t0__0_n_2;
+  wire cnt_t0__0_n_3;
+  wire cnt_t0_i_1__0_n_0;
+  wire cnt_t0_i_1__1_n_0;
+  wire cnt_t0_i_1_n_0;
+  wire cnt_t0_i_2__0_n_0;
+  wire cnt_t0_i_2_n_0;
+  wire cnt_t0_i_3__0_n_0;
+  wire cnt_t0_i_3_n_0;
+  wire cnt_t0_i_4__0_n_0;
+  wire cnt_t0_i_4_n_0;
+  wire cnt_t0_i_5_n_0;
+  wire cnt_t0_n_0;
+  wire cnt_t0_n_1;
+  wire cnt_t0_n_2;
+  wire cnt_t0_n_3;
+  wire [9:0]cnt_t_reg;
+  wire [3:0]NLW_cnt_t0__1_CO_UNCONNECTED;
+  wire [3:1]NLW_cnt_t0__1_O_UNCONNECTED;
 
-  LUT5 #(
-    .INIT(32'h90000090)) 
-    \/i_ 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(rst),
-        .I3(state[1]),
-        .I4(a),
-        .O(cnt_t__0));
-  FDRE a_t_reg
+  FDRE \cnt_reg[0] 
        (.C(clk),
         .CE(1'b1),
-        .D(a),
-        .Q(state[1]),
+        .D(cnt_t_reg[0]),
+        .Q(cnt[0]),
         .R(1'b0));
-  FDRE b_t_reg
+  FDRE \cnt_reg[1] 
        (.C(clk),
         .CE(1'b1),
-        .D(b),
-        .Q(state[0]),
+        .D(cnt_t_reg[1]),
+        .Q(cnt[1]),
         .R(1'b0));
-  LUT4 #(
-    .INIT(16'h6FF6)) 
-    cnt_t
+  FDRE \cnt_reg[2] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[2]),
+        .Q(cnt[2]),
+        .R(1'b0));
+  FDRE \cnt_reg[3] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[3]),
+        .Q(cnt[3]),
+        .R(1'b0));
+  FDRE \cnt_reg[4] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[4]),
+        .Q(cnt[4]),
+        .R(1'b0));
+  FDRE \cnt_reg[5] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[5]),
+        .Q(cnt[5]),
+        .R(1'b0));
+  FDRE \cnt_reg[6] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[6]),
+        .Q(cnt[6]),
+        .R(1'b0));
+  FDRE \cnt_reg[7] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[7]),
+        .Q(cnt[7]),
+        .R(1'b0));
+  FDRE \cnt_reg[8] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[8]),
+        .Q(cnt[8]),
+        .R(1'b0));
+  FDRE \cnt_reg[9] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[9]),
+        .Q(cnt[9]),
+        .R(1'b0));
+  (* ADDER_THRESHOLD = "35" *) 
+  CARRY4 cnt_t0
+       (.CI(1'b0),
+        .CO({cnt_t0_n_0,cnt_t0_n_1,cnt_t0_n_2,cnt_t0_n_3}),
+        .CYINIT(cnt_t_reg[0]),
+        .DI({cnt_t_reg[3:2],cnt_t0_i_1__1_n_0,b}),
+        .O(cnt_t[4:1]),
+        .S({cnt_t0_i_2_n_0,cnt_t0_i_3_n_0,cnt_t0_i_4_n_0,cnt_t0_i_5_n_0}));
+  (* ADDER_THRESHOLD = "35" *) 
+  CARRY4 cnt_t0__0
+       (.CI(cnt_t0_n_0),
+        .CO({cnt_t0__0_n_0,cnt_t0__0_n_1,cnt_t0__0_n_2,cnt_t0__0_n_3}),
+        .CYINIT(1'b0),
+        .DI(cnt_t_reg[7:4]),
+        .O(cnt_t[8:5]),
+        .S({cnt_t0_i_1_n_0,cnt_t0_i_2__0_n_0,cnt_t0_i_3__0_n_0,cnt_t0_i_4__0_n_0}));
+  (* ADDER_THRESHOLD = "35" *) 
+  CARRY4 cnt_t0__1
+       (.CI(cnt_t0__0_n_0),
+        .CO(NLW_cnt_t0__1_CO_UNCONNECTED[3:0]),
+        .CYINIT(1'b0),
+        .DI({1'b0,1'b0,1'b0,1'b0}),
+        .O({NLW_cnt_t0__1_O_UNCONNECTED[3:1],cnt_t[9]}),
+        .S({1'b0,1'b0,1'b0,cnt_t0_i_1__0_n_0}));
+  LUT2 #(
+    .INIT(4'h9)) 
+    cnt_t0_i_1
+       (.I0(cnt_t_reg[7]),
+        .I1(cnt_t_reg[8]),
+        .O(cnt_t0_i_1_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    cnt_t0_i_1__0
+       (.I0(cnt_t_reg[8]),
+        .I1(cnt_t_reg[9]),
+        .O(cnt_t0_i_1__0_n_0));
+  LUT1 #(
+    .INIT(2'h1)) 
+    cnt_t0_i_1__1
        (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .O(cnt_t_n_0));
+        .O(cnt_t0_i_1__1_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    cnt_t0_i_2
+       (.I0(cnt_t_reg[3]),
+        .I1(cnt_t_reg[4]),
+        .O(cnt_t0_i_2_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    cnt_t0_i_2__0
+       (.I0(cnt_t_reg[6]),
+        .I1(cnt_t_reg[7]),
+        .O(cnt_t0_i_2__0_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    cnt_t0_i_3
+       (.I0(cnt_t_reg[2]),
+        .I1(cnt_t_reg[3]),
+        .O(cnt_t0_i_3_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    cnt_t0_i_3__0
+       (.I0(cnt_t_reg[5]),
+        .I1(cnt_t_reg[6]),
+        .O(cnt_t0_i_3__0_n_0));
+  LUT2 #(
+    .INIT(4'h6)) 
+    cnt_t0_i_4
+       (.I0(b),
+        .I1(cnt_t_reg[2]),
+        .O(cnt_t0_i_4_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    cnt_t0_i_4__0
+       (.I0(cnt_t_reg[4]),
+        .I1(cnt_t_reg[5]),
+        .O(cnt_t0_i_4__0_n_0));
+  LUT2 #(
+    .INIT(4'h6)) 
+    cnt_t0_i_5
+       (.I0(b),
+        .I1(cnt_t_reg[1]),
+        .O(cnt_t0_i_5_n_0));
   LUT1 #(
     .INIT(2'h1)) 
     \cnt_t[0]_i_1 
-       (.I0(cnt[0]),
-        .O(p_0_in[0]));
-  LUT5 #(
-    .INIT(32'hDA5225AD)) 
-    \cnt_t[4]_i_2 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .I4(cnt[4]),
-        .O(\cnt_t[4]_i_2_n_0 ));
-  LUT5 #(
-    .INIT(32'hDA5225AD)) 
-    \cnt_t[4]_i_3 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .I4(cnt[3]),
-        .O(\cnt_t[4]_i_3_n_0 ));
-  LUT5 #(
-    .INIT(32'hDA5225AD)) 
-    \cnt_t[4]_i_4 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .I4(cnt[2]),
-        .O(\cnt_t[4]_i_4_n_0 ));
-  LUT5 #(
-    .INIT(32'hDA5225AD)) 
-    \cnt_t[4]_i_5 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .I4(cnt[1]),
-        .O(\cnt_t[4]_i_5_n_0 ));
-  LUT5 #(
-    .INIT(32'hDA5225AD)) 
-    \cnt_t[8]_i_2 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .I4(cnt[8]),
-        .O(\cnt_t[8]_i_2_n_0 ));
-  LUT5 #(
-    .INIT(32'hDA5225AD)) 
-    \cnt_t[8]_i_3 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .I4(cnt[7]),
-        .O(\cnt_t[8]_i_3_n_0 ));
-  LUT5 #(
-    .INIT(32'hDA5225AD)) 
-    \cnt_t[8]_i_4 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .I4(cnt[6]),
-        .O(\cnt_t[8]_i_4_n_0 ));
-  LUT5 #(
-    .INIT(32'hDA5225AD)) 
-    \cnt_t[8]_i_5 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .I4(cnt[5]),
-        .O(\cnt_t[8]_i_5_n_0 ));
-  LUT5 #(
-    .INIT(32'hDA5225AD)) 
-    \cnt_t[9]_i_2 
-       (.I0(b),
-        .I1(state[0]),
-        .I2(state[1]),
-        .I3(a),
-        .I4(cnt[9]),
-        .O(\cnt_t[9]_i_2_n_0 ));
+       (.I0(cnt_t_reg[0]),
+        .O(cnt_t[0]));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[0] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[0]),
-        .Q(cnt[0]),
-        .R(cnt_t__0));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[0]),
+        .Q(cnt_t_reg[0]),
+        .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[1] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[1]),
-        .Q(cnt[1]),
-        .R(cnt_t__0));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[1]),
+        .Q(cnt_t_reg[1]),
+        .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[2] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[2]),
-        .Q(cnt[2]),
-        .R(cnt_t__0));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[2]),
+        .Q(cnt_t_reg[2]),
+        .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[3] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[3]),
-        .Q(cnt[3]),
-        .R(cnt_t__0));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[3]),
+        .Q(cnt_t_reg[3]),
+        .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[4] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[4]),
-        .Q(cnt[4]),
-        .R(cnt_t__0));
-  (* ADDER_THRESHOLD = "35" *) 
-  CARRY4 \cnt_t_reg[4]_i_1 
-       (.CI(1'b0),
-        .CO({\cnt_t_reg[4]_i_1_n_0 ,\cnt_t_reg[4]_i_1_n_1 ,\cnt_t_reg[4]_i_1_n_2 ,\cnt_t_reg[4]_i_1_n_3 }),
-        .CYINIT(cnt[0]),
-        .DI(cnt[4:1]),
-        .O(p_0_in[4:1]),
-        .S({\cnt_t[4]_i_2_n_0 ,\cnt_t[4]_i_3_n_0 ,\cnt_t[4]_i_4_n_0 ,\cnt_t[4]_i_5_n_0 }));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[4]),
+        .Q(cnt_t_reg[4]),
+        .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[5] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[5]),
-        .Q(cnt[5]),
-        .R(cnt_t__0));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[5]),
+        .Q(cnt_t_reg[5]),
+        .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[6] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[6]),
-        .Q(cnt[6]),
-        .R(cnt_t__0));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[6]),
+        .Q(cnt_t_reg[6]),
+        .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[7] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[7]),
-        .Q(cnt[7]),
-        .R(cnt_t__0));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[7]),
+        .Q(cnt_t_reg[7]),
+        .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[8] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[8]),
-        .Q(cnt[8]),
-        .R(cnt_t__0));
-  (* ADDER_THRESHOLD = "35" *) 
-  CARRY4 \cnt_t_reg[8]_i_1 
-       (.CI(\cnt_t_reg[4]_i_1_n_0 ),
-        .CO({\cnt_t_reg[8]_i_1_n_0 ,\cnt_t_reg[8]_i_1_n_1 ,\cnt_t_reg[8]_i_1_n_2 ,\cnt_t_reg[8]_i_1_n_3 }),
-        .CYINIT(1'b0),
-        .DI(cnt[8:5]),
-        .O(p_0_in[8:5]),
-        .S({\cnt_t[8]_i_2_n_0 ,\cnt_t[8]_i_3_n_0 ,\cnt_t[8]_i_4_n_0 ,\cnt_t[8]_i_5_n_0 }));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[8]),
+        .Q(cnt_t_reg[8]),
+        .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[9] 
-       (.C(clk),
-        .CE(cnt_t_n_0),
-        .D(p_0_in[9]),
-        .Q(cnt[9]),
-        .R(cnt_t__0));
-  (* ADDER_THRESHOLD = "35" *) 
-  CARRY4 \cnt_t_reg[9]_i_1 
-       (.CI(\cnt_t_reg[8]_i_1_n_0 ),
-        .CO(\NLW_cnt_t_reg[9]_i_1_CO_UNCONNECTED [3:0]),
-        .CYINIT(1'b0),
-        .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O({\NLW_cnt_t_reg[9]_i_1_O_UNCONNECTED [3:1],p_0_in[9]}),
-        .S({1'b0,1'b0,1'b0,\cnt_t[9]_i_2_n_0 }));
+       (.C(a),
+        .CE(1'b1),
+        .D(cnt_t[9]),
+        .Q(cnt_t_reg[9]),
+        .R(1'b0));
 endmodule
 `ifndef GLBL
 `define GLBL

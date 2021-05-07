@@ -49,6 +49,7 @@ architecture Behavioral of encoder_testbench is
     signal b : STD_LOGIC;
     signal cnt : STD_LOGIC_VECTOR(n_bits-1 downto 0);
     signal state : STD_LOGIC_VECTOR(3 downto 0);
+    signal clk : STD_LOGIC;
 begin
     
     process
@@ -58,6 +59,14 @@ begin
         enc2 <= not enc2 after period * 2;
     end process;
     
+    process
+    begin
+        clk <= '1';
+        wait for period;
+        clk <= '0';
+        wait for period;
+    end process;
+
     a <= enc1 when dir = '1' else
          enc2 when dir = '0';
     b <= enc2 when dir = '1' else
@@ -71,7 +80,8 @@ begin
         b => b, 
         cnt => cnt,
         rst => '0',
-        state => state
+        state => state,
+        clk => clk
     );
 
 end Behavioral;

@@ -46,7 +46,7 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="pynq-z2"/>
-    <Option Name="WTXSimLaunchSim" Val="215"/>
+    <Option Name="WTXSimLaunchSim" Val="223"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -87,13 +87,13 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/new/encoder.vhd">
+      <File Path="$PSRCDIR/sources_1/new/pwm.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/new/pwm.vhd">
+      <File Path="$PSRCDIR/sources_1/new/encoder.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -105,20 +105,17 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_encoder_0_0/assembly_encoder_0_0.xci">
+          <Proxy FileSetName="assembly_encoder_0_0"/>
+        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_pwm_0_0/assembly_pwm_0_0.xci">
           <Proxy FileSetName="assembly_pwm_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
-          <Proxy FileSetName="assembly_clock_divider_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_spi_0_0/assembly_spi_0_0.xci">
           <Proxy FileSetName="assembly_spi_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_encoder_0_0/assembly_encoder_0_0.xci">
-          <Proxy FileSetName="assembly_encoder_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_1_0/assembly_clock_divider_1_0.xci">
-          <Proxy FileSetName="assembly_clock_divider_1_0"/>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
+          <Proxy FileSetName="assembly_clock_divider_0_0"/>
         </CompFileExtendedInfo>
       </File>
       <File Path="$PGENDIR/sources_1/bd/assembly/hdl/assembly_wrapper.vhd">
@@ -147,13 +144,13 @@
     </FileSet>
     <FileSet Name="sim_1" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_1" RelGenDir="$PGENDIR/sim_1">
       <Filter Type="Srcs"/>
-      <File Path="$PSRCDIR/sim_1/new/spi_testbench.vhd">
+      <File Path="$PSRCDIR/sim_1/new/encoder_testbench.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sim_1/new/encoder_testbench.vhd">
+      <File Path="$PSRCDIR/sim_1/new/spi_testbench.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -162,12 +159,11 @@
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="spi_testbench"/>
+        <Option Name="TopModule" Val="encoder_testbench"/>
         <Option Name="TopLib" Val="xil_defaultlib"/>
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
         <Option Name="SelectedSimModel" Val="rtl"/>
-        <Option Name="SimMode" Val="post-implementation"/>
         <Option Name="PamDesignTestbench" Val=""/>
         <Option Name="PamDutBypassFile" Val="xil_dut_bypass"/>
         <Option Name="PamSignalDriverFile" Val="xil_bypass_driver"/>
@@ -194,21 +190,15 @@
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
-    <FileSet Name="assembly_encoder_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/assembly_encoder_0_0" RelGenDir="$PGENDIR/assembly_encoder_0_0">
-      <Config>
-        <Option Name="TopModule" Val="assembly_encoder_0_0"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
     <FileSet Name="assembly_pwm_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/assembly_pwm_0_0" RelGenDir="$PGENDIR/assembly_pwm_0_0">
       <Config>
         <Option Name="TopModule" Val="assembly_pwm_0_0"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
-    <FileSet Name="assembly_clock_divider_1_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/assembly_clock_divider_1_0" RelGenDir="$PGENDIR/assembly_clock_divider_1_0">
+    <FileSet Name="assembly_encoder_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/assembly_encoder_0_0" RelGenDir="$PGENDIR/assembly_encoder_0_0">
       <Config>
-        <Option Name="TopModule" Val="assembly_clock_divider_1_0"/>
+        <Option Name="TopModule" Val="assembly_encoder_0_0"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
@@ -268,16 +258,6 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="assembly_encoder_0_0_synth_1" Type="Ft3:Synth" SrcSet="assembly_encoder_0_0" Part="xc7z020clg400-1" ConstrsSet="assembly_encoder_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/assembly_encoder_0_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_encoder_0_0_synth_1">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
-      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2020"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
     <Run Id="assembly_pwm_0_0_synth_1" Type="Ft3:Synth" SrcSet="assembly_pwm_0_0" Part="xc7z020clg400-1" ConstrsSet="assembly_pwm_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/assembly_pwm_0_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_pwm_0_0_synth_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020"/>
@@ -288,7 +268,7 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="assembly_clock_divider_1_0_synth_1" Type="Ft3:Synth" SrcSet="assembly_clock_divider_1_0" Part="xc7z020clg400-1" ConstrsSet="assembly_clock_divider_1_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/assembly_clock_divider_1_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_clock_divider_1_0_synth_1">
+    <Run Id="assembly_encoder_0_0_synth_1" Type="Ft3:Synth" SrcSet="assembly_encoder_0_0" Part="xc7z020clg400-1" ConstrsSet="assembly_encoder_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/assembly_encoder_0_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_encoder_0_0_synth_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
           <Desc>Vivado Synthesis Defaults</Desc>
@@ -352,23 +332,6 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="assembly_encoder_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg400-1" ConstrsSet="assembly_encoder_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="assembly_encoder_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_encoder_0_0_impl_1">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2020"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
     <Run Id="assembly_pwm_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg400-1" ConstrsSet="assembly_pwm_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="assembly_pwm_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_pwm_0_0_impl_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020"/>
@@ -386,7 +349,7 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="assembly_clock_divider_1_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg400-1" ConstrsSet="assembly_clock_divider_1_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="assembly_clock_divider_1_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_clock_divider_1_0_impl_1">
+    <Run Id="assembly_encoder_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg400-1" ConstrsSet="assembly_encoder_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="assembly_encoder_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_encoder_0_0_impl_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
           <Desc>Default settings for Implementation.</Desc>

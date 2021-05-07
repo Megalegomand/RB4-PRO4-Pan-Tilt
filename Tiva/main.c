@@ -68,6 +68,10 @@ void vUART2SPI( void * pvParameters )
     }
 }
 
+#define PRIORITY_HIGH 3
+#define PRIORITY_LOW 1
+#define PRIORITY_IDLE 0
+
 int main(void)
 {
     // Initialzation
