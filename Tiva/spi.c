@@ -119,7 +119,7 @@ void spi_write_task(void * pvParameters)
     }
 }
 
-void spi_read_ISR()
+void spi_read_isr()
 {
     if (!(SSI0_SR_R & SSI_SR_BSY)) { // Check for end of transmission with not busy
         // Check SPI recieved

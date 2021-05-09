@@ -18,15 +18,14 @@
  *****************************************************************************/
 
 /***************************** Include files *******************************/
-#include <stdint.h>
-#include "tm4c123gh6pm.h"
-#include "emp_type.h"
+#include "uart0.h"
 /*****************************    Defines    *******************************/
 
 /*****************************   Constants   *******************************/
 
 /*****************************   Variables   *******************************/
-
+QueueHandle_t uart0_rx_queue;
+QueueHandle_t uart0_tx_queue;
 /*****************************   Functions   *******************************/
 
 INT32U lcrh_databits(INT8U antal_databits)
@@ -158,34 +157,73 @@ extern void uart0_init(INT32U baud_rate, INT8U databits, INT8U stopbits,
 {
     INT32U BRD;
 
-#ifndef E_PORTA
-#define E_PORTA
-    SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA;			// Enable clock for Port A
-#endif
+    // Enable clock for UART and GPIO port A
+    SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA; // Enable clock for Port A
+    SYSCTL_RCGCUART_R |= SYSCTL_RCGCUART_R0; // Enable UART 0
 
-#ifndef E_UART0
-#define E_UART0
-    //SYSCTL_RCGC1_R |= SYSCTL_RCGC1_UART0;					// Enable UART 0
-    SYSCTL_RCGCUART_R |= SYSCTL_RCGCUART_R0;                   // Enable UART 0
-#endif
+    // Setup GPIO PA0 and PA1
+    GPIO_PORTA_AFSEL_R |= 0x00000003; // set PA0 og PA1 to alternativ function (uart0)
+    GPIO_PORTA_DIR_R |= 0x00000002;  // set PA1 (uart0 tx) to output
+    GPIO_PORTA_DIR_R &= ~(0x00000002); // set PA0 (uart0 rx) to input
+    GPIO_PORTA_DEN_R |= 0x00000003;	 // enable digital operation of PA0 and PA1
 
-    GPIO_PORTA_AFSEL_R |= 0x00000003;// set PA0 og PA1 to alternativ function (uart0)
-    GPIO_PORTA_DIR_R |= 0x00000002;     // set PA1 (uart0 tx) to output
-    GPIO_PORTA_DIR_R &= 0xFFFFFFFE;     // set PA0 (uart0 rx) to input
-    GPIO_PORTA_DEN_R |= 0x00000003;	// enable digital operation of PA0 and PA1
-    //GPIO_PORTA_PUR_R   |= 0x00000002;
-
-    BRD = 64000000 / baud_rate;   	// X-sys*64/(16*baudrate) = 16M*4/baudrate
+    // Calculate baudrate prescaler
+    BRD = 64000000 / baud_rate; // X-sys*64/(16*baudrate) = 16M*4/baudrate
     UART0_IBRD_R = BRD / 64;
     UART0_FBRD_R = BRD & 0x0000003F;
 
+    // Setup uart with 8 databits,
     UART0_LCRH_R = lcrh_databits(databits);
     UART0_LCRH_R += lcrh_stopbits(stopbits);
     UART0_LCRH_R += lcrh_parity(parity);
 
-    uart0_fifos_disable();
+    UART0_CTL_R |= UART_CTL_UARTEN | UART_CTL_TXE;  // Enable UART
 
-    UART0_CTL_R |= (UART_CTL_UARTEN | UART_CTL_TXE);  // Enable UART
+    // Setup receive interrupt
+    UART0_IM_R |= UART_IM_RTIM; // Interrupt mask
+
+    // NVIC Enable interrupt 5 (UART0)
+    NVIC_EN0_R |= (1 << 5);
+    // Set next highest priority (lowest numberical value) allowed by FreeRTOS
+    NVIC_PRI1_R |= (111 << 13);
+
+    // Setup rx and tx queues
+    uart0_rx_queue = xQueueCreate(UART_QUEUE_LENGTH, UART_ITEM_SIZE);
+    configASSERT(uart0_rx_queue);
+
+    uart0_tx_queue = xQueueCreate(UART_QUEUE_LENGTH, UART_ITEM_SIZE);
+    configASSERT(uart0_tx_queue);
+}
+
+void uart0_read_isr()
+{
+    while (!(UART0_FR_R & UART_FR_RXFE))
+    { // While FIFO not empty
+        // Make sure no errors in transmission
+        configASSERT(!(UART0_DR_R & 0xF00));
+        // Receive msg
+        INT8U msg = UART0_DR_R & 0xFF;
+        // Add to queue
+        xQueueOverwriteFromISR(uart0_rx_queue, &msg, NULL);
+    }
+}
+
+void uart0_write_task(void * pvParameters)
+{
+    while (1)
+    {
+        INT8U msg;
+        // Wait till message appears in queue
+        xQueueReceive(uart0_tx_queue, &msg, portMAX_DELAY);
+
+        // Poll till transmit FIFO not full
+        while (UART0_FR_R & UART_FR_TXFF) {
+
+        }
+
+        // Transmit msg
+        UART0_DR_R = msg;
+    }
 }
 
 /****************************** End Of Module *******************************/

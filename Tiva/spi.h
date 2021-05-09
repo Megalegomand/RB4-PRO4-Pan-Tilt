@@ -39,7 +39,7 @@ BOOLEAN spi_write(INT16U data); // Write to the SPI register
 void spi_init(); // Initialize shared clock
 
 void spi_write_task(void * pvParameters);
-void spi_read_ISR();
+void spi_read_isr();
 /********************************************** 
 * Input: 
 * Output: 

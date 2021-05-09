@@ -23,46 +23,55 @@
 /***************************** Include files *******************************/
 #include "tm4c123gh6pm.h"
 #include "emp_type.h"
+#include <stdint.h>
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "task.h"
 /*****************************    Defines    *******************************/
-
-/*****************************   Constants   *******************************/
-
+#define UART_QUEUE_LENGTH 1
+#define UART_ITEM_SIZE    8
+/***************** Variables ******************/
+extern QueueHandle_t uart0_rx_queue;
+extern QueueHandle_t uart0_tx_queue;
 /*****************************   Functions   *******************************/
 
-extern BOOLEAN uart0_rx_rdy();
+BOOLEAN uart0_rx_rdy();
 /*****************************************************************************
 *   Input    : -
 *   Output   : -
 *   Function : Character ready at uart0 RX
 ******************************************************************************/
 
-extern INT8U uart0_getc();
+INT8U uart0_getc();
 /*****************************************************************************
 *   Input    : -
 *   Output   : -
 *   Function : Get character from uart0 RX
 ******************************************************************************/
 
-extern BOOLEAN uart0_tx_rdy();
+BOOLEAN uart0_tx_rdy();
 /*****************************************************************************
 *   Input    : -
 *   Output   : -
 *   Function : uart0 TX buffer ready
 ******************************************************************************/
 
-extern void uart0_putc( INT8U );
+void uart0_putc( INT8U );
 /*****************************************************************************
 *   Input    : -
 *   Output   : -
 *   Function : Put character to uart0 TX
 ******************************************************************************/
 
-extern void uart0_init( INT32U, INT8U, INT8U, INT8U );
+void uart0_init( INT32U, INT8U, INT8U, INT8U );
 /*****************************************************************************
 *   Input    : -
 *   Output   : -
 *   Function : Initialize uart 0
 ******************************************************************************/
+
+void uart0_read_isr();
+void uart0_write_task(void * pvParameters);
 
 /****************************** End Of Module *******************************/
 #endif
