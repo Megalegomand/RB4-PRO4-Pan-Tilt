@@ -16,12 +16,10 @@
 
 /***************** Header *********************/
 /***************** Include files **************/
-#include "controlsystem.h"
+#include <pid.h>
 /***************** Defines ********************/
-PIDController controllers[NUMBER_OF_CONTROLLERS];
+pid_container pid_controllers[PID_CONTROLLERS_LENGTH];
 /***************** Constants ******************/
-#define PID_PAN 0
-#define PID_TIL 1
 /***************** Variables ******************/
 /**********************************************
  Functions: See module specification (h.file)
@@ -31,94 +29,112 @@ PIDController controllers[NUMBER_OF_CONTROLLERS];
  * Output: read_position
  * Function: getPosition()
  ***********************************************/
-void pid_init(INT8U pid)
+void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N, FP32 T,
+              FP32 lim_min, FP32 lim_max)
 {
-    // Init Pan
-    controllers[pid].integrator = 0.0f;
-    controllers[pid].prev_error = 0.0f;
+    // Controller params
+    pid_controllers[pid].Kp = Kp;
+    pid_controllers[pid].Ki = Ki;
+    pid_controllers[pid].Kd = Kd;
 
-    controllers[pid].differentiator = 0.0f;
-    controllers[pid].prev_position = 0.0f;
+    // Low-pass filter coefficient
+    pid_controllers[pid].N = N;
 
-    controllers[pid].out = 0.0f;
+    // Sample time
+    pid_controllers[pid].T = T;
+
+    // Limits
+    pid_controllers[pid].lim_min = lim_min;
+    pid_controllers[pid].lim_max = lim_max;
+
+    // Reset values
+    pid_controllers[pid].integrator = 0.0f;
+    pid_controllers[pid].differentiator = 0.0f;
+
+    pid_controllers[pid].prev_error = 0.0f;
+
+    pid_controllers[pid].saturated = 0;
 }
 /**********************************************
  * Input: N/A
  * Output: controlvariable
  * Function: PID();
  ***********************************************/
-float update_pid(INT8U pid, float setpoint, float position)
+float pid_update(INT8U pid, float setpoint, float position)
 {
-    /* error */
-    float error = setpoint - position;
-    /* Proportional term */
-    float p_term = controllers[pid].Kp * error;
-    /* integrator term */
-    controllers[pid].integrator = controllers[pid].integrator * 0.5f
-            * controllers[pid].Ki * controllers[pid].t
-            * (error + controllers[pid].prev_error);
-    /* compute integrator limits */
-    float lim_min_int, lim_max_int;
-    if (controllers[pid].lim_max > p_term)
+    // Error
+    FP32 error = setpoint - position;
+
+    // Proportional term
+    FP32 p_term = pid_controllers[pid].Kp * error;
+
+    // Integrator term with anti windup
+    if (!pid_controllers[pid].saturated)
     {
-        lim_max_int = controllers[pid].lim_max - p_term;
+        pid_controllers[pid].integrator = pid_controllers[pid].integrator
+                + pid_controllers[pid].Ki * pid_controllers[pid].T * 0.5f
+                        * (error + pid_controllers[pid].prev_error);
+    }
+
+    // Differentiator with low-pass filter
+    pid_controllers[pid].differentiator = (2.0f * pid_controllers[pid].Kd
+            * pid_controllers[pid].N * (error - pid_controllers[pid].prev_error)
+            - pid_controllers[pid].differentiator
+                    * (pid_controllers[pid].N * pid_controllers[pid].T - 2.0f))
+            / (1 + pid_controllers[pid].N + pid_controllers[pid].T);
+
+    // Compute output and apply limits
+    FP32 out = p_term + pid_controllers[pid].integrator
+            + pid_controllers[pid].differentiator;
+
+    if (out > pid_controllers[pid].lim_max)
+    {
+        pid_controllers[pid].saturated = 1;
+        out = pid_controllers[pid].lim_max;
+    }
+    else if (out < pid_controllers[pid].lim_min)
+    {
+        pid_controllers[pid].saturated = 1;
+        out = pid_controllers[pid].lim_min;
     }
     else
     {
-        lim_max_int = 0.0f;
+        pid_controllers[pid].saturated = 0;
+    }
 
+    // Store error
+    pid_controllers[pid].prev_error = error;
+
+    /* Return pid_controllers output */
+    return out;
 }
-if (controllers[pid].lim_min < p_term)
+
+void pid_task(void * pvParameters)
 {
-    lim_min_int = controllers[pid].lim_min - p_term;
-}
-else
-{
-    lim_min_int = 0.0f;
-}
+    INT16U msg;
 
-/* Clamp the integrator (anti-windup) */
+    while (1)
+    {
+        xQueueReceive(spi_rx_queue, &msg, portMAX_DELAY);
 
-if (controllers[pid].integrator > lim_max_int)
-{
-    controllers[pid].integrator = lim_max_int;
-}
-else if (controllers[pid].integrator < lim_min_int)
-{
-    controllers[pid].integrator = lim_min_int;
-}
+        INT8S raw_pos_pan  = msg & (0x00FF);
+        INT8S raw_pos_tilt = msg >> 8;
 
-/* Derivative (band-limited differentiator) */
+        FP32 pos_pan  = raw_pos_pan  * POS_MULTIPLIER;
+        FP32 pos_tilt = raw_pos_tilt * POS_MULTIPLIER;
 
-controllers[pid].differentiator = -(2.0f * controllers[pid].Kd
-        * (position - controllers[pid].prev_position)
-        + (2.0f * controllers[pid].tau - controllers[pid].t)
-                * controllers[pid].differentiator)
-        / (2.0f * controllers[pid].tau + controllers[pid].t); /* Note: derivative on measurement, therefore minus sign in front of equation! */
+        INT8U sp = 1;
 
-/* Compute output and apply limits */
-controllers[pid].out = p_term + controllers[pid].integrator
-        + controllers[pid].differentiator;
+        FP32 pwm_pan  = pid_update(PID_PAN, sp, pos_pan);
+        FP32 pwm_tilt = pid_update(PID_PAN, sp, pos_tilt);
 
-if (controllers[pid].out > controllers[pid].lim_max)
-{
+        INT8S raw_pwm_pan  = pwm_pan  * PWM_MULTIPLIER;
+        INT8S raw_pwm_tilt = pwm_tilt * PWM_MULTIPLIER;
 
-    controllers[pid].out = controllers[pid].lim_max;
+        msg = (raw_pwm_tilt << 8) | raw_pwm_pan;
 
-}
-else if (controllers[pid].out < controllers[pid].lim_min)
-{
-
-    controllers[pid].out = controllers[pid].lim_min;
-
-}
-
-/* Store error and measurement for later use */
-controllers[pid].prev_error = error;
-controllers[pid].prev_position = position;
-
-/* Return controllers output */
-return controllers[pid].out;
+        configASSERT(xQueueSendToBack(spi_tx_queue, &msg, 0));
+    }
 }
 /***************** End of module **************/
 

@@ -21,6 +21,8 @@
 /***************** Constants ******************/
 
 /***************** Variables ******************/
+QueueHandle_t spi_rx_queue;
+QueueHandle_t spi_tx_queue;
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
@@ -44,7 +46,8 @@ void spi_init()
     dummy = SYSCTL_RCGC2_R; // Time delay
 
     // Setup of SSI format
-    SSI0_CR0_R = SSI_CR0_FRF_MOTO | SSI_CR0_DSS_8 /*| SSI_CR0_SPH /*| SSI_CR0_SPO*/; // Setting up Freescale SPI
+    SSI0_CR0_R = SSI_CR0_FRF_MOTO | SSI_CR0_DSS_16 /*| SSI_CR0_SPH /*| SSI_CR0_SPO*/; // Setting up Freescale SPI
+    SSI0_CR1_R |= SSI_CR1_EOT;
     SSI0_CC_R = 0;
     SSI0_CPSR_R = 1;
 
@@ -55,30 +58,76 @@ void spi_init()
     GPIO_PORTA_PCTL_R |= GPIO_PCTL_PA5_SSI0TX | GPIO_PCTL_PA4_SSI0RX
             | GPIO_PCTL_PA3_SSI0FSS | GPIO_PCTL_PA2_SSI0CLK; //SSI Port A
 
+    // End of transmission interrupt
+    SSI0_IM_R |= SSI_IM_TXIM;
+
+    // NVIC Enable interrupt 7 (SSI0)
+    NVIC_EN0_R |= (1 << 7);
+    // Set highest priority (lowest numberical value) allowed by FreeRTOS
+    NVIC_PRI1_R |= (101 << 29);
+
+    // Setup rx and tx queues
+    spi_rx_queue = xQueueCreate(SPI_QUEUE_LENGTH, SPI_ITEM_SIZE);
+    configASSERT(spi_rx_queue);
+
+    spi_tx_queue = xQueueCreate(SPI_QUEUE_LENGTH, SPI_ITEM_SIZE);
+    configASSERT(spi_tx_queue);
+
+    // Fill transmit queues with 0
+    INT16U value = 0;
+    xQueueSendToBack(spi_tx_queue, &value, 0);
 }
 /********************************************** 
  * Input: Data
  * Output: N/A
  * Function: spi_write
  ***********************************************/
-void spi_write(char data)
+BOOLEAN spi_write(INT16U data)
 {
+    BOOLEAN ret = 0;
     SSI0_CR1_R |= SSI_CR1_SSE;
-    while (!(SSI0_SR_R & SSI_SR_TNF))
+    if (SSI0_SR_R & SSI_SR_TNF)
     {
+        SSI0_DR_R = data;
+        SSI0_CR1_R |= SSI_CR1_SSE;
+        ret = 1;
     }
-    SSI0_DR_R = data;
+    return ret;
 }
-/**********************************************
- * Input: N/A
- * Output: data
- * Function: spi_read
- ***********************************************/
-char spi_read()
+
+void spi_write_task(void * pvParameters)
 {
-    while ((SSI0_SR_R & (2 << 1)))
+    // Periodic tasks definitions
+    const TickType_t xPeriod = pdMS_TO_TICKS(PID_SAMPLE_TIME * 1000.0f);
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    TickType_t xLastWakeTime_prev;
+
+    while (1)
     {
-        return SSI0_DR_R;
+
+        // Write
+        taskENTER_CRITICAL(); // Has to happen at exactly the same time
+        INT16U msg;
+        xLastWakeTime_prev = xLastWakeTime; // To counteract queue effect
+        configASSERT(xQueueReceive(spi_tx_queue, &msg, 0));
+        xLastWakeTime = xLastWakeTime_prev;
+        configASSERT(spi_write(msg));
+        taskEXIT_CRITICAL();
+
+        // Wait
+        vTaskDelayUntil(&xLastWakeTime, xPeriod);
+    }
+}
+
+void spi_read_ISR()
+{
+    if (!(SSI0_SR_R & SSI_SR_BSY)) { // Check for end of transmission with not busy
+        // Check SPI recieved
+        configASSERT(SSI0_SR_R & SSI_SR_RNE);
+
+        // Store data
+        INT16U data = SSI0_DR_R;
+        xQueueSendToBackFromISR(spi_rx_queue, &data, NULL);
     }
 }
 
