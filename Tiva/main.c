@@ -112,16 +112,13 @@ int main(void)
 {
     spi_init();
     uart0_init(19200, 8, 1, 0);
-    char str[40];
-    ui_clear_screen();
-    uprintf(str, "Program start\n\r");
 
     // PID, Kp, Ki, Kd, N, setpoint queue
     pid_init(PID_PAN, 0.1f, 0.0f, 0.0f, 10);
     pid_init(PID_TILT, 0.1f, 0.0f, 0.0f, 10);
 
     // Create tasks
-    //xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE+100, NULL, PRIORITY_HIGH, NULL);
+    xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE+100, NULL, PRIORITY_HIGH, NULL);
     xTaskCreate(spi_write_task, "SPI write task",
                 configMINIMAL_STACK_SIZE + 50, NULL, PRIORITY_HIGH, NULL);
 
@@ -131,8 +128,8 @@ int main(void)
     xTaskCreate(uart0_write_task, "UART write task",
                 configMINIMAL_STACK_SIZE + 50, NULL, PRIORITY_LOW, NULL);
 
-    //xTaskCreate(ui_task, "User interface task",
-    //            configMINIMAL_STACK_SIZE + 100, NULL, PRIORITY_IDLE, NULL);
+    xTaskCreate(ui_task, "User interface task",
+                configMINIMAL_STACK_SIZE + 100, NULL, PRIORITY_IDLE, NULL);
 
     //xTaskCreate(test_task, "Test", configMINIMAL_STACK_SIZE+100,
     //            NULL, PRIORITY_IDLE, NULL);

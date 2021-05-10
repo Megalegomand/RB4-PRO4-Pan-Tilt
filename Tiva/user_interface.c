@@ -21,42 +21,94 @@
 /***************** Constants ******************/
 /***************** Variables ******************/
 extern QueueHandle_t uart0_rx_queue;
+
+extern QueueHandle_t pid_debug_queue;
+extern SemaphoreHandle_t debug_enabled;
 /***************** Functions ******************/
 
 void ui_clear_screen()
 {
-    char buffer[4];
+    char buffer[5];
     uprintf(buffer, "%c[2J", ASCII_ESC); // Clear screen
     uprintf(buffer, "%c[H", ASCII_ESC); // Reset cursor
 }
 
 void ui_task(void* pvParameters)
 {
-    ui_menus current_menu;
-    while(1) {
-        switch (current_menu) {
+    char buf[40];
+    ui_clear_screen();
+    uprintf(buf, "Program start\n\r");
+
+    UI_MENUS current_menu;
+    while (1)
+    {
+        switch (current_menu)
+        {
         case MAIN:
-            current_menu = ui_main_menu();
+            current_menu = ui_main_menu(buf);
+            break;
+        case DEBUG:
+            current_menu = ui_debug_menu(buf);
             break;
         }
     }
 }
 
-ui_menus ui_main_menu() {
-    char buf[40];
+UI_MENUS ui_main_menu(char* buf)
+{
+    ui_clear_screen();
+    uprintf(buf, "------------------------\n\r");
+    uprintf(buf, "Select menu\n\r");
+    uprintf(buf, "1. Debug view\n\r");
+    uprintf(buf, "------------------------\n\r");
+
     char msg;
-    uprintf(buf, "------------------------");
-    uprintf(buf, "Select menu");
-    uprintf(buf, "1. Debug view");
-    uprintf(buf, "------------------------");
-    while(1) {
+    while (1)
+    {
         xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
-        switch(msg) {
-        case 1:
+        switch (msg)
+        {
+        case '1':
             return DEBUG;
         default:
-            uprintf(buf, "Incorrect input");
+            uprintf(buf, "%c\n\rIncorrect input\n\r", msg);
             break;
+        }
+    }
+}
+
+UI_MENUS ui_debug_menu(char* buf)
+{
+    configASSERT(xSemaphoreTake(debug_enabled, 0));
+
+    ui_clear_screen();
+
+    uprintf(buf, "pos_pan, pos_tilt, raw_pos_pan, raw_pos_tilt\n\r");
+
+    char msg;
+    PID_DEBUG pid_debug;
+    while (1)
+    {
+        // Obtain data
+        xQueueReceive(pid_debug_queue, &pid_debug, portMAX_DELAY);
+        uprintf(buf, "%f, %f, %i, %i\n\r", pid_debug.pos[PID_PAN],
+                pid_debug.pos[PID_TILT], pid_debug.raw_pos[PID_PAN],
+                pid_debug.raw_pos[PID_TILT]);
+
+        // For controlling the menu
+        if (xQueueReceive(uart0_rx_queue, &msg, 0))
+        {
+            switch (msg)
+            {
+            case 's': // Stop output until any key is pressed
+                xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
+                break;
+            case 'q':
+                xSemaphoreGive(debug_enabled);
+                return MAIN;
+            default:
+                break;
+            }
         }
     }
 }

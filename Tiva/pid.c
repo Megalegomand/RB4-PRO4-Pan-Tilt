@@ -20,12 +20,15 @@
 /***************** Defines ********************/
 /***************** Constants ******************/
 /***************** Variables ******************/
-pid_container pid_controllers[PID_CONTROLLERS_LENGTH];
+PID_CONTAINER pid_controllers[PID_CONTROLLERS_LENGTH];
 
 QueueHandle_t setpoint_queues[PID_CONTROLLERS_LENGTH];
 
 extern QueueHandle_t spi_rx_queue;
 extern QueueHandle_t spi_tx_queue;
+
+SemaphoreHandle_t debug_enabled;
+QueueHandle_t pid_debug_queue;
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
@@ -60,8 +63,16 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N)
     pid_controllers[pid].saturated = 0;
 
     // Queue
-    setpoint_queues[pid] = xQueueCreate(SETPOINT_QUEUE_LENGTH, SETPOINT_QUEUE_WIDTH);
+    setpoint_queues[pid] = xQueueCreate(SETPOINT_QUEUE_LENGTH,
+                                        SETPOINT_QUEUE_WIDTH);
     configASSERT(setpoint_queues[pid]);
+
+    pid_debug_queue = xQueueCreate(DEBUG_QUEUE_LENGTH, DEBUG_QUEUE_WIDTH);
+    configASSERT(pid_debug_queue);
+
+    debug_enabled = xSemaphoreCreateBinary();
+    configASSERT(debug_enabled);
+    xSemaphoreGive(debug_enabled);
 }
 /**********************************************
  * Input: N/A
@@ -130,25 +141,40 @@ void pid_task(void * pvParameters)
 {
     INT16U msg;
 
+    PID_DEBUG pid_debug;
+
     while (1)
     {
         xQueueReceive(spi_rx_queue, &msg, portMAX_DELAY);
 
-        INT8S raw_pos_pan  = msg & (0x00FF);
+        INT8S raw_pos_pan = msg & (0x00FF);
         INT8S raw_pos_tilt = msg >> 8;
 
-        FP32 pos_pan  = raw_pos_pan  * POS_MULTIPLIER;
+        FP32 pos_pan = raw_pos_pan * POS_MULTIPLIER;
         FP32 pos_tilt = raw_pos_tilt * POS_MULTIPLIER;
 
-        FP32 pwm_pan  = pid_update(PID_PAN, pos_pan);
+        FP32 pwm_pan = pid_update(PID_PAN, pos_pan);
         FP32 pwm_tilt = pid_update(PID_PAN, pos_tilt);
 
-        INT8S raw_pwm_pan  = pwm_pan  * PWM_MULTIPLIER;
+        INT8S raw_pwm_pan = pwm_pan * PWM_MULTIPLIER;
         INT8S raw_pwm_tilt = pwm_tilt * PWM_MULTIPLIER;
 
         msg = (raw_pwm_tilt << 8) | raw_pwm_pan;
 
         configASSERT(xQueueSendToBack(spi_tx_queue, &msg, 0));
+
+        // Debug struct update
+        if (uxSemaphoreGetCount(debug_enabled))
+        {
+            pid_debug.pos[PID_PAN] = pos_pan;
+            pid_debug.pos[PID_TILT] = pos_tilt;
+
+            pid_debug.raw_pos[PID_PAN] = raw_pos_pan;
+            pid_debug.raw_pos[PID_TILT] = raw_pos_tilt;
+
+            // Dataloss is not important
+            xQueueSendToBack(spi_tx_queue, &pid_debug, 0);
+        }
     }
 }
 /***************** End of module **************/

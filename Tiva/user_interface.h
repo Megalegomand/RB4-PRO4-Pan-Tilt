@@ -15,7 +15,7 @@
 ***********************************************/
 
 /***************** Header *********************/ 
-/***************** Include files **************/ 
+/***************** Include files **************/
 #include "tm4c123gh6pm.h"
 #include "emp_type.h"
 #include <stdint.h>
@@ -23,6 +23,8 @@
 #include "queue.h"
 #include "task.h"
 #include "uart0.h"
+#include "pid.h"
+#include "semphr.h"
 /***************** Defines ********************/ 
 #ifndef USER_INTERFACE_H_
 #define USER_INTERFACE_H_
@@ -30,8 +32,11 @@
 #define ASCII_ESC 27
 
 /***************** Variables ******************/ 
-typedef enum ui_menus{MAIN, DEBUG} ui_menus;
+typedef enum UI_MENUS{MAIN, DEBUG} UI_MENUS;
 extern QueueHandle_t uart0_rx_queue;
+
+extern QueueHandle_t pid_debug_queue;
+extern SemaphoreHandle_t debug_enabled;
 /***************** Functions ******************/
 void ui_clear_screen();
 /********************************************** 
@@ -41,7 +46,8 @@ void ui_clear_screen();
 ***********************************************/ 
 
 void ui_task(void* pvParameters);
-ui_menus ui_main_menu();
+UI_MENUS ui_main_menu(char* buf);
+UI_MENUS ui_debug_menu(char* buf);
 
 #endif /* USER_INTERFACE_H_ */
 /***************** End of module **************/
