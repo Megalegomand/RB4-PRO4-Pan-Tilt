@@ -108,7 +108,6 @@ void test_task2(void * pvParameters) {
 
 int main(void)
 {
-    // Initialzation
     spi_init();
     uart0_init(19200, 8, 1, 0);
     //uart0_sendstring("Program Start\n\r",15);
