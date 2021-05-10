@@ -23,6 +23,9 @@
 pid_container pid_controllers[PID_CONTROLLERS_LENGTH];
 
 QueueHandle_t setpoint_queues[PID_CONTROLLERS_LENGTH];
+
+extern QueueHandle_t spi_rx_queue;
+extern QueueHandle_t spi_tx_queue;
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
@@ -69,7 +72,8 @@ float pid_update(INT8U pid, FP32 position)
 {
     // Get setpoint
     FP32 setpoint;
-    configASSERT(xQueueReceive(setpoint_queues[pid], &setpoint, 0));
+    //configASSERT(xQueueReceive(setpoint_queues[pid], &setpoint, 0));
+    xQueueReceive(setpoint_queues[pid], &setpoint, 0);
 
     // Add start value
     FP32 msg = 0.0f;

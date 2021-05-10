@@ -51,13 +51,11 @@ begin
         if (rising_edge(clk)) then
             if (or_reduce(cnt) = '0') then
                 duty_cycle_t <= duty_cycle;
-                if (or_reduce(duty_cycle) /= '0') then
-                    o <= '1';
-                end if;
+                o <= '0';
             end if;
             
-            if (cnt = duty_cycle_t) then
-                o <= '0';
+            if (cnt = duty_cycle_t and or_reduce(duty_cycle) /= '0') then
+                o <= '1';
             end if;
             
             cnt <= STD_LOGIC_VECTOR(unsigned(cnt) + 1);

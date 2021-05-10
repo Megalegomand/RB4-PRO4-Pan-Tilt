@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Mon May 10 14:07:00 2021
+--Date        : Mon May 10 15:19:21 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -52,16 +52,9 @@ architecture STRUCTURE of assembly is
     data_out : out STD_LOGIC_VECTOR ( 15 downto 0 )
   );
   end component assembly_spi_0_0;
-  component assembly_pwm_0_0 is
-  port (
-    clk : in STD_LOGIC;
-    duty_cycle : in STD_LOGIC_VECTOR ( 6 downto 0 );
-    o : out STD_LOGIC
-  );
-  end component assembly_pwm_0_0;
   component assembly_xlslice_0_1 is
   port (
-    Din : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    Din : in STD_LOGIC_VECTOR ( 7 downto 0 );
     Dout : out STD_LOGIC_VECTOR ( 3 downto 0 )
   );
   end component assembly_xlslice_0_1;
@@ -116,6 +109,13 @@ architecture STRUCTURE of assembly is
     Dout : out STD_LOGIC_VECTOR ( 6 downto 0 )
   );
   end component assembly_xlslice_3_1;
+  component assembly_pwm_0_0 is
+  port (
+    clk : in STD_LOGIC;
+    duty_cycle : in STD_LOGIC_VECTOR ( 6 downto 0 );
+    o : out STD_LOGIC
+  );
+  end component assembly_pwm_0_0;
   signal a_0_1 : STD_LOGIC;
   signal b_0_1 : STD_LOGIC;
   signal clk_1 : STD_LOGIC;
@@ -208,7 +208,6 @@ xlslice_0: component assembly_xlslice_0_2
     );
 xlslice_1: component assembly_xlslice_0_1
      port map (
-      Din(9 downto 8) => B"00",
       Din(7 downto 0) => encoder_0_cnt(7 downto 0),
       Dout(3 downto 0) => xlslice_1_Dout(3 downto 0)
     );

@@ -10,6 +10,7 @@
 #include "uart0.h"
 #include "systick_frt.h"
 #include "pid.h"
+#include "user_interface.h"
 
 /*****************************************************************************
  *   Input    : -
@@ -31,7 +32,7 @@ void vSPI2UART(void * pvParameters)
         {
             if (uart0_tx_rdy())
             {
-                INT8S i = 0;//spi_read();
+                INT8S i = 0; //spi_read();
                 int l = sprintf(str, "E: %d\r", i);
                 //uart0_sendstring(str, l);
 
@@ -58,7 +59,7 @@ void vUART2SPI(void * pvParameters)
     }
 }
 
-void vAssertCalled( const char * pcFile, unsigned long ulLine )
+void vAssertCalled(const char * pcFile, unsigned long ulLine)
 {
     static portBASE_TYPE xPrinted = pdFALSE;
     volatile uint32_t ulSetToNonZeroInDebuggerToContinue = 0;
@@ -66,7 +67,6 @@ void vAssertCalled( const char * pcFile, unsigned long ulLine )
     /* Parameters are not used. */
     //(void) ulLine;
     //(void) pcFileName;
-
     //taskENTER_CRITICAL_FROM_ISR();
     {
         /* You can step out of this function to debug the assertion by using
@@ -81,11 +81,11 @@ void vAssertCalled( const char * pcFile, unsigned long ulLine )
     taskEXIT_CRITICAL();
 }
 
-
-
 extern QueueHandle_t spi_tx_queue;
-void test_task(void * pvParameters) {
-    while (1) {
+void test_task(void * pvParameters)
+{
+    while (1)
+    {
         FP32 msg = 10.0f;
         //xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
         //xQueueSendToBack(uart0_tx_queue, &msg, portMAX_DELAY);
@@ -94,8 +94,10 @@ void test_task(void * pvParameters) {
 }
 
 extern QueueHandle_t spi_rx_queue;
-void test_task2(void * pvParameters) {
-    while (1) {
+void test_task2(void * pvParameters)
+{
+    while (1)
+    {
         INT8U msg = 10.0f;
         xQueueSendToBack(setpoint_queues[PID_TILT], &msg, portMAX_DELAY);
     }
@@ -110,21 +112,27 @@ int main(void)
 {
     spi_init();
     uart0_init(19200, 8, 1, 0);
-    //uart0_sendstring("Program Start\n\r",15);
+    char str[40];
+    ui_clear_screen();
+    uprintf(str, "Program start\n\r");
 
     // PID, Kp, Ki, Kd, N, setpoint queue
-    pid_init(PID_PAN, 1.0f, 1.0f, 0.0f, 10);
-    pid_init(PID_TILT, 1.0f, 1.0f, 0.0f, 10);
+    pid_init(PID_PAN, 0.1f, 0.0f, 0.0f, 10);
+    pid_init(PID_TILT, 0.1f, 0.0f, 0.0f, 10);
 
     // Create tasks
     //xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE+100, NULL, PRIORITY_HIGH, NULL);
-    xTaskCreate(spi_write_task, "SPI write task", configMINIMAL_STACK_SIZE+100,
-                NULL, PRIORITY_HIGH, NULL);
+    xTaskCreate(spi_write_task, "SPI write task",
+                configMINIMAL_STACK_SIZE + 50, NULL, PRIORITY_HIGH, NULL);
 
-    xTaskCreate(pid_task, "PID task", configMINIMAL_STACK_SIZE+100,
-                NULL, PRIORITY_MEDIUM, NULL);
+    xTaskCreate(pid_task, "PID task", configMINIMAL_STACK_SIZE + 50, NULL,
+                PRIORITY_MEDIUM, NULL);
 
-    xTaskCreate(uart0_write_task, "UART write task", configMINIMAL_STACK_SIZE+100, NULL, PRIORITY_LOW, NULL);
+    xTaskCreate(uart0_write_task, "UART write task",
+                configMINIMAL_STACK_SIZE + 50, NULL, PRIORITY_LOW, NULL);
+
+    //xTaskCreate(ui_task, "User interface task",
+    //            configMINIMAL_STACK_SIZE + 100, NULL, PRIORITY_IDLE, NULL);
 
     //xTaskCreate(test_task, "Test", configMINIMAL_STACK_SIZE+100,
     //            NULL, PRIORITY_IDLE, NULL);

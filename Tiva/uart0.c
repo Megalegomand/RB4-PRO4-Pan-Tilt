@@ -233,5 +233,26 @@ void uart0_write_task(void * pvParameters)
     }
 }
 
+void uart0_sendstring(char* c, INT8U length)
+{
+    for (int i = 0; i < length; i++)
+    {
+        while (!uart0_tx_rdy())
+        {
+        }
+        uart0_putc(c[i]);
+    }
+}
+
+void uprintf(char* buffer, const char * format, ... )
+{
+    va_list args;
+    va_start(args, format);
+    INT8U len = vsprintf(buffer, format, args);
+    va_end(args);
+    uart0_sendstring(buffer, len);
+    return;
+}
+
 /****************************** End Of Module *******************************/
 

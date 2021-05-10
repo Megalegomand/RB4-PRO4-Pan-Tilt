@@ -272,7 +272,7 @@ proc create_root_design { parentCell } {
   set_property -dict [ list \
    CONFIG.DIN_FROM {3} \
    CONFIG.DIN_TO {0} \
-   CONFIG.DIN_WIDTH {10} \
+   CONFIG.DIN_WIDTH {8} \
    CONFIG.DOUT_WIDTH {4} \
  ] $xlslice_1
 

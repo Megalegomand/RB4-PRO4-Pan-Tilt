@@ -13,7 +13,6 @@
     "design_tree": {
       "clock_divider_0": "",
       "spi_0": "",
-      "pwm_0": "",
       "xlslice_1": "",
       "encoder_0": "",
       "xlconcat_0": "",
@@ -22,7 +21,8 @@
       "xlslice_2": "",
       "xlslice_3": "",
       "not_gate_1": "",
-      "xlslice_4": ""
+      "xlslice_4": "",
+      "pwm_0": ""
     },
     "ports": {
       "clk": {
@@ -216,42 +216,6 @@
           }
         }
       },
-      "pwm_0": {
-        "vlnv": "xilinx.com:module_ref:pwm:1.0",
-        "xci_name": "assembly_pwm_0_0",
-        "xci_path": "ip/assembly_pwm_0_0/assembly_pwm_0_0.xci",
-        "inst_hier_path": "pwm_0",
-        "parameters": {
-          "n_bits": {
-            "value": "7"
-          }
-        },
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "pwm",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I"
-          },
-          "duty_cycle": {
-            "direction": "I",
-            "left": "6",
-            "right": "0",
-            "parameters": {
-              "PortWidth": {
-                "value": "4",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "o": {
-            "direction": "O"
-          }
-        }
-      },
       "xlslice_1": {
         "vlnv": "xilinx.com:ip:xlslice:1.0",
         "xci_name": "assembly_xlslice_0_1",
@@ -265,7 +229,7 @@
             "value": "0"
           },
           "DIN_WIDTH": {
-            "value": "10"
+            "value": "8"
           },
           "DOUT_WIDTH": {
             "value": "4"
@@ -438,6 +402,42 @@
             "value": "7"
           }
         }
+      },
+      "pwm_0": {
+        "vlnv": "xilinx.com:module_ref:pwm:1.0",
+        "xci_name": "assembly_pwm_0_0",
+        "xci_path": "ip/assembly_pwm_0_0/assembly_pwm_0_0.xci",
+        "inst_hier_path": "pwm_0",
+        "parameters": {
+          "n_bits": {
+            "value": "7"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "pwm",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "duty_cycle": {
+            "direction": "I",
+            "left": "6",
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "4",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "o": {
+            "direction": "O"
+          }
+        }
       }
     },
     "nets": {
@@ -489,8 +489,8 @@
         "ports": [
           "clock_divider_0/clk_div",
           "spi_0/clk",
-          "pwm_0/clk",
-          "encoder_0/clk"
+          "encoder_0/clk",
+          "pwm_0/clk"
         ]
       },
       "clk_1": {

@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Mon May 10 14:09:23 2021
+// Date        : Mon May 10 15:20:06 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_pwm_0_0/assembly_pwm_0_0_sim_netlist.v
@@ -47,24 +47,24 @@ module assembly_pwm_0_0_pwm
   wire [6:0]cnt_reg;
   wire [6:0]duty_cycle;
   wire [6:0]duty_cycle_t;
-  wire duty_cycle_t1;
-  wire \duty_cycle_t[6]_i_1_n_0 ;
-  wire \duty_cycle_t[6]_i_2_n_0 ;
   wire o;
   wire o_i_1_n_0;
   wire o_i_2_n_0;
+  wire o_i_3_n_0;
+  wire o_i_4_n_0;
   wire o_i_5_n_0;
   wire o_i_6_n_0;
   wire o_i_7_n_0;
   wire p_0_in;
   wire [6:0]plusOp;
 
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
   LUT1 #(
     .INIT(2'h1)) 
     \cnt[0]_i_1 
        (.I0(cnt_reg[0]),
         .O(plusOp[0]));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
   LUT2 #(
     .INIT(4'h6)) 
     \cnt[1]_i_1 
@@ -108,7 +108,7 @@ module assembly_pwm_0_0_pwm
         .I4(cnt_reg[4]),
         .I5(cnt_reg[5]),
         .O(plusOp[5]));
-  (* SOFT_HLUTNM = "soft_lutpair3" *) 
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT3 #(
     .INIT(8'h78)) 
     \cnt[6]_i_1 
@@ -185,25 +185,16 @@ module assembly_pwm_0_0_pwm
   LUT4 #(
     .INIT(16'h0001)) 
     \duty_cycle_t[6]_i_1 
-       (.I0(\duty_cycle_t[6]_i_2_n_0 ),
+       (.I0(o_i_2_n_0),
         .I1(cnt_reg[0]),
         .I2(cnt_reg[2]),
         .I3(cnt_reg[1]),
-        .O(\duty_cycle_t[6]_i_1_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair3" *) 
-  LUT4 #(
-    .INIT(16'hFFFE)) 
-    \duty_cycle_t[6]_i_2 
-       (.I0(cnt_reg[4]),
-        .I1(cnt_reg[3]),
-        .I2(cnt_reg[6]),
-        .I3(cnt_reg[5]),
-        .O(\duty_cycle_t[6]_i_2_n_0 ));
+        .O(p_0_in));
   FDRE #(
     .INIT(1'b0)) 
     \duty_cycle_t_reg[0] 
        (.C(clk),
-        .CE(\duty_cycle_t[6]_i_1_n_0 ),
+        .CE(p_0_in),
         .D(duty_cycle[0]),
         .Q(duty_cycle_t[0]),
         .R(1'b0));
@@ -211,7 +202,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[1] 
        (.C(clk),
-        .CE(\duty_cycle_t[6]_i_1_n_0 ),
+        .CE(p_0_in),
         .D(duty_cycle[1]),
         .Q(duty_cycle_t[1]),
         .R(1'b0));
@@ -219,7 +210,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[2] 
        (.C(clk),
-        .CE(\duty_cycle_t[6]_i_1_n_0 ),
+        .CE(p_0_in),
         .D(duty_cycle[2]),
         .Q(duty_cycle_t[2]),
         .R(1'b0));
@@ -227,7 +218,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[3] 
        (.C(clk),
-        .CE(\duty_cycle_t[6]_i_1_n_0 ),
+        .CE(p_0_in),
         .D(duty_cycle[3]),
         .Q(duty_cycle_t[3]),
         .R(1'b0));
@@ -235,7 +226,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[4] 
        (.C(clk),
-        .CE(\duty_cycle_t[6]_i_1_n_0 ),
+        .CE(p_0_in),
         .D(duty_cycle[4]),
         .Q(duty_cycle_t[4]),
         .R(1'b0));
@@ -243,7 +234,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[5] 
        (.C(clk),
-        .CE(\duty_cycle_t[6]_i_1_n_0 ),
+        .CE(p_0_in),
         .D(duty_cycle[5]),
         .Q(duty_cycle_t[5]),
         .R(1'b0));
@@ -251,70 +242,73 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[6] 
        (.C(clk),
-        .CE(\duty_cycle_t[6]_i_1_n_0 ),
+        .CE(p_0_in),
         .D(duty_cycle[6]),
         .Q(duty_cycle_t[6]),
         .R(1'b0));
-  LUT4 #(
-    .INIT(16'h00AE)) 
+  LUT6 #(
+    .INIT(64'hFFFFFFFFFFFE0000)) 
     o_i_1
-       (.I0(o),
-        .I1(o_i_2_n_0),
-        .I2(duty_cycle_t1),
-        .I3(p_0_in),
-        .O(o_i_1_n_0));
-  LUT4 #(
-    .INIT(16'hFFFE)) 
-    o_i_2
-       (.I0(duty_cycle[1]),
-        .I1(duty_cycle[2]),
-        .I2(duty_cycle[0]),
-        .I3(o_i_5_n_0),
-        .O(o_i_2_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
-  LUT4 #(
-    .INIT(16'hFFFE)) 
-    o_i_3
        (.I0(cnt_reg[1]),
         .I1(cnt_reg[2]),
         .I2(cnt_reg[0]),
-        .I3(\duty_cycle_t[6]_i_2_n_0 ),
-        .O(duty_cycle_t1));
-  LUT4 #(
-    .INIT(16'h9000)) 
-    o_i_4
-       (.I0(cnt_reg[6]),
-        .I1(duty_cycle_t[6]),
-        .I2(o_i_6_n_0),
-        .I3(o_i_7_n_0),
-        .O(p_0_in));
+        .I3(o_i_2_n_0),
+        .I4(o),
+        .I5(o_i_3_n_0),
+        .O(o_i_1_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT4 #(
     .INIT(16'hFFFE)) 
-    o_i_5
-       (.I0(duty_cycle[4]),
-        .I1(duty_cycle[3]),
-        .I2(duty_cycle[6]),
-        .I3(duty_cycle[5]),
-        .O(o_i_5_n_0));
-  LUT6 #(
-    .INIT(64'h9009000000009009)) 
-    o_i_6
-       (.I0(cnt_reg[3]),
-        .I1(duty_cycle_t[3]),
-        .I2(duty_cycle_t[5]),
+    o_i_2
+       (.I0(cnt_reg[4]),
+        .I1(cnt_reg[3]),
+        .I2(cnt_reg[6]),
         .I3(cnt_reg[5]),
-        .I4(duty_cycle_t[4]),
-        .I5(cnt_reg[4]),
-        .O(o_i_6_n_0));
+        .O(o_i_2_n_0));
+  LUT6 #(
+    .INIT(64'h8008800880080000)) 
+    o_i_3
+       (.I0(o_i_4_n_0),
+        .I1(o_i_5_n_0),
+        .I2(duty_cycle_t[6]),
+        .I3(cnt_reg[6]),
+        .I4(o_i_6_n_0),
+        .I5(o_i_7_n_0),
+        .O(o_i_3_n_0));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    o_i_7
+    o_i_4
        (.I0(cnt_reg[0]),
         .I1(duty_cycle_t[0]),
         .I2(duty_cycle_t[2]),
         .I3(cnt_reg[2]),
         .I4(duty_cycle_t[1]),
         .I5(cnt_reg[1]),
+        .O(o_i_4_n_0));
+  LUT6 #(
+    .INIT(64'h9009000000009009)) 
+    o_i_5
+       (.I0(cnt_reg[3]),
+        .I1(duty_cycle_t[3]),
+        .I2(duty_cycle_t[5]),
+        .I3(cnt_reg[5]),
+        .I4(duty_cycle_t[4]),
+        .I5(cnt_reg[4]),
+        .O(o_i_5_n_0));
+  LUT4 #(
+    .INIT(16'hFFFE)) 
+    o_i_6
+       (.I0(duty_cycle[4]),
+        .I1(duty_cycle[3]),
+        .I2(duty_cycle[6]),
+        .I3(duty_cycle[5]),
+        .O(o_i_6_n_0));
+  LUT3 #(
+    .INIT(8'hFE)) 
+    o_i_7
+       (.I0(duty_cycle[0]),
+        .I1(duty_cycle[2]),
+        .I2(duty_cycle[1]),
         .O(o_i_7_n_0));
   FDRE o_reg
        (.C(clk),
