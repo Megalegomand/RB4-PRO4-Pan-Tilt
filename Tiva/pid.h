@@ -29,6 +29,8 @@ typedef struct{
     FP32 prev_error;
 
     BOOLEAN saturated;
+
+    QueueHandle_t* setpoint_queue;
 } pid_container;
 
 #define PID_CONTROLLERS_LENGTH 2
@@ -42,17 +44,22 @@ typedef struct{
 #define POS_MULTIPLIER 180.0f / 127.0f
 #define PWM_MULTIPLIER 127.0f / 12.0f
 
+#define SETPOINT_QUEUE_LENGTH 1
+#define SETPOINT_QUEUE_WIDTH sizeof(FP32)
+
 /***************** Variables ******************/
 extern QueueHandle_t spi_rx_queue;
 extern QueueHandle_t spi_tx_queue;
+
+extern QueueHandle_t setpoint_queues[PID_CONTROLLERS_LENGTH];
 /***************** Functions ******************/
-void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N, FP32 T, FP32 lim_min, FP32 lim_max);
+void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N);
 /**********************************************
 * Input: N/A
 * Output: readPosition
 * Function: getPosition()
 ***********************************************/
-FP32 pid_update(INT8U pid, FP32 setpoint, FP32 position);
+float pid_update(INT8U pid, FP32 position);
 /**********************************************
 * Input: N/A
 * Output: N/A

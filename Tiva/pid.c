@@ -18,9 +18,11 @@
 /***************** Include files **************/
 #include <pid.h>
 /***************** Defines ********************/
-pid_container pid_controllers[PID_CONTROLLERS_LENGTH];
 /***************** Constants ******************/
 /***************** Variables ******************/
+pid_container pid_controllers[PID_CONTROLLERS_LENGTH];
+
+QueueHandle_t setpoint_queues[PID_CONTROLLERS_LENGTH];
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
@@ -29,8 +31,7 @@ pid_container pid_controllers[PID_CONTROLLERS_LENGTH];
  * Output: read_position
  * Function: getPosition()
  ***********************************************/
-void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N, FP32 T,
-              FP32 lim_min, FP32 lim_max)
+void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N)
 {
     // Controller params
     pid_controllers[pid].Kp = Kp;
@@ -41,11 +42,11 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N, FP32 T,
     pid_controllers[pid].N = N;
 
     // Sample time
-    pid_controllers[pid].T = T;
+    pid_controllers[pid].T = PID_SAMPLE_TIME;
 
     // Limits
-    pid_controllers[pid].lim_min = lim_min;
-    pid_controllers[pid].lim_max = lim_max;
+    pid_controllers[pid].lim_min = PID_LIM_MIN;
+    pid_controllers[pid].lim_max = PID_LIM_MAX;
 
     // Reset values
     pid_controllers[pid].integrator = 0.0f;
@@ -54,14 +55,26 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N, FP32 T,
     pid_controllers[pid].prev_error = 0.0f;
 
     pid_controllers[pid].saturated = 0;
+
+    // Queue
+    setpoint_queues[pid] = xQueueCreate(SETPOINT_QUEUE_LENGTH, SETPOINT_QUEUE_WIDTH);
+    configASSERT(setpoint_queues[pid]);
 }
 /**********************************************
  * Input: N/A
  * Output: controlvariable
  * Function: PID();
  ***********************************************/
-float pid_update(INT8U pid, float setpoint, float position)
+float pid_update(INT8U pid, FP32 position)
 {
+    // Get setpoint
+    FP32 setpoint;
+    configASSERT(xQueueReceive(setpoint_queues[pid], &setpoint, 0));
+
+    // Add start value
+    FP32 msg = 0.0f;
+    xQueueSendToBack(setpoint_queues[pid], &msg, portMAX_DELAY);
+
     // Error
     FP32 error = setpoint - position;
 
@@ -123,10 +136,8 @@ void pid_task(void * pvParameters)
         FP32 pos_pan  = raw_pos_pan  * POS_MULTIPLIER;
         FP32 pos_tilt = raw_pos_tilt * POS_MULTIPLIER;
 
-        INT8U sp = 1;
-
-        FP32 pwm_pan  = pid_update(PID_PAN, sp, pos_pan);
-        FP32 pwm_tilt = pid_update(PID_PAN, sp, pos_tilt);
+        FP32 pwm_pan  = pid_update(PID_PAN, pos_pan);
+        FP32 pwm_tilt = pid_update(PID_PAN, pos_tilt);
 
         INT8S raw_pwm_pan  = pwm_pan  * PWM_MULTIPLIER;
         INT8S raw_pwm_tilt = pwm_tilt * PWM_MULTIPLIER;

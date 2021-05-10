@@ -59,10 +59,10 @@ ENTITY assembly_spi_0_0 IS
     rst : IN STD_LOGIC;
     sclk : IN STD_LOGIC;
     sdi : IN STD_LOGIC;
-    data_in : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    data_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
     ss : IN STD_LOGIC;
     sdo : OUT STD_LOGIC;
-    data_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    data_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END assembly_spi_0_0;
 
@@ -80,10 +80,10 @@ ARCHITECTURE assembly_spi_0_0_arch OF assembly_spi_0_0 IS
       rst : IN STD_LOGIC;
       sclk : IN STD_LOGIC;
       sdi : IN STD_LOGIC;
-      data_in : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      data_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
       ss : IN STD_LOGIC;
       sdo : OUT STD_LOGIC;
-      data_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+      data_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
     );
   END COMPONENT spi;
   ATTRIBUTE X_CORE_INFO : STRING;
@@ -91,7 +91,7 @@ ARCHITECTURE assembly_spi_0_0_arch OF assembly_spi_0_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF assembly_spi_0_0_arch : ARCHITECTURE IS "assembly_spi_0_0,spi,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF assembly_spi_0_0_arch: ARCHITECTURE IS "assembly_spi_0_0,spi,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=spi,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,data_width=8,spo=0,sph=0}";
+  ATTRIBUTE CORE_GENERATION_INFO OF assembly_spi_0_0_arch: ARCHITECTURE IS "assembly_spi_0_0,spi,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=spi,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,data_width=16,spo=0,sph=0}";
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
   ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_spi_0_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
@@ -103,7 +103,7 @@ ARCHITECTURE assembly_spi_0_0_arch OF assembly_spi_0_0 IS
 BEGIN
   U0 : spi
     GENERIC MAP (
-      data_width => 8,
+      data_width => 16,
       spo => '0',
       sph => '0'
     )

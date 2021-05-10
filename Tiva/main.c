@@ -1,6 +1,7 @@
 /***************** Include files **************/
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "tm4c123gh6pm.h"
 #include "emp_type.h"
 #include "spi.h"
@@ -9,17 +10,6 @@
 #include "uart0.h"
 #include "systick_frt.h"
 #include "pid.h"
-
-void uart0_sendstring(char* c, INT8U length)
-{
-    for (int i = 0; i < length; i++)
-    {
-        while (!uart0_tx_rdy())
-        {
-        }
-        uart0_putc(c[i]);
-    }
-}
 
 /*****************************************************************************
  *   Input    : -
@@ -43,7 +33,7 @@ void vSPI2UART(void * pvParameters)
             {
                 INT8S i = 0;//spi_read();
                 int l = sprintf(str, "E: %d\r", i);
-                uart0_sendstring(str, l);
+                //uart0_sendstring(str, l);
 
                 //uart0_putc(spi_read());
             }
@@ -86,28 +76,28 @@ void vAssertCalled( const char * pcFile, unsigned long ulLine )
         {
         }
     }
-    uart0_sendstring(pcFile,1);
-    uart0_sendstring(ulLine,1);
-    //taskEXIT_CRITICAL_FROM_ISR();
+    //uart0_sendstring(pcFile,1);
+    //uart0_sendstring(ulLine,1);
+    taskEXIT_CRITICAL();
 }
+
+
 
 extern QueueHandle_t spi_tx_queue;
 void test_task(void * pvParameters) {
     while (1) {
-        INT16U t = 0xF0F0;
-        xQueueSendToBack(spi_tx_queue, &t, 0);
+        FP32 msg = 10.0f;
+        //xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
+        //xQueueSendToBack(uart0_tx_queue, &msg, portMAX_DELAY);
+        xQueueSendToBack(setpoint_queues[PID_PAN], &msg, portMAX_DELAY);
     }
 }
 
 extern QueueHandle_t spi_rx_queue;
 void test_task2(void * pvParameters) {
-    char s[10];
     while (1) {
-        INT16U msg;
-        if (xQueueReceive(spi_rx_queue, &msg, 1000) == pdPASS) {
-            INT8U l = sprintf(s, "%d\n\r", msg);
-            uart0_sendstring(s, l);
-        }
+        INT8U msg = 10.0f;
+        xQueueSendToBack(setpoint_queues[PID_TILT], &msg, portMAX_DELAY);
     }
 }
 
@@ -121,13 +111,11 @@ int main(void)
     // Initialzation
     spi_init();
     uart0_init(19200, 8, 1, 0);
-    uart0_sendstring("Program start\n\r", 15);
+    //uart0_sendstring("Program Start\n\r",15);
 
-    // PID, Kp, Ki, Kd, N, T, lim_min, lim_max
-    pid_init(PID_PAN, 1.0f, 1.0f, 0.0f, 10, PID_SAMPLE_TIME, PID_LIM_MIN,
-             PID_LIM_MAX);
-    pid_init(PID_TILT, 1.0f, 1.0f, 0.0f, 10, PID_SAMPLE_TIME, PID_LIM_MIN,
-             PID_LIM_MAX);
+    // PID, Kp, Ki, Kd, N, setpoint queue
+    pid_init(PID_PAN, 1.0f, 1.0f, 0.0f, 10);
+    pid_init(PID_TILT, 1.0f, 1.0f, 0.0f, 10);
 
     // Create tasks
     //xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE+100, NULL, PRIORITY_HIGH, NULL);
@@ -137,8 +125,12 @@ int main(void)
     xTaskCreate(pid_task, "PID task", configMINIMAL_STACK_SIZE+100,
                 NULL, PRIORITY_MEDIUM, NULL);
 
-    //xTaskCreate(test_task2, "Test2", configMINIMAL_STACK_SIZE+100,
+    xTaskCreate(uart0_write_task, "UART write task", configMINIMAL_STACK_SIZE+100, NULL, PRIORITY_LOW, NULL);
+
+    //xTaskCreate(test_task, "Test", configMINIMAL_STACK_SIZE+100,
     //            NULL, PRIORITY_IDLE, NULL);
+    //xTaskCreate(test_task2, "Test2", configMINIMAL_STACK_SIZE+100,
+    //                NULL, PRIORITY_IDLE, NULL);
 
     // SPI to UART task
     //xTaskCreate(vSPI2UART, "SPI2UART", configMINIMAL_STACK_SIZE+100, &ucParameterToPass, 0, &xHandle);

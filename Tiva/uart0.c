@@ -177,7 +177,9 @@ extern void uart0_init(INT32U baud_rate, INT8U databits, INT8U stopbits,
     UART0_LCRH_R += lcrh_stopbits(stopbits);
     UART0_LCRH_R += lcrh_parity(parity);
 
-    UART0_CTL_R |= UART_CTL_UARTEN | UART_CTL_TXE;  // Enable UART
+    //UART0_LCRH_R |= UART_LCRH_FEN; // FIFO Enable
+
+    UART0_CTL_R |= UART_CTL_UARTEN | UART_CTL_TXE | UART_CTL_TXE;  // Enable UART
 
     // Setup receive interrupt
     UART0_IM_R |= UART_IM_RTIM; // Interrupt mask
@@ -185,7 +187,7 @@ extern void uart0_init(INT32U baud_rate, INT8U databits, INT8U stopbits,
     // NVIC Enable interrupt 5 (UART0)
     NVIC_EN0_R |= (1 << 5);
     // Set next highest priority (lowest numberical value) allowed by FreeRTOS
-    NVIC_PRI1_R |= (111 << 13);
+    NVIC_PRI1_R |= (101 << 13);
 
     // Setup rx and tx queues
     uart0_rx_queue = xQueueCreate(UART_QUEUE_LENGTH, UART_ITEM_SIZE);
@@ -199,12 +201,17 @@ void uart0_read_isr()
 {
     while (!(UART0_FR_R & UART_FR_RXFE))
     { // While FIFO not empty
-        // Make sure no errors in transmission
-        configASSERT(!(UART0_DR_R & 0xF00));
+        // Make sure no errors in transmission except overrun (triggers with values like æøå)
+        configASSERT(!(UART0_DR_R & 0x700));
         // Receive msg
         INT8U msg = UART0_DR_R & 0xFF;
+        // Remove from queue if full
+        if (xQueueIsQueueFullFromISR(uart0_rx_queue)) {
+            INT8U remmsg;
+            xQueueReceiveFromISR(uart0_rx_queue, &remmsg, NULL);
+        }
         // Add to queue
-        xQueueOverwriteFromISR(uart0_rx_queue, &msg, NULL);
+        xQueueSendToBackFromISR(uart0_rx_queue, &msg, NULL);
     }
 }
 

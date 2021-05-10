@@ -38,7 +38,6 @@ entity encoder is
            a : in STD_LOGIC;
            b : in STD_LOGIC;
            rst : in STD_LOGIC;
-           state : out STD_LOGIC_VECTOR(3 downto 0);
            cnt : out STD_LOGIC_VECTOR (n_bits-1 downto 0));
 end encoder;
 
