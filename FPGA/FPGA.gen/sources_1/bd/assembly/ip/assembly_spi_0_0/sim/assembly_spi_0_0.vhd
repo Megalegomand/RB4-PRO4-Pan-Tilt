@@ -98,8 +98,8 @@ BEGIN
   U0 : spi
     GENERIC MAP (
       data_width => 16,
-      spo => '0',
-      sph => '0'
+      spo => '1',
+      sph => '1'
     )
     PORT MAP (
       clk => clk,

@@ -243,6 +243,8 @@ proc create_root_design { parentCell } {
    }
     set_property -dict [ list \
    CONFIG.data_width {16} \
+   CONFIG.sph {"1"} \
+   CONFIG.spo {"1"} \
  ] $spi_0
 
   # Create instance: xlconcat_0, and set properties

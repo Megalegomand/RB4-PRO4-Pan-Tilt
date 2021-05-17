@@ -158,6 +158,12 @@
         "parameters": {
           "data_width": {
             "value": "16"
+          },
+          "sph": {
+            "value": "\"1\""
+          },
+          "spo": {
+            "value": "\"1\""
           }
         },
         "reference_info": {

@@ -20,8 +20,6 @@
 /***************** Defines ********************/
 /***************** Constants ******************/
 /***************** Variables ******************/
-extern QueueHandle_t uart0_rx_queue;
-
 extern QueueHandle_t pid_debug_queue;
 extern SemaphoreHandle_t debug_enabled;
 /***************** Functions ******************/
@@ -79,13 +77,12 @@ UI_MENUS ui_main_menu(char* buf)
 
 UI_MENUS ui_debug_menu(char* buf)
 {
-    configASSERT(xSemaphoreTake(debug_enabled, 0));
+    configASSERT(xSemaphoreTake(debug_enabled, portMAX_DELAY));
 
     ui_clear_screen();
 
     uprintf(buf, "pos_pan, pos_tilt, raw_pos_pan, raw_pos_tilt\n\r");
 
-    char msg;
     PID_DEBUG pid_debug;
     while (1)
     {
@@ -96,12 +93,13 @@ UI_MENUS ui_debug_menu(char* buf)
                 pid_debug.raw_pos[PID_TILT]);
 
         // For controlling the menu
-        if (xQueueReceive(uart0_rx_queue, &msg, 0))
+        INT8U msg = uart0_get_char(0);
+        if (msg)
         {
             switch (msg)
             {
             case 's': // Stop output until any key is pressed
-                xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
+                uart0_get_char(portMAX_DELAY);
                 break;
             case 'q':
                 xSemaphoreGive(debug_enabled);

@@ -164,7 +164,7 @@ void pid_task(void * pvParameters)
         configASSERT(xQueueSendToBack(spi_tx_queue, &msg, 0));
 
         // Debug struct update
-        if (uxSemaphoreGetCount(debug_enabled))
+        if (uxSemaphoreGetCount(debug_enabled) == 0)
         {
             pid_debug.pos[PID_PAN] = pos_pan;
             pid_debug.pos[PID_TILT] = pos_tilt;
@@ -173,7 +173,13 @@ void pid_task(void * pvParameters)
             pid_debug.raw_pos[PID_TILT] = raw_pos_tilt;
 
             // Dataloss is not important
-            xQueueSendToBack(spi_tx_queue, &pid_debug, 0);
+            // Remove from queue if full
+            if (xQueueIsQueueFullFromISR(pid_debug_queue))
+            {
+                INT8U remmsg;
+                xQueueReceiveFromISR(pid_debug_queue, &remmsg, NULL);
+            }
+            xQueueSendToBack(pid_debug_queue, &pid_debug, 0);
         }
     }
 }

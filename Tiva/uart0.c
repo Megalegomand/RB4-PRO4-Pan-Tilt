@@ -33,11 +33,11 @@ INT32U lcrh_databits(INT8U antal_databits)
  *   Input    :
  *   Output   :
  *   Function : sets bit 5 and 6 according to the wanted number of data bits.
- *   		    5: bit5 = 0, bit6 = 0.
- *   		    6: bit5 = 1, bit6 = 0.
- *   		    7: bit5 = 0, bit6 = 1.
- *   		    8: bit5 = 1, bit6 = 1  (default).
- *   		   all other bits are returned = 0
+ *              5: bit5 = 0, bit6 = 0.
+ *              6: bit5 = 1, bit6 = 0.
+ *              7: bit5 = 0, bit6 = 1.
+ *              8: bit5 = 1, bit6 = 1  (default).
+ *             all other bits are returned = 0
  ******************************************************************************/
 {
     if ((antal_databits < 5) || (antal_databits > 8))
@@ -50,15 +50,15 @@ INT32U lcrh_stopbits(INT8U antal_stopbits)
  *   Input    :
  *   Output   :
  *   Function : sets bit 3 according to the wanted number of stop bits.
- *   		    1 stpobit:  bit3 = 0 (default).
- *   		    2 stopbits: bit3 = 1.
- *   		   all other bits are returned = 0
+ *              1 stpobit:  bit3 = 0 (default).
+ *              2 stopbits: bit3 = 1.
+ *             all other bits are returned = 0
  ******************************************************************************/
 {
     if (antal_stopbits == 2)
-        return (0x00000008);  		// return bit 3 = 1
+        return (0x00000008);        // return bit 3 = 1
     else
-        return (0x00000000);		// return all zeros
+        return (0x00000000);        // return all zeros
 }
 
 INT32U lcrh_parity(INT8U parity)
@@ -66,12 +66,12 @@ INT32U lcrh_parity(INT8U parity)
  *   Input    :
  *   Output   :
  *   Function : sets bit 1, 2 and 7 to the wanted parity.
- *   		    'e':  00000110b.
- *   		    'o':  00000010b.
- *   		    '0':  10000110b.
- *   		    '1':  10000010b.
- *   		    'n':  00000000b.
- *   		   all other bits are returned = 0
+ *              'e':  00000110b.
+ *              'o':  00000010b.
+ *              '0':  10000110b.
+ *              '1':  10000010b.
+ *              'n':  00000000b.
+ *             all other bits are returned = 0
  ******************************************************************************/
 {
     INT32U result;
@@ -97,56 +97,12 @@ INT32U lcrh_parity(INT8U parity)
     return (result);
 }
 
-void uart0_fifos_enable()
-/*****************************************************************************
- *   Input    :
- *   Output   :
- *   Function : Enable the tx and rx fifos
- ******************************************************************************/
-{
-    UART0_LCRH_R |= 0x00000010;
-}
-
-void uart0_fifos_disable()
-/*****************************************************************************
- *   Input    :
- *   Output   :
- *   Function : Enable the tx and rx fifos
- ******************************************************************************/
-{
-    UART0_LCRH_R &= 0xFFFFFFEF;
-}
-
-extern BOOLEAN uart0_rx_rdy()
-/*****************************************************************************
- *   Function : See module specification (.h-file).
- *****************************************************************************/
-{
-    return ( UART0_FR_R & UART_FR_RXFF);
-}
-
-extern INT8U uart0_getc()
-/*****************************************************************************
- *   Function : See module specification (.h-file).
- *****************************************************************************/
-{
-    return ( UART0_DR_R);
-}
-
 extern BOOLEAN uart0_tx_rdy()
 /*****************************************************************************
  *   Function : See module specification (.h-file).
  *****************************************************************************/
 {
     return ( UART0_FR_R & UART_FR_TXFE);
-}
-
-extern void uart0_putc(INT8U ch)
-/*****************************************************************************
- *   Function : See module specification (.h-file).
- *****************************************************************************/
-{
-    UART0_DR_R = ch;
 }
 
 extern void uart0_init(INT32U baud_rate, INT8U databits, INT8U stopbits,
@@ -158,14 +114,14 @@ extern void uart0_init(INT32U baud_rate, INT8U databits, INT8U stopbits,
     INT32U BRD;
 
     // Enable clock for UART and GPIO port A
-    SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA; // Enable clock for Port A
+    SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R0; // Enable clock for Port A
     SYSCTL_RCGCUART_R |= SYSCTL_RCGCUART_R0; // Enable UART 0
 
     // Setup GPIO PA0 and PA1
     GPIO_PORTA_AFSEL_R |= 0x00000003; // set PA0 og PA1 to alternativ function (uart0)
     GPIO_PORTA_DIR_R |= 0x00000002;  // set PA1 (uart0 tx) to output
     GPIO_PORTA_DIR_R &= ~(0x00000002); // set PA0 (uart0 rx) to input
-    GPIO_PORTA_DEN_R |= 0x00000003;	 // enable digital operation of PA0 and PA1
+    GPIO_PORTA_DEN_R |= 0x00000003;  // enable digital operation of PA0 and PA1
 
     // Calculate baudrate prescaler
     BRD = 64000000 / baud_rate; // X-sys*64/(16*baudrate) = 16M*4/baudrate
@@ -179,7 +135,7 @@ extern void uart0_init(INT32U baud_rate, INT8U databits, INT8U stopbits,
 
     //UART0_LCRH_R |= UART_LCRH_FEN; // FIFO Enable
 
-    UART0_CTL_R |= UART_CTL_UARTEN | UART_CTL_TXE | UART_CTL_TXE;  // Enable UART
+    UART0_CTL_R |= UART_CTL_UARTEN | UART_CTL_TXE | UART_CTL_RXE; // Enable UART
 
     // Setup receive interrupt
     UART0_IM_R |= UART_IM_RTIM; // Interrupt mask
@@ -201,12 +157,13 @@ void uart0_read_isr()
 {
     while (!(UART0_FR_R & UART_FR_RXFE))
     { // While FIFO not empty
-        // Make sure no errors in transmission except overrun (triggers with values like æøå)
+      // Make sure no errors in transmission except overrun (triggers with values like æøå)
         configASSERT(!(UART0_DR_R & 0x700));
         // Receive msg
         INT8U msg = UART0_DR_R & 0xFF;
         // Remove from queue if full
-        if (xQueueIsQueueFullFromISR(uart0_rx_queue)) {
+        if (xQueueIsQueueFullFromISR(uart0_rx_queue))
+        {
             INT8U remmsg;
             xQueueReceiveFromISR(uart0_rx_queue, &remmsg, NULL);
         }
@@ -224,7 +181,8 @@ void uart0_write_task(void * pvParameters)
         xQueueReceive(uart0_tx_queue, &msg, portMAX_DELAY);
 
         // Poll till transmit FIFO not full
-        while (UART0_FR_R & UART_FR_TXFF) {
+        while (UART0_FR_R & UART_FR_TXFF)
+        {
 
         }
 
@@ -237,14 +195,17 @@ void uart0_sendstring(char* c, INT8U length)
 {
     for (int i = 0; i < length; i++)
     {
-        while (!uart0_tx_rdy())
-        {
-        }
-        uart0_putc(c[i]);
+        xQueueSendToBack(uart0_tx_queue, &c[i], portMAX_DELAY);
     }
 }
 
-void uprintf(char* buffer, const char * format, ... )
+char uart0_get_char(TickType_t xTicksToWait) {
+    INT8U msg;
+    xQueueReceive(uart0_rx_queue, &msg, xTicksToWait);
+    return msg;
+}
+
+void uprintf(char* buffer, const char * format, ...)
 {
     va_list args;
     va_start(args, format);
