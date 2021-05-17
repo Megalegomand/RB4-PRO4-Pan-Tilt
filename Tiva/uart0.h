@@ -74,7 +74,6 @@ void uart0_init( INT32U, INT8U, INT8U, INT8U );
 void uart0_read_isr();
 void uart0_write_task(void* pvParameters);
 void uart0_sendstring(char* c, INT8U length);
-void uprintf(const char * format, ... );
 void uart0_getchar(INT8U* msg, TickType_t xTicksToWait);
 
 /****************************** End Of Module *******************************/

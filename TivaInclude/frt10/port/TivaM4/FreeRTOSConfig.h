@@ -91,6 +91,8 @@ void vAssertCalled( const char *pcFileName, unsigned long ulLine );
 #define configASSERT( x ) if( ( x ) == 0 ) vAssertCalled( __FILE__, __LINE__ );
 //#define configASSERT( x ) if( ( x ) == pdFALSE ) { taskDISABLE_INTERRUPTS(); while(1); }
 
+#define configCHECK_FOR_STACK_OVERFLOW 1
+
 #define configUSE_PREEMPTION		1
 #define configUSE_IDLE_HOOK			0
 #define configUSE_TICK_HOOK			0

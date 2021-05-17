@@ -203,17 +203,6 @@ void uart0_sendstring(char* c, INT8U length)
     }
 }
 
-void uprintf(const char * format, ...)
-{
-    static char buffer[100];
-    va_list args;
-    va_start(args, format);
-    INT8U len = vsprintf(buffer, format, args);
-    va_end(args);
-    uart0_sendstring(buffer, len);
-    return;
-}
-
 void uart0_getchar(INT8U* msg, TickType_t xTicksToWait)
 {
     xQueueReceive(uart0_rx_queue, msg, xTicksToWait);

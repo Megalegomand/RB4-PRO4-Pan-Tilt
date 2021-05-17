@@ -48,6 +48,7 @@ void ui_clear_screen();
 void ui_task(void* pvParameters);
 UI_MENUS ui_main_menu();
 UI_MENUS ui_debug_menu();
+void uprintf(const char * format, ... );
 
 #endif /* USER_INTERFACE_H_ */
 /***************** End of module **************/

@@ -24,7 +24,19 @@ extern QueueHandle_t pid_debug_queue;
 extern SemaphoreHandle_t debug_enabled;
 
 static INT8U msg;
+
+static char buffer[100];
 /***************** Functions ******************/
+
+void uprintf(const char * format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    INT8U len = vsprintf(buffer, format, args);
+    va_end(args);
+    uart0_sendstring(buffer, len);
+    return;
+}
 
 void ui_clear_screen()
 {
@@ -82,7 +94,7 @@ UI_MENUS ui_debug_menu()
 
     ui_clear_screen();
 
-    uprintf("pos_pan, pos_tilt, raw_pos_pan, raw_pos_tilt\n\r");
+    uprintf("pos_pan | pos_tilt | raw_pos_pan | raw_pos_tilt\n\r");
 
     PID_DEBUG pid_debug;
 
@@ -90,13 +102,9 @@ UI_MENUS ui_debug_menu()
     {
         // Obtain data
         xQueueReceive(pid_debug_queue, &pid_debug, portMAX_DELAY);
-        FP32 k;
-        k = 0.0f;
-        uprintf("J; %4f\n\r", k);
-
-//        uprintf("%f, %f, %i, %i\n\r", pid_debug.pos[PID_PAN],
-//                pid_debug.pos[PID_TILT], pid_debug.raw_pos[PID_PAN],
-//                pid_debug.raw_pos[PID_TILT]);
+        uprintf("%-7f | %-8f | %-11i | %i\n\r", pid_debug.pos[PID_PAN],
+                pid_debug.pos[PID_TILT], pid_debug.raw_pos[PID_PAN],
+                pid_debug.raw_pos[PID_TILT]);
 
         // For controlling the menu
         uart0_getchar(&msg, 0);
