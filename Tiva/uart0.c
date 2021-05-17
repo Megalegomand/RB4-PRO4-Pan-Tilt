@@ -24,8 +24,8 @@
 /*****************************   Constants   *******************************/
 
 /*****************************   Variables   *******************************/
-QueueHandle_t uart0_rx_queue;
-QueueHandle_t uart0_tx_queue;
+static QueueHandle_t uart0_rx_queue;
+static QueueHandle_t uart0_tx_queue;
 /*****************************   Functions   *******************************/
 
 INT32U lcrh_databits(INT8U antal_databits)
@@ -155,9 +155,12 @@ extern void uart0_init(INT32U baud_rate, INT8U databits, INT8U stopbits,
 
 void uart0_read_isr()
 {
+    BaseType_t xHigherPriorityTaskWoken;
+    xHigherPriorityTaskWoken = pdFALSE;
+
     while (!(UART0_FR_R & UART_FR_RXFE))
     { // While FIFO not empty
-      // Make sure no errors in transmission except overrun (triggers with values like æøå)
+        // Make sure no errors in transmission except overrun (triggers with values like æøå)
         configASSERT(!(UART0_DR_R & 0x700));
         // Receive msg
         INT8U msg = UART0_DR_R & 0xFF;
@@ -165,10 +168,11 @@ void uart0_read_isr()
         if (xQueueIsQueueFullFromISR(uart0_rx_queue))
         {
             INT8U remmsg;
-            xQueueReceiveFromISR(uart0_rx_queue, &remmsg, NULL);
+            xQueueReceiveFromISR(uart0_rx_queue, &remmsg, &xHigherPriorityTaskWoken);
         }
         // Add to queue
-        xQueueSendToBackFromISR(uart0_rx_queue, &msg, NULL);
+        xQueueSendToBackFromISR(uart0_rx_queue, &msg, &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
     }
 }
 
@@ -199,20 +203,20 @@ void uart0_sendstring(char* c, INT8U length)
     }
 }
 
-char uart0_get_char(TickType_t xTicksToWait) {
-    INT8U msg;
-    xQueueReceive(uart0_rx_queue, &msg, xTicksToWait);
-    return msg;
-}
-
-void uprintf(char* buffer, const char * format, ...)
+void uprintf(const char * format, ...)
 {
+    static char buffer[100];
     va_list args;
     va_start(args, format);
     INT8U len = vsprintf(buffer, format, args);
     va_end(args);
     uart0_sendstring(buffer, len);
     return;
+}
+
+void uart0_getchar(INT8U* msg, TickType_t xTicksToWait)
+{
+    xQueueReceive(uart0_rx_queue, msg, xTicksToWait);
 }
 
 /****************************** End Of Module *******************************/
