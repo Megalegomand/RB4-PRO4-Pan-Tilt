@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Thu May 13 08:39:41 2021" VIVADOVERSION="2020.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue May 18 14:46:23 2021" VIVADOVERSION="2020.2">
 
   <SYSTEMINFO ARCH="zynq" BOARD="tul.com.tw:pynq-z2:part0:1.0" DEVICE="7z020" NAME="assembly" PACKAGE="clg400" SPEEDGRADE="-1"/>
 
@@ -34,21 +34,22 @@
         <CONNECTION INSTANCE="xlslice_1" PORT="Dout"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" NAME="encoderB" SIGIS="undef" SIGNAME="External_Ports_encoderB">
+    <PORT DIR="I" NAME="tilt_b" SIGIS="undef" SIGNAME="External_Ports_tilt_b">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="encoder_0" PORT="b"/>
+        <CONNECTION INSTANCE="encoder_tilt" PORT="b"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" NAME="encoderA" SIGIS="undef" SIGNAME="External_Ports_encoderA">
+    <PORT DIR="I" NAME="tilt_a" SIGIS="undef" SIGNAME="External_Ports_tilt_a">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="encoder_0" PORT="a"/>
+        <CONNECTION INSTANCE="encoder_tilt" PORT="a"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" NAME="rst" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="External_Ports_rst">
       <CONNECTIONS>
         <CONNECTION INSTANCE="clock_divider_0" PORT="rst"/>
         <CONNECTION INSTANCE="spi_0" PORT="rst"/>
-        <CONNECTION INSTANCE="encoder_0" PORT="rst"/>
+        <CONNECTION INSTANCE="encoder_tilt" PORT="rst"/>
+        <CONNECTION INSTANCE="encoder_tilt1" PORT="rst"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="O" NAME="pan_in1" SIGIS="undef" SIGNAME="not_gate_1_o">
@@ -64,6 +65,26 @@
     <PORT DIR="O" NAME="pan_en" SIGIS="undef" SIGNAME="pwm_0_o">
       <CONNECTIONS>
         <CONNECTION INSTANCE="pwm_0" PORT="o"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="tilt_zero" SIGIS="undef" SIGNAME="External_Ports_tilt_zero">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="encoder_tilt" PORT="zero"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="pan_b" SIGIS="undef" SIGNAME="External_Ports_pan_b">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="encoder_tilt1" PORT="b"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="pan_a" SIGIS="undef" SIGNAME="External_Ports_pan_a">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="encoder_tilt1" PORT="a"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="pan_zero" SIGIS="undef" SIGNAME="External_Ports_pan_zero">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="encoder_tilt1" PORT="zero"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -92,14 +113,15 @@
         <PORT DIR="O" NAME="clk_div" SIGIS="undef" SIGNAME="clock_divider_0_clk_div">
           <CONNECTIONS>
             <CONNECTION INSTANCE="spi_0" PORT="clk"/>
-            <CONNECTION INSTANCE="encoder_0" PORT="clk"/>
             <CONNECTION INSTANCE="pwm_0" PORT="clk"/>
+            <CONNECTION INSTANCE="encoder_tilt" PORT="clk"/>
+            <CONNECTION INSTANCE="encoder_tilt1" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/encoder_0" HWVERSION="1.0" INSTANCE="encoder_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="encoder" VLNV="xilinx.com:module_ref:encoder:1.0">
+    <MODULE COREREVISION="1" FULLNAME="/encoder_tilt" HWVERSION="1.0" INSTANCE="encoder_tilt" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="encoder" VLNV="xilinx.com:module_ref:encoder:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
         <PARAMETER NAME="n_bits" VALUE="8"/>
@@ -112,14 +134,14 @@
             <CONNECTION INSTANCE="clock_divider_0" PORT="clk_div"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="a" SIGIS="undef" SIGNAME="External_Ports_encoderA">
+        <PORT DIR="I" NAME="a" SIGIS="undef" SIGNAME="External_Ports_tilt_a">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="encoderA"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="tilt_a"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="b" SIGIS="undef" SIGNAME="External_Ports_encoderB">
+        <PORT DIR="I" NAME="b" SIGIS="undef" SIGNAME="External_Ports_tilt_b">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="encoderB"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="tilt_b"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" NAME="rst" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="External_Ports_rst">
@@ -127,10 +149,56 @@
             <CONNECTION INSTANCE="External_Ports" PORT="rst"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="7" NAME="cnt" RIGHT="0" SIGIS="undef" SIGNAME="encoder_0_cnt">
+        <PORT DIR="O" LEFT="7" NAME="cnt" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt_cnt">
           <CONNECTIONS>
             <CONNECTION INSTANCE="xlslice_1" PORT="Din"/>
             <CONNECTION INSTANCE="xlconcat_0" PORT="In0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="zero" SIGIS="undef" SIGNAME="External_Ports_tilt_zero">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="tilt_zero"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/encoder_tilt1" HWVERSION="1.0" INSTANCE="encoder_tilt1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="encoder" VLNV="xilinx.com:module_ref:encoder:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="n_bits" VALUE="8"/>
+        <PARAMETER NAME="Component_Name" VALUE="assembly_encoder_tilt_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clock_divider_0_clk_div">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_0" PORT="clk_div"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="a" SIGIS="undef" SIGNAME="External_Ports_pan_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="pan_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="b" SIGIS="undef" SIGNAME="External_Ports_pan_b">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="pan_b"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rst" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="External_Ports_rst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="rst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="cnt" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt1_cnt">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlconcat_0" PORT="In1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="zero" SIGIS="undef" SIGNAME="External_Ports_pan_zero">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="pan_zero"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -373,36 +441,19 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" LEFT="7" NAME="In0" RIGHT="0" SIGIS="undef" SIGNAME="encoder_0_cnt">
+        <PORT DIR="I" LEFT="7" NAME="In0" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt_cnt">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="encoder_0" PORT="cnt"/>
+            <CONNECTION INSTANCE="encoder_tilt" PORT="cnt"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="7" NAME="In1" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+        <PORT DIR="I" LEFT="7" NAME="In1" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt1_cnt">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
+            <CONNECTION INSTANCE="encoder_tilt1" PORT="cnt"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="15" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconcat_0_dout">
           <CONNECTIONS>
             <CONNECTION INSTANCE="spi_0" PORT="data_in"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="7" FULLNAME="/xlconstant_0" HWVERSION="1.1" INSTANCE="xlconstant_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="CONST_WIDTH" VALUE="8"/>
-        <PARAMETER NAME="CONST_VAL" VALUE="0x00"/>
-        <PARAMETER NAME="Component_Name" VALUE="assembly_xlconstant_0_2"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT DIR="O" LEFT="7" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="xlconcat_0" PORT="In1"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -444,9 +495,9 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="encoder_0_cnt">
+        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt_cnt">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="encoder_0" PORT="cnt"/>
+            <CONNECTION INSTANCE="encoder_tilt" PORT="cnt"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="3" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_1_Dout">

@@ -1,21 +1,21 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Tue May 18 14:47:29 2021
+// Date        : Tue May 18 14:47:30 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
-//               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_sim_netlist.v
-// Design      : assembly_encoder_0_0
+//               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_tilt_0/assembly_encoder_tilt_0_sim_netlist.v
+// Design      : assembly_encoder_tilt_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
 // Device      : xc7z020clg400-1
 // --------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-(* CHECK_LICENSE_TYPE = "assembly_encoder_0_0,encoder,{}" *) (* downgradeipidentifiedwarnings = "yes" *) (* ip_definition_source = "module_ref" *) 
+(* CHECK_LICENSE_TYPE = "assembly_encoder_tilt_0,encoder,{}" *) (* downgradeipidentifiedwarnings = "yes" *) (* ip_definition_source = "module_ref" *) 
 (* x_core_info = "encoder,Vivado 2020.2" *) 
 (* NotValidForBitStream *)
-module assembly_encoder_0_0
+module assembly_encoder_tilt_0
    (clk,
     a,
     b,
@@ -34,7 +34,7 @@ module assembly_encoder_0_0
   wire clk;
   wire [7:0]cnt;
 
-  assembly_encoder_0_0_encoder U0
+  assembly_encoder_tilt_0_encoder U0
        (.a(a),
         .b(b),
         .clk(clk),
@@ -42,7 +42,7 @@ module assembly_encoder_0_0
 endmodule
 
 (* ORIG_REF_NAME = "encoder" *) 
-module assembly_encoder_0_0_encoder
+module assembly_encoder_tilt_0_encoder
    (cnt,
     b,
     a,

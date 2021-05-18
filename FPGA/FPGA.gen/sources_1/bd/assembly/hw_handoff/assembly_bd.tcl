@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# clock_divider, encoder, not_gate, pwm, spi
+# clock_divider, encoder, encoder, not_gate, pwm, spi
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -166,17 +166,21 @@ proc create_root_design { parentCell } {
 
   # Create ports
   set clk [ create_bd_port -dir I -type clk clk ]
-  set encoderA [ create_bd_port -dir I encoderA ]
-  set encoderB [ create_bd_port -dir I encoderB ]
   set led [ create_bd_port -dir O -from 3 -to 0 led ]
+  set pan_a [ create_bd_port -dir I pan_a ]
+  set pan_b [ create_bd_port -dir I pan_b ]
   set pan_en [ create_bd_port -dir O pan_en ]
   set pan_in1 [ create_bd_port -dir O pan_in1 ]
   set pan_in2 [ create_bd_port -dir O -from 0 -to 0 pan_in2 ]
+  set pan_zero [ create_bd_port -dir I pan_zero ]
   set rst [ create_bd_port -dir I -type rst rst ]
   set sclk [ create_bd_port -dir I sclk ]
   set sdi [ create_bd_port -dir I sdi ]
   set sdo [ create_bd_port -dir O sdo ]
   set ss [ create_bd_port -dir I ss ]
+  set tilt_a [ create_bd_port -dir I tilt_a ]
+  set tilt_b [ create_bd_port -dir I tilt_b ]
+  set tilt_zero [ create_bd_port -dir I tilt_zero ]
 
   # Create instance: clock_divider_0, and set properties
   set block_name clock_divider
@@ -192,19 +196,33 @@ proc create_root_design { parentCell } {
    CONFIG.n_bits {3} \
  ] $clock_divider_0
 
-  # Create instance: encoder_0, and set properties
+  # Create instance: encoder_tilt, and set properties
   set block_name encoder
-  set block_cell_name encoder_0
-  if { [catch {set encoder_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+  set block_cell_name encoder_tilt
+  if { [catch {set encoder_tilt [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
-   } elseif { $encoder_0 eq "" } {
+   } elseif { $encoder_tilt eq "" } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    }
     set_property -dict [ list \
    CONFIG.n_bits {8} \
- ] $encoder_0
+ ] $encoder_tilt
+
+  # Create instance: encoder_tilt1, and set properties
+  set block_name encoder
+  set block_cell_name encoder_tilt1
+  if { [catch {set encoder_tilt1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $encoder_tilt1 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+    set_property -dict [ list \
+   CONFIG.n_bits {8} \
+ ] $encoder_tilt1
 
   # Create instance: not_gate_1, and set properties
   set block_name not_gate
@@ -254,13 +272,6 @@ proc create_root_design { parentCell } {
    CONFIG.IN1_WIDTH {8} \
  ] $xlconcat_0
 
-  # Create instance: xlconstant_0, and set properties
-  set xlconstant_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0 ]
-  set_property -dict [ list \
-   CONFIG.CONST_VAL {0} \
-   CONFIG.CONST_WIDTH {8} \
- ] $xlconstant_0
-
   # Create instance: xlslice_0, and set properties
   set xlslice_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_0 ]
   set_property -dict [ list \
@@ -306,25 +317,29 @@ proc create_root_design { parentCell } {
  ] $xlslice_4
 
   # Create port connections
-  connect_bd_net -net a_0_1 [get_bd_ports encoderA] [get_bd_pins encoder_0/a]
-  connect_bd_net -net b_0_1 [get_bd_ports encoderB] [get_bd_pins encoder_0/b]
+  connect_bd_net -net a_0_1 [get_bd_ports tilt_a] [get_bd_pins encoder_tilt/a]
+  connect_bd_net -net a_0_2 [get_bd_ports pan_a] [get_bd_pins encoder_tilt1/a]
+  connect_bd_net -net b_0_1 [get_bd_ports tilt_b] [get_bd_pins encoder_tilt/b]
+  connect_bd_net -net b_0_2 [get_bd_ports pan_b] [get_bd_pins encoder_tilt1/b]
   connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk]
-  connect_bd_net -net clock_divider_0_clk_div [get_bd_pins clock_divider_0/clk_div] [get_bd_pins encoder_0/clk] [get_bd_pins pwm_0/clk] [get_bd_pins spi_0/clk]
-  connect_bd_net -net encoder_0_cnt [get_bd_pins encoder_0/cnt] [get_bd_pins xlconcat_0/In0] [get_bd_pins xlslice_1/Din]
+  connect_bd_net -net clock_divider_0_clk_div [get_bd_pins clock_divider_0/clk_div] [get_bd_pins encoder_tilt/clk] [get_bd_pins encoder_tilt1/clk] [get_bd_pins pwm_0/clk] [get_bd_pins spi_0/clk]
+  connect_bd_net -net encoder_0_cnt [get_bd_pins encoder_tilt/cnt] [get_bd_pins xlconcat_0/In0] [get_bd_pins xlslice_1/Din]
+  connect_bd_net -net encoder_tilt1_cnt [get_bd_pins encoder_tilt1/cnt] [get_bd_pins xlconcat_0/In1]
   connect_bd_net -net not_gate_1_o [get_bd_ports pan_in1] [get_bd_pins not_gate_1/o]
   connect_bd_net -net pwm_0_o [get_bd_ports pan_en] [get_bd_pins pwm_0/o]
-  connect_bd_net -net rst_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins encoder_0/rst] [get_bd_pins spi_0/rst]
+  connect_bd_net -net rst_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins encoder_tilt/rst] [get_bd_pins encoder_tilt1/rst] [get_bd_pins spi_0/rst]
   connect_bd_net -net sclk_0_1 [get_bd_ports sclk] [get_bd_pins spi_0/sclk]
   connect_bd_net -net sdi_0_1 [get_bd_ports sdi] [get_bd_pins spi_0/sdi]
   connect_bd_net -net spi_0_data_out [get_bd_pins spi_0/data_out] [get_bd_pins xlslice_0/Din] [get_bd_pins xlslice_2/Din]
   connect_bd_net -net spi_0_sdo [get_bd_ports sdo] [get_bd_pins spi_0/sdo]
   connect_bd_net -net ss_0_1 [get_bd_ports ss] [get_bd_pins spi_0/ss]
   connect_bd_net -net xlconcat_0_dout [get_bd_pins spi_0/data_in] [get_bd_pins xlconcat_0/dout]
-  connect_bd_net -net xlconstant_0_dout [get_bd_pins xlconcat_0/In1] [get_bd_pins xlconstant_0/dout]
   connect_bd_net -net xlslice_0_Dout [get_bd_pins xlslice_0/Dout] [get_bd_pins xlslice_3/Din] [get_bd_pins xlslice_4/Din]
   connect_bd_net -net xlslice_1_Dout [get_bd_ports led] [get_bd_pins xlslice_1/Dout]
   connect_bd_net -net xlslice_3_Dout [get_bd_ports pan_in2] [get_bd_pins not_gate_1/i] [get_bd_pins xlslice_3/Dout]
   connect_bd_net -net xlslice_4_Dout [get_bd_pins pwm_0/duty_cycle] [get_bd_pins xlslice_4/Dout]
+  connect_bd_net -net zero_0_1 [get_bd_ports tilt_zero] [get_bd_pins encoder_tilt/zero]
+  connect_bd_net -net zero_0_2 [get_bd_ports pan_zero] [get_bd_pins encoder_tilt1/zero]
 
   # Create address segments
 

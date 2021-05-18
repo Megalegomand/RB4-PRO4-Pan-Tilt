@@ -53,7 +53,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-ENTITY assembly_encoder_0_0 IS
+ENTITY assembly_encoder_tilt_0 IS
   PORT (
     clk : IN STD_LOGIC;
     a : IN STD_LOGIC;
@@ -62,11 +62,11 @@ ENTITY assembly_encoder_0_0 IS
     cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     zero : IN STD_LOGIC
   );
-END assembly_encoder_0_0;
+END assembly_encoder_tilt_0;
 
-ARCHITECTURE assembly_encoder_0_0_arch OF assembly_encoder_0_0 IS
+ARCHITECTURE assembly_encoder_tilt_0_arch OF assembly_encoder_tilt_0 IS
   ATTRIBUTE DowngradeIPIdentifiedWarnings : STRING;
-  ATTRIBUTE DowngradeIPIdentifiedWarnings OF assembly_encoder_0_0_arch: ARCHITECTURE IS "yes";
+  ATTRIBUTE DowngradeIPIdentifiedWarnings OF assembly_encoder_tilt_0_arch: ARCHITECTURE IS "yes";
   COMPONENT encoder IS
     GENERIC (
       n_bits : INTEGER
@@ -80,8 +80,14 @@ ARCHITECTURE assembly_encoder_0_0_arch OF assembly_encoder_0_0 IS
       zero : IN STD_LOGIC
     );
   END COMPONENT encoder;
+  ATTRIBUTE X_CORE_INFO : STRING;
+  ATTRIBUTE X_CORE_INFO OF assembly_encoder_tilt_0_arch: ARCHITECTURE IS "encoder,Vivado 2020.2";
+  ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
+  ATTRIBUTE CHECK_LICENSE_TYPE OF assembly_encoder_tilt_0_arch : ARCHITECTURE IS "assembly_encoder_tilt_0,encoder,{}";
+  ATTRIBUTE CORE_GENERATION_INFO : STRING;
+  ATTRIBUTE CORE_GENERATION_INFO OF assembly_encoder_tilt_0_arch: ARCHITECTURE IS "assembly_encoder_tilt_0,encoder,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=encoder,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=8}";
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
-  ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_encoder_0_0_arch: ARCHITECTURE IS "module_ref";
+  ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_encoder_tilt_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER OF rst: SIGNAL IS "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0";
@@ -101,4 +107,4 @@ BEGIN
       cnt => cnt,
       zero => zero
     );
-END assembly_encoder_0_0_arch;
+END assembly_encoder_tilt_0_arch;

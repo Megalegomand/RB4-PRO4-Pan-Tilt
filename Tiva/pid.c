@@ -166,11 +166,12 @@ void pid_task(void * pvParameters)
         // Debug struct update
         if (uxSemaphoreGetCount(debug_enabled) == 0)
         {
-            pid_debug.pos[PID_PAN] = pos_pan;
-            pid_debug.pos[PID_TILT] = pos_tilt;
-
             pid_debug.raw_pos[PID_PAN] = raw_pos_pan;
             pid_debug.raw_pos[PID_TILT] = raw_pos_tilt;
+
+            pid_debug.raw_pwm[PID_PAN] = raw_pwm_pan;
+            pid_debug.raw_pwm[PID_TILT] = raw_pwm_tilt;
+
 
             // Dataloss is not important
             // Remove from queue if full

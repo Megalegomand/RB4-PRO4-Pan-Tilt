@@ -4,15 +4,15 @@
 -- Date        : Tue May 18 14:47:29 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode synth_stub
---               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_stub.vhdl
--- Design      : assembly_encoder_0_0
+--               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_tilt_0/assembly_encoder_tilt_0_stub.vhdl
+-- Design      : assembly_encoder_tilt_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7z020clg400-1
 -- --------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity assembly_encoder_0_0 is
+entity assembly_encoder_tilt_0 is
   Port ( 
     clk : in STD_LOGIC;
     a : in STD_LOGIC;
@@ -22,9 +22,9 @@ entity assembly_encoder_0_0 is
     zero : in STD_LOGIC
   );
 
-end assembly_encoder_0_0;
+end assembly_encoder_tilt_0;
 
-architecture stub of assembly_encoder_0_0 is
+architecture stub of assembly_encoder_tilt_0 is
 attribute syn_black_box : boolean;
 attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;

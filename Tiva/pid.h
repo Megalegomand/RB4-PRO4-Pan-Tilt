@@ -38,7 +38,7 @@ typedef struct
 #define PID_PAN             0
 #define PID_TILT            1
 
-#define PID_SAMPLE_TIME     0.01f
+#define PID_SAMPLE_TIME     0.1f
 #define PID_LIM_MIN         -12.0f
 #define PID_LIM_MAX         12.0f
 
@@ -53,11 +53,9 @@ typedef struct
 
 typedef struct
 {
-    FP32 pos[PID_CONTROLLERS_LENGTH];
-    INT8U raw_pos[PID_CONTROLLERS_LENGTH];
+    INT8S raw_pos[PID_CONTROLLERS_LENGTH];
 
-    FP32 pwm[PID_CONTROLLERS_LENGTH];
-    INT8U raw_pwm[PID_CONTROLLERS_LENGTH];
+    INT8S raw_pwm[PID_CONTROLLERS_LENGTH];
 
     PID_CONTAINER pid[PID_CONTROLLERS_LENGTH];
 } PID_DEBUG;
