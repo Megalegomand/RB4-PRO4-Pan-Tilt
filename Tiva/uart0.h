@@ -32,7 +32,7 @@
 #include "task.h"
 /*****************************    Defines    *******************************/
 #define UART_QUEUE_LENGTH 16
-#define UART_ITEM_SIZE    8
+#define UART_ITEM_SIZE    sizeof(INT8U)
 /***************** Variables ******************/
 /*****************************   Functions   *******************************/
 
@@ -75,7 +75,7 @@ void uart0_read_isr();
 void uart0_write_task(void* pvParameters);
 void uart0_sendstring(char* c, INT8U length);
 void uart0_sendchar(char c);
-void uart0_getchar(INT8U* msg, TickType_t xTicksToWait);
+BaseType_t uart0_getchar(INT8U* msg, TickType_t xTicksToWait);
 
 /****************************** End Of Module *******************************/
 #endif

@@ -144,9 +144,5 @@ configKERNEL_INTERRUPT_PRIORITY setting.  Here 15 corresponds to the lowest
 NVIC value of 255. */
 #define configLIBRARY_KERNEL_INTERRUPT_PRIORITY	15
 
-
-#define configCHECK_FOR_STACK_OVERFLOW 1
-
-
 #endif /* FREERTOS_CONFIG_H */
 

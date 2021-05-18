@@ -60,7 +60,14 @@ void put_dec(long val, int sign, int size, char filler)
     {
         digit = val / weight;
         if (digit == 0)
-            uart0_sendchar(filler);
+            if (size == 1)
+            {
+                uart0_sendchar('0');
+            }
+            else
+            {
+                uart0_sendchar(filler);
+            }
         else
         {
             if (sign == NEGATIVE)
@@ -157,19 +164,17 @@ const void uprint(const char *str, va_list va_arg_p)
                     size += *str - '0';
                     i++;
                     break;
-
                 case '-':
                     if (i == 0)
                         adjust = LEFT;
                     i++;
                     break;
-
                 case 'c':
                     val = va_arg(va_arg_p, unsigned long);
                     uart0_sendchar((char) val);
                     done = 1;
                     break;
-
+                case 'i':
                 case 'd':
                     val = va_arg(va_arg_p, unsigned long);
 
@@ -183,13 +188,11 @@ const void uprint(const char *str, va_list va_arg_p)
                     put_dec(val, sign, size, pre_char);
                     done = 1;
                     break;
-
                 case 'u':
                     val = va_arg(va_arg_p, unsigned long);
                     put_dec(val, POSITIVE, size, pre_char);
                     done = 1;
                     break;
-
                 case 'x':
                 case 'X':
                 case 'p':
