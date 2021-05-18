@@ -24,20 +24,7 @@ extern QueueHandle_t pid_debug_queue;
 extern SemaphoreHandle_t debug_enabled;
 
 static INT8U msg;
-
-static char buffer[100];
 /***************** Functions ******************/
-
-void uprintf(const char * format, ...)
-{
-    va_list args;
-    va_start(args, format);
-    INT8U len = vsprintf(buffer, format, args);
-    va_end(args);
-    uart0_sendstring(buffer, len);
-    return;
-}
-
 void ui_clear_screen()
 {
     uprintf("%c[2J", ASCII_ESC); // Clear screen

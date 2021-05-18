@@ -25,11 +25,14 @@
 #include "uart0.h"
 #include "pid.h"
 #include "semphr.h"
+#include "string.h"
 /***************** Defines ********************/ 
 #ifndef USER_INTERFACE_H_
 #define USER_INTERFACE_H_
 
 #define ASCII_ESC 27
+#define LEFT 0
+#define RIGHT 1
 
 /***************** Variables ******************/ 
 typedef enum UI_MENUS{MAIN, DEBUG} UI_MENUS;
@@ -48,7 +51,6 @@ void ui_clear_screen();
 void ui_task(void* pvParameters);
 UI_MENUS ui_main_menu();
 UI_MENUS ui_debug_menu();
-void uprintf(const char * format, ... );
 
 #endif /* USER_INTERFACE_H_ */
 /***************** End of module **************/

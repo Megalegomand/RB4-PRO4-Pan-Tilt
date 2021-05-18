@@ -34,6 +34,18 @@ void vAssertCalled(const char * pcFile, unsigned long ulLine)
     taskEXIT_CRITICAL();
 }
 
+void vApplicationStackOverflowHook(TaskHandle_t xTask, signed char *pcTaskName)
+{
+    static portBASE_TYPE xPrinted = pdFALSE;
+    volatile uint32_t ulSetToNonZeroInDebuggerToContinue = 0;
+
+    {
+        while (ulSetToNonZeroInDebuggerToContinue == 0)
+        {
+        }
+    }
+}
+
 extern QueueHandle_t spi_tx_queue;
 void test_task(void * pvParameters)
 {

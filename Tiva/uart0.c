@@ -160,7 +160,7 @@ void uart0_read_isr()
 
     while (!(UART0_FR_R & UART_FR_RXFE))
     { // While FIFO not empty
-        // Make sure no errors in transmission except overrun (triggers with values like æøå)
+      // Make sure no errors in transmission except overrun (triggers with values like æøå)
         configASSERT(!(UART0_DR_R & 0x700));
         // Receive msg
         INT8U msg = UART0_DR_R & 0xFF;
@@ -168,24 +168,26 @@ void uart0_read_isr()
         if (xQueueIsQueueFullFromISR(uart0_rx_queue))
         {
             INT8U remmsg;
-            xQueueReceiveFromISR(uart0_rx_queue, &remmsg, &xHigherPriorityTaskWoken);
+            xQueueReceiveFromISR(uart0_rx_queue, &remmsg,
+                                 &xHigherPriorityTaskWoken);
         }
         // Add to queue
-        xQueueSendToBackFromISR(uart0_rx_queue, &msg, &xHigherPriorityTaskWoken);
-        portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+        xQueueSendToBackFromISR(uart0_rx_queue, &msg,
+                                &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
 }
 
 void uart0_write_task(void * pvParameters)
 {
+    INT8U msg;
     while (1)
     {
-        INT8U msg;
         // Wait till message appears in queue
         xQueueReceive(uart0_tx_queue, &msg, portMAX_DELAY);
 
-        // Poll till transmit FIFO not full
-        while (UART0_FR_R & UART_FR_TXFF)
+        // Poll till transmit ready
+        while (!uart0_tx_rdy())
         {
 
         }
@@ -201,6 +203,11 @@ void uart0_sendstring(char* c, INT8U length)
     {
         xQueueSendToBack(uart0_tx_queue, &c[i], portMAX_DELAY);
     }
+}
+
+void uart0_sendchar(char c)
+{
+    xQueueSendToBack(uart0_tx_queue, &c, portMAX_DELAY);
 }
 
 void uart0_getchar(INT8U* msg, TickType_t xTicksToWait)
