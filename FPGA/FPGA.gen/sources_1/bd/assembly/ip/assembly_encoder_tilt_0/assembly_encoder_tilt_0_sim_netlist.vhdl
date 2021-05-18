@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Tue May 18 14:47:30 2021
+-- Date        : Tue May 18 15:29:13 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_tilt_0/assembly_encoder_tilt_0_sim_netlist.vhdl
@@ -323,8 +323,7 @@ entity assembly_encoder_tilt_0 is
     a : in STD_LOGIC;
     b : in STD_LOGIC;
     rst : in STD_LOGIC;
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    zero : in STD_LOGIC
+    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   attribute NotValidForBitStream : boolean;
   attribute NotValidForBitStream of assembly_encoder_tilt_0 : entity is true;

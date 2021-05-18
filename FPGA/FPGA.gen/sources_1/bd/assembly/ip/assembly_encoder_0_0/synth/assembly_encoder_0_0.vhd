@@ -59,8 +59,7 @@ ENTITY assembly_encoder_0_0 IS
     a : IN STD_LOGIC;
     b : IN STD_LOGIC;
     rst : IN STD_LOGIC;
-    cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-    zero : IN STD_LOGIC
+    cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
   );
 END assembly_encoder_0_0;
 
@@ -76,8 +75,7 @@ ARCHITECTURE assembly_encoder_0_0_arch OF assembly_encoder_0_0 IS
       a : IN STD_LOGIC;
       b : IN STD_LOGIC;
       rst : IN STD_LOGIC;
-      cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      zero : IN STD_LOGIC
+      cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
     );
   END COMPONENT encoder;
   ATTRIBUTE X_CORE_INFO : STRING;
@@ -104,7 +102,6 @@ BEGIN
       a => a,
       b => b,
       rst => rst,
-      cnt => cnt,
-      zero => zero
+      cnt => cnt
     );
 END assembly_encoder_0_0_arch;

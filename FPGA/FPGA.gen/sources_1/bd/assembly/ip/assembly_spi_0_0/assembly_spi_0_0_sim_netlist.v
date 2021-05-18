@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Thu May 13 08:40:29 2021
+// Date        : Tue May 18 15:20:02 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_spi_0_0/assembly_spi_0_0_sim_netlist.v
@@ -116,7 +116,7 @@ module assembly_spi_0_0_spi
 
   (* SOFT_HLUTNM = "soft_lutpair0" *) 
   LUT5 #(
-    .INIT(32'h0000F8F3)) 
+    .INIT(32'h00008F3F)) 
     \FSM_sequential_current_state[0]_i_1 
        (.I0(\data_out_t[15]_i_2_n_0 ),
         .I1(current_state[0]),
@@ -126,7 +126,7 @@ module assembly_spi_0_0_spi
         .O(next_state__0[0]));
   (* SOFT_HLUTNM = "soft_lutpair0" *) 
   LUT5 #(
-    .INIT(32'h08060C0E)) 
+    .INIT(32'h06080E0C)) 
     \FSM_sequential_current_state[1]_i_1 
        (.I0(current_state[0]),
         .I1(current_state[1]),
@@ -153,7 +153,7 @@ module assembly_spi_0_0_spi
         .D(next_state__0[1]),
         .Q(current_state[1]));
   LUT5 #(
-    .INIT(32'h04080000)) 
+    .INIT(32'h08040000)) 
     \data_out_t[15]_i_1 
        (.I0(current_state[0]),
         .I1(current_state[1]),
@@ -347,7 +347,7 @@ module assembly_spi_0_0_spi
         .I2(current_state[1]),
         .O(\reg [14]));
   LUT5 #(
-    .INIT(32'h00020402)) 
+    .INIT(32'h02000204)) 
     \reg[15]_i_1 
        (.I0(current_state[0]),
         .I1(current_state[1]),
@@ -460,7 +460,7 @@ module assembly_spi_0_0_spi
         .I3(\reg_cnt_reg_n_0_[1] ),
         .O(\reg_cnt[2]_i_1_n_0 ));
   LUT5 #(
-    .INIT(32'h0000040C)) 
+    .INIT(32'h000040C0)) 
     \reg_cnt[3]_i_1 
        (.I0(\data_out_t[15]_i_2_n_0 ),
         .I1(current_state[0]),

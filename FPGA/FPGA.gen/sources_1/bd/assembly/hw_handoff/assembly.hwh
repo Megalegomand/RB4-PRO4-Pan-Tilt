@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue May 18 14:46:23 2021" VIVADOVERSION="2020.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue May 18 15:49:10 2021" VIVADOVERSION="2020.2">
 
   <SYSTEMINFO ARCH="zynq" BOARD="tul.com.tw:pynq-z2:part0:1.0" DEVICE="7z020" NAME="assembly" PACKAGE="clg400" SPEEDGRADE="-1"/>
 
@@ -29,11 +29,6 @@
         <CONNECTION INSTANCE="spi_0" PORT="sdi"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="3" NAME="led" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_1_Dout">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="xlslice_1" PORT="Dout"/>
-      </CONNECTIONS>
-    </PORT>
     <PORT DIR="I" NAME="tilt_b" SIGIS="undef" SIGNAME="External_Ports_tilt_b">
       <CONNECTIONS>
         <CONNECTION INSTANCE="encoder_tilt" PORT="b"/>
@@ -49,7 +44,7 @@
         <CONNECTION INSTANCE="clock_divider_0" PORT="rst"/>
         <CONNECTION INSTANCE="spi_0" PORT="rst"/>
         <CONNECTION INSTANCE="encoder_tilt" PORT="rst"/>
-        <CONNECTION INSTANCE="encoder_tilt1" PORT="rst"/>
+        <CONNECTION INSTANCE="encoder_pan" PORT="rst"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="O" NAME="pan_in1" SIGIS="undef" SIGNAME="not_gate_1_o">
@@ -62,29 +57,34 @@
         <CONNECTION INSTANCE="xlslice_3" PORT="Dout"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" NAME="pan_en" SIGIS="undef" SIGNAME="pwm_0_o">
+    <PORT DIR="O" NAME="pan_en" SIGIS="undef" SIGNAME="pwm_pan_o">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="pwm_0" PORT="o"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="I" NAME="tilt_zero" SIGIS="undef" SIGNAME="External_Ports_tilt_zero">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="encoder_tilt" PORT="zero"/>
+        <CONNECTION INSTANCE="pwm_pan" PORT="o"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" NAME="pan_b" SIGIS="undef" SIGNAME="External_Ports_pan_b">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="encoder_tilt1" PORT="b"/>
+        <CONNECTION INSTANCE="encoder_pan" PORT="b"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" NAME="pan_a" SIGIS="undef" SIGNAME="External_Ports_pan_a">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="encoder_tilt1" PORT="a"/>
+        <CONNECTION INSTANCE="encoder_pan" PORT="a"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" NAME="pan_zero" SIGIS="undef" SIGNAME="External_Ports_pan_zero">
+    <PORT DIR="O" NAME="tilt_en" SIGIS="undef" SIGNAME="pwm_tilt_o">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="encoder_tilt1" PORT="zero"/>
+        <CONNECTION INSTANCE="pwm_tilt" PORT="o"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="tilt_in1" SIGIS="undef" SIGNAME="not_gate_2_o">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="not_gate_2" PORT="o"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="tilt_in2" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_6_Dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlslice_6" PORT="Dout"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -113,9 +113,46 @@
         <PORT DIR="O" NAME="clk_div" SIGIS="undef" SIGNAME="clock_divider_0_clk_div">
           <CONNECTIONS>
             <CONNECTION INSTANCE="spi_0" PORT="clk"/>
-            <CONNECTION INSTANCE="pwm_0" PORT="clk"/>
+            <CONNECTION INSTANCE="pwm_pan" PORT="clk"/>
             <CONNECTION INSTANCE="encoder_tilt" PORT="clk"/>
-            <CONNECTION INSTANCE="encoder_tilt1" PORT="clk"/>
+            <CONNECTION INSTANCE="encoder_pan" PORT="clk"/>
+            <CONNECTION INSTANCE="pwm_tilt" PORT="clk"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/encoder_pan" HWVERSION="1.0" INSTANCE="encoder_pan" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="encoder" VLNV="xilinx.com:module_ref:encoder:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="n_bits" VALUE="8"/>
+        <PARAMETER NAME="Component_Name" VALUE="assembly_encoder_tilt_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clock_divider_0_clk_div">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_0" PORT="clk_div"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="a" SIGIS="undef" SIGNAME="External_Ports_pan_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="pan_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="b" SIGIS="undef" SIGNAME="External_Ports_pan_b">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="pan_b"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rst" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="External_Ports_rst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="rst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="cnt" RIGHT="0" SIGIS="undef" SIGNAME="encoder_pan_cnt">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlconcat_0" PORT="In1"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -151,54 +188,7 @@
         </PORT>
         <PORT DIR="O" LEFT="7" NAME="cnt" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt_cnt">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="xlslice_1" PORT="Din"/>
             <CONNECTION INSTANCE="xlconcat_0" PORT="In0"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="zero" SIGIS="undef" SIGNAME="External_Ports_tilt_zero">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="tilt_zero"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/encoder_tilt1" HWVERSION="1.0" INSTANCE="encoder_tilt1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="encoder" VLNV="xilinx.com:module_ref:encoder:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="n_bits" VALUE="8"/>
-        <PARAMETER NAME="Component_Name" VALUE="assembly_encoder_tilt_0"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clock_divider_0_clk_div">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clock_divider_0" PORT="clk_div"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="a" SIGIS="undef" SIGNAME="External_Ports_pan_a">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="pan_a"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="b" SIGIS="undef" SIGNAME="External_Ports_pan_b">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="pan_b"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="rst" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="External_Ports_rst">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="rst"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="7" NAME="cnt" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt1_cnt">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="xlconcat_0" PORT="In1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="zero" SIGIS="undef" SIGNAME="External_Ports_pan_zero">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="pan_zero"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -224,7 +214,27 @@
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/pwm_0" HWVERSION="1.0" INSTANCE="pwm_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="pwm" VLNV="xilinx.com:module_ref:pwm:1.0">
+    <MODULE COREREVISION="1" FULLNAME="/not_gate_2" HWVERSION="1.0" INSTANCE="not_gate_2" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="not_gate" VLNV="xilinx.com:module_ref:not_gate:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="assembly_not_gate_1_1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="i" SIGIS="undef" SIGNAME="xlslice_6_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_6" PORT="Dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="o" SIGIS="undef" SIGNAME="not_gate_2_o">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="tilt_in1"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/pwm_pan" HWVERSION="1.0" INSTANCE="pwm_pan" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="pwm" VLNV="xilinx.com:module_ref:pwm:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
         <PARAMETER NAME="n_bits" VALUE="7"/>
@@ -242,9 +252,35 @@
             <CONNECTION INSTANCE="xlslice_4" PORT="Dout"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="o" SIGIS="undef" SIGNAME="pwm_0_o">
+        <PORT DIR="O" NAME="o" SIGIS="undef" SIGNAME="pwm_pan_o">
           <CONNECTIONS>
             <CONNECTION INSTANCE="External_Ports" PORT="pan_en"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/pwm_tilt" HWVERSION="1.0" INSTANCE="pwm_tilt" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="pwm" VLNV="xilinx.com:module_ref:pwm:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="n_bits" VALUE="7"/>
+        <PARAMETER NAME="Component_Name" VALUE="assembly_pwm_pan_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clock_divider_0_clk_div">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_0" PORT="clk_div"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="6" NAME="duty_cycle" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_5_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_5" PORT="Dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="o" SIGIS="undef" SIGNAME="pwm_tilt_o">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="tilt_en"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -254,7 +290,7 @@
       <DOCUMENTS/>
       <PARAMETERS>
         <PARAMETER NAME="data_width" VALUE="16"/>
-        <PARAMETER NAME="spo" VALUE="&quot;1&quot;"/>
+        <PARAMETER NAME="spo" VALUE="&quot;0&quot;"/>
         <PARAMETER NAME="sph" VALUE="&quot;1&quot;"/>
         <PARAMETER NAME="Component_Name" VALUE="assembly_spi_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
@@ -297,8 +333,8 @@
         </PORT>
         <PORT DIR="O" LEFT="15" NAME="data_out" RIGHT="0" SIGIS="undef" SIGNAME="spi_0_data_out">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="xlslice_0" PORT="Din"/>
-            <CONNECTION INSTANCE="xlslice_2" PORT="Din"/>
+            <CONNECTION INSTANCE="xlslice_pan" PORT="Din"/>
+            <CONNECTION INSTANCE="xlslice_tilt" PORT="Din"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -446,9 +482,9 @@
             <CONNECTION INSTANCE="encoder_tilt" PORT="cnt"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="7" NAME="In1" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt1_cnt">
+        <PORT DIR="I" LEFT="7" NAME="In1" RIGHT="0" SIGIS="undef" SIGNAME="encoder_pan_cnt">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="encoder_tilt1" PORT="cnt"/>
+            <CONNECTION INSTANCE="encoder_pan" PORT="cnt"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="15" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconcat_0_dout">
@@ -456,75 +492,6 @@
             <CONNECTION INSTANCE="spi_0" PORT="data_in"/>
           </CONNECTIONS>
         </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="2" FULLNAME="/xlslice_0" HWVERSION="1.0" INSTANCE="xlslice_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="DIN_WIDTH" VALUE="16"/>
-        <PARAMETER NAME="DIN_FROM" VALUE="7"/>
-        <PARAMETER NAME="DIN_TO" VALUE="0"/>
-        <PARAMETER NAME="Component_Name" VALUE="assembly_xlslice_0_2"/>
-        <PARAMETER NAME="DOUT_WIDTH" VALUE="8"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT DIR="I" LEFT="15" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="spi_0_data_out">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="spi_0" PORT="data_out"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="7" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_0_Dout">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="xlslice_3" PORT="Din"/>
-            <CONNECTION INSTANCE="xlslice_4" PORT="Din"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="2" FULLNAME="/xlslice_1" HWVERSION="1.0" INSTANCE="xlslice_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="DIN_WIDTH" VALUE="8"/>
-        <PARAMETER NAME="DIN_FROM" VALUE="3"/>
-        <PARAMETER NAME="DIN_TO" VALUE="0"/>
-        <PARAMETER NAME="Component_Name" VALUE="assembly_xlslice_0_1"/>
-        <PARAMETER NAME="DOUT_WIDTH" VALUE="4"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt_cnt">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="encoder_tilt" PORT="cnt"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_1_Dout">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="led"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="2" FULLNAME="/xlslice_2" HWVERSION="1.0" INSTANCE="xlslice_2" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="DIN_WIDTH" VALUE="16"/>
-        <PARAMETER NAME="DIN_FROM" VALUE="15"/>
-        <PARAMETER NAME="DIN_TO" VALUE="8"/>
-        <PARAMETER NAME="Component_Name" VALUE="assembly_xlslice_0_3"/>
-        <PARAMETER NAME="DOUT_WIDTH" VALUE="8"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT DIR="I" LEFT="15" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="spi_0_data_out">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="spi_0" PORT="data_out"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="7" NAME="Dout" RIGHT="0" SIGIS="undef"/>
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
@@ -539,9 +506,9 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_0_Dout">
+        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_pan_Dout">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="xlslice_0" PORT="Dout"/>
+            <CONNECTION INSTANCE="xlslice_pan" PORT="Dout"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_3_Dout">
@@ -564,14 +531,113 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_0_Dout">
+        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_pan_Dout">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="xlslice_0" PORT="Dout"/>
+            <CONNECTION INSTANCE="xlslice_pan" PORT="Dout"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="6" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_4_Dout">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pwm_0" PORT="duty_cycle"/>
+            <CONNECTION INSTANCE="pwm_pan" PORT="duty_cycle"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_5" HWVERSION="1.0" INSTANCE="xlslice_5" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="8"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="6"/>
+        <PARAMETER NAME="DIN_TO" VALUE="0"/>
+        <PARAMETER NAME="Component_Name" VALUE="assembly_xlslice_4_0"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="7"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_tilt_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_tilt" PORT="Dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="6" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_5_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="pwm_tilt" PORT="duty_cycle"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_6" HWVERSION="1.0" INSTANCE="xlslice_6" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="8"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="7"/>
+        <PARAMETER NAME="DIN_TO" VALUE="7"/>
+        <PARAMETER NAME="Component_Name" VALUE="assembly_xlslice_3_2"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="7" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_tilt_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_tilt" PORT="Dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="0" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_6_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="not_gate_2" PORT="i"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="tilt_in2"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_pan" HWVERSION="1.0" INSTANCE="xlslice_pan" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="16"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="7"/>
+        <PARAMETER NAME="DIN_TO" VALUE="0"/>
+        <PARAMETER NAME="Component_Name" VALUE="assembly_xlslice_0_2"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="8"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="15" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="spi_0_data_out">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="spi_0" PORT="data_out"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_pan_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_3" PORT="Din"/>
+            <CONNECTION INSTANCE="xlslice_4" PORT="Din"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_tilt" HWVERSION="1.0" INSTANCE="xlslice_tilt" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="16"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="15"/>
+        <PARAMETER NAME="DIN_TO" VALUE="8"/>
+        <PARAMETER NAME="Component_Name" VALUE="assembly_xlslice_0_3"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="8"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="15" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="spi_0_data_out">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="spi_0" PORT="data_out"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_tilt_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_5" PORT="Din"/>
+            <CONNECTION INSTANCE="xlslice_6" PORT="Din"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>

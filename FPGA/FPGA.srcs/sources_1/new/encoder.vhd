@@ -38,8 +38,7 @@ entity encoder is
            a : in STD_LOGIC;
            b : in STD_LOGIC;
            rst : in STD_LOGIC;
-           cnt : out STD_LOGIC_VECTOR (n_bits-1 downto 0);
-           zero : in STD_LOGIC);
+           cnt : out STD_LOGIC_VECTOR (n_bits-1 downto 0));
 end encoder;
 
 architecture Behavioral of encoder is
@@ -54,11 +53,9 @@ begin
         end if;
     end process;
 
-    encoder_update : process (a,zero,rst)
+    encoder_update : process (a,rst)
     begin
         if (rst = '1') then
-            cnt_t <= (others => '0');
-        elsif (zero = '1') then
             cnt_t <= (others => '0');
         end if;
         if (rising_edge(a)) then

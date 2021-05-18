@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Thu May 13 08:40:29 2021
+-- Date        : Tue May 18 15:20:02 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_spi_0_0/assembly_spi_0_0_sim_netlist.vhdl
@@ -94,7 +94,7 @@ architecture STRUCTURE of assembly_spi_0_0_spi is
 begin
 \FSM_sequential_current_state[0]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"0000F8F3"
+      INIT => X"00008F3F"
     )
         port map (
       I0 => \data_out_t[15]_i_2_n_0\,
@@ -106,7 +106,7 @@ begin
     );
 \FSM_sequential_current_state[1]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"08060C0E"
+      INIT => X"06080E0C"
     )
         port map (
       I0 => current_state(0),
@@ -140,7 +140,7 @@ begin
     );
 \data_out_t[15]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"04080000"
+      INIT => X"08040000"
     )
         port map (
       I0 => current_state(0),
@@ -399,7 +399,7 @@ begin
     );
 \reg[15]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"00020402"
+      INIT => X"02000204"
     )
         port map (
       I0 => current_state(0),
@@ -541,7 +541,7 @@ begin
     );
 \reg_cnt[3]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"0000040C"
+      INIT => X"000040C0"
     )
         port map (
       I0 => \data_out_t[15]_i_2_n_0\,
