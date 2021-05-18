@@ -76,6 +76,7 @@ void uart0_write_task(void* pvParameters);
 void uart0_sendstring(char* c, INT8U length);
 void uart0_sendchar(char c);
 BaseType_t uart0_getchar(INT8U* msg, TickType_t xTicksToWait);
+void _putchar(char c); // For printf
 
 /****************************** End Of Module *******************************/
 #endif

@@ -210,6 +210,11 @@ void uart0_sendchar(char c)
     xQueueSendToBack(uart0_tx_queue, &c, portMAX_DELAY);
 }
 
+void _putchar(char c)
+{
+    uart0_sendchar(c);
+}
+
 BaseType_t uart0_getchar(INT8U* msg, TickType_t xTicksToWait)
 {
     return xQueueReceive(uart0_rx_queue, msg, xTicksToWait);

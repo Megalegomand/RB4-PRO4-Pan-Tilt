@@ -25,7 +25,7 @@
 #include "uart0.h"
 #include "pid.h"
 #include "semphr.h"
-#include "string.h"
+#include "printf.h"
 /***************** Defines ********************/ 
 #ifndef USER_INTERFACE_H_
 #define USER_INTERFACE_H_
@@ -33,7 +33,6 @@
 #define ASCII_ESC 27
 #define LEFT 0
 #define RIGHT 1
-
 /***************** Variables ******************/ 
 typedef enum UI_MENUS{MAIN, DEBUG} UI_MENUS;
 extern QueueHandle_t uart0_rx_queue;

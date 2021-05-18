@@ -28,7 +28,7 @@
 #define SPI_H_
 
 #define SPI_QUEUE_LENGTH 1
-#define SPI_ITEM_SIZE    16
+#define SPI_ITEM_SIZE    sizeof(INT16U)
 /***************** Variables ******************/ 
 extern QueueHandle_t spi_rx_queue;
 extern QueueHandle_t spi_tx_queue;
