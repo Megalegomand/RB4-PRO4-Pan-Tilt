@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Tue May 18 15:49:09 2021
+--Date        : Tue May 18 21:48:41 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -13,6 +13,7 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity assembly is
   port (
+    ar : out STD_LOGIC_VECTOR ( 7 downto 0 );
     clk : in STD_LOGIC;
     pan_a : in STD_LOGIC;
     pan_b : in STD_LOGIC;
@@ -31,7 +32,7 @@ entity assembly is
     tilt_in2 : out STD_LOGIC_VECTOR ( 0 to 0 )
   );
   attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of assembly : entity is "assembly,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=assembly,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=15,numReposBlks=15,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=8,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
+  attribute CORE_GENERATION_INFO of assembly : entity is "assembly,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=assembly,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=18,numReposBlks=18,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=10,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
   attribute HW_HANDOFF : string;
   attribute HW_HANDOFF of assembly : entity is "assembly.hwdef";
 end assembly;
@@ -100,24 +101,6 @@ architecture STRUCTURE of assembly is
     o : out STD_LOGIC
   );
   end component assembly_pwm_0_0;
-  component assembly_encoder_0_0 is
-  port (
-    clk : in STD_LOGIC;
-    a : in STD_LOGIC;
-    b : in STD_LOGIC;
-    rst : in STD_LOGIC;
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
-  );
-  end component assembly_encoder_0_0;
-  component assembly_encoder_tilt_0 is
-  port (
-    clk : in STD_LOGIC;
-    a : in STD_LOGIC;
-    b : in STD_LOGIC;
-    rst : in STD_LOGIC;
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
-  );
-  end component assembly_encoder_tilt_0;
   component assembly_pwm_pan_0 is
   port (
     clk : in STD_LOGIC;
@@ -143,16 +126,64 @@ architecture STRUCTURE of assembly is
     o : out STD_LOGIC
   );
   end component assembly_not_gate_1_1;
-  signal a_0_1 : STD_LOGIC;
-  signal a_0_2 : STD_LOGIC;
+  component assembly_debouncer_0_0 is
+  port (
+    clk : in STD_LOGIC;
+    rst : in STD_LOGIC;
+    inp : in STD_LOGIC;
+    outp : out STD_LOGIC
+  );
+  end component assembly_debouncer_0_0;
+  component assembly_debouncer_0_1 is
+  port (
+    clk : in STD_LOGIC;
+    rst : in STD_LOGIC;
+    inp : in STD_LOGIC;
+    outp : out STD_LOGIC
+  );
+  end component assembly_debouncer_0_1;
+  component assembly_encoder_0_0 is
+  port (
+    clk : in STD_LOGIC;
+    a : in STD_LOGIC;
+    b : in STD_LOGIC;
+    rst : in STD_LOGIC;
+    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
+  );
+  end component assembly_encoder_0_0;
+  component assembly_encoder_tilt_0 is
+  port (
+    clk : in STD_LOGIC;
+    a : in STD_LOGIC;
+    b : in STD_LOGIC;
+    rst : in STD_LOGIC;
+    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
+  );
+  end component assembly_encoder_tilt_0;
+  component assembly_xlconcat_1_0 is
+  port (
+    In0 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In1 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In2 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In3 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In4 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In5 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In6 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In7 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
+  );
+  end component assembly_xlconcat_1_0;
   signal b_0_1 : STD_LOGIC;
   signal b_0_2 : STD_LOGIC;
   signal clk_1 : STD_LOGIC;
   signal clock_divider_0_clk_div : STD_LOGIC;
+  signal debouncer_pan_outp : STD_LOGIC;
+  signal debouncer_tilt_outp : STD_LOGIC;
   signal encoder_0_cnt : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal encoder_tilt1_cnt : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal not_gate_1_o : STD_LOGIC;
   signal not_gate_2_o : STD_LOGIC;
+  signal pan_a_1 : STD_LOGIC;
   signal pwm_0_o : STD_LOGIC;
   signal pwm_tilt_o : STD_LOGIC;
   signal rst_0_1 : STD_LOGIC;
@@ -161,7 +192,9 @@ architecture STRUCTURE of assembly is
   signal spi_0_data_out : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal spi_0_sdo : STD_LOGIC;
   signal ss_0_1 : STD_LOGIC;
+  signal tilt_a_1 : STD_LOGIC;
   signal xlconcat_0_dout : STD_LOGIC_VECTOR ( 15 downto 0 );
+  signal xlconcat_1_dout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal xlslice_0_Dout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal xlslice_2_Dout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal xlslice_3_Dout : STD_LOGIC_VECTOR ( 0 to 0 );
@@ -175,11 +208,11 @@ architecture STRUCTURE of assembly is
   attribute X_INTERFACE_INFO of rst : signal is "xilinx.com:signal:reset:1.0 RST.RST RST";
   attribute X_INTERFACE_PARAMETER of rst : signal is "XIL_INTERFACENAME RST.RST, INSERT_VIP 0, POLARITY ACTIVE_LOW";
 begin
-  a_0_1 <= tilt_a;
-  a_0_2 <= pan_a;
+  ar(7 downto 0) <= xlconcat_1_dout(7 downto 0);
   b_0_1 <= tilt_b;
   b_0_2 <= pan_b;
   clk_1 <= clk;
+  pan_a_1 <= pan_a;
   pan_en <= pwm_0_o;
   pan_in1 <= not_gate_1_o;
   pan_in2(0) <= xlslice_3_Dout(0);
@@ -188,6 +221,7 @@ begin
   sdi_0_1 <= sdi;
   sdo <= spi_0_sdo;
   ss_0_1 <= ss;
+  tilt_a_1 <= tilt_a;
   tilt_en <= pwm_tilt_o;
   tilt_in1 <= not_gate_2_o;
   tilt_in2(0) <= xlslice_6_Dout(0);
@@ -197,9 +231,23 @@ clock_divider_0: component assembly_clock_divider_0_0
       clk_div => clock_divider_0_clk_div,
       rst => rst_0_1
     );
+debouncer_pan: component assembly_debouncer_0_1
+     port map (
+      clk => clock_divider_0_clk_div,
+      inp => pan_a_1,
+      outp => debouncer_pan_outp,
+      rst => rst_0_1
+    );
+debouncer_tilt: component assembly_debouncer_0_0
+     port map (
+      clk => clock_divider_0_clk_div,
+      inp => tilt_a_1,
+      outp => debouncer_tilt_outp,
+      rst => rst_0_1
+    );
 encoder_pan: component assembly_encoder_tilt_0
      port map (
-      a => a_0_2,
+      a => debouncer_pan_outp,
       b => b_0_2,
       clk => clock_divider_0_clk_div,
       cnt(7 downto 0) => encoder_tilt1_cnt(7 downto 0),
@@ -207,7 +255,7 @@ encoder_pan: component assembly_encoder_tilt_0
     );
 encoder_tilt: component assembly_encoder_0_0
      port map (
-      a => a_0_1,
+      a => debouncer_tilt_outp,
       b => b_0_1,
       clk => clock_divider_0_clk_div,
       cnt(7 downto 0) => encoder_0_cnt(7 downto 0),
@@ -251,6 +299,18 @@ xlconcat_0: component assembly_xlconcat_0_2
       In0(7 downto 0) => encoder_0_cnt(7 downto 0),
       In1(7 downto 0) => encoder_tilt1_cnt(7 downto 0),
       dout(15 downto 0) => xlconcat_0_dout(15 downto 0)
+    );
+xlconcat_1: component assembly_xlconcat_1_0
+     port map (
+      In0(0) => pan_a_1,
+      In1(0) => b_0_2,
+      In2(0) => debouncer_pan_outp,
+      In3(0) => '0',
+      In4(0) => tilt_a_1,
+      In5(0) => b_0_1,
+      In6(0) => debouncer_tilt_outp,
+      In7(0) => '0',
+      dout(7 downto 0) => xlconcat_1_dout(7 downto 0)
     );
 xlslice_3: component assembly_xlslice_3_0
      port map (

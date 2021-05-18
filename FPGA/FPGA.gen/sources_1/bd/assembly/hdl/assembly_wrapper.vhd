@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Tue May 18 15:49:10 2021
+--Date        : Tue May 18 21:48:41 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly_wrapper.bd
 --Design      : assembly_wrapper
@@ -13,6 +13,7 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity assembly_wrapper is
   port (
+    ar : out STD_LOGIC_VECTOR ( 7 downto 0 );
     clk : in STD_LOGIC;
     pan_a : in STD_LOGIC;
     pan_b : in STD_LOGIC;
@@ -50,12 +51,14 @@ architecture STRUCTURE of assembly_wrapper is
     pan_a : in STD_LOGIC;
     tilt_en : out STD_LOGIC;
     tilt_in1 : out STD_LOGIC;
-    tilt_in2 : out STD_LOGIC_VECTOR ( 0 to 0 )
+    tilt_in2 : out STD_LOGIC_VECTOR ( 0 to 0 );
+    ar : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component assembly;
 begin
 assembly_i: component assembly
      port map (
+      ar(7 downto 0) => ar(7 downto 0),
       clk => clk,
       pan_a => pan_a,
       pan_b => pan_b,

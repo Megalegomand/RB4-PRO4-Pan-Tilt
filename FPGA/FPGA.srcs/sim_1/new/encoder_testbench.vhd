@@ -54,9 +54,9 @@ begin
     
     process
     begin
-        enc1 <= not enc1 after period * 2;
-        wait for period;
-        enc2 <= not enc2 after period * 2;
+        enc1 <= not enc1 after period * 4;
+        wait for period*2;
+        enc2 <= not enc2 after period * 4;
     end process;
     
     process
@@ -80,7 +80,6 @@ begin
         b => b, 
         cnt => cnt,
         rst => '0',
-        state => state,
         clk => clk
     );
 
