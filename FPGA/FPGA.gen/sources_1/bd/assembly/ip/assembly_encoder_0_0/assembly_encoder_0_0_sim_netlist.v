@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Wed May 19 11:46:06 2021
+// Date        : Wed May 19 22:26:12 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_sim_netlist.v
@@ -100,7 +100,8 @@ module assembly_encoder_0_0_encoder
         .I4(col_p[0]),
         .O(cnt_t_0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     a_t_reg
        (.C(clk),
         .CE(1'b1),
@@ -108,56 +109,73 @@ module assembly_encoder_0_0_encoder
         .Q(col_p[1]),
         .R(1'b0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     b_t_reg
        (.C(clk),
         .CE(1'b1),
         .D(b),
         .Q(col_p[0]),
         .R(1'b0));
-  FDRE \cnt_reg[0] 
+  FDRE #(
+    .IS_C_INVERTED(1'b1)) 
+    \cnt_reg[0] 
        (.C(clk),
         .CE(1'b1),
         .D(cnt_t_reg[0]),
         .Q(cnt[0]),
         .R(1'b0));
-  FDRE \cnt_reg[1] 
+  FDRE #(
+    .IS_C_INVERTED(1'b1)) 
+    \cnt_reg[1] 
        (.C(clk),
         .CE(1'b1),
         .D(cnt_t_reg[1]),
         .Q(cnt[1]),
         .R(1'b0));
-  FDRE \cnt_reg[2] 
+  FDRE #(
+    .IS_C_INVERTED(1'b1)) 
+    \cnt_reg[2] 
        (.C(clk),
         .CE(1'b1),
         .D(cnt_t_reg[2]),
         .Q(cnt[2]),
         .R(1'b0));
-  FDRE \cnt_reg[3] 
+  FDRE #(
+    .IS_C_INVERTED(1'b1)) 
+    \cnt_reg[3] 
        (.C(clk),
         .CE(1'b1),
         .D(cnt_t_reg[3]),
         .Q(cnt[3]),
         .R(1'b0));
-  FDRE \cnt_reg[4] 
+  FDRE #(
+    .IS_C_INVERTED(1'b1)) 
+    \cnt_reg[4] 
        (.C(clk),
         .CE(1'b1),
         .D(cnt_t_reg[4]),
         .Q(cnt[4]),
         .R(1'b0));
-  FDRE \cnt_reg[5] 
+  FDRE #(
+    .IS_C_INVERTED(1'b1)) 
+    \cnt_reg[5] 
        (.C(clk),
         .CE(1'b1),
         .D(cnt_t_reg[5]),
         .Q(cnt[5]),
         .R(1'b0));
-  FDRE \cnt_reg[6] 
+  FDRE #(
+    .IS_C_INVERTED(1'b1)) 
+    \cnt_reg[6] 
        (.C(clk),
         .CE(1'b1),
         .D(cnt_t_reg[6]),
         .Q(cnt[6]),
         .R(1'b0));
-  FDRE \cnt_reg[7] 
+  FDRE #(
+    .IS_C_INVERTED(1'b1)) 
+    \cnt_reg[7] 
        (.C(clk),
         .CE(1'b1),
         .D(cnt_t_reg[7]),
@@ -185,7 +203,8 @@ module assembly_encoder_0_0_encoder
         .I3(col_p[1]),
         .O(\cnt_t[7]_i_1_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_t_reg[0] 
        (.C(clk),
         .CE(\cnt_t[7]_i_1_n_0 ),
@@ -193,7 +212,8 @@ module assembly_encoder_0_0_encoder
         .Q(cnt_t_reg[0]),
         .R(cnt_t_0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_t_reg[1] 
        (.C(clk),
         .CE(\cnt_t[7]_i_1_n_0 ),
@@ -201,7 +221,8 @@ module assembly_encoder_0_0_encoder
         .Q(cnt_t_reg[1]),
         .R(cnt_t_0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_t_reg[2] 
        (.C(clk),
         .CE(\cnt_t[7]_i_1_n_0 ),
@@ -209,7 +230,8 @@ module assembly_encoder_0_0_encoder
         .Q(cnt_t_reg[2]),
         .R(cnt_t_0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_t_reg[3] 
        (.C(clk),
         .CE(\cnt_t[7]_i_1_n_0 ),
@@ -217,7 +239,8 @@ module assembly_encoder_0_0_encoder
         .Q(cnt_t_reg[3]),
         .R(cnt_t_0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_t_reg[4] 
        (.C(clk),
         .CE(\cnt_t[7]_i_1_n_0 ),
@@ -225,7 +248,8 @@ module assembly_encoder_0_0_encoder
         .Q(cnt_t_reg[4]),
         .R(cnt_t_0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_t_reg[5] 
        (.C(clk),
         .CE(\cnt_t[7]_i_1_n_0 ),
@@ -233,7 +257,8 @@ module assembly_encoder_0_0_encoder
         .Q(cnt_t_reg[5]),
         .R(cnt_t_0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_t_reg[6] 
        (.C(clk),
         .CE(\cnt_t[7]_i_1_n_0 ),
@@ -241,7 +266,8 @@ module assembly_encoder_0_0_encoder
         .Q(cnt_t_reg[6]),
         .R(cnt_t_0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_t_reg[7] 
        (.C(clk),
         .CE(\cnt_t[7]_i_1_n_0 ),

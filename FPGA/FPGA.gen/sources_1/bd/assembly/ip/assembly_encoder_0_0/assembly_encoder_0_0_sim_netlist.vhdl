@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Wed May 19 11:46:06 2021
+-- Date        : Wed May 19 22:26:12 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_sim_netlist.vhdl
@@ -68,7 +68,8 @@ begin
     );
 a_t_reg: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -79,7 +80,8 @@ a_t_reg: unisim.vcomponents.FDRE
     );
 b_t_reg: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -89,7 +91,10 @@ b_t_reg: unisim.vcomponents.FDRE
       R => '0'
     );
 \cnt_reg[0]\: unisim.vcomponents.FDRE
-     port map (
+    generic map(
+      IS_C_INVERTED => '1'
+    )
+        port map (
       C => clk,
       CE => '1',
       D => cnt_t_reg(0),
@@ -97,7 +102,10 @@ b_t_reg: unisim.vcomponents.FDRE
       R => '0'
     );
 \cnt_reg[1]\: unisim.vcomponents.FDRE
-     port map (
+    generic map(
+      IS_C_INVERTED => '1'
+    )
+        port map (
       C => clk,
       CE => '1',
       D => cnt_t_reg(1),
@@ -105,7 +113,10 @@ b_t_reg: unisim.vcomponents.FDRE
       R => '0'
     );
 \cnt_reg[2]\: unisim.vcomponents.FDRE
-     port map (
+    generic map(
+      IS_C_INVERTED => '1'
+    )
+        port map (
       C => clk,
       CE => '1',
       D => cnt_t_reg(2),
@@ -113,7 +124,10 @@ b_t_reg: unisim.vcomponents.FDRE
       R => '0'
     );
 \cnt_reg[3]\: unisim.vcomponents.FDRE
-     port map (
+    generic map(
+      IS_C_INVERTED => '1'
+    )
+        port map (
       C => clk,
       CE => '1',
       D => cnt_t_reg(3),
@@ -121,7 +135,10 @@ b_t_reg: unisim.vcomponents.FDRE
       R => '0'
     );
 \cnt_reg[4]\: unisim.vcomponents.FDRE
-     port map (
+    generic map(
+      IS_C_INVERTED => '1'
+    )
+        port map (
       C => clk,
       CE => '1',
       D => cnt_t_reg(4),
@@ -129,7 +146,10 @@ b_t_reg: unisim.vcomponents.FDRE
       R => '0'
     );
 \cnt_reg[5]\: unisim.vcomponents.FDRE
-     port map (
+    generic map(
+      IS_C_INVERTED => '1'
+    )
+        port map (
       C => clk,
       CE => '1',
       D => cnt_t_reg(5),
@@ -137,7 +157,10 @@ b_t_reg: unisim.vcomponents.FDRE
       R => '0'
     );
 \cnt_reg[6]\: unisim.vcomponents.FDRE
-     port map (
+    generic map(
+      IS_C_INVERTED => '1'
+    )
+        port map (
       C => clk,
       CE => '1',
       D => cnt_t_reg(6),
@@ -145,7 +168,10 @@ b_t_reg: unisim.vcomponents.FDRE
       R => '0'
     );
 \cnt_reg[7]\: unisim.vcomponents.FDRE
-     port map (
+    generic map(
+      IS_C_INVERTED => '1'
+    )
+        port map (
       C => clk,
       CE => '1',
       D => cnt_t_reg(7),
@@ -184,7 +210,8 @@ cnt_t1: unisim.vcomponents.LUT4
     );
 \cnt_t_reg[0]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -195,7 +222,8 @@ cnt_t1: unisim.vcomponents.LUT4
     );
 \cnt_t_reg[1]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -206,7 +234,8 @@ cnt_t1: unisim.vcomponents.LUT4
     );
 \cnt_t_reg[2]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -217,7 +246,8 @@ cnt_t1: unisim.vcomponents.LUT4
     );
 \cnt_t_reg[3]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -228,7 +258,8 @@ cnt_t1: unisim.vcomponents.LUT4
     );
 \cnt_t_reg[4]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -239,7 +270,8 @@ cnt_t1: unisim.vcomponents.LUT4
     );
 \cnt_t_reg[5]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -250,7 +282,8 @@ cnt_t1: unisim.vcomponents.LUT4
     );
 \cnt_t_reg[6]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -261,7 +294,8 @@ cnt_t1: unisim.vcomponents.LUT4
     );
 \cnt_t_reg[7]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
