@@ -59,8 +59,8 @@ ENTITY assembly_encoder_tilt_0 IS
     a : IN STD_LOGIC;
     b : IN STD_LOGIC;
     rst : IN STD_LOGIC;
-    col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-    cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    u : OUT STD_LOGIC;
+    d : OUT STD_LOGIC
   );
 END assembly_encoder_tilt_0;
 
@@ -76,8 +76,8 @@ ARCHITECTURE assembly_encoder_tilt_0_arch OF assembly_encoder_tilt_0 IS
       a : IN STD_LOGIC;
       b : IN STD_LOGIC;
       rst : IN STD_LOGIC;
-      col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-      cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+      u : OUT STD_LOGIC;
+      d : OUT STD_LOGIC
     );
   END COMPONENT encoder;
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
@@ -98,7 +98,7 @@ BEGIN
       a => a,
       b => b,
       rst => rst,
-      col_p => col_p,
-      cnt => cnt
+      u => u,
+      d => d
     );
 END assembly_encoder_tilt_0_arch;

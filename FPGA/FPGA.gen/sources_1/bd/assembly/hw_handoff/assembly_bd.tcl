@@ -194,7 +194,7 @@ proc create_root_design { parentCell } {
      return 1
    }
     set_property -dict [ list \
-   CONFIG.n_bits {3} \
+   CONFIG.n_bits {6} \
  ] $clock_divider_0
 
   # Create instance: encoder_pan, and set properties
@@ -301,9 +301,9 @@ proc create_root_design { parentCell } {
   # Create instance: xlconcat_1, and set properties
   set xlconcat_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_1 ]
   set_property -dict [ list \
-   CONFIG.IN0_WIDTH {4} \
-   CONFIG.IN1_WIDTH {4} \
-   CONFIG.NUM_PORTS {2} \
+   CONFIG.IN0_WIDTH {1} \
+   CONFIG.IN1_WIDTH {1} \
+   CONFIG.NUM_PORTS {8} \
  ] $xlconcat_1
 
   # Create instance: xlslice_3, and set properties
@@ -362,14 +362,16 @@ proc create_root_design { parentCell } {
   # Create port connections
   connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk]
   connect_bd_net -net clock_divider_0_clk_div [get_bd_pins clock_divider_0/clk_div] [get_bd_pins encoder_pan/clk] [get_bd_pins encoder_tilt/clk] [get_bd_pins pwm_pan/clk] [get_bd_pins pwm_tilt/clk] [get_bd_pins spi_0/clk]
-  connect_bd_net -net encoder_0_cnt [get_bd_pins encoder_tilt/cnt] [get_bd_pins xlconcat_0/In0]
-  connect_bd_net -net encoder_pan_col_p [get_bd_pins encoder_pan/col_p] [get_bd_pins xlconcat_1/In0]
-  connect_bd_net -net encoder_tilt1_cnt [get_bd_pins encoder_pan/cnt] [get_bd_pins xlconcat_0/In1]
-  connect_bd_net -net encoder_tilt_col_p [get_bd_pins encoder_tilt/col_p] [get_bd_pins xlconcat_1/In1]
+  connect_bd_net -net encoder_0_cnt [get_bd_pins xlconcat_0/In0]
+  connect_bd_net -net encoder_pan_d [get_bd_pins encoder_pan/d] [get_bd_pins xlconcat_1/In3]
+  connect_bd_net -net encoder_pan_u [get_bd_pins encoder_pan/u] [get_bd_pins xlconcat_1/In2]
+  connect_bd_net -net encoder_tilt1_cnt [get_bd_pins xlconcat_0/In1]
+  connect_bd_net -net encoder_tilt_d [get_bd_pins encoder_tilt/d] [get_bd_pins xlconcat_1/In7]
+  connect_bd_net -net encoder_tilt_u [get_bd_pins encoder_tilt/u] [get_bd_pins xlconcat_1/In6]
   connect_bd_net -net not_gate_1_o [get_bd_ports pan_in1] [get_bd_pins not_gate_1/o]
   connect_bd_net -net not_gate_2_o [get_bd_ports tilt_in1] [get_bd_pins not_gate_2/o]
-  connect_bd_net -net pan_a_1 [get_bd_ports pan_a] [get_bd_pins encoder_pan/a]
-  connect_bd_net -net pan_b_1 [get_bd_ports pan_b] [get_bd_pins encoder_pan/b]
+  connect_bd_net -net pan_a_1 [get_bd_ports pan_a] [get_bd_pins encoder_pan/a] [get_bd_pins xlconcat_1/In0]
+  connect_bd_net -net pan_b_1 [get_bd_ports pan_b] [get_bd_pins encoder_pan/b] [get_bd_pins xlconcat_1/In1]
   connect_bd_net -net pwm_0_o [get_bd_ports pan_en] [get_bd_pins pwm_pan/o]
   connect_bd_net -net pwm_tilt_o [get_bd_ports tilt_en] [get_bd_pins pwm_tilt/o]
   connect_bd_net -net rst_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins encoder_pan/rst] [get_bd_pins encoder_tilt/rst] [get_bd_pins spi_0/rst]
@@ -378,8 +380,8 @@ proc create_root_design { parentCell } {
   connect_bd_net -net spi_0_data_out [get_bd_pins spi_0/data_out] [get_bd_pins xlslice_pan/Din] [get_bd_pins xlslice_tilt/Din]
   connect_bd_net -net spi_0_sdo [get_bd_ports sdo] [get_bd_pins spi_0/sdo]
   connect_bd_net -net ss_0_1 [get_bd_ports ss] [get_bd_pins spi_0/ss]
-  connect_bd_net -net tilt_a_1 [get_bd_ports tilt_a] [get_bd_pins encoder_tilt/a]
-  connect_bd_net -net tilt_b_1 [get_bd_ports tilt_b] [get_bd_pins encoder_tilt/b]
+  connect_bd_net -net tilt_a_1 [get_bd_ports tilt_a] [get_bd_pins encoder_tilt/a] [get_bd_pins xlconcat_1/In4]
+  connect_bd_net -net tilt_b_1 [get_bd_ports tilt_b] [get_bd_pins encoder_tilt/b] [get_bd_pins xlconcat_1/In5]
   connect_bd_net -net xlconcat_0_dout [get_bd_pins spi_0/data_in] [get_bd_pins xlconcat_0/dout]
   connect_bd_net -net xlconcat_1_dout [get_bd_ports ar] [get_bd_pins xlconcat_1/dout]
   connect_bd_net -net xlslice_0_Dout [get_bd_pins xlslice_3/Din] [get_bd_pins xlslice_4/Din] [get_bd_pins xlslice_pan/Dout]

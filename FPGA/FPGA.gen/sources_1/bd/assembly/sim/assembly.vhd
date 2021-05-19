@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Tue May 18 23:15:01 2021
+--Date        : Wed May 19 08:34:38 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -128,37 +128,43 @@ architecture STRUCTURE of assembly is
   end component assembly_not_gate_1_1;
   component assembly_xlconcat_1_0 is
   port (
-    In0 : in STD_LOGIC_VECTOR ( 3 downto 0 );
-    In1 : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    In0 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In1 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In2 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In3 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In4 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In5 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In6 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In7 : in STD_LOGIC_VECTOR ( 0 to 0 );
     dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component assembly_xlconcat_1_0;
-  component assembly_encoder_tilt_0 is
-  port (
-    clk : in STD_LOGIC;
-    a : in STD_LOGIC;
-    b : in STD_LOGIC;
-    rst : in STD_LOGIC;
-    col_p : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
-  );
-  end component assembly_encoder_tilt_0;
   component assembly_encoder_0_0 is
   port (
     clk : in STD_LOGIC;
     a : in STD_LOGIC;
     b : in STD_LOGIC;
     rst : in STD_LOGIC;
-    col_p : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
+    u : out STD_LOGIC;
+    d : out STD_LOGIC
   );
   end component assembly_encoder_0_0;
+  component assembly_encoder_tilt_0 is
+  port (
+    clk : in STD_LOGIC;
+    a : in STD_LOGIC;
+    b : in STD_LOGIC;
+    rst : in STD_LOGIC;
+    u : out STD_LOGIC;
+    d : out STD_LOGIC
+  );
+  end component assembly_encoder_tilt_0;
   signal clk_1 : STD_LOGIC;
   signal clock_divider_0_clk_div : STD_LOGIC;
-  signal encoder_0_cnt : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal encoder_pan_col_p : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal encoder_tilt1_cnt : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal encoder_tilt_col_p : STD_LOGIC_VECTOR ( 3 downto 0 );
+  signal encoder_pan_d : STD_LOGIC;
+  signal encoder_pan_u : STD_LOGIC;
+  signal encoder_tilt_d : STD_LOGIC;
+  signal encoder_tilt_u : STD_LOGIC;
   signal not_gate_1_o : STD_LOGIC;
   signal not_gate_2_o : STD_LOGIC;
   signal pan_a_1 : STD_LOGIC;
@@ -181,6 +187,8 @@ architecture STRUCTURE of assembly is
   signal xlslice_4_Dout : STD_LOGIC_VECTOR ( 6 downto 0 );
   signal xlslice_5_Dout : STD_LOGIC_VECTOR ( 6 downto 0 );
   signal xlslice_6_Dout : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal NLW_xlconcat_0_In0_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal NLW_xlconcat_0_In1_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   attribute X_INTERFACE_INFO : string;
   attribute X_INTERFACE_INFO of clk : signal is "xilinx.com:signal:clock:1.0 CLK.CLK CLK";
   attribute X_INTERFACE_PARAMETER : string;
@@ -216,18 +224,18 @@ encoder_pan: component assembly_encoder_tilt_0
       a => pan_a_1,
       b => pan_b_1,
       clk => clock_divider_0_clk_div,
-      cnt(7 downto 0) => encoder_tilt1_cnt(7 downto 0),
-      col_p(3 downto 0) => encoder_pan_col_p(3 downto 0),
-      rst => rst_0_1
+      d => encoder_pan_d,
+      rst => rst_0_1,
+      u => encoder_pan_u
     );
 encoder_tilt: component assembly_encoder_0_0
      port map (
       a => tilt_a_1,
       b => tilt_b_1,
       clk => clock_divider_0_clk_div,
-      cnt(7 downto 0) => encoder_0_cnt(7 downto 0),
-      col_p(3 downto 0) => encoder_tilt_col_p(3 downto 0),
-      rst => rst_0_1
+      d => encoder_tilt_d,
+      rst => rst_0_1,
+      u => encoder_tilt_u
     );
 not_gate_1: component assembly_not_gate_1_0
      port map (
@@ -264,14 +272,20 @@ spi_0: component assembly_spi_0_0
     );
 xlconcat_0: component assembly_xlconcat_0_2
      port map (
-      In0(7 downto 0) => encoder_0_cnt(7 downto 0),
-      In1(7 downto 0) => encoder_tilt1_cnt(7 downto 0),
+      In0(7 downto 0) => NLW_xlconcat_0_In0_UNCONNECTED(7 downto 0),
+      In1(7 downto 0) => NLW_xlconcat_0_In1_UNCONNECTED(7 downto 0),
       dout(15 downto 0) => xlconcat_0_dout(15 downto 0)
     );
 xlconcat_1: component assembly_xlconcat_1_0
      port map (
-      In0(3 downto 0) => encoder_pan_col_p(3 downto 0),
-      In1(3 downto 0) => encoder_tilt_col_p(3 downto 0),
+      In0(0) => pan_a_1,
+      In1(0) => pan_b_1,
+      In2(0) => encoder_pan_u,
+      In3(0) => encoder_pan_d,
+      In4(0) => tilt_a_1,
+      In5(0) => tilt_b_1,
+      In6(0) => encoder_tilt_u,
+      In7(0) => encoder_tilt_d,
       dout(7 downto 0) => xlconcat_1_dout(7 downto 0)
     );
 xlslice_3: component assembly_xlslice_3_0

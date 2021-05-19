@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Thu Apr 29 09:26:11 2021
+-- Date        : Wed May 19 08:35:31 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0_sim_netlist.vhdl
@@ -25,11 +25,17 @@ end assembly_clock_divider_0_0_clock_divider;
 
 architecture STRUCTURE of assembly_clock_divider_0_0_clock_divider is
   signal \^clk_div\ : STD_LOGIC;
-  signal cnt : STD_LOGIC_VECTOR ( 1 downto 0 );
-  signal plusOp : STD_LOGIC_VECTOR ( 2 downto 0 );
+  signal \cnt_reg_n_0_[0]\ : STD_LOGIC;
+  signal \cnt_reg_n_0_[1]\ : STD_LOGIC;
+  signal \cnt_reg_n_0_[2]\ : STD_LOGIC;
+  signal \cnt_reg_n_0_[3]\ : STD_LOGIC;
+  signal \cnt_reg_n_0_[4]\ : STD_LOGIC;
+  signal plusOp : STD_LOGIC_VECTOR ( 5 downto 0 );
   attribute SOFT_HLUTNM : string;
-  attribute SOFT_HLUTNM of \cnt[1]_i_1\ : label is "soft_lutpair0";
-  attribute SOFT_HLUTNM of \cnt[2]_i_1\ : label is "soft_lutpair0";
+  attribute SOFT_HLUTNM of \cnt[1]_i_1\ : label is "soft_lutpair1";
+  attribute SOFT_HLUTNM of \cnt[2]_i_1\ : label is "soft_lutpair1";
+  attribute SOFT_HLUTNM of \cnt[3]_i_1\ : label is "soft_lutpair0";
+  attribute SOFT_HLUTNM of \cnt[4]_i_1\ : label is "soft_lutpair0";
 begin
   clk_div <= \^clk_div\;
 \cnt[0]_i_1\: unisim.vcomponents.LUT1
@@ -37,7 +43,7 @@ begin
       INIT => X"1"
     )
         port map (
-      I0 => cnt(0),
+      I0 => \cnt_reg_n_0_[0]\,
       O => plusOp(0)
     );
 \cnt[1]_i_1\: unisim.vcomponents.LUT2
@@ -45,8 +51,8 @@ begin
       INIT => X"6"
     )
         port map (
-      I0 => cnt(0),
-      I1 => cnt(1),
+      I0 => \cnt_reg_n_0_[0]\,
+      I1 => \cnt_reg_n_0_[1]\,
       O => plusOp(1)
     );
 \cnt[2]_i_1\: unisim.vcomponents.LUT3
@@ -54,10 +60,46 @@ begin
       INIT => X"78"
     )
         port map (
-      I0 => cnt(0),
-      I1 => cnt(1),
-      I2 => \^clk_div\,
+      I0 => \cnt_reg_n_0_[0]\,
+      I1 => \cnt_reg_n_0_[1]\,
+      I2 => \cnt_reg_n_0_[2]\,
       O => plusOp(2)
+    );
+\cnt[3]_i_1\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"7F80"
+    )
+        port map (
+      I0 => \cnt_reg_n_0_[1]\,
+      I1 => \cnt_reg_n_0_[0]\,
+      I2 => \cnt_reg_n_0_[2]\,
+      I3 => \cnt_reg_n_0_[3]\,
+      O => plusOp(3)
+    );
+\cnt[4]_i_1\: unisim.vcomponents.LUT5
+    generic map(
+      INIT => X"7FFF8000"
+    )
+        port map (
+      I0 => \cnt_reg_n_0_[2]\,
+      I1 => \cnt_reg_n_0_[0]\,
+      I2 => \cnt_reg_n_0_[1]\,
+      I3 => \cnt_reg_n_0_[3]\,
+      I4 => \cnt_reg_n_0_[4]\,
+      O => plusOp(4)
+    );
+\cnt[5]_i_1\: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"7FFFFFFF80000000"
+    )
+        port map (
+      I0 => \cnt_reg_n_0_[3]\,
+      I1 => \cnt_reg_n_0_[1]\,
+      I2 => \cnt_reg_n_0_[0]\,
+      I3 => \cnt_reg_n_0_[2]\,
+      I4 => \cnt_reg_n_0_[4]\,
+      I5 => \^clk_div\,
+      O => plusOp(5)
     );
 \cnt_reg[0]\: unisim.vcomponents.FDRE
     generic map(
@@ -67,7 +109,7 @@ begin
       C => clk,
       CE => '1',
       D => plusOp(0),
-      Q => cnt(0),
+      Q => \cnt_reg_n_0_[0]\,
       R => '0'
     );
 \cnt_reg[1]\: unisim.vcomponents.FDRE
@@ -78,7 +120,7 @@ begin
       C => clk,
       CE => '1',
       D => plusOp(1),
-      Q => cnt(1),
+      Q => \cnt_reg_n_0_[1]\,
       R => '0'
     );
 \cnt_reg[2]\: unisim.vcomponents.FDRE
@@ -89,6 +131,39 @@ begin
       C => clk,
       CE => '1',
       D => plusOp(2),
+      Q => \cnt_reg_n_0_[2]\,
+      R => '0'
+    );
+\cnt_reg[3]\: unisim.vcomponents.FDRE
+    generic map(
+      INIT => '0'
+    )
+        port map (
+      C => clk,
+      CE => '1',
+      D => plusOp(3),
+      Q => \cnt_reg_n_0_[3]\,
+      R => '0'
+    );
+\cnt_reg[4]\: unisim.vcomponents.FDRE
+    generic map(
+      INIT => '0'
+    )
+        port map (
+      C => clk,
+      CE => '1',
+      D => plusOp(4),
+      Q => \cnt_reg_n_0_[4]\,
+      R => '0'
+    );
+\cnt_reg[5]\: unisim.vcomponents.FDRE
+    generic map(
+      INIT => '0'
+    )
+        port map (
+      C => clk,
+      CE => '1',
+      D => plusOp(5),
       Q => \^clk_div\,
       R => '0'
     );
@@ -119,7 +194,7 @@ architecture STRUCTURE of assembly_clock_divider_0_0 is
   attribute x_interface_info : string;
   attribute x_interface_info of clk : signal is "xilinx.com:signal:clock:1.0 clk CLK";
   attribute x_interface_parameter : string;
-  attribute x_interface_parameter of clk : signal is "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, CLK_DOMAIN assembly_clk_0, INSERT_VIP 0";
+  attribute x_interface_parameter of clk : signal is "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, CLK_DOMAIN assembly_clk, INSERT_VIP 0";
   attribute x_interface_info of rst : signal is "xilinx.com:signal:reset:1.0 rst RST";
   attribute x_interface_parameter of rst : signal is "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0";
 begin

@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Tue May 18 23:13:51 2021
+-- Date        : Wed May 19 08:27:32 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_sim_netlist.vhdl
@@ -16,361 +16,70 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity assembly_encoder_0_0_encoder is
   port (
-    col_p : out STD_LOGIC_VECTOR ( 1 downto 0 );
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    a : in STD_LOGIC;
+    u : out STD_LOGIC;
+    d : out STD_LOGIC;
     b : in STD_LOGIC;
     clk : in STD_LOGIC;
-    rst : in STD_LOGIC
+    a : in STD_LOGIC
   );
   attribute ORIG_REF_NAME : string;
   attribute ORIG_REF_NAME of assembly_encoder_0_0_encoder : entity is "encoder";
 end assembly_encoder_0_0_encoder;
 
 architecture STRUCTURE of assembly_encoder_0_0_encoder is
-  signal cnt_t : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal \cnt_t1__0\ : STD_LOGIC;
-  signal \cnt_t[7]_i_1_n_0\ : STD_LOGIC;
-  signal cnt_t_0 : STD_LOGIC;
-  signal cnt_t_reg : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal \^col_p\ : STD_LOGIC_VECTOR ( 1 downto 0 );
-  signal \plusOp_carry__0_n_2\ : STD_LOGIC;
-  signal \plusOp_carry__0_n_3\ : STD_LOGIC;
-  signal \plusOp_carry_i_1__0_n_0\ : STD_LOGIC;
-  signal plusOp_carry_i_1_n_0 : STD_LOGIC;
-  signal \plusOp_carry_i_2__0_n_0\ : STD_LOGIC;
-  signal plusOp_carry_i_2_n_0 : STD_LOGIC;
-  signal \plusOp_carry_i_3__0_n_0\ : STD_LOGIC;
-  signal plusOp_carry_i_3_n_0 : STD_LOGIC;
-  signal plusOp_carry_i_4_n_0 : STD_LOGIC;
-  signal plusOp_carry_n_0 : STD_LOGIC;
-  signal plusOp_carry_n_1 : STD_LOGIC;
-  signal plusOp_carry_n_2 : STD_LOGIC;
-  signal plusOp_carry_n_3 : STD_LOGIC;
-  signal \NLW_plusOp_carry__0_CO_UNCONNECTED\ : STD_LOGIC_VECTOR ( 3 downto 2 );
-  signal \NLW_plusOp_carry__0_O_UNCONNECTED\ : STD_LOGIC_VECTOR ( 3 to 3 );
-  attribute ADDER_THRESHOLD : integer;
-  attribute ADDER_THRESHOLD of plusOp_carry : label is 35;
-  attribute ADDER_THRESHOLD of \plusOp_carry__0\ : label is 35;
+  signal q0 : STD_LOGIC;
+  signal q0_i_1_n_0 : STD_LOGIC;
+  signal q1 : STD_LOGIC;
+  attribute SOFT_HLUTNM : string;
+  attribute SOFT_HLUTNM of \d__0\ : label is "soft_lutpair0";
+  attribute SOFT_HLUTNM of \u__0\ : label is "soft_lutpair0";
 begin
-  col_p(1 downto 0) <= \^col_p\(1 downto 0);
-\/i_\: unisim.vcomponents.LUT5
+\d__0\: unisim.vcomponents.LUT4
     generic map(
-      INIT => X"82282882"
+      INIT => X"C432"
     )
         port map (
-      I0 => rst,
-      I1 => a,
-      I2 => b,
-      I3 => \^col_p\(1),
-      I4 => \^col_p\(0),
-      O => cnt_t_0
+      I0 => b,
+      I1 => q1,
+      I2 => q0,
+      I3 => a,
+      O => d
     );
-a_t_reg: unisim.vcomponents.FDRE
+q0_i_1: unisim.vcomponents.LUT2
     generic map(
-      INIT => '0'
+      INIT => X"6"
     )
         port map (
+      I0 => b,
+      I1 => a,
+      O => q0_i_1_n_0
+    );
+q0_reg: unisim.vcomponents.FDRE
+     port map (
       C => clk,
       CE => '1',
-      D => a,
-      Q => \^col_p\(1),
+      D => q0_i_1_n_0,
+      Q => q0,
       R => '0'
     );
-b_t_reg: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
+q1_reg: unisim.vcomponents.FDRE
+     port map (
       C => clk,
       CE => '1',
       D => b,
-      Q => \^col_p\(0),
+      Q => q1,
       R => '0'
     );
-\cnt_reg[0]\: unisim.vcomponents.FDRE
-     port map (
-      C => clk,
-      CE => '1',
-      D => cnt_t_reg(0),
-      Q => cnt(0),
-      R => '0'
-    );
-\cnt_reg[1]\: unisim.vcomponents.FDRE
-     port map (
-      C => clk,
-      CE => '1',
-      D => cnt_t_reg(1),
-      Q => cnt(1),
-      R => '0'
-    );
-\cnt_reg[2]\: unisim.vcomponents.FDRE
-     port map (
-      C => clk,
-      CE => '1',
-      D => cnt_t_reg(2),
-      Q => cnt(2),
-      R => '0'
-    );
-\cnt_reg[3]\: unisim.vcomponents.FDRE
-     port map (
-      C => clk,
-      CE => '1',
-      D => cnt_t_reg(3),
-      Q => cnt(3),
-      R => '0'
-    );
-\cnt_reg[4]\: unisim.vcomponents.FDRE
-     port map (
-      C => clk,
-      CE => '1',
-      D => cnt_t_reg(4),
-      Q => cnt(4),
-      R => '0'
-    );
-\cnt_reg[5]\: unisim.vcomponents.FDRE
-     port map (
-      C => clk,
-      CE => '1',
-      D => cnt_t_reg(5),
-      Q => cnt(5),
-      R => '0'
-    );
-\cnt_reg[6]\: unisim.vcomponents.FDRE
-     port map (
-      C => clk,
-      CE => '1',
-      D => cnt_t_reg(6),
-      Q => cnt(6),
-      R => '0'
-    );
-\cnt_reg[7]\: unisim.vcomponents.FDRE
-     port map (
-      C => clk,
-      CE => '1',
-      D => cnt_t_reg(7),
-      Q => cnt(7),
-      R => '0'
-    );
-cnt_t1: unisim.vcomponents.LUT4
+\u__0\: unisim.vcomponents.LUT4
     generic map(
-      INIT => X"4182"
+      INIT => X"183C"
     )
         port map (
-      I0 => \^col_p\(0),
-      I1 => \^col_p\(1),
-      I2 => b,
-      I3 => a,
-      O => \cnt_t1__0\
-    );
-\cnt_t[0]_i_1\: unisim.vcomponents.LUT1
-    generic map(
-      INIT => X"1"
-    )
-        port map (
-      I0 => cnt_t_reg(0),
-      O => cnt_t(0)
-    );
-\cnt_t[7]_i_1\: unisim.vcomponents.LUT4
-    generic map(
-      INIT => X"6996"
-    )
-        port map (
-      I0 => a,
-      I1 => b,
-      I2 => \^col_p\(0),
-      I3 => \^col_p\(1),
-      O => \cnt_t[7]_i_1_n_0\
-    );
-\cnt_t_reg[0]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
-      D => cnt_t(0),
-      Q => cnt_t_reg(0),
-      R => cnt_t_0
-    );
-\cnt_t_reg[1]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
-      D => cnt_t(1),
-      Q => cnt_t_reg(1),
-      R => cnt_t_0
-    );
-\cnt_t_reg[2]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
-      D => cnt_t(2),
-      Q => cnt_t_reg(2),
-      R => cnt_t_0
-    );
-\cnt_t_reg[3]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
-      D => cnt_t(3),
-      Q => cnt_t_reg(3),
-      R => cnt_t_0
-    );
-\cnt_t_reg[4]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
-      D => cnt_t(4),
-      Q => cnt_t_reg(4),
-      R => cnt_t_0
-    );
-\cnt_t_reg[5]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
-      D => cnt_t(5),
-      Q => cnt_t_reg(5),
-      R => cnt_t_0
-    );
-\cnt_t_reg[6]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
-      D => cnt_t(6),
-      Q => cnt_t_reg(6),
-      R => cnt_t_0
-    );
-\cnt_t_reg[7]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
-      D => cnt_t(7),
-      Q => cnt_t_reg(7),
-      R => cnt_t_0
-    );
-plusOp_carry: unisim.vcomponents.CARRY4
-     port map (
-      CI => '0',
-      CO(3) => plusOp_carry_n_0,
-      CO(2) => plusOp_carry_n_1,
-      CO(1) => plusOp_carry_n_2,
-      CO(0) => plusOp_carry_n_3,
-      CYINIT => cnt_t_reg(0),
-      DI(3 downto 2) => cnt_t_reg(3 downto 2),
-      DI(1) => \cnt_t1__0\,
-      DI(0) => cnt_t_reg(1),
-      O(3 downto 0) => cnt_t(4 downto 1),
-      S(3) => plusOp_carry_i_1_n_0,
-      S(2) => plusOp_carry_i_2_n_0,
-      S(1) => plusOp_carry_i_3_n_0,
-      S(0) => plusOp_carry_i_4_n_0
-    );
-\plusOp_carry__0\: unisim.vcomponents.CARRY4
-     port map (
-      CI => plusOp_carry_n_0,
-      CO(3 downto 2) => \NLW_plusOp_carry__0_CO_UNCONNECTED\(3 downto 2),
-      CO(1) => \plusOp_carry__0_n_2\,
-      CO(0) => \plusOp_carry__0_n_3\,
-      CYINIT => '0',
-      DI(3 downto 2) => B"00",
-      DI(1 downto 0) => cnt_t_reg(5 downto 4),
-      O(3) => \NLW_plusOp_carry__0_O_UNCONNECTED\(3),
-      O(2 downto 0) => cnt_t(7 downto 5),
-      S(3) => '0',
-      S(2) => \plusOp_carry_i_1__0_n_0\,
-      S(1) => \plusOp_carry_i_2__0_n_0\,
-      S(0) => \plusOp_carry_i_3__0_n_0\
-    );
-plusOp_carry_i_1: unisim.vcomponents.LUT2
-    generic map(
-      INIT => X"9"
-    )
-        port map (
-      I0 => cnt_t_reg(3),
-      I1 => cnt_t_reg(4),
-      O => plusOp_carry_i_1_n_0
-    );
-\plusOp_carry_i_1__0\: unisim.vcomponents.LUT2
-    generic map(
-      INIT => X"9"
-    )
-        port map (
-      I0 => cnt_t_reg(6),
-      I1 => cnt_t_reg(7),
-      O => \plusOp_carry_i_1__0_n_0\
-    );
-plusOp_carry_i_2: unisim.vcomponents.LUT2
-    generic map(
-      INIT => X"9"
-    )
-        port map (
-      I0 => cnt_t_reg(2),
-      I1 => cnt_t_reg(3),
-      O => plusOp_carry_i_2_n_0
-    );
-\plusOp_carry_i_2__0\: unisim.vcomponents.LUT2
-    generic map(
-      INIT => X"9"
-    )
-        port map (
-      I0 => cnt_t_reg(5),
-      I1 => cnt_t_reg(6),
-      O => \plusOp_carry_i_2__0_n_0\
-    );
-plusOp_carry_i_3: unisim.vcomponents.LUT5
-    generic map(
-      INIT => X"4182BE7D"
-    )
-        port map (
-      I0 => a,
-      I1 => b,
-      I2 => \^col_p\(1),
-      I3 => \^col_p\(0),
-      I4 => cnt_t_reg(2),
-      O => plusOp_carry_i_3_n_0
-    );
-\plusOp_carry_i_3__0\: unisim.vcomponents.LUT2
-    generic map(
-      INIT => X"9"
-    )
-        port map (
-      I0 => cnt_t_reg(4),
-      I1 => cnt_t_reg(5),
-      O => \plusOp_carry_i_3__0_n_0\
-    );
-plusOp_carry_i_4: unisim.vcomponents.LUT5
-    generic map(
-      INIT => X"4182BE7D"
-    )
-        port map (
-      I0 => a,
-      I1 => b,
-      I2 => \^col_p\(1),
-      I3 => \^col_p\(0),
-      I4 => cnt_t_reg(1),
-      O => plusOp_carry_i_4_n_0
+      I0 => b,
+      I1 => a,
+      I2 => q1,
+      I3 => q0,
+      O => u
     );
 end STRUCTURE;
 library IEEE;
@@ -383,8 +92,8 @@ entity assembly_encoder_0_0 is
     a : in STD_LOGIC;
     b : in STD_LOGIC;
     rst : in STD_LOGIC;
-    col_p : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
+    u : out STD_LOGIC;
+    d : out STD_LOGIC
   );
   attribute NotValidForBitStream : boolean;
   attribute NotValidForBitStream of assembly_encoder_0_0 : entity is true;
@@ -399,9 +108,6 @@ entity assembly_encoder_0_0 is
 end assembly_encoder_0_0;
 
 architecture STRUCTURE of assembly_encoder_0_0 is
-  signal \^a\ : STD_LOGIC;
-  signal \^b\ : STD_LOGIC;
-  signal \^col_p\ : STD_LOGIC_VECTOR ( 3 downto 2 );
   attribute x_interface_info : string;
   attribute x_interface_info of clk : signal is "xilinx.com:signal:clock:1.0 clk CLK";
   attribute x_interface_parameter : string;
@@ -409,18 +115,12 @@ architecture STRUCTURE of assembly_encoder_0_0 is
   attribute x_interface_info of rst : signal is "xilinx.com:signal:reset:1.0 rst RST";
   attribute x_interface_parameter of rst : signal is "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0";
 begin
-  \^a\ <= a;
-  \^b\ <= b;
-  col_p(3 downto 2) <= \^col_p\(3 downto 2);
-  col_p(1) <= \^a\;
-  col_p(0) <= \^b\;
 U0: entity work.assembly_encoder_0_0_encoder
      port map (
-      a => \^a\,
-      b => \^b\,
+      a => a,
+      b => b,
       clk => clk,
-      cnt(7 downto 0) => cnt(7 downto 0),
-      col_p(1 downto 0) => \^col_p\(3 downto 2),
-      rst => rst
+      d => d,
+      u => u
     );
 end STRUCTURE;

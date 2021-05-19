@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Thu Apr 29 09:26:11 2021
+// Date        : Wed May 19 08:35:31 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0_sim_netlist.v
@@ -19,7 +19,7 @@ module assembly_clock_divider_0_0
    (clk,
     rst,
     clk_div);
-  (* x_interface_info = "xilinx.com:signal:clock:1.0 clk CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, CLK_DOMAIN assembly_clk_0, INSERT_VIP 0" *) input clk;
+  (* x_interface_info = "xilinx.com:signal:clock:1.0 clk CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, CLK_DOMAIN assembly_clk, INSERT_VIP 0" *) input clk;
   (* x_interface_info = "xilinx.com:signal:reset:1.0 rst RST" *) (* x_interface_parameter = "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0" *) input rst;
   output clk_div;
 
@@ -40,36 +40,69 @@ module assembly_clock_divider_0_0_clock_divider
 
   wire clk;
   wire clk_div;
-  wire [1:0]cnt;
-  wire [2:0]plusOp;
+  wire \cnt_reg_n_0_[0] ;
+  wire \cnt_reg_n_0_[1] ;
+  wire \cnt_reg_n_0_[2] ;
+  wire \cnt_reg_n_0_[3] ;
+  wire \cnt_reg_n_0_[4] ;
+  wire [5:0]plusOp;
 
   LUT1 #(
     .INIT(2'h1)) 
     \cnt[0]_i_1 
-       (.I0(cnt[0]),
+       (.I0(\cnt_reg_n_0_[0] ),
         .O(plusOp[0]));
-  (* SOFT_HLUTNM = "soft_lutpair0" *) 
+  (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT2 #(
     .INIT(4'h6)) 
     \cnt[1]_i_1 
-       (.I0(cnt[0]),
-        .I1(cnt[1]),
+       (.I0(\cnt_reg_n_0_[0] ),
+        .I1(\cnt_reg_n_0_[1] ),
         .O(plusOp[1]));
-  (* SOFT_HLUTNM = "soft_lutpair0" *) 
+  (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT3 #(
     .INIT(8'h78)) 
     \cnt[2]_i_1 
-       (.I0(cnt[0]),
-        .I1(cnt[1]),
-        .I2(clk_div),
+       (.I0(\cnt_reg_n_0_[0] ),
+        .I1(\cnt_reg_n_0_[1] ),
+        .I2(\cnt_reg_n_0_[2] ),
         .O(plusOp[2]));
+  (* SOFT_HLUTNM = "soft_lutpair0" *) 
+  LUT4 #(
+    .INIT(16'h7F80)) 
+    \cnt[3]_i_1 
+       (.I0(\cnt_reg_n_0_[1] ),
+        .I1(\cnt_reg_n_0_[0] ),
+        .I2(\cnt_reg_n_0_[2] ),
+        .I3(\cnt_reg_n_0_[3] ),
+        .O(plusOp[3]));
+  (* SOFT_HLUTNM = "soft_lutpair0" *) 
+  LUT5 #(
+    .INIT(32'h7FFF8000)) 
+    \cnt[4]_i_1 
+       (.I0(\cnt_reg_n_0_[2] ),
+        .I1(\cnt_reg_n_0_[0] ),
+        .I2(\cnt_reg_n_0_[1] ),
+        .I3(\cnt_reg_n_0_[3] ),
+        .I4(\cnt_reg_n_0_[4] ),
+        .O(plusOp[4]));
+  LUT6 #(
+    .INIT(64'h7FFFFFFF80000000)) 
+    \cnt[5]_i_1 
+       (.I0(\cnt_reg_n_0_[3] ),
+        .I1(\cnt_reg_n_0_[1] ),
+        .I2(\cnt_reg_n_0_[0] ),
+        .I3(\cnt_reg_n_0_[2] ),
+        .I4(\cnt_reg_n_0_[4] ),
+        .I5(clk_div),
+        .O(plusOp[5]));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_reg[0] 
        (.C(clk),
         .CE(1'b1),
         .D(plusOp[0]),
-        .Q(cnt[0]),
+        .Q(\cnt_reg_n_0_[0] ),
         .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
@@ -77,7 +110,7 @@ module assembly_clock_divider_0_0_clock_divider
        (.C(clk),
         .CE(1'b1),
         .D(plusOp[1]),
-        .Q(cnt[1]),
+        .Q(\cnt_reg_n_0_[1] ),
         .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
@@ -85,6 +118,30 @@ module assembly_clock_divider_0_0_clock_divider
        (.C(clk),
         .CE(1'b1),
         .D(plusOp[2]),
+        .Q(\cnt_reg_n_0_[2] ),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_reg[3] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(plusOp[3]),
+        .Q(\cnt_reg_n_0_[3] ),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_reg[4] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(plusOp[4]),
+        .Q(\cnt_reg_n_0_[4] ),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_reg[5] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(plusOp[5]),
         .Q(clk_div),
         .R(1'b0));
 endmodule
