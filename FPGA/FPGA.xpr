@@ -111,8 +111,11 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_pwm_pan_0/assembly_pwm_pan_0.xci">
-          <Proxy FileSetName="assembly_pwm_pan_0"/>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
+          <Proxy FileSetName="assembly_clock_divider_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_spi_0_0/assembly_spi_0_0.xci">
+          <Proxy FileSetName="assembly_spi_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_not_gate_1_0/assembly_not_gate_1_0.xci">
           <Proxy FileSetName="assembly_not_gate_1_0"/>
@@ -120,17 +123,14 @@
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_pwm_0_0/assembly_pwm_0_0.xci">
           <Proxy FileSetName="assembly_pwm_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
-          <Proxy FileSetName="assembly_clock_divider_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_spi_0_0/assembly_spi_0_0.xci">
-          <Proxy FileSetName="assembly_spi_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_encoder_0_0/assembly_encoder_0_0.xci">
-          <Proxy FileSetName="assembly_encoder_0_0"/>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_pwm_pan_0/assembly_pwm_pan_0.xci">
+          <Proxy FileSetName="assembly_pwm_pan_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_not_gate_1_1/assembly_not_gate_1_1.xci">
           <Proxy FileSetName="assembly_not_gate_1_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_encoder_0_0/assembly_encoder_0_0.xci">
+          <Proxy FileSetName="assembly_encoder_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_encoder_tilt_0/assembly_encoder_tilt_0.xci">
           <Proxy FileSetName="assembly_encoder_tilt_0"/>

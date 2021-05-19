@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Wed May 19 08:27:32 2021
+// Date        : Wed May 19 10:55:00 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_tilt_0/assembly_encoder_tilt_0_sim_netlist.v
@@ -20,87 +20,260 @@ module assembly_encoder_tilt_0
     a,
     b,
     rst,
-    u,
-    d);
+    cnt);
   (* x_interface_info = "xilinx.com:signal:clock:1.0 clk CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0" *) input clk;
   input a;
   input b;
   (* x_interface_info = "xilinx.com:signal:reset:1.0 rst RST" *) (* x_interface_parameter = "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0" *) input rst;
-  output u;
-  output d;
+  output [7:0]cnt;
 
   wire a;
   wire b;
   wire clk;
-  wire d;
-  wire u;
+  wire [7:0]cnt;
+  wire rst;
 
   assembly_encoder_tilt_0_encoder U0
        (.a(a),
         .b(b),
         .clk(clk),
-        .d(d),
-        .u(u));
+        .cnt(cnt),
+        .rst(rst));
 endmodule
 
 (* ORIG_REF_NAME = "encoder" *) 
 module assembly_encoder_tilt_0_encoder
-   (u,
-    d,
+   (cnt,
     b,
+    a,
     clk,
-    a);
-  output u;
-  output d;
+    rst);
+  output [7:0]cnt;
   input b;
-  input clk;
   input a;
+  input clk;
+  input rst;
 
   wire a;
+  wire a_t;
   wire b;
   wire clk;
-  wire d;
-  wire q0;
-  wire q0_i_1_n_0;
-  wire q1;
-  wire u;
+  wire [7:0]cnt;
+  wire [7:0]cnt_t;
+  wire \cnt_t[7]_i_2_n_0 ;
+  wire cnt_t_0;
+  wire [7:0]cnt_t_reg;
+  wire plusOp_carry__0_n_2;
+  wire plusOp_carry__0_n_3;
+  wire plusOp_carry_i_1__0_n_0;
+  wire plusOp_carry_i_1_n_0;
+  wire plusOp_carry_i_2__0_n_0;
+  wire plusOp_carry_i_2_n_0;
+  wire plusOp_carry_i_3__0_n_0;
+  wire plusOp_carry_i_3_n_0;
+  wire plusOp_carry_i_4_n_0;
+  wire plusOp_carry_n_0;
+  wire plusOp_carry_n_1;
+  wire plusOp_carry_n_2;
+  wire plusOp_carry_n_3;
+  wire rst;
+  wire [3:2]NLW_plusOp_carry__0_CO_UNCONNECTED;
+  wire [3:3]NLW_plusOp_carry__0_O_UNCONNECTED;
 
-  (* SOFT_HLUTNM = "soft_lutpair0" *) 
-  LUT4 #(
-    .INIT(16'hC432)) 
-    d__0
-       (.I0(b),
-        .I1(q1),
-        .I2(q0),
-        .I3(a),
-        .O(d));
+  FDRE a_t_reg
+       (.C(clk),
+        .CE(1'b1),
+        .D(a),
+        .Q(a_t),
+        .R(1'b0));
+  FDRE \cnt_reg[0] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[0]),
+        .Q(cnt[0]),
+        .R(1'b0));
+  FDRE \cnt_reg[1] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[1]),
+        .Q(cnt[1]),
+        .R(1'b0));
+  FDRE \cnt_reg[2] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[2]),
+        .Q(cnt[2]),
+        .R(1'b0));
+  FDRE \cnt_reg[3] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[3]),
+        .Q(cnt[3]),
+        .R(1'b0));
+  FDRE \cnt_reg[4] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[4]),
+        .Q(cnt[4]),
+        .R(1'b0));
+  FDRE \cnt_reg[5] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[5]),
+        .Q(cnt[5]),
+        .R(1'b0));
+  FDRE \cnt_reg[6] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[6]),
+        .Q(cnt[6]),
+        .R(1'b0));
+  FDRE \cnt_reg[7] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[7]),
+        .Q(cnt[7]),
+        .R(1'b0));
+  LUT1 #(
+    .INIT(2'h1)) 
+    \cnt_t[0]_i_1 
+       (.I0(cnt_t_reg[0]),
+        .O(cnt_t[0]));
+  LUT3 #(
+    .INIT(8'h8A)) 
+    \cnt_t[7]_i_1 
+       (.I0(rst),
+        .I1(a_t),
+        .I2(a),
+        .O(cnt_t_0));
   LUT2 #(
-    .INIT(4'h6)) 
-    q0_i_1
-       (.I0(b),
-        .I1(a),
-        .O(q0_i_1_n_0));
-  FDRE q0_reg
+    .INIT(4'h2)) 
+    \cnt_t[7]_i_2 
+       (.I0(a),
+        .I1(a_t),
+        .O(\cnt_t[7]_i_2_n_0 ));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[0] 
        (.C(clk),
-        .CE(1'b1),
-        .D(q0_i_1_n_0),
-        .Q(q0),
-        .R(1'b0));
-  FDRE q1_reg
+        .CE(\cnt_t[7]_i_2_n_0 ),
+        .D(cnt_t[0]),
+        .Q(cnt_t_reg[0]),
+        .R(cnt_t_0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[1] 
        (.C(clk),
-        .CE(1'b1),
-        .D(b),
-        .Q(q1),
-        .R(1'b0));
-  (* SOFT_HLUTNM = "soft_lutpair0" *) 
-  LUT4 #(
-    .INIT(16'h183C)) 
-    u__0
+        .CE(\cnt_t[7]_i_2_n_0 ),
+        .D(cnt_t[1]),
+        .Q(cnt_t_reg[1]),
+        .R(cnt_t_0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[2] 
+       (.C(clk),
+        .CE(\cnt_t[7]_i_2_n_0 ),
+        .D(cnt_t[2]),
+        .Q(cnt_t_reg[2]),
+        .R(cnt_t_0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[3] 
+       (.C(clk),
+        .CE(\cnt_t[7]_i_2_n_0 ),
+        .D(cnt_t[3]),
+        .Q(cnt_t_reg[3]),
+        .R(cnt_t_0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[4] 
+       (.C(clk),
+        .CE(\cnt_t[7]_i_2_n_0 ),
+        .D(cnt_t[4]),
+        .Q(cnt_t_reg[4]),
+        .R(cnt_t_0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[5] 
+       (.C(clk),
+        .CE(\cnt_t[7]_i_2_n_0 ),
+        .D(cnt_t[5]),
+        .Q(cnt_t_reg[5]),
+        .R(cnt_t_0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[6] 
+       (.C(clk),
+        .CE(\cnt_t[7]_i_2_n_0 ),
+        .D(cnt_t[6]),
+        .Q(cnt_t_reg[6]),
+        .R(cnt_t_0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[7] 
+       (.C(clk),
+        .CE(\cnt_t[7]_i_2_n_0 ),
+        .D(cnt_t[7]),
+        .Q(cnt_t_reg[7]),
+        .R(cnt_t_0));
+  (* ADDER_THRESHOLD = "35" *) 
+  CARRY4 plusOp_carry
+       (.CI(1'b0),
+        .CO({plusOp_carry_n_0,plusOp_carry_n_1,plusOp_carry_n_2,plusOp_carry_n_3}),
+        .CYINIT(cnt_t_reg[0]),
+        .DI({cnt_t_reg[3:2],b,cnt_t_reg[1]}),
+        .O(cnt_t[4:1]),
+        .S({plusOp_carry_i_1_n_0,plusOp_carry_i_2_n_0,plusOp_carry_i_3_n_0,plusOp_carry_i_4_n_0}));
+  (* ADDER_THRESHOLD = "35" *) 
+  CARRY4 plusOp_carry__0
+       (.CI(plusOp_carry_n_0),
+        .CO({NLW_plusOp_carry__0_CO_UNCONNECTED[3:2],plusOp_carry__0_n_2,plusOp_carry__0_n_3}),
+        .CYINIT(1'b0),
+        .DI({1'b0,1'b0,cnt_t_reg[5:4]}),
+        .O({NLW_plusOp_carry__0_O_UNCONNECTED[3],cnt_t[7:5]}),
+        .S({1'b0,plusOp_carry_i_1__0_n_0,plusOp_carry_i_2__0_n_0,plusOp_carry_i_3__0_n_0}));
+  LUT2 #(
+    .INIT(4'h9)) 
+    plusOp_carry_i_1
+       (.I0(cnt_t_reg[3]),
+        .I1(cnt_t_reg[4]),
+        .O(plusOp_carry_i_1_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    plusOp_carry_i_1__0
+       (.I0(cnt_t_reg[6]),
+        .I1(cnt_t_reg[7]),
+        .O(plusOp_carry_i_1__0_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    plusOp_carry_i_2
+       (.I0(cnt_t_reg[2]),
+        .I1(cnt_t_reg[3]),
+        .O(plusOp_carry_i_2_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    plusOp_carry_i_2__0
+       (.I0(cnt_t_reg[5]),
+        .I1(cnt_t_reg[6]),
+        .O(plusOp_carry_i_2__0_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    plusOp_carry_i_3
        (.I0(b),
-        .I1(a),
-        .I2(q1),
-        .I3(q0),
-        .O(u));
+        .I1(cnt_t_reg[2]),
+        .O(plusOp_carry_i_3_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    plusOp_carry_i_3__0
+       (.I0(cnt_t_reg[4]),
+        .I1(cnt_t_reg[5]),
+        .O(plusOp_carry_i_3__0_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    plusOp_carry_i_4
+       (.I0(b),
+        .I1(cnt_t_reg[1]),
+        .O(plusOp_carry_i_4_n_0));
 endmodule
 `ifndef GLBL
 `define GLBL

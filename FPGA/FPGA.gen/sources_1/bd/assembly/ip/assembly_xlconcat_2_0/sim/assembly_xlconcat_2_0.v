@@ -53,16 +53,18 @@
 `timescale 1ns/1ps
 
 (* DowngradeIPIdentifiedWarnings = "yes" *)
-module assembly_xlconcat_1_0 (
+module assembly_xlconcat_2_0 (
   In0,
+  In1,
   dout
 );
 
-input wire [7 : 0] In0;
+input wire [6 : 0] In0;
+input wire [0 : 0] In1;
 output wire [7 : 0] dout;
 
   xlconcat_v2_1_4_xlconcat #(
-    .IN0_WIDTH(8),
+    .IN0_WIDTH(7),
     .IN1_WIDTH(1),
     .IN2_WIDTH(1),
     .IN3_WIDTH(1),
@@ -191,10 +193,10 @@ output wire [7 : 0] dout;
     .IN126_WIDTH(1),
     .IN127_WIDTH(1),
     .dout_width(8),
-    .NUM_PORTS(1)
+    .NUM_PORTS(2)
   ) inst (
     .In0(In0),
-    .In1(1'B0),
+    .In1(In1),
     .In2(1'B0),
     .In3(1'B0),
     .In4(1'B0),

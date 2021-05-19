@@ -37,28 +37,44 @@ ENTITY encoder IS
         a : IN STD_LOGIC;
         b : IN STD_LOGIC;
         rst : IN STD_LOGIC;
-        u : OUT STD_LOGIC;
-        d : OUT STD_LOGIC
+        cnt : OUT STD_LOGIC_VECTOR (n_bits - 1 DOWNTO 0)
     );
 END encoder;
 
 ARCHITECTURE behavioral OF encoder IS
     SIGNAL cnt_t : SIGNEd (n_bits - 1 DOWNTO 0) := (OTHERS => '0');
-    SIGNAL a_t : STD_LOGIC := '0';
-    SIGNAL b_t : STD_LOGIC := '0';
-    SIGNAL col : STD_LOGIC_VECTOR(3 DOWNTO 0);
-
-    signal q0, q1 : STD_LOGIC;
+    SIGNAL a_t : STD_LOGIC;
 BEGIN
-    PROCESS (clk)
+    -- cnt_update : PROCESS (clk)
+    -- BEGIN
+    --     IF (rising_edge(clk)) THEN
+    --         cnt <= STD_LOGIC_VECTOR(cnt_t);
+    --     END IF;
+    -- END PROCESS;
+
+    encoder_update : PROCESS (a, rst)
     BEGIN
-        IF (clk'event AND clk = '1') THEN
-            q0 <= a XOR b;
-            q1 <= b;
+        IF (rst = '1') THEN
+            cnt_t <= (OTHERS => '0');
         END IF;
+        IF (rising_edge(clk)) THEN
+            a_t <= a;
+            cnt <= STD_LOGIC_VECTOR(cnt_t);
+
+            IF (a_t = '0' AND a = '1') THEN
+                IF (b = '1') THEN
+                    cnt_t <= cnt_t + 1;
+                ELSE
+                    cnt_t <= cnt_t - 1;
+                END IF;
+            END IF;
+        END IF;
+        -- IF (rising_edge(a)) THEN
+        --     IF (b = '1') THEN
+        --         cnt_t <= cnt_t + 1;
+        --     ELSE
+        --         cnt_t <= cnt_t - 1;
+        --     END IF;
+        -- END IF;
     END PROCESS;
-    u <= (NOT a AND NOT b AND q1) OR (NOT a AND q1 AND NOT q0)
-        OR (a AND NOT q1 AND NOT q0) OR (a AND b AND NOT q1);
-    d <= (NOT a AND b AND NOT q1) OR (NOT a AND NOT q1 AND q0)
-        OR (a AND q1 AND q0) OR (a AND NOT b AND q1);
 END behavioral;
