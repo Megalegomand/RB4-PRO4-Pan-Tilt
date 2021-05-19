@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed May 19 11:23:16 2021" VIVADOVERSION="2020.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed May 19 11:45:03 2021" VIVADOVERSION="2020.2">
 
   <SYSTEMINFO ARCH="zynq" BOARD="tul.com.tw:pynq-z2:part0:1.0" DEVICE="7z020" NAME="assembly" PACKAGE="clg400" SPEEDGRADE="-1"/>
 
@@ -89,8 +89,8 @@
         <CONNECTION INSTANCE="xlconcat_2" PORT="In1"/>
         <CONNECTION INSTANCE="clock_divider_0" PORT="rst"/>
         <CONNECTION INSTANCE="spi_0" PORT="rst"/>
-        <CONNECTION INSTANCE="encoder_pan" PORT="rst"/>
         <CONNECTION INSTANCE="encoder_tilt" PORT="rst"/>
+        <CONNECTION INSTANCE="encoder_pan" PORT="rst"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -121,8 +121,8 @@
             <CONNECTION INSTANCE="spi_0" PORT="clk"/>
             <CONNECTION INSTANCE="pwm_pan" PORT="clk"/>
             <CONNECTION INSTANCE="pwm_tilt" PORT="clk"/>
-            <CONNECTION INSTANCE="encoder_pan" PORT="clk"/>
             <CONNECTION INSTANCE="encoder_tilt" PORT="clk"/>
+            <CONNECTION INSTANCE="encoder_pan" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -156,6 +156,7 @@
             <CONNECTION INSTANCE="External_Ports" PORT="rst"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="O" LEFT="3" NAME="col_p" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="O" LEFT="7" NAME="cnt" RIGHT="0" SIGIS="undef"/>
       </PORTS>
       <BUSINTERFACES/>
@@ -188,6 +189,7 @@
             <CONNECTION INSTANCE="External_Ports" PORT="rst"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="O" LEFT="3" NAME="col_p" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="O" LEFT="7" NAME="cnt" RIGHT="0" SIGIS="undef" SIGNAME="encoder_tilt_cnt">
           <CONNECTIONS>
             <CONNECTION INSTANCE="xlslice_0" PORT="Din"/>

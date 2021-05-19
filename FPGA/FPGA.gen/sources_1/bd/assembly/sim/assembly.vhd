@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Wed May 19 11:23:16 2021
+--Date        : Wed May 19 11:45:02 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -132,24 +132,6 @@ architecture STRUCTURE of assembly is
     dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component assembly_xlconcat_1_0;
-  component assembly_encoder_tilt_0 is
-  port (
-    clk : in STD_LOGIC;
-    a : in STD_LOGIC;
-    b : in STD_LOGIC;
-    rst : in STD_LOGIC;
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
-  );
-  end component assembly_encoder_tilt_0;
-  component assembly_encoder_0_0 is
-  port (
-    clk : in STD_LOGIC;
-    a : in STD_LOGIC;
-    b : in STD_LOGIC;
-    rst : in STD_LOGIC;
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
-  );
-  end component assembly_encoder_0_0;
   component assembly_xlconcat_2_0 is
   port (
     In0 : in STD_LOGIC_VECTOR ( 6 downto 0 );
@@ -163,6 +145,26 @@ architecture STRUCTURE of assembly is
     Dout : out STD_LOGIC_VECTOR ( 6 downto 0 )
   );
   end component assembly_xlslice_0_4;
+  component assembly_encoder_0_0 is
+  port (
+    clk : in STD_LOGIC;
+    a : in STD_LOGIC;
+    b : in STD_LOGIC;
+    rst : in STD_LOGIC;
+    col_p : out STD_LOGIC_VECTOR ( 3 downto 0 );
+    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
+  );
+  end component assembly_encoder_0_0;
+  component assembly_encoder_tilt_0 is
+  port (
+    clk : in STD_LOGIC;
+    a : in STD_LOGIC;
+    b : in STD_LOGIC;
+    rst : in STD_LOGIC;
+    col_p : out STD_LOGIC_VECTOR ( 3 downto 0 );
+    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
+  );
+  end component assembly_encoder_tilt_0;
   signal clk_1 : STD_LOGIC;
   signal clock_divider_0_clk_div : STD_LOGIC;
   signal encoder_tilt_cnt : STD_LOGIC_VECTOR ( 7 downto 0 );
@@ -190,6 +192,8 @@ architecture STRUCTURE of assembly is
   signal xlslice_5_Dout : STD_LOGIC_VECTOR ( 6 downto 0 );
   signal xlslice_6_Dout : STD_LOGIC_VECTOR ( 0 to 0 );
   signal NLW_encoder_pan_cnt_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal NLW_encoder_pan_col_p_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
+  signal NLW_encoder_tilt_col_p_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal NLW_xlconcat_0_In0_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal NLW_xlconcat_0_In1_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal NLW_xlconcat_1_dout_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
@@ -227,6 +231,7 @@ encoder_pan: component assembly_encoder_tilt_0
       b => pan_b_1,
       clk => clock_divider_0_clk_div,
       cnt(7 downto 0) => NLW_encoder_pan_cnt_UNCONNECTED(7 downto 0),
+      col_p(3 downto 0) => NLW_encoder_pan_col_p_UNCONNECTED(3 downto 0),
       rst => i_0_1
     );
 encoder_tilt: component assembly_encoder_0_0
@@ -235,6 +240,7 @@ encoder_tilt: component assembly_encoder_0_0
       b => tilt_b_1,
       clk => clock_divider_0_clk_div,
       cnt(7 downto 0) => encoder_tilt_cnt(7 downto 0),
+      col_p(3 downto 0) => NLW_encoder_tilt_col_p_UNCONNECTED(3 downto 0),
       rst => i_0_1
     );
 not_gate_1: component assembly_not_gate_1_0
