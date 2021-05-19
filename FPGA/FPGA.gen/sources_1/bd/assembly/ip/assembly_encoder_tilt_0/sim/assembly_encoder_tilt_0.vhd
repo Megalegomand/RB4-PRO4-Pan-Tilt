@@ -59,6 +59,7 @@ ENTITY assembly_encoder_tilt_0 IS
     a : IN STD_LOGIC;
     b : IN STD_LOGIC;
     rst : IN STD_LOGIC;
+    col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
   );
 END assembly_encoder_tilt_0;
@@ -75,6 +76,7 @@ ARCHITECTURE assembly_encoder_tilt_0_arch OF assembly_encoder_tilt_0 IS
       a : IN STD_LOGIC;
       b : IN STD_LOGIC;
       rst : IN STD_LOGIC;
+      col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
       cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
     );
   END COMPONENT encoder;
@@ -96,6 +98,7 @@ BEGIN
       a => a,
       b => b,
       rst => rst,
+      col_p => col_p,
       cnt => cnt
     );
 END assembly_encoder_tilt_0_arch;

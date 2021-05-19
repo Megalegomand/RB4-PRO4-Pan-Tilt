@@ -46,7 +46,7 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="pynq-z2"/>
-    <Option Name="WTXSimLaunchSim" Val="242"/>
+    <Option Name="WTXSimLaunchSim" Val="255"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -87,12 +87,6 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/new/encoder.vhd">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
       <File Path="$PSRCDIR/sources_1/new/not_gate.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -105,20 +99,20 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/encoder.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/bd/assembly/assembly.bd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_encoder_0_0/assembly_encoder_0_0.xci">
-          <Proxy FileSetName="assembly_encoder_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
-          <Proxy FileSetName="assembly_clock_divider_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_spi_0_0/assembly_spi_0_0.xci">
-          <Proxy FileSetName="assembly_spi_0_0"/>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_pwm_pan_0/assembly_pwm_pan_0.xci">
+          <Proxy FileSetName="assembly_pwm_pan_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_not_gate_1_0/assembly_not_gate_1_0.xci">
           <Proxy FileSetName="assembly_not_gate_1_0"/>
@@ -126,14 +120,20 @@
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_pwm_0_0/assembly_pwm_0_0.xci">
           <Proxy FileSetName="assembly_pwm_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_encoder_tilt_0/assembly_encoder_tilt_0.xci">
-          <Proxy FileSetName="assembly_encoder_tilt_0"/>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
+          <Proxy FileSetName="assembly_clock_divider_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_spi_0_0/assembly_spi_0_0.xci">
+          <Proxy FileSetName="assembly_spi_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_encoder_0_0/assembly_encoder_0_0.xci">
+          <Proxy FileSetName="assembly_encoder_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_not_gate_1_1/assembly_not_gate_1_1.xci">
           <Proxy FileSetName="assembly_not_gate_1_1"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_pwm_pan_0/assembly_pwm_pan_0.xci">
-          <Proxy FileSetName="assembly_pwm_pan_0"/>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_encoder_tilt_0/assembly_encoder_tilt_0.xci">
+          <Proxy FileSetName="assembly_encoder_tilt_0"/>
         </CompFileExtendedInfo>
       </File>
       <File Path="$PGENDIR/sources_1/bd/assembly/hdl/assembly_wrapper.vhd">
@@ -189,6 +189,7 @@
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
         <Option Name="SelectedSimModel" Val="rtl"/>
+        <Option Name="SimMode" Val="post-implementation"/>
         <Option Name="PamDesignTestbench" Val=""/>
         <Option Name="PamDutBypassFile" Val="xil_dut_bypass"/>
         <Option Name="PamSignalDriverFile" Val="xil_bypass_driver"/>
@@ -329,9 +330,7 @@
     </Run>
     <Run Id="assembly_not_gate_1_1_synth_1" Type="Ft3:Synth" SrcSet="assembly_not_gate_1_1" Part="xc7z020clg400-1" ConstrsSet="assembly_not_gate_1_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/assembly_not_gate_1_1_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_not_gate_1_1_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -341,9 +340,7 @@
     </Run>
     <Run Id="assembly_pwm_pan_0_synth_1" Type="Ft3:Synth" SrcSet="assembly_pwm_pan_0" Part="xc7z020clg400-1" ConstrsSet="assembly_pwm_pan_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/assembly_pwm_pan_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_pwm_pan_0_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -463,9 +460,7 @@
     </Run>
     <Run Id="assembly_not_gate_1_1_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg400-1" ConstrsSet="assembly_not_gate_1_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="assembly_not_gate_1_1_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_not_gate_1_1_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
@@ -482,9 +477,7 @@
     </Run>
     <Run Id="assembly_pwm_pan_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg400-1" ConstrsSet="assembly_pwm_pan_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="assembly_pwm_pan_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_pwm_pan_0_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>

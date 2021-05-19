@@ -33,7 +33,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity encoder_testbench is
     Generic (
-        n_bits : POSITIVE := 5;
+        n_bits : POSITIVE := 3;
         period : TIME := 1ns
     );
     --Port ( 
@@ -54,9 +54,9 @@ begin
     
     process
     begin
-        enc1 <= not enc1 after period * 4;
-        wait for period*2;
-        enc2 <= not enc2 after period * 4;
+        enc1 <= not enc1 after period * 4 *10;
+        wait for period*2*10;
+        enc2 <= not enc2 after period * 4*10;
     end process;
     
     process

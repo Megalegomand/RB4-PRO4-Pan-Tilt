@@ -37,43 +37,39 @@ ENTITY encoder IS
         a : IN STD_LOGIC;
         b : IN STD_LOGIC;
         rst : IN STD_LOGIC;
-        cnt : OUT STD_LOGIC_VECTOR (n_bits - 1 DOWNTO 0));
+        col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cnt : OUT STD_LOGIC_VECTOR (n_bits - 1 DOWNTO 0)
+    );
 END encoder;
 
 ARCHITECTURE Behavioral OF encoder IS
     SIGNAL cnt_t : SIGNED (n_bits - 1 DOWNTO 0) := (OTHERS => '0');
-    SIGNAL a_t : STD_LOGIC;
-    SIGNAL b_t : STD_LOGIC;
+    SIGNAL a_t : STD_LOGIC := '0';
+    SIGNAL b_t : STD_LOGIC := '0';
+    SIGNAL col : STD_LOGIC_VECTOR(3 DOWNTO 0);
 BEGIN
-    cnt_update : PROCESS (clk, rst)
+
+    col <= a_t & b_t & a & b;
+    col_p <= col;
+
+    PROCESS (clk, rst)
     BEGIN
         IF (rst = '1') THEN
             cnt_t <= (OTHERS => '0');
+            a_t <= a;
+            b_t <= b;
         END IF;
         IF (rising_edge(clk)) THEN
             cnt <= STD_LOGIC_VECTOR(cnt_t);
 
-            IF (a_t = '0' and a = '1') THEN
-                IF (b = '1') THEN
-                    cnt_t <= cnt_t + 1;
-                ELSIF (b = '0') THEN
-                    cnt_t <= cnt_t - 1;
-                END IF;
+            a_t <= a;
+            b_t <= b;
+
+            IF (col = "0010" OR col = "1011" OR col = "1101" OR col = "0100") THEN
+                cnt_t <= cnt_t + 1;
+            ELSIF (col = "0001" OR col = "0111" OR col = "1110" OR col = "1000") THEN
+                cnt_t <= cnt_t - 1;
             END IF;
         END IF;
     END PROCESS;
-
-    -- encoder_update : process (a,rst)
-    -- begin
-    --     if (rst = '1') then
-    --         cnt_t <= (others => '0');
-    --     end if;
-    --     if (rising_edge(a)) then
-    --         if (b = '1') then
-    --             cnt_t <= cnt_t + "1";
-    --         else
-    --             cnt_t <= cnt_t - "1";
-    --         end if;
-    --     end if;
-    -- end process;
 END Behavioral;
