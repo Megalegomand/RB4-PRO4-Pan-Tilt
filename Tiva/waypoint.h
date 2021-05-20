@@ -13,11 +13,11 @@
 #define TICK_TIME     0.01f
 typedef struct
 {
-    FFP32 Tilt_point;
+    FP32 Tilt_point;
 
-    FFP32 Pan_point;
+    FP32 Pan_point;
 
-    FFP32 T;
+    FP32 T;
 
     BOOLEAN Active;
 
@@ -35,13 +35,13 @@ void waypoint_task (void* pvParameters);
  * Output: readPosition
  * Function: getPosition()
  ***********************************************/
-void waypoint_list(char* buf);
+void waypoint_list();
 /**********************************************
  * Input: N/A
  * Output: readPosition
  * Function: getPosition()
  ***********************************************/
-void waypoint_edit(char* buf)
+void waypoint_edit();
 /**********************************************
  * Input: N/A
  * Output: readPosition
