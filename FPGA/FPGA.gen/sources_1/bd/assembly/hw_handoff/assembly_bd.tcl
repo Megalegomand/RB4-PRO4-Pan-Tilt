@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# clock_divider, encoder, encoder, not_gate, not_gate, pwm, pwm, spi
+# clock_divider, encoder, encoder, level, level, not_gate, not_gate, pwm, pwm, spi
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -225,6 +225,28 @@ proc create_root_design { parentCell } {
    CONFIG.n_bits {8} \
  ] $encoder_tilt
 
+  # Create instance: level_0, and set properties
+  set block_name level
+  set block_cell_name level_0
+  if { [catch {set level_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $level_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: level_1, and set properties
+  set block_name level
+  set block_cell_name level_1
+  if { [catch {set level_1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $level_1 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: not_gate_1, and set properties
   set block_name not_gate
   set block_cell_name not_gate_1
@@ -294,8 +316,7 @@ proc create_root_design { parentCell } {
   # Create instance: xlconcat_0, and set properties
   set xlconcat_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0 ]
   set_property -dict [ list \
-   CONFIG.IN4_WIDTH {4} \
-   CONFIG.NUM_PORTS {5} \
+   CONFIG.NUM_PORTS {8} \
  ] $xlconcat_0
 
   # Create instance: xlconcat_1, and set properties
@@ -304,6 +325,13 @@ proc create_root_design { parentCell } {
    CONFIG.IN0_WIDTH {8} \
    CONFIG.IN1_WIDTH {8} \
  ] $xlconcat_1
+
+  # Create instance: xlconcat_spi_test, and set properties
+  set xlconcat_spi_test [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_spi_test ]
+  set_property -dict [ list \
+   CONFIG.IN4_WIDTH {4} \
+   CONFIG.NUM_PORTS {5} \
+ ] $xlconcat_spi_test
 
   # Create instance: xlslice_3, and set properties
   set xlslice_3 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_3 ]
@@ -364,20 +392,22 @@ proc create_root_design { parentCell } {
   connect_bd_net -net encoder_pan_cnt [get_bd_pins encoder_pan/cnt] [get_bd_pins xlconcat_1/In0]
   connect_bd_net -net encoder_tilt_cnt [get_bd_pins encoder_tilt/cnt] [get_bd_pins xlconcat_1/In1]
   connect_bd_net -net i_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins encoder_pan/rst] [get_bd_pins encoder_tilt/rst] [get_bd_pins spi_0/rst]
+  connect_bd_net -net level_0_o [get_bd_pins level_0/o] [get_bd_pins xlconcat_0/In2]
+  connect_bd_net -net level_1_o [get_bd_pins level_1/o] [get_bd_pins xlconcat_0/In3]
   connect_bd_net -net not_gate_1_o [get_bd_ports pan_in1] [get_bd_pins not_gate_1/o]
   connect_bd_net -net not_gate_2_o [get_bd_ports tilt_in1] [get_bd_pins not_gate_2/o]
   connect_bd_net -net pan_a_1 [get_bd_ports pan_a] [get_bd_pins encoder_pan/a]
   connect_bd_net -net pan_b_1 [get_bd_ports pan_b] [get_bd_pins encoder_pan/b]
   connect_bd_net -net pwm_0_o [get_bd_ports pan_en] [get_bd_pins pwm_pan/o]
   connect_bd_net -net pwm_tilt_o [get_bd_ports tilt_en] [get_bd_pins pwm_tilt/o]
-  connect_bd_net -net sclk_0_1 [get_bd_ports sclk] [get_bd_pins spi_0/sclk] [get_bd_pins xlconcat_0/In0]
-  connect_bd_net -net sdi_0_1 [get_bd_ports sdi] [get_bd_pins spi_0/sdi] [get_bd_pins xlconcat_0/In2]
+  connect_bd_net -net sclk_0_1 [get_bd_ports sclk] [get_bd_pins spi_0/sclk] [get_bd_pins xlconcat_spi_test/In0]
+  connect_bd_net -net sdi_0_1 [get_bd_ports sdi] [get_bd_pins spi_0/sdi] [get_bd_pins xlconcat_spi_test/In2]
   connect_bd_net -net spi_0_data_out [get_bd_pins spi_0/data_out] [get_bd_pins xlslice_pan/Din] [get_bd_pins xlslice_tilt/Din]
-  connect_bd_net -net spi_0_sdo [get_bd_ports sdo] [get_bd_pins spi_0/sdo] [get_bd_pins xlconcat_0/In3]
-  connect_bd_net -net spi_0_state [get_bd_pins spi_0/state] [get_bd_pins xlconcat_0/In4]
-  connect_bd_net -net ss_0_1 [get_bd_ports ss] [get_bd_pins spi_0/ss] [get_bd_pins xlconcat_0/In1]
-  connect_bd_net -net tilt_a_1 [get_bd_ports tilt_a] [get_bd_pins encoder_tilt/a]
-  connect_bd_net -net tilt_b_1 [get_bd_ports tilt_b] [get_bd_pins encoder_tilt/b]
+  connect_bd_net -net spi_0_sdo [get_bd_ports sdo] [get_bd_pins spi_0/sdo] [get_bd_pins xlconcat_spi_test/In3]
+  connect_bd_net -net spi_0_state [get_bd_pins spi_0/state] [get_bd_pins xlconcat_spi_test/In4]
+  connect_bd_net -net ss_0_1 [get_bd_ports ss] [get_bd_pins spi_0/ss] [get_bd_pins xlconcat_spi_test/In1]
+  connect_bd_net -net tilt_a_1 [get_bd_ports tilt_a] [get_bd_pins encoder_tilt/a] [get_bd_pins level_1/i] [get_bd_pins xlconcat_0/In0]
+  connect_bd_net -net tilt_b_1 [get_bd_ports tilt_b] [get_bd_pins encoder_tilt/b] [get_bd_pins level_0/i] [get_bd_pins xlconcat_0/In1]
   connect_bd_net -net xlconcat_0_dout [get_bd_ports ar] [get_bd_pins xlconcat_0/dout]
   connect_bd_net -net xlconcat_1_dout [get_bd_pins spi_0/data_in] [get_bd_pins xlconcat_1/dout]
   connect_bd_net -net xlslice_0_Dout [get_bd_pins xlslice_3/Din] [get_bd_pins xlslice_4/Din] [get_bd_pins xlslice_pan/Dout]
