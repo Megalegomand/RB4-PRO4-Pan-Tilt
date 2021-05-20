@@ -18,6 +18,7 @@ entity spi is
            data_in : in STD_LOGIC_VECTOR(data_width-1 downto 0);
            ss : in STD_LOGIC;
            sdo : out STD_LOGIC;
+           state : out STD_LOGIC_VECTOR(3 downto 0);
            data_out : out STD_LOGIC_VECTOR(data_width-1 downto 0)
     );
 end spi;
@@ -208,15 +209,19 @@ begin
     ------------------------------------------------------------------------------
         case current_state is                       -- Remember all states
             when s_rst => 
+                state <= "00" & reg_cnt(0) & reg_cnt(cnt_bits-1);
                 sdo <= '0';
                 data_out <= data_out_t;
             when s_wait =>
+                state <= "01" & reg_cnt(0) & reg_cnt(cnt_bits-1);
                 sdo <= sdo_t;
                 data_out <= data_out_t;
             when s_high =>
+                state <= "10" & reg_cnt(0) & reg_cnt(cnt_bits-1); 
                 sdo <= sdo_t;
                 data_out <= data_out_t;
             when s_low =>
+                state <= "11" & reg_cnt(0) & reg_cnt(cnt_bits-1);
                 sdo <= sdo_t;
                 data_out <= data_out_t;
             when others =>

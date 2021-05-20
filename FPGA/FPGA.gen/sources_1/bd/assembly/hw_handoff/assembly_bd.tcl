@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# clock_divider, encoder, not_gate, pwm, spi
+# clock_divider, encoder, encoder, level, level, not_gate, not_gate, pwm, pwm, spi
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -165,18 +165,23 @@ proc create_root_design { parentCell } {
   # Create interface ports
 
   # Create ports
+  set ar [ create_bd_port -dir O -from 7 -to 0 ar ]
   set clk [ create_bd_port -dir I -type clk clk ]
-  set encoderA [ create_bd_port -dir I encoderA ]
-  set encoderB [ create_bd_port -dir I encoderB ]
-  set led [ create_bd_port -dir O -from 3 -to 0 led ]
+  set pan_a [ create_bd_port -dir I pan_a ]
+  set pan_b [ create_bd_port -dir I pan_b ]
   set pan_en [ create_bd_port -dir O pan_en ]
   set pan_in1 [ create_bd_port -dir O pan_in1 ]
   set pan_in2 [ create_bd_port -dir O -from 0 -to 0 pan_in2 ]
-  set rst [ create_bd_port -dir I -type rst rst ]
+  set rst [ create_bd_port -dir I rst ]
   set sclk [ create_bd_port -dir I sclk ]
   set sdi [ create_bd_port -dir I sdi ]
   set sdo [ create_bd_port -dir O sdo ]
   set ss [ create_bd_port -dir I ss ]
+  set tilt_a [ create_bd_port -dir I tilt_a ]
+  set tilt_b [ create_bd_port -dir I tilt_b ]
+  set tilt_en [ create_bd_port -dir O tilt_en ]
+  set tilt_in1 [ create_bd_port -dir O tilt_in1 ]
+  set tilt_in2 [ create_bd_port -dir O -from 0 -to 0 tilt_in2 ]
 
   # Create instance: clock_divider_0, and set properties
   set block_name clock_divider
@@ -189,23 +194,59 @@ proc create_root_design { parentCell } {
      return 1
    }
     set_property -dict [ list \
-   CONFIG.n_bits {3} \
+   CONFIG.n_bits {6} \
  ] $clock_divider_0
 
-  # Create instance: encoder_0, and set properties
+  # Create instance: encoder_pan, and set properties
   set block_name encoder
-  set block_cell_name encoder_0
-  if { [catch {set encoder_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+  set block_cell_name encoder_pan
+  if { [catch {set encoder_pan [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
-   } elseif { $encoder_0 eq "" } {
+   } elseif { $encoder_pan eq "" } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    }
     set_property -dict [ list \
    CONFIG.n_bits {8} \
- ] $encoder_0
+ ] $encoder_pan
 
+  # Create instance: encoder_tilt, and set properties
+  set block_name encoder
+  set block_cell_name encoder_tilt
+  if { [catch {set encoder_tilt [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $encoder_tilt eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+    set_property -dict [ list \
+   CONFIG.n_bits {8} \
+ ] $encoder_tilt
+
+  # Create instance: level_0, and set properties
+  set block_name level
+  set block_cell_name level_0
+  if { [catch {set level_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $level_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: level_1, and set properties
+  set block_name level
+  set block_cell_name level_1
+  if { [catch {set level_1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $level_1 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: not_gate_1, and set properties
   set block_name not_gate
   set block_cell_name not_gate_1
@@ -217,19 +258,44 @@ proc create_root_design { parentCell } {
      return 1
    }
   
-  # Create instance: pwm_0, and set properties
-  set block_name pwm
-  set block_cell_name pwm_0
-  if { [catch {set pwm_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+  # Create instance: not_gate_2, and set properties
+  set block_name not_gate
+  set block_cell_name not_gate_2
+  if { [catch {set not_gate_2 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
-   } elseif { $pwm_0 eq "" } {
+   } elseif { $not_gate_2 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: pwm_pan, and set properties
+  set block_name pwm
+  set block_cell_name pwm_pan
+  if { [catch {set pwm_pan [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $pwm_pan eq "" } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    }
     set_property -dict [ list \
    CONFIG.n_bits {7} \
- ] $pwm_0
+ ] $pwm_pan
+
+  # Create instance: pwm_tilt, and set properties
+  set block_name pwm
+  set block_cell_name pwm_tilt
+  if { [catch {set pwm_tilt [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $pwm_tilt eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+    set_property -dict [ list \
+   CONFIG.n_bits {7} \
+ ] $pwm_tilt
 
   # Create instance: spi_0, and set properties
   set block_name spi
@@ -243,47 +309,29 @@ proc create_root_design { parentCell } {
    }
     set_property -dict [ list \
    CONFIG.data_width {16} \
+   CONFIG.sph {"1"} \
+   CONFIG.spo {"0"} \
  ] $spi_0
 
   # Create instance: xlconcat_0, and set properties
   set xlconcat_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0 ]
   set_property -dict [ list \
-   CONFIG.IN0_WIDTH {8} \
-   CONFIG.IN1_WIDTH {8} \
+   CONFIG.NUM_PORTS {8} \
  ] $xlconcat_0
 
-  # Create instance: xlconstant_0, and set properties
-  set xlconstant_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0 ]
+  # Create instance: xlconcat_1, and set properties
+  set xlconcat_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_1 ]
   set_property -dict [ list \
-   CONFIG.CONST_VAL {0} \
-   CONFIG.CONST_WIDTH {8} \
- ] $xlconstant_0
+   CONFIG.IN0_WIDTH {8} \
+   CONFIG.IN1_WIDTH {8} \
+ ] $xlconcat_1
 
-  # Create instance: xlslice_0, and set properties
-  set xlslice_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_0 ]
+  # Create instance: xlconcat_spi_test, and set properties
+  set xlconcat_spi_test [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_spi_test ]
   set_property -dict [ list \
-   CONFIG.DIN_FROM {7} \
-   CONFIG.DIN_WIDTH {16} \
-   CONFIG.DOUT_WIDTH {8} \
- ] $xlslice_0
-
-  # Create instance: xlslice_1, and set properties
-  set xlslice_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_1 ]
-  set_property -dict [ list \
-   CONFIG.DIN_FROM {3} \
-   CONFIG.DIN_TO {0} \
-   CONFIG.DIN_WIDTH {8} \
-   CONFIG.DOUT_WIDTH {4} \
- ] $xlslice_1
-
-  # Create instance: xlslice_2, and set properties
-  set xlslice_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_2 ]
-  set_property -dict [ list \
-   CONFIG.DIN_FROM {15} \
-   CONFIG.DIN_TO {8} \
-   CONFIG.DIN_WIDTH {16} \
-   CONFIG.DOUT_WIDTH {8} \
- ] $xlslice_2
+   CONFIG.IN4_WIDTH {4} \
+   CONFIG.NUM_PORTS {5} \
+ ] $xlconcat_spi_test
 
   # Create instance: xlslice_3, and set properties
   set xlslice_3 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_3 ]
@@ -303,26 +351,71 @@ proc create_root_design { parentCell } {
    CONFIG.DOUT_WIDTH {7} \
  ] $xlslice_4
 
+  # Create instance: xlslice_5, and set properties
+  set xlslice_5 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_5 ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {6} \
+   CONFIG.DIN_TO {0} \
+   CONFIG.DIN_WIDTH {8} \
+   CONFIG.DOUT_WIDTH {7} \
+ ] $xlslice_5
+
+  # Create instance: xlslice_6, and set properties
+  set xlslice_6 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_6 ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {7} \
+   CONFIG.DIN_TO {7} \
+   CONFIG.DIN_WIDTH {8} \
+   CONFIG.DOUT_WIDTH {1} \
+ ] $xlslice_6
+
+  # Create instance: xlslice_pan, and set properties
+  set xlslice_pan [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_pan ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {7} \
+   CONFIG.DIN_WIDTH {16} \
+   CONFIG.DOUT_WIDTH {8} \
+ ] $xlslice_pan
+
+  # Create instance: xlslice_tilt, and set properties
+  set xlslice_tilt [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_tilt ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {15} \
+   CONFIG.DIN_TO {8} \
+   CONFIG.DIN_WIDTH {16} \
+   CONFIG.DOUT_WIDTH {8} \
+ ] $xlslice_tilt
+
   # Create port connections
-  connect_bd_net -net a_0_1 [get_bd_ports encoderA] [get_bd_pins encoder_0/a]
-  connect_bd_net -net b_0_1 [get_bd_ports encoderB] [get_bd_pins encoder_0/b]
   connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk]
-  connect_bd_net -net clock_divider_0_clk_div [get_bd_pins clock_divider_0/clk_div] [get_bd_pins encoder_0/clk] [get_bd_pins pwm_0/clk] [get_bd_pins spi_0/clk]
-  connect_bd_net -net encoder_0_cnt [get_bd_pins encoder_0/cnt] [get_bd_pins xlconcat_0/In0] [get_bd_pins xlslice_1/Din]
+  connect_bd_net -net clock_divider_0_clk_div [get_bd_pins clock_divider_0/clk_div] [get_bd_pins encoder_pan/clk] [get_bd_pins encoder_tilt/clk] [get_bd_pins pwm_pan/clk] [get_bd_pins pwm_tilt/clk] [get_bd_pins spi_0/clk]
+  connect_bd_net -net encoder_pan_cnt [get_bd_pins encoder_pan/cnt] [get_bd_pins xlconcat_1/In0]
+  connect_bd_net -net encoder_tilt_cnt [get_bd_pins encoder_tilt/cnt] [get_bd_pins xlconcat_1/In1]
+  connect_bd_net -net i_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins encoder_pan/rst] [get_bd_pins encoder_tilt/rst] [get_bd_pins spi_0/rst]
+  connect_bd_net -net level_0_o [get_bd_pins level_0/o] [get_bd_pins xlconcat_0/In2]
+  connect_bd_net -net level_1_o [get_bd_pins level_1/o] [get_bd_pins xlconcat_0/In3]
   connect_bd_net -net not_gate_1_o [get_bd_ports pan_in1] [get_bd_pins not_gate_1/o]
-  connect_bd_net -net pwm_0_o [get_bd_ports pan_en] [get_bd_pins pwm_0/o]
-  connect_bd_net -net rst_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins encoder_0/rst] [get_bd_pins spi_0/rst]
-  connect_bd_net -net sclk_0_1 [get_bd_ports sclk] [get_bd_pins spi_0/sclk]
-  connect_bd_net -net sdi_0_1 [get_bd_ports sdi] [get_bd_pins spi_0/sdi]
-  connect_bd_net -net spi_0_data_out [get_bd_pins spi_0/data_out] [get_bd_pins xlslice_0/Din] [get_bd_pins xlslice_2/Din]
-  connect_bd_net -net spi_0_sdo [get_bd_ports sdo] [get_bd_pins spi_0/sdo]
-  connect_bd_net -net ss_0_1 [get_bd_ports ss] [get_bd_pins spi_0/ss]
-  connect_bd_net -net xlconcat_0_dout [get_bd_pins spi_0/data_in] [get_bd_pins xlconcat_0/dout]
-  connect_bd_net -net xlconstant_0_dout [get_bd_pins xlconcat_0/In1] [get_bd_pins xlconstant_0/dout]
-  connect_bd_net -net xlslice_0_Dout [get_bd_pins xlslice_0/Dout] [get_bd_pins xlslice_3/Din] [get_bd_pins xlslice_4/Din]
-  connect_bd_net -net xlslice_1_Dout [get_bd_ports led] [get_bd_pins xlslice_1/Dout]
+  connect_bd_net -net not_gate_2_o [get_bd_ports tilt_in1] [get_bd_pins not_gate_2/o]
+  connect_bd_net -net pan_a_1 [get_bd_ports pan_a] [get_bd_pins encoder_pan/a]
+  connect_bd_net -net pan_b_1 [get_bd_ports pan_b] [get_bd_pins encoder_pan/b]
+  connect_bd_net -net pwm_0_o [get_bd_ports pan_en] [get_bd_pins pwm_pan/o]
+  connect_bd_net -net pwm_tilt_o [get_bd_ports tilt_en] [get_bd_pins pwm_tilt/o]
+  connect_bd_net -net sclk_0_1 [get_bd_ports sclk] [get_bd_pins spi_0/sclk] [get_bd_pins xlconcat_spi_test/In0]
+  connect_bd_net -net sdi_0_1 [get_bd_ports sdi] [get_bd_pins spi_0/sdi] [get_bd_pins xlconcat_spi_test/In2]
+  connect_bd_net -net spi_0_data_out [get_bd_pins spi_0/data_out] [get_bd_pins xlslice_pan/Din] [get_bd_pins xlslice_tilt/Din]
+  connect_bd_net -net spi_0_sdo [get_bd_ports sdo] [get_bd_pins spi_0/sdo] [get_bd_pins xlconcat_spi_test/In3]
+  connect_bd_net -net spi_0_state [get_bd_pins spi_0/state] [get_bd_pins xlconcat_spi_test/In4]
+  connect_bd_net -net ss_0_1 [get_bd_ports ss] [get_bd_pins spi_0/ss] [get_bd_pins xlconcat_spi_test/In1]
+  connect_bd_net -net tilt_a_1 [get_bd_ports tilt_a] [get_bd_pins encoder_tilt/a] [get_bd_pins level_1/i] [get_bd_pins xlconcat_0/In0]
+  connect_bd_net -net tilt_b_1 [get_bd_ports tilt_b] [get_bd_pins encoder_tilt/b] [get_bd_pins level_0/i] [get_bd_pins xlconcat_0/In1]
+  connect_bd_net -net xlconcat_0_dout [get_bd_ports ar] [get_bd_pins xlconcat_0/dout]
+  connect_bd_net -net xlconcat_1_dout [get_bd_pins spi_0/data_in] [get_bd_pins xlconcat_1/dout]
+  connect_bd_net -net xlslice_0_Dout [get_bd_pins xlslice_3/Din] [get_bd_pins xlslice_4/Din] [get_bd_pins xlslice_pan/Dout]
+  connect_bd_net -net xlslice_2_Dout [get_bd_pins xlslice_5/Din] [get_bd_pins xlslice_6/Din] [get_bd_pins xlslice_tilt/Dout]
   connect_bd_net -net xlslice_3_Dout [get_bd_ports pan_in2] [get_bd_pins not_gate_1/i] [get_bd_pins xlslice_3/Dout]
-  connect_bd_net -net xlslice_4_Dout [get_bd_pins pwm_0/duty_cycle] [get_bd_pins xlslice_4/Dout]
+  connect_bd_net -net xlslice_4_Dout [get_bd_pins pwm_pan/duty_cycle] [get_bd_pins xlslice_4/Dout]
+  connect_bd_net -net xlslice_5_Dout [get_bd_pins pwm_tilt/duty_cycle] [get_bd_pins xlslice_5/Dout]
+  connect_bd_net -net xlslice_6_Dout [get_bd_ports tilt_in2] [get_bd_pins not_gate_2/i] [get_bd_pins xlslice_6/Dout]
 
   # Create address segments
 

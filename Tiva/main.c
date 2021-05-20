@@ -12,53 +12,6 @@
 #include "pid.h"
 #include "user_interface.h"
 
-/*****************************************************************************
- *   Input    : -
- *   Output   : -
- *   Function : SSI0 FIFO Full. Send to UART TX
- ******************************************************************************/
-void vSPI2UART(void * pvParameters)
-{
-    char str[10] = "          ";
-    while (1)
-    {
-        /*if (uart0_tx_rdy())
-         {
-         //uart0_putc('A');
-         //uart0_sendstring("123", 3);
-         uart0_sendstring("123", 3);
-         }*/
-        if (SSI0_SR_R & SSI_SR_RNE)
-        {
-            if (uart0_tx_rdy())
-            {
-                INT8S i = 0; //spi_read();
-                int l = sprintf(str, "E: %d\r", i);
-                //uart0_sendstring(str, l);
-
-                //uart0_putc(spi_read());
-            }
-        }
-    }
-}
-
-/*****************************************************************************
- *   Input    : -
- *   Output   : -
- *   Function : UART has data, send to SPI
- ******************************************************************************/
-void vUART2SPI(void * pvParameters)
-{
-    while (1)
-    {
-        if (uart0_rx_rdy())
-        {
-            char c = uart0_getc();
-            spi_write(c);
-        }
-    }
-}
-
 void vAssertCalled(const char * pcFile, unsigned long ulLine)
 {
     static portBASE_TYPE xPrinted = pdFALSE;
@@ -112,35 +65,32 @@ int main(void)
 {
     spi_init();
     uart0_init(19200, 8, 1, 0);
+    init_systick();
 
     // PID, Kp, Ki, Kd, N, setpoint queue
     pid_init(PID_PAN, 0.1f, 0.0f, 0.0f, 10);
     pid_init(PID_TILT, 0.1f, 0.0f, 0.0f, 10);
 
     // Create tasks
-    xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE+100, NULL, PRIORITY_HIGH, NULL);
-    xTaskCreate(spi_write_task, "SPI write task",
-                configMINIMAL_STACK_SIZE + 50, NULL, PRIORITY_HIGH, NULL);
+    xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE + 100,
+                NULL, PRIORITY_HIGH, NULL);
 
-    xTaskCreate(pid_task, "PID task", configMINIMAL_STACK_SIZE + 50, NULL,
-                PRIORITY_MEDIUM, NULL);
+    xTaskCreate(spi_write_task, "SPI write task",
+    configMINIMAL_STACK_SIZE + 50,
+                NULL, PRIORITY_HIGH, NULL);
 
     xTaskCreate(uart0_write_task, "UART write task",
-                configMINIMAL_STACK_SIZE + 50, NULL, PRIORITY_LOW, NULL);
+    configMINIMAL_STACK_SIZE + 50,
+                NULL, PRIORITY_LOW, NULL);
 
     xTaskCreate(ui_task, "User interface task",
-                configMINIMAL_STACK_SIZE + 100, NULL, PRIORITY_IDLE, NULL);
+    configMINIMAL_STACK_SIZE + 150,
+                NULL, PRIORITY_IDLE, NULL);
 
     //xTaskCreate(test_task, "Test", configMINIMAL_STACK_SIZE+100,
     //            NULL, PRIORITY_IDLE, NULL);
     //xTaskCreate(test_task2, "Test2", configMINIMAL_STACK_SIZE+100,
     //                NULL, PRIORITY_IDLE, NULL);
-
-    // SPI to UART task
-    //xTaskCreate(vSPI2UART, "SPI2UART", configMINIMAL_STACK_SIZE+100, &ucParameterToPass, 0, &xHandle);
-
-    // UART to SPI task
-    //xTaskCreate(vUART2SPI, "UART2SPI", configMINIMAL_STACK_SIZE, NULL, 0,NULL);
 
     //Start scheduler
     vTaskStartScheduler();

@@ -31,12 +31,9 @@
 #include "queue.h"
 #include "task.h"
 /*****************************    Defines    *******************************/
-#define UART_QUEUE_LENGTH 64
-#define UART_ITEM_SIZE    8
-#define UPRINT_BUFFER     50
+#define UART_QUEUE_LENGTH 16
+#define UART_ITEM_SIZE    sizeof(INT8U)
 /***************** Variables ******************/
-extern QueueHandle_t uart0_rx_queue;
-extern QueueHandle_t uart0_tx_queue;
 /*****************************   Functions   *******************************/
 
 BOOLEAN uart0_rx_rdy();
@@ -77,7 +74,9 @@ void uart0_init( INT32U, INT8U, INT8U, INT8U );
 void uart0_read_isr();
 void uart0_write_task(void* pvParameters);
 void uart0_sendstring(char* c, INT8U length);
-void uprintf(char* str, const char * format, ... );
+void uart0_sendchar(char c);
+BaseType_t uart0_getchar(INT8U* msg, TickType_t xTicksToWait);
+void _putchar(char c); // For printf
 
 /****************************** End Of Module *******************************/
 #endif

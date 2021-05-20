@@ -62,6 +62,7 @@ ENTITY assembly_spi_0_0 IS
     data_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
     ss : IN STD_LOGIC;
     sdo : OUT STD_LOGIC;
+    state : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     data_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END assembly_spi_0_0;
@@ -83,6 +84,7 @@ ARCHITECTURE assembly_spi_0_0_arch OF assembly_spi_0_0 IS
       data_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
       ss : IN STD_LOGIC;
       sdo : OUT STD_LOGIC;
+      state : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
       data_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
     );
   END COMPONENT spi;
@@ -99,7 +101,7 @@ BEGIN
     GENERIC MAP (
       data_width => 16,
       spo => '0',
-      sph => '0'
+      sph => '1'
     )
     PORT MAP (
       clk => clk,
@@ -109,6 +111,7 @@ BEGIN
       data_in => data_in,
       ss => ss,
       sdo => sdo,
+      state => state,
       data_out => data_out
     );
 END assembly_spi_0_0_arch;
