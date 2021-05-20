@@ -24,10 +24,24 @@ typedef struct
 }Waypoint;
 
 #endif /* WAYPOINT_H_ */
+/***************** Constants ******************/
+int number_of_waypoint = 10;
 /***************** Variables ******************/
-Waypoint Waypoints [10];
+Waypoint Waypoints [number_of_waypoint];
 /***************** Functions ******************/
 void waypoint_task (void* pvParameters);
+/**********************************************
+ * Input: N/A
+ * Output: readPosition
+ * Function: getPosition()
+ ***********************************************/
+void waypoint_list(char* buf);
+/**********************************************
+ * Input: N/A
+ * Output: readPosition
+ * Function: getPosition()
+ ***********************************************/
+void waypoint_edit(char* buf)
 /**********************************************
  * Input: N/A
  * Output: readPosition
