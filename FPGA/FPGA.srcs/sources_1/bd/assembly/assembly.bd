@@ -22,11 +22,11 @@
       "xlslice_6": "",
       "not_gate_2": "",
       "xlconcat_spi_test": "",
-      "encoder_tilt": "",
-      "encoder_pan": "",
-      "xlconcat_1": "",
       "xlconcat_0": "",
-      "spi_0": ""
+      "spi_0": "",
+      "data_controller_0": "",
+      "encoder_tilt": "",
+      "encoder_pan": ""
     },
     "ports": {
       "clk": {
@@ -363,6 +363,145 @@
           }
         }
       },
+      "xlconcat_0": {
+        "vlnv": "xilinx.com:ip:xlconcat:2.1",
+        "xci_name": "assembly_xlconcat_0_4",
+        "xci_path": "ip/assembly_xlconcat_0_4/assembly_xlconcat_0_4.xci",
+        "inst_hier_path": "xlconcat_0",
+        "parameters": {
+          "NUM_PORTS": {
+            "value": "8"
+          }
+        }
+      },
+      "spi_0": {
+        "vlnv": "xilinx.com:module_ref:spi:1.0",
+        "xci_name": "assembly_spi_0_0",
+        "xci_path": "ip/assembly_spi_0_0/assembly_spi_0_0.xci",
+        "inst_hier_path": "spi_0",
+        "parameters": {
+          "data_width": {
+            "value": "16"
+          },
+          "sph": {
+            "value": "\"1\""
+          },
+          "spo": {
+            "value": "\"0\""
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "spi",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "sclk": {
+            "direction": "I"
+          },
+          "sdi": {
+            "direction": "I"
+          },
+          "data_in": {
+            "direction": "I",
+            "left": "15",
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "16",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "ss": {
+            "direction": "I"
+          },
+          "sdo": {
+            "direction": "O"
+          },
+          "state": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "data_out": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          }
+        }
+      },
+      "data_controller_0": {
+        "vlnv": "xilinx.com:module_ref:data_controller:1.0",
+        "xci_name": "assembly_data_controller_0_0",
+        "xci_path": "ip/assembly_data_controller_0_0/assembly_data_controller_0_0.xci",
+        "inst_hier_path": "data_controller_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "data_controller",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "pan_in": {
+            "direction": "I",
+            "left": "8",
+            "right": "0"
+          },
+          "tilt_in": {
+            "direction": "I",
+            "left": "8",
+            "right": "0"
+          },
+          "spi_rx": {
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "pan_out": {
+            "direction": "O",
+            "left": "8",
+            "right": "0"
+          },
+          "tilt_out": {
+            "direction": "O",
+            "left": "8",
+            "right": "0"
+          },
+          "spi_tx": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          }
+        }
+      },
       "encoder_tilt": {
         "vlnv": "xilinx.com:module_ref:encoder:1.0",
         "xci_name": "assembly_encoder_0_0",
@@ -458,96 +597,6 @@
             "right": "0"
           }
         }
-      },
-      "xlconcat_1": {
-        "vlnv": "xilinx.com:ip:xlconcat:2.1",
-        "xci_name": "assembly_xlconcat_1_0",
-        "xci_path": "ip/assembly_xlconcat_1_0/assembly_xlconcat_1_0.xci",
-        "inst_hier_path": "xlconcat_1",
-        "parameters": {
-          "IN0_WIDTH": {
-            "value": "8"
-          },
-          "IN1_WIDTH": {
-            "value": "8"
-          }
-        }
-      },
-      "xlconcat_0": {
-        "vlnv": "xilinx.com:ip:xlconcat:2.1",
-        "xci_name": "assembly_xlconcat_0_4",
-        "xci_path": "ip/assembly_xlconcat_0_4/assembly_xlconcat_0_4.xci",
-        "inst_hier_path": "xlconcat_0",
-        "parameters": {
-          "NUM_PORTS": {
-            "value": "8"
-          }
-        }
-      },
-      "spi_0": {
-        "vlnv": "xilinx.com:module_ref:spi:1.0",
-        "xci_name": "assembly_spi_0_0",
-        "xci_path": "ip/assembly_spi_0_0/assembly_spi_0_0.xci",
-        "inst_hier_path": "spi_0",
-        "parameters": {
-          "data_width": {
-            "value": "16"
-          },
-          "sph": {
-            "value": "\"1\""
-          },
-          "spo": {
-            "value": "\"0\""
-          }
-        },
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "spi",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "rst",
-                "value_src": "constant"
-              }
-            }
-          },
-          "rst": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "sclk": {
-            "direction": "I"
-          },
-          "sdi": {
-            "direction": "I"
-          },
-          "data_in": {
-            "direction": "I",
-            "left": "15",
-            "right": "0"
-          },
-          "ss": {
-            "direction": "I"
-          },
-          "sdo": {
-            "direction": "O"
-          },
-          "state": {
-            "direction": "O",
-            "left": "3",
-            "right": "0"
-          },
-          "data_out": {
-            "direction": "O",
-            "left": "15",
-            "right": "0"
-          }
-        }
       }
     },
     "nets": {
@@ -584,22 +633,16 @@
           "clock_divider_0/clk_div",
           "pwm_pan/clk",
           "pwm_tilt/clk",
+          "spi_0/clk",
+          "data_controller_0/clk",
           "encoder_tilt/clk",
-          "encoder_pan/clk",
-          "spi_0/clk"
+          "encoder_pan/clk"
         ]
       },
       "clk_1": {
         "ports": [
           "clk",
           "clock_divider_0/clk"
-        ]
-      },
-      "spi_0_data_out": {
-        "ports": [
-          "spi_0/data_out",
-          "xlslice_pan/Din",
-          "xlslice_tilt/Din"
         ]
       },
       "xlslice_0_Dout": {
@@ -681,24 +724,25 @@
       "tilt_a_1": {
         "ports": [
           "tilt_a",
-          "encoder_tilt/a",
-          "xlconcat_0/In0"
+          "xlconcat_0/In0",
+          "encoder_tilt/a"
         ]
       },
       "tilt_b_1": {
         "ports": [
           "tilt_b",
-          "encoder_tilt/b",
-          "xlconcat_0/In1"
+          "xlconcat_0/In1",
+          "encoder_tilt/b"
         ]
       },
       "i_0_1": {
         "ports": [
           "rst",
           "clock_divider_0/rst",
+          "spi_0/rst",
+          "data_controller_0/rst",
           "encoder_tilt/rst",
-          "encoder_pan/rst",
-          "spi_0/rst"
+          "encoder_pan/rst"
         ]
       },
       "spi_0_state": {
@@ -707,28 +751,34 @@
           "xlconcat_spi_test/In4"
         ]
       },
-      "encoder_pan_cnt": {
-        "ports": [
-          "encoder_pan/cnt",
-          "xlconcat_1/In0"
-        ]
-      },
-      "encoder_tilt_cnt": {
-        "ports": [
-          "encoder_tilt/cnt",
-          "xlconcat_1/In1"
-        ]
-      },
-      "xlconcat_1_dout": {
-        "ports": [
-          "xlconcat_1/dout",
-          "spi_0/data_in"
-        ]
-      },
       "xlconcat_0_dout": {
         "ports": [
           "xlconcat_0/dout",
           "ar"
+        ]
+      },
+      "data_controller_0_pan_out": {
+        "ports": [
+          "data_controller_0/pan_out",
+          "data_controller_0/pan_in"
+        ]
+      },
+      "data_controller_0_tilt_out": {
+        "ports": [
+          "data_controller_0/tilt_out",
+          "data_controller_0/tilt_in"
+        ]
+      },
+      "data_controller_0_spi_tx": {
+        "ports": [
+          "data_controller_0/spi_tx",
+          "spi_0/data_in"
+        ]
+      },
+      "spi_0_data_out": {
+        "ports": [
+          "spi_0/data_out",
+          "data_controller_0/spi_rx"
         ]
       }
     }

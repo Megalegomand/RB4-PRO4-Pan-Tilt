@@ -46,42 +46,50 @@
 -- 
 -- DO NOT MODIFY THIS FILE.
 
--- IP VLNV: xilinx.com:module_ref:encoder:1.0
+-- IP VLNV: xilinx.com:module_ref:spi:1.0
 -- IP Revision: 1
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-ENTITY assembly_encoder_0_0 IS
+ENTITY assembly_spi_0_0 IS
   PORT (
     clk : IN STD_LOGIC;
-    a : IN STD_LOGIC;
-    b : IN STD_LOGIC;
     rst : IN STD_LOGIC;
-    col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-    cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    sclk : IN STD_LOGIC;
+    sdi : IN STD_LOGIC;
+    data_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    ss : IN STD_LOGIC;
+    sdo : OUT STD_LOGIC;
+    state : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    data_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
-END assembly_encoder_0_0;
+END assembly_spi_0_0;
 
-ARCHITECTURE assembly_encoder_0_0_arch OF assembly_encoder_0_0 IS
+ARCHITECTURE assembly_spi_0_0_arch OF assembly_spi_0_0 IS
   ATTRIBUTE DowngradeIPIdentifiedWarnings : STRING;
-  ATTRIBUTE DowngradeIPIdentifiedWarnings OF assembly_encoder_0_0_arch: ARCHITECTURE IS "yes";
-  COMPONENT encoder IS
+  ATTRIBUTE DowngradeIPIdentifiedWarnings OF assembly_spi_0_0_arch: ARCHITECTURE IS "yes";
+  COMPONENT spi IS
     GENERIC (
-      n_bits : INTEGER
+      data_width : INTEGER;
+      spo : STD_LOGIC;
+      sph : STD_LOGIC
     );
     PORT (
       clk : IN STD_LOGIC;
-      a : IN STD_LOGIC;
-      b : IN STD_LOGIC;
       rst : IN STD_LOGIC;
-      col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-      cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+      sclk : IN STD_LOGIC;
+      sdi : IN STD_LOGIC;
+      data_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+      ss : IN STD_LOGIC;
+      sdo : OUT STD_LOGIC;
+      state : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+      data_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
     );
-  END COMPONENT encoder;
+  END COMPONENT spi;
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
-  ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_encoder_0_0_arch: ARCHITECTURE IS "module_ref";
+  ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_spi_0_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER OF rst: SIGNAL IS "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0";
@@ -89,16 +97,21 @@ ARCHITECTURE assembly_encoder_0_0_arch OF assembly_encoder_0_0 IS
   ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF clk: SIGNAL IS "xilinx.com:signal:clock:1.0 clk CLK";
 BEGIN
-  U0 : encoder
+  U0 : spi
     GENERIC MAP (
-      n_bits => 8
+      data_width => 16,
+      spo => '0',
+      sph => '1'
     )
     PORT MAP (
       clk => clk,
-      a => a,
-      b => b,
       rst => rst,
-      col_p => col_p,
-      cnt => cnt
+      sclk => sclk,
+      sdi => sdi,
+      data_in => data_in,
+      ss => ss,
+      sdo => sdo,
+      state => state,
+      data_out => data_out
     );
-END assembly_encoder_0_0_arch;
+END assembly_spi_0_0_arch;
