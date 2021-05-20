@@ -80,9 +80,9 @@ BEGIN
         END IF;
     END PROCESS;
 
-    spi_out_process : PROCESS (data_in_id)
+    spi_out_process : PROCESS (clk)
     BEGIN
-
+        
     END PROCESS;
 
 END Behavioral;

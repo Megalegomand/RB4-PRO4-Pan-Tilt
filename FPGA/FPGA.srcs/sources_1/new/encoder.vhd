@@ -65,7 +65,7 @@ BEGIN
             a_t <= a;
             b_t <= b;
         END IF;
-        IF (falling_edge(clk)) THEN -- To counteract SPI reading on rising edge
+        IF (rising_edge(clk)) THEN -- To counteract SPI reading on rising edge
             cnt <= STD_LOGIC_VECTOR(cnt_t);
 
             a_t <= a;
