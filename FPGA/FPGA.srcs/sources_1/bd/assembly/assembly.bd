@@ -7,7 +7,8 @@
       "name": "assembly",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2020.2"
+      "tool_version": "2020.2",
+      "validated": "true"
     },
     "design_tree": {
       "clock_divider_0": "",
@@ -24,14 +25,40 @@
       "xlconcat_spi_test": "",
       "xlconcat_0": "",
       "spi_0": "",
-      "data_controller_0": "",
       "encoder_tilt": "",
-      "encoder_pan": ""
+      "encoder_pan": "",
+      "data_controller_0": ""
     },
     "ports": {
       "clk": {
         "type": "clk",
-        "direction": "I"
+        "direction": "I",
+        "parameters": {
+          "ASSOCIATED_RESET": {
+            "value": "rst",
+            "value_src": "default"
+          },
+          "CLK_DOMAIN": {
+            "value": "assembly_clk",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.000",
+            "value_src": "default"
+          }
+        }
       },
       "ss": {
         "direction": "I"
@@ -82,7 +109,13 @@
       "ar": {
         "direction": "O",
         "left": "7",
-        "right": "0"
+        "right": "0",
+        "parameters": {
+          "PortWidth": {
+            "value": "8",
+            "value_src": "ip_prop"
+          }
+        }
       },
       "rst": {
         "direction": "I"
@@ -445,63 +478,6 @@
           }
         }
       },
-      "data_controller_0": {
-        "vlnv": "xilinx.com:module_ref:data_controller:1.0",
-        "xci_name": "assembly_data_controller_0_0",
-        "xci_path": "ip/assembly_data_controller_0_0/assembly_data_controller_0_0.xci",
-        "inst_hier_path": "data_controller_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "data_controller",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "rst",
-                "value_src": "constant"
-              }
-            }
-          },
-          "rst": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "pan_in": {
-            "direction": "I",
-            "left": "8",
-            "right": "0"
-          },
-          "tilt_in": {
-            "direction": "I",
-            "left": "8",
-            "right": "0"
-          },
-          "spi_rx": {
-            "direction": "I",
-            "left": "15",
-            "right": "0"
-          },
-          "pan_out": {
-            "direction": "O",
-            "left": "8",
-            "right": "0"
-          },
-          "tilt_out": {
-            "direction": "O",
-            "left": "8",
-            "right": "0"
-          },
-          "spi_tx": {
-            "direction": "O",
-            "left": "15",
-            "right": "0"
-          }
-        }
-      },
       "encoder_tilt": {
         "vlnv": "xilinx.com:module_ref:encoder:1.0",
         "xci_name": "assembly_encoder_0_0",
@@ -597,6 +573,69 @@
             "right": "0"
           }
         }
+      },
+      "data_controller_0": {
+        "vlnv": "xilinx.com:module_ref:data_controller:1.0",
+        "xci_name": "assembly_data_controller_0_0",
+        "xci_path": "ip/assembly_data_controller_0_0/assembly_data_controller_0_0.xci",
+        "inst_hier_path": "data_controller_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "data_controller",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "pan_in": {
+            "direction": "I",
+            "left": "8",
+            "right": "0"
+          },
+          "tilt_in": {
+            "direction": "I",
+            "left": "8",
+            "right": "0"
+          },
+          "spi_rx": {
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "pan_out": {
+            "direction": "O",
+            "left": "8",
+            "right": "0"
+          },
+          "tilt_out": {
+            "direction": "O",
+            "left": "8",
+            "right": "0"
+          },
+          "spi_tx": {
+            "direction": "O",
+            "left": "15",
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "16",
+                "value_src": "ip_prop"
+              }
+            }
+          }
+        }
       }
     },
     "nets": {
@@ -634,9 +673,9 @@
           "pwm_pan/clk",
           "pwm_tilt/clk",
           "spi_0/clk",
-          "data_controller_0/clk",
           "encoder_tilt/clk",
-          "encoder_pan/clk"
+          "encoder_pan/clk",
+          "data_controller_0/clk"
         ]
       },
       "clk_1": {
@@ -740,9 +779,9 @@
           "rst",
           "clock_divider_0/rst",
           "spi_0/rst",
-          "data_controller_0/rst",
           "encoder_tilt/rst",
-          "encoder_pan/rst"
+          "encoder_pan/rst",
+          "data_controller_0/rst"
         ]
       },
       "spi_0_state": {

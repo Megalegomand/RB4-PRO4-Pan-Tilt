@@ -45,7 +45,7 @@ END data_controller;
 ARCHITECTURE Behavioral OF data_controller IS
     SIGNAL data_tx_id : STD_LOGIC_VECTOR(data_id_bits - 1 DOWNTO 0) := (OTHERS => '0');
 
-    CONSTANT frame_parity_split : POSITIVE := INTEGER(ceil((frame_width - redundant_bits) * 0.5));
+    CONSTANT frame_parity_split : POSITIVE := INTEGER(ceil(real(frame_width - redundant_bits) * 0.5));
 
     FUNCTION parity_bits (
         spi_data : IN STD_LOGIC_VECTOR(frame_width - 1 DOWNTO 0))
