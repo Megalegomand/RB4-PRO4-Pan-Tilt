@@ -1,7 +1,7 @@
 {
    "ActiveEmotionalView":"Default View",
    "Default View_ScaleFactor":"0.925455",
-   "Default View_TopLeft":"743,349",
+   "Default View_TopLeft":"739,349",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
@@ -34,11 +34,11 @@ preplace inst xlslice_5 -pg 1 -lvl 6 -x 1400 -y 800 -defaultsOSRD
 preplace inst xlslice_6 -pg 1 -lvl 6 -x 1400 -y 1020 -defaultsOSRD
 preplace inst not_gate_2 -pg 1 -lvl 7 -x 1660 -y 1040 -defaultsOSRD
 preplace inst xlconcat_spi_test -pg 1 -lvl 7 -x 1660 -y 240 -defaultsOSRD
-preplace inst spi_0 -pg 1 -lvl 4 -x 870 -y 130 -defaultsOSRD
 preplace inst encoder_tilt -pg 1 -lvl 2 -x 360 -y 420 -defaultsOSRD
 preplace inst encoder_pan -pg 1 -lvl 2 -x 360 -y 240 -defaultsOSRD
 preplace inst xlconcat_1 -pg 1 -lvl 3 -x 580 -y 260 -defaultsOSRD
 preplace inst xlconcat_0 -pg 1 -lvl 7 -x 1660 -y 470 -defaultsOSRD
+preplace inst spi_0 -pg 1 -lvl 4 -x 870 -y 130 -defaultsOSRD
 preplace netloc ss_0_1 1 0 7 NJ 150 NJ 150 NJ 150 690 270 NJ 270 1260J 220 N
 preplace netloc sclk_0_1 1 0 7 NJ 110 NJ 110 NJ 110 690 10 NJ 10 NJ 10 1540
 preplace netloc spi_0_sdo 1 4 4 1020 260 NJ 260 1510 140 1780J

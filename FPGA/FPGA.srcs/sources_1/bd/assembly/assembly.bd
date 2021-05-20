@@ -22,11 +22,11 @@
       "xlslice_6": "",
       "not_gate_2": "",
       "xlconcat_spi_test": "",
-      "spi_0": "",
       "encoder_tilt": "",
       "encoder_pan": "",
       "xlconcat_1": "",
-      "xlconcat_0": ""
+      "xlconcat_0": "",
+      "spi_0": ""
     },
     "ports": {
       "clk": {
@@ -363,83 +363,6 @@
           }
         }
       },
-      "spi_0": {
-        "vlnv": "xilinx.com:module_ref:spi:1.0",
-        "xci_name": "assembly_spi_0_0",
-        "xci_path": "ip/assembly_spi_0_0/assembly_spi_0_0.xci",
-        "inst_hier_path": "spi_0",
-        "parameters": {
-          "data_width": {
-            "value": "16"
-          },
-          "sph": {
-            "value": "\"1\""
-          },
-          "spo": {
-            "value": "\"0\""
-          }
-        },
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "spi",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "rst",
-                "value_src": "constant"
-              }
-            }
-          },
-          "rst": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "sclk": {
-            "direction": "I"
-          },
-          "sdi": {
-            "direction": "I"
-          },
-          "data_in": {
-            "direction": "I",
-            "left": "15",
-            "right": "0",
-            "parameters": {
-              "PortWidth": {
-                "value": "16",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "ss": {
-            "direction": "I"
-          },
-          "sdo": {
-            "direction": "O"
-          },
-          "state": {
-            "direction": "O",
-            "left": "3",
-            "right": "0"
-          },
-          "data_out": {
-            "direction": "O",
-            "left": "15",
-            "right": "0",
-            "parameters": {
-              "PortWidth": {
-                "value": "4",
-                "value_src": "ip_prop"
-              }
-            }
-          }
-        }
-      },
       "encoder_tilt": {
         "vlnv": "xilinx.com:module_ref:encoder:1.0",
         "xci_name": "assembly_encoder_0_0",
@@ -560,6 +483,71 @@
             "value": "8"
           }
         }
+      },
+      "spi_0": {
+        "vlnv": "xilinx.com:module_ref:spi:1.0",
+        "xci_name": "assembly_spi_0_0",
+        "xci_path": "ip/assembly_spi_0_0/assembly_spi_0_0.xci",
+        "inst_hier_path": "spi_0",
+        "parameters": {
+          "data_width": {
+            "value": "16"
+          },
+          "sph": {
+            "value": "\"1\""
+          },
+          "spo": {
+            "value": "\"0\""
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "spi",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "sclk": {
+            "direction": "I"
+          },
+          "sdi": {
+            "direction": "I"
+          },
+          "data_in": {
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "ss": {
+            "direction": "I"
+          },
+          "sdo": {
+            "direction": "O"
+          },
+          "state": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "data_out": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          }
+        }
       }
     },
     "nets": {
@@ -596,9 +584,9 @@
           "clock_divider_0/clk_div",
           "pwm_pan/clk",
           "pwm_tilt/clk",
-          "spi_0/clk",
           "encoder_tilt/clk",
-          "encoder_pan/clk"
+          "encoder_pan/clk",
+          "spi_0/clk"
         ]
       },
       "clk_1": {
@@ -708,9 +696,9 @@
         "ports": [
           "rst",
           "clock_divider_0/rst",
-          "spi_0/rst",
           "encoder_tilt/rst",
-          "encoder_pan/rst"
+          "encoder_pan/rst",
+          "spi_0/rst"
         ]
       },
       "spi_0_state": {
