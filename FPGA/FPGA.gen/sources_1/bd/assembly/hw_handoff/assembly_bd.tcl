@@ -170,7 +170,7 @@ proc create_root_design { parentCell } {
   set pan_a [ create_bd_port -dir I pan_a ]
   set pan_b [ create_bd_port -dir I pan_b ]
   set pan_en [ create_bd_port -dir O pan_en ]
-  set pan_in1 [ create_bd_port -dir O pan_in1 ]
+  set pan_in1 [ create_bd_port -dir O -from 0 -to 0 pan_in1 ]
   set pan_in2 [ create_bd_port -dir O -from 0 -to 0 pan_in2 ]
   set rst [ create_bd_port -dir I rst ]
   set sclk [ create_bd_port -dir I sclk ]
@@ -180,7 +180,7 @@ proc create_root_design { parentCell } {
   set tilt_a [ create_bd_port -dir I tilt_a ]
   set tilt_b [ create_bd_port -dir I tilt_b ]
   set tilt_en [ create_bd_port -dir O tilt_en ]
-  set tilt_in1 [ create_bd_port -dir O tilt_in1 ]
+  set tilt_in1 [ create_bd_port -dir O -from 0 -to 0 tilt_in1 ]
   set tilt_in2 [ create_bd_port -dir O -from 0 -to 0 tilt_in2 ]
 
   # Create instance: clock_divider_0, and set properties
@@ -371,8 +371,8 @@ proc create_root_design { parentCell } {
   connect_bd_net -net encoder_tilt_cnt [get_bd_pins data_controller_0/tilt_in] [get_bd_pins encoder_tilt/cnt]
   connect_bd_net -net encoder_tilt_col_p [get_bd_pins encoder_tilt/col_p] [get_bd_pins xlconcat_0/In1]
   connect_bd_net -net i_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins data_controller_0/rst] [get_bd_pins encoder_pan/rst] [get_bd_pins encoder_tilt/rst] [get_bd_pins spi_0/rst]
-  connect_bd_net -net not_gate_1_o [get_bd_ports pan_in1] [get_bd_pins not_gate_1/o]
-  connect_bd_net -net not_gate_2_o [get_bd_ports tilt_in1] [get_bd_pins not_gate_2/o]
+  connect_bd_net -net not_gate_1_o [get_bd_ports pan_in2] [get_bd_pins not_gate_1/o]
+  connect_bd_net -net not_gate_2_o [get_bd_ports tilt_in2] [get_bd_pins not_gate_2/o]
   connect_bd_net -net pan_a_1 [get_bd_ports pan_a] [get_bd_pins encoder_pan/a]
   connect_bd_net -net pan_b_1 [get_bd_ports pan_b] [get_bd_pins encoder_pan/b]
   connect_bd_net -net pwm_0_o [get_bd_ports pan_en] [get_bd_pins pwm_pan/o] [get_bd_pins xlconcat_spi_test/In5]
@@ -388,10 +388,10 @@ proc create_root_design { parentCell } {
   connect_bd_net -net xlslice_0_Dout [get_bd_pins data_controller_0/pan_out] [get_bd_pins xlslice_3/Din] [get_bd_pins xlslice_4/Din]
   connect_bd_net -net xlslice_1_Dout [get_bd_pins xlconcat_spi_test/In4] [get_bd_pins xlslice_1/Dout]
   connect_bd_net -net xlslice_2_Dout [get_bd_pins data_controller_0/tilt_out] [get_bd_pins xlslice_5/Din] [get_bd_pins xlslice_6/Din]
-  connect_bd_net -net xlslice_3_Dout [get_bd_ports pan_in2] [get_bd_pins not_gate_1/i] [get_bd_pins xlslice_3/Dout]
+  connect_bd_net -net xlslice_3_Dout [get_bd_ports pan_in1] [get_bd_pins not_gate_1/i] [get_bd_pins xlslice_3/Dout]
   connect_bd_net -net xlslice_4_Dout [get_bd_pins pwm_pan/duty_cycle] [get_bd_pins xlslice_4/Dout]
   connect_bd_net -net xlslice_5_Dout [get_bd_pins pwm_tilt/duty_cycle] [get_bd_pins xlslice_5/Dout]
-  connect_bd_net -net xlslice_6_Dout [get_bd_ports tilt_in2] [get_bd_pins not_gate_2/i] [get_bd_pins xlslice_6/Dout]
+  connect_bd_net -net xlslice_6_Dout [get_bd_ports tilt_in1] [get_bd_pins not_gate_2/i] [get_bd_pins xlslice_6/Dout]
 
   # Create address segments
 

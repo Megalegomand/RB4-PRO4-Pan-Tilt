@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Sat May 22 00:16:30 2021
+--Date        : Sat May 22 00:33:22 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -18,7 +18,7 @@ entity assembly is
     pan_a : in STD_LOGIC;
     pan_b : in STD_LOGIC;
     pan_en : out STD_LOGIC;
-    pan_in1 : out STD_LOGIC;
+    pan_in1 : out STD_LOGIC_VECTOR ( 0 to 0 );
     pan_in2 : out STD_LOGIC_VECTOR ( 0 to 0 );
     rst : in STD_LOGIC;
     sclk : in STD_LOGIC;
@@ -28,7 +28,7 @@ entity assembly is
     tilt_a : in STD_LOGIC;
     tilt_b : in STD_LOGIC;
     tilt_en : out STD_LOGIC;
-    tilt_in1 : out STD_LOGIC;
+    tilt_in1 : out STD_LOGIC_VECTOR ( 0 to 0 );
     tilt_in2 : out STD_LOGIC_VECTOR ( 0 to 0 )
   );
   attribute CORE_GENERATION_INFO : string;
@@ -207,8 +207,8 @@ begin
   pan_a_1 <= pan_a;
   pan_b_1 <= pan_b;
   pan_en <= pwm_0_o;
-  pan_in1 <= not_gate_1_o;
-  pan_in2(0) <= xlslice_3_Dout(0);
+  pan_in1(0) <= xlslice_3_Dout(0);
+  pan_in2(0) <= not_gate_1_o;
   sclk_0_1 <= sclk;
   sdi_0_1 <= sdi;
   sdo <= spi_0_sdo;
@@ -216,8 +216,8 @@ begin
   tilt_a_1 <= tilt_a;
   tilt_b_1 <= tilt_b;
   tilt_en <= pwm_tilt_o;
-  tilt_in1 <= not_gate_2_o;
-  tilt_in2(0) <= xlslice_6_Dout(0);
+  tilt_in1(0) <= xlslice_6_Dout(0);
+  tilt_in2(0) <= not_gate_2_o;
 clock_divider_0: component assembly_clock_divider_0_0
      port map (
       clk => clk_1,

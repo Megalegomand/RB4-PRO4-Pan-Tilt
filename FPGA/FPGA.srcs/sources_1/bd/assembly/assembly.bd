@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x720A681B7FD18EE9",
+      "boundary_crc": "0xAFF18C61C8C4232E",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../FPGA.gen/sources_1/bd/assembly",
       "name": "assembly",
@@ -78,7 +78,9 @@
         "direction": "I"
       },
       "pan_in1": {
-        "direction": "O"
+        "direction": "O",
+        "left": "0",
+        "right": "0"
       },
       "pan_in2": {
         "direction": "O",
@@ -98,7 +100,9 @@
         "direction": "O"
       },
       "tilt_in1": {
-        "direction": "O"
+        "direction": "O",
+        "left": "0",
+        "right": "0"
       },
       "tilt_in2": {
         "direction": "O",
@@ -672,19 +676,6 @@
           "xlslice_4/Din"
         ]
       },
-      "xlslice_3_Dout": {
-        "ports": [
-          "xlslice_3/Dout",
-          "not_gate_1/i",
-          "pan_in2"
-        ]
-      },
-      "not_gate_1_o": {
-        "ports": [
-          "not_gate_1/o",
-          "pan_in1"
-        ]
-      },
       "xlslice_4_Dout": {
         "ports": [
           "xlslice_4/Dout",
@@ -716,19 +707,6 @@
           "pwm_tilt/o",
           "tilt_en",
           "xlconcat_spi_test/In6"
-        ]
-      },
-      "xlslice_6_Dout": {
-        "ports": [
-          "xlslice_6/Dout",
-          "not_gate_2/i",
-          "tilt_in2"
-        ]
-      },
-      "not_gate_2_o": {
-        "ports": [
-          "not_gate_2/o",
-          "tilt_in1"
         ]
       },
       "pan_a_1": {
@@ -819,6 +797,32 @@
         "ports": [
           "xlconcat_spi_test/dout",
           "ar"
+        ]
+      },
+      "xlslice_6_Dout": {
+        "ports": [
+          "xlslice_6/Dout",
+          "not_gate_2/i",
+          "tilt_in1"
+        ]
+      },
+      "not_gate_2_o": {
+        "ports": [
+          "not_gate_2/o",
+          "tilt_in2"
+        ]
+      },
+      "xlslice_3_Dout": {
+        "ports": [
+          "xlslice_3/Dout",
+          "pan_in1",
+          "not_gate_1/i"
+        ]
+      },
+      "not_gate_1_o": {
+        "ports": [
+          "not_gate_1/o",
+          "pan_in2"
         ]
       }
     }
