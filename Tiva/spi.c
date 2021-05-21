@@ -132,21 +132,46 @@ void spi_read_isr()
     }
 }
 
-INT16S spi_transmission(INT16S data, INT8U data_id, INT8U next_id)
+INT16S spi_transmission(INT16S tx_data, INT8U data_rx_id, INT8U data_tx_id,
+                        INT8U next_id)
 {
-    INT16U transmission;
+    INT16U transmit;
+    INT16U receive;
+
+    INT16S rx_data;
     while (1)
     {
-        transmission = data << 7;
-        transmission |= (data_id & 0x03) << 5;
-        transmission |= (next_id & 0x03) << 3;
+        transmit = tx_data << 7;
+        transmit |= (data_tx_id & 0x03) << 5;
+        transmit |= (next_id & 0x03) << 3;
 
-        transmission |= redundant_bits(transmission);
+        transmit |= redundant_bits(transmit);
 
-        xQueueSendToBack(spi_tx_queue, &transmission, portMAX_DELAY);
+        xQueueSendToBack(spi_tx_queue, &transmit, portMAX_DELAY);
 
+        xQueueReceive(spi_rx_queue, &receive, portMAX_DELAY);
 
+        if (((receive >> 5) & 0x0003) == data_rx_id)
+        { // Correct data recieved
+            BOOLEAN tx_correct = ((receive >> 3) & 0x0003) == 0b10;
+
+            BOOLEAN redundant_correct = redundant_bits(receive)
+                    == (((INT8U) receive) & 0x03);
+
+            if (tx_correct && redundant_correct)
+            {
+                rx_data = receive >> 7;
+                if (rx_data & 0x100)
+                { // Value is negative
+                    rx_data |= 0xFE00;
+                }
+
+                break;
+            }
+        }
     }
+
+    return tx_data;
 }
 
 INT8U redundant_bits(INT16U transmission)

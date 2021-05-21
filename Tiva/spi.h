@@ -31,7 +31,7 @@
 #define SPI_ITEM_SIZE    sizeof(INT16U)
 
 #define SPI_PAN 0b00
-#define SPI_PAN 0b11
+#define SPI_TILT 0b11
 /***************** Variables ******************/ 
 extern QueueHandle_t spi_rx_queue;
 extern QueueHandle_t spi_tx_queue;
@@ -43,7 +43,7 @@ void spi_init(); // Initialize shared clock
 void spi_write_task(void * pvParameters);
 void spi_read_isr();
 
-INT16S spi_transmission(INT16S data, INT8U data_id, INT8U next_id);
+INT16S spi_transmission(INT16S data, INT8U data_rx_id, INT8U data_tx_id, INT8U next_id);
 INT8U redundant_bits(INT16U transmission);
 
 /********************************************** 
