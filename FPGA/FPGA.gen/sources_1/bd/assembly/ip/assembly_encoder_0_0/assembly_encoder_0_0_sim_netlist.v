@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Thu May 20 21:49:33 2021
+// Date        : Fri May 21 14:03:58 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_sim_netlist.v
@@ -27,12 +27,12 @@ module assembly_encoder_0_0
   input b;
   (* x_interface_info = "xilinx.com:signal:reset:1.0 rst RST" *) (* x_interface_parameter = "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0" *) input rst;
   output [3:0]col_p;
-  output [7:0]cnt;
+  output [8:0]cnt;
 
   wire a;
   wire b;
   wire clk;
-  wire [7:0]cnt;
+  wire [8:0]cnt;
   wire [3:2]\^col_p ;
   wire rst;
 
@@ -57,7 +57,7 @@ module assembly_encoder_0_0_encoder
     clk,
     rst);
   output [1:0]col_p;
-  output [7:0]cnt;
+  output [8:0]cnt;
   input a;
   input b;
   input clk;
@@ -66,13 +66,14 @@ module assembly_encoder_0_0_encoder
   wire a;
   wire b;
   wire clk;
-  wire [7:0]cnt;
-  wire [7:0]cnt_t;
+  wire [8:0]cnt;
+  wire [8:0]cnt_t;
   wire cnt_t1__0;
-  wire \cnt_t[7]_i_1_n_0 ;
+  wire \cnt_t[8]_i_1_n_0 ;
   wire cnt_t_0;
-  wire [7:0]cnt_t_reg;
+  wire [8:0]cnt_t_reg;
   wire [1:0]col_p;
+  wire plusOp_carry__0_n_1;
   wire plusOp_carry__0_n_2;
   wire plusOp_carry__0_n_3;
   wire plusOp_carry_i_1__0_n_0;
@@ -81,14 +82,14 @@ module assembly_encoder_0_0_encoder
   wire plusOp_carry_i_2_n_0;
   wire plusOp_carry_i_3__0_n_0;
   wire plusOp_carry_i_3_n_0;
+  wire plusOp_carry_i_4__0_n_0;
   wire plusOp_carry_i_4_n_0;
   wire plusOp_carry_n_0;
   wire plusOp_carry_n_1;
   wire plusOp_carry_n_2;
   wire plusOp_carry_n_3;
   wire rst;
-  wire [3:2]NLW_plusOp_carry__0_CO_UNCONNECTED;
-  wire [3:3]NLW_plusOp_carry__0_O_UNCONNECTED;
+  wire [3:3]NLW_plusOp_carry__0_CO_UNCONNECTED;
 
   LUT5 #(
     .INIT(32'h82282882)) 
@@ -163,6 +164,12 @@ module assembly_encoder_0_0_encoder
         .D(cnt_t_reg[7]),
         .Q(cnt[7]),
         .R(1'b0));
+  FDRE \cnt_reg[8] 
+       (.C(clk),
+        .CE(1'b1),
+        .D(cnt_t_reg[8]),
+        .Q(cnt[8]),
+        .R(1'b0));
   LUT4 #(
     .INIT(16'h4182)) 
     cnt_t1
@@ -178,17 +185,17 @@ module assembly_encoder_0_0_encoder
         .O(cnt_t[0]));
   LUT4 #(
     .INIT(16'h6996)) 
-    \cnt_t[7]_i_1 
+    \cnt_t[8]_i_1 
        (.I0(a),
         .I1(b),
         .I2(col_p[0]),
         .I3(col_p[1]),
-        .O(\cnt_t[7]_i_1_n_0 ));
+        .O(\cnt_t[8]_i_1_n_0 ));
   FDRE #(
     .INIT(1'b0)) 
     \cnt_t_reg[0] 
        (.C(clk),
-        .CE(\cnt_t[7]_i_1_n_0 ),
+        .CE(\cnt_t[8]_i_1_n_0 ),
         .D(cnt_t[0]),
         .Q(cnt_t_reg[0]),
         .R(cnt_t_0));
@@ -196,7 +203,7 @@ module assembly_encoder_0_0_encoder
     .INIT(1'b0)) 
     \cnt_t_reg[1] 
        (.C(clk),
-        .CE(\cnt_t[7]_i_1_n_0 ),
+        .CE(\cnt_t[8]_i_1_n_0 ),
         .D(cnt_t[1]),
         .Q(cnt_t_reg[1]),
         .R(cnt_t_0));
@@ -204,7 +211,7 @@ module assembly_encoder_0_0_encoder
     .INIT(1'b0)) 
     \cnt_t_reg[2] 
        (.C(clk),
-        .CE(\cnt_t[7]_i_1_n_0 ),
+        .CE(\cnt_t[8]_i_1_n_0 ),
         .D(cnt_t[2]),
         .Q(cnt_t_reg[2]),
         .R(cnt_t_0));
@@ -212,7 +219,7 @@ module assembly_encoder_0_0_encoder
     .INIT(1'b0)) 
     \cnt_t_reg[3] 
        (.C(clk),
-        .CE(\cnt_t[7]_i_1_n_0 ),
+        .CE(\cnt_t[8]_i_1_n_0 ),
         .D(cnt_t[3]),
         .Q(cnt_t_reg[3]),
         .R(cnt_t_0));
@@ -220,7 +227,7 @@ module assembly_encoder_0_0_encoder
     .INIT(1'b0)) 
     \cnt_t_reg[4] 
        (.C(clk),
-        .CE(\cnt_t[7]_i_1_n_0 ),
+        .CE(\cnt_t[8]_i_1_n_0 ),
         .D(cnt_t[4]),
         .Q(cnt_t_reg[4]),
         .R(cnt_t_0));
@@ -228,7 +235,7 @@ module assembly_encoder_0_0_encoder
     .INIT(1'b0)) 
     \cnt_t_reg[5] 
        (.C(clk),
-        .CE(\cnt_t[7]_i_1_n_0 ),
+        .CE(\cnt_t[8]_i_1_n_0 ),
         .D(cnt_t[5]),
         .Q(cnt_t_reg[5]),
         .R(cnt_t_0));
@@ -236,7 +243,7 @@ module assembly_encoder_0_0_encoder
     .INIT(1'b0)) 
     \cnt_t_reg[6] 
        (.C(clk),
-        .CE(\cnt_t[7]_i_1_n_0 ),
+        .CE(\cnt_t[8]_i_1_n_0 ),
         .D(cnt_t[6]),
         .Q(cnt_t_reg[6]),
         .R(cnt_t_0));
@@ -244,9 +251,17 @@ module assembly_encoder_0_0_encoder
     .INIT(1'b0)) 
     \cnt_t_reg[7] 
        (.C(clk),
-        .CE(\cnt_t[7]_i_1_n_0 ),
+        .CE(\cnt_t[8]_i_1_n_0 ),
         .D(cnt_t[7]),
         .Q(cnt_t_reg[7]),
+        .R(cnt_t_0));
+  FDRE #(
+    .INIT(1'b0)) 
+    \cnt_t_reg[8] 
+       (.C(clk),
+        .CE(\cnt_t[8]_i_1_n_0 ),
+        .D(cnt_t[8]),
+        .Q(cnt_t_reg[8]),
         .R(cnt_t_0));
   (* ADDER_THRESHOLD = "35" *) 
   CARRY4 plusOp_carry
@@ -259,11 +274,11 @@ module assembly_encoder_0_0_encoder
   (* ADDER_THRESHOLD = "35" *) 
   CARRY4 plusOp_carry__0
        (.CI(plusOp_carry_n_0),
-        .CO({NLW_plusOp_carry__0_CO_UNCONNECTED[3:2],plusOp_carry__0_n_2,plusOp_carry__0_n_3}),
+        .CO({NLW_plusOp_carry__0_CO_UNCONNECTED[3],plusOp_carry__0_n_1,plusOp_carry__0_n_2,plusOp_carry__0_n_3}),
         .CYINIT(1'b0),
-        .DI({1'b0,1'b0,cnt_t_reg[5:4]}),
-        .O({NLW_plusOp_carry__0_O_UNCONNECTED[3],cnt_t[7:5]}),
-        .S({1'b0,plusOp_carry_i_1__0_n_0,plusOp_carry_i_2__0_n_0,plusOp_carry_i_3__0_n_0}));
+        .DI({1'b0,cnt_t_reg[6:4]}),
+        .O(cnt_t[8:5]),
+        .S({plusOp_carry_i_1__0_n_0,plusOp_carry_i_2__0_n_0,plusOp_carry_i_3__0_n_0,plusOp_carry_i_4__0_n_0}));
   LUT2 #(
     .INIT(4'h9)) 
     plusOp_carry_i_1
@@ -273,8 +288,8 @@ module assembly_encoder_0_0_encoder
   LUT2 #(
     .INIT(4'h9)) 
     plusOp_carry_i_1__0
-       (.I0(cnt_t_reg[6]),
-        .I1(cnt_t_reg[7]),
+       (.I0(cnt_t_reg[7]),
+        .I1(cnt_t_reg[8]),
         .O(plusOp_carry_i_1__0_n_0));
   LUT2 #(
     .INIT(4'h9)) 
@@ -285,8 +300,8 @@ module assembly_encoder_0_0_encoder
   LUT2 #(
     .INIT(4'h9)) 
     plusOp_carry_i_2__0
-       (.I0(cnt_t_reg[5]),
-        .I1(cnt_t_reg[6]),
+       (.I0(cnt_t_reg[6]),
+        .I1(cnt_t_reg[7]),
         .O(plusOp_carry_i_2__0_n_0));
   LUT5 #(
     .INIT(32'h4182BE7D)) 
@@ -300,8 +315,8 @@ module assembly_encoder_0_0_encoder
   LUT2 #(
     .INIT(4'h9)) 
     plusOp_carry_i_3__0
-       (.I0(cnt_t_reg[4]),
-        .I1(cnt_t_reg[5]),
+       (.I0(cnt_t_reg[5]),
+        .I1(cnt_t_reg[6]),
         .O(plusOp_carry_i_3__0_n_0));
   LUT5 #(
     .INIT(32'h4182BE7D)) 
@@ -312,6 +327,12 @@ module assembly_encoder_0_0_encoder
         .I3(col_p[0]),
         .I4(cnt_t_reg[1]),
         .O(plusOp_carry_i_4_n_0));
+  LUT2 #(
+    .INIT(4'h9)) 
+    plusOp_carry_i_4__0
+       (.I0(cnt_t_reg[4]),
+        .I1(cnt_t_reg[5]),
+        .O(plusOp_carry_i_4__0_n_0));
 endmodule
 `ifndef GLBL
 `define GLBL

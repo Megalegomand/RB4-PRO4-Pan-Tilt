@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Thu May 20 21:56:25 2021
+// Date        : Fri May 21 22:15:09 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_data_controller_0_0/assembly_data_controller_0_0_sim_netlist.v
@@ -51,7 +51,7 @@ module assembly_data_controller_0_0
        (.clk(clk),
         .pan_in(pan_in),
         .pan_out(pan_out),
-        .spi_rx({spi_rx[15:3],spi_rx[1:0]}),
+        .spi_rx(spi_rx),
         .spi_tx({\^spi_tx [15:4],\^spi_tx [2:0]}),
         .tilt_in(tilt_in),
         .tilt_out(tilt_out));
@@ -64,45 +64,38 @@ module assembly_data_controller_0_0_data_controller
     spi_tx,
     spi_rx,
     clk,
-    pan_in,
-    tilt_in);
+    tilt_in,
+    pan_in);
   output [8:0]pan_out;
   output [8:0]tilt_out;
   output [14:0]spi_tx;
-  input [14:0]spi_rx;
+  input [15:0]spi_rx;
   input clk;
-  input [8:0]pan_in;
   input [8:0]tilt_in;
+  input [8:0]pan_in;
 
   wire clk;
   wire [8:0]data_tx;
+  wire data_tx0;
   wire [1:0]data_tx_id;
   wire data_tx_id__0;
-  wire \data_tx_id_reg[1]_i_2_n_0 ;
-  wire \data_tx_id_reg[1]_i_3_n_0 ;
+  wire [15:7]p_2_out;
   wire [8:0]pan_in;
   wire [8:0]pan_out;
   wire \pan_out_reg[8]_i_1_n_0 ;
   wire \pan_out_reg[8]_i_2_n_0 ;
   wire \pan_out_reg[8]_i_3_n_0 ;
   wire \pan_out_reg[8]_i_4_n_0 ;
-  wire parity_bits20_in;
-  wire [14:0]spi_rx;
+  wire \pan_out_reg[8]_i_5_n_0 ;
+  wire \pan_out_reg[8]_i_6_n_0 ;
+  wire [15:0]spi_rx;
   wire [14:0]spi_tx;
   wire \spi_tx[0]_i_1_n_0 ;
-  wire \spi_tx[10]_i_1_n_0 ;
-  wire \spi_tx[11]_i_1_n_0 ;
-  wire \spi_tx[12]_i_1_n_0 ;
-  wire \spi_tx[13]_i_1_n_0 ;
-  wire \spi_tx[14]_i_1_n_0 ;
-  wire \spi_tx[15]_i_1_n_0 ;
   wire \spi_tx[1]_i_1_n_0 ;
-  wire \spi_tx[1]_i_2_n_0 ;
+  wire \spi_tx[2]_i_1_n_0 ;
   wire \spi_tx[2]_i_2_n_0 ;
   wire \spi_tx[2]_i_3_n_0 ;
-  wire \spi_tx[7]_i_1_n_0 ;
-  wire \spi_tx[8]_i_1_n_0 ;
-  wire \spi_tx[9]_i_1_n_0 ;
+  wire \spi_tx[4]_i_1_n_0 ;
   wire [8:0]tilt_in;
   wire [8:0]tilt_out;
   wire \tilt_out_reg[8]_i_1_n_0 ;
@@ -112,7 +105,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \data_tx_id_reg[0] 
        (.CLR(1'b0),
-        .D(spi_rx[2]),
+        .D(spi_rx[3]),
         .G(data_tx_id__0),
         .GE(1'b1),
         .Q(data_tx_id[0]));
@@ -121,38 +114,26 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \data_tx_id_reg[1] 
        (.CLR(1'b0),
-        .D(spi_rx[3]),
+        .D(spi_rx[4]),
         .G(data_tx_id__0),
         .GE(1'b1),
         .Q(data_tx_id[1]));
-  LUT6 #(
-    .INIT(64'h0000001400000041)) 
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  LUT5 #(
+    .INIT(32'h00009009)) 
     \data_tx_id_reg[1]_i_1 
-       (.I0(\pan_out_reg[8]_i_2_n_0 ),
-        .I1(spi_rx[6]),
-        .I2(spi_rx[8]),
-        .I3(\data_tx_id_reg[1]_i_2_n_0 ),
-        .I4(\data_tx_id_reg[1]_i_3_n_0 ),
-        .I5(spi_rx[7]),
+       (.I0(spi_rx[6]),
+        .I1(spi_rx[5]),
+        .I2(spi_rx[3]),
+        .I3(spi_rx[4]),
+        .I4(\pan_out_reg[8]_i_2_n_0 ),
         .O(data_tx_id__0));
-  LUT2 #(
-    .INIT(4'h6)) 
-    \data_tx_id_reg[1]_i_2 
-       (.I0(spi_rx[5]),
-        .I1(spi_rx[4]),
-        .O(\data_tx_id_reg[1]_i_2_n_0 ));
-  LUT2 #(
-    .INIT(4'h6)) 
-    \data_tx_id_reg[1]_i_3 
-       (.I0(spi_rx[2]),
-        .I1(spi_rx[3]),
-        .O(\data_tx_id_reg[1]_i_3_n_0 ));
   (* XILINX_LEGACY_PRIM = "LD" *) 
   LDCE #(
     .INIT(1'b0)) 
     \pan_out_reg[0] 
        (.CLR(1'b0),
-        .D(spi_rx[6]),
+        .D(spi_rx[7]),
         .G(\pan_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(pan_out[0]));
@@ -161,7 +142,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \pan_out_reg[1] 
        (.CLR(1'b0),
-        .D(spi_rx[7]),
+        .D(spi_rx[8]),
         .G(\pan_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(pan_out[1]));
@@ -170,7 +151,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \pan_out_reg[2] 
        (.CLR(1'b0),
-        .D(spi_rx[8]),
+        .D(spi_rx[9]),
         .G(\pan_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(pan_out[2]));
@@ -179,7 +160,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \pan_out_reg[3] 
        (.CLR(1'b0),
-        .D(spi_rx[9]),
+        .D(spi_rx[10]),
         .G(\pan_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(pan_out[3]));
@@ -188,7 +169,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \pan_out_reg[4] 
        (.CLR(1'b0),
-        .D(spi_rx[10]),
+        .D(spi_rx[11]),
         .G(\pan_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(pan_out[4]));
@@ -197,7 +178,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \pan_out_reg[5] 
        (.CLR(1'b0),
-        .D(spi_rx[11]),
+        .D(spi_rx[12]),
         .G(\pan_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(pan_out[5]));
@@ -206,7 +187,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \pan_out_reg[6] 
        (.CLR(1'b0),
-        .D(spi_rx[12]),
+        .D(spi_rx[13]),
         .G(\pan_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(pan_out[6]));
@@ -215,7 +196,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \pan_out_reg[7] 
        (.CLR(1'b0),
-        .D(spi_rx[13]),
+        .D(spi_rx[14]),
         .G(\pan_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(pan_out[7]));
@@ -224,57 +205,71 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \pan_out_reg[8] 
        (.CLR(1'b0),
-        .D(spi_rx[14]),
+        .D(spi_rx[15]),
         .G(\pan_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(pan_out[8]));
-  LUT6 #(
-    .INIT(64'h0000000000000009)) 
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
+  LUT5 #(
+    .INIT(32'h00000009)) 
     \pan_out_reg[8]_i_1 
-       (.I0(spi_rx[2]),
-        .I1(spi_rx[3]),
-        .I2(spi_rx[5]),
-        .I3(spi_rx[4]),
+       (.I0(spi_rx[3]),
+        .I1(spi_rx[4]),
+        .I2(spi_rx[6]),
+        .I3(spi_rx[5]),
         .I4(\pan_out_reg[8]_i_2_n_0 ),
-        .I5(\pan_out_reg[8]_i_3_n_0 ),
         .O(\pan_out_reg[8]_i_1_n_0 ));
   LUT6 #(
-    .INIT(64'hFFFF69966996FFFF)) 
+    .INIT(64'hFF6FF6FFF6FFFF6F)) 
     \pan_out_reg[8]_i_2 
-       (.I0(\pan_out_reg[8]_i_4_n_0 ),
-        .I1(spi_rx[12]),
-        .I2(spi_rx[14]),
-        .I3(spi_rx[13]),
-        .I4(spi_rx[0]),
-        .I5(spi_rx[1]),
+       (.I0(\pan_out_reg[8]_i_3_n_0 ),
+        .I1(\pan_out_reg[8]_i_4_n_0 ),
+        .I2(spi_rx[0]),
+        .I3(spi_rx[1]),
+        .I4(\pan_out_reg[8]_i_5_n_0 ),
+        .I5(\pan_out_reg[8]_i_6_n_0 ),
         .O(\pan_out_reg[8]_i_2_n_0 ));
-  LUT6 #(
-    .INIT(64'h6996966996696996)) 
+  LUT4 #(
+    .INIT(16'h6996)) 
     \pan_out_reg[8]_i_3 
-       (.I0(spi_rx[6]),
-        .I1(spi_rx[8]),
-        .I2(spi_rx[5]),
-        .I3(spi_rx[4]),
-        .I4(\data_tx_id_reg[1]_i_3_n_0 ),
-        .I5(spi_rx[7]),
+       (.I0(spi_rx[12]),
+        .I1(spi_rx[11]),
+        .I2(spi_rx[10]),
+        .I3(spi_rx[9]),
         .O(\pan_out_reg[8]_i_3_n_0 ));
   LUT4 #(
     .INIT(16'h6996)) 
     \pan_out_reg[8]_i_4 
-       (.I0(spi_rx[9]),
-        .I1(spi_rx[8]),
-        .I2(spi_rx[11]),
-        .I3(spi_rx[10]),
+       (.I0(spi_rx[2]),
+        .I1(spi_rx[15]),
+        .I2(spi_rx[14]),
+        .I3(spi_rx[13]),
         .O(\pan_out_reg[8]_i_4_n_0 ));
+  LUT3 #(
+    .INIT(8'h96)) 
+    \pan_out_reg[8]_i_5 
+       (.I0(spi_rx[7]),
+        .I1(spi_rx[9]),
+        .I2(spi_rx[8]),
+        .O(\pan_out_reg[8]_i_5_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
+  LUT4 #(
+    .INIT(16'h6996)) 
+    \pan_out_reg[8]_i_6 
+       (.I0(spi_rx[4]),
+        .I1(spi_rx[3]),
+        .I2(spi_rx[5]),
+        .I3(spi_rx[6]),
+        .O(\pan_out_reg[8]_i_6_n_0 ));
   (* SOFT_HLUTNM = "soft_lutpair0" *) 
   LUT5 #(
-    .INIT(32'h96696996)) 
+    .INIT(32'h69969669)) 
     \spi_tx[0]_i_1 
-       (.I0(\spi_tx[2]_i_2_n_0 ),
-        .I1(\spi_tx[8]_i_1_n_0 ),
-        .I2(\spi_tx[1]_i_2_n_0 ),
-        .I3(data_tx_id[0]),
-        .I4(data_tx_id[1]),
+       (.I0(data_tx_id[1]),
+        .I1(data_tx_id[0]),
+        .I2(p_2_out[7]),
+        .I3(p_2_out[8]),
+        .I4(\spi_tx[2]_i_2_n_0 ),
         .O(\spi_tx[0]_i_1_n_0 ));
   LUT5 #(
     .INIT(32'hCAAFCAA0)) 
@@ -284,7 +279,7 @@ module assembly_data_controller_0_0_data_controller
         .I2(data_tx_id[1]),
         .I3(data_tx_id[0]),
         .I4(pan_in[3]),
-        .O(\spi_tx[10]_i_1_n_0 ));
+        .O(p_2_out[10]));
   LUT5 #(
     .INIT(32'hAFFCA00C)) 
     \spi_tx[11]_i_1 
@@ -293,7 +288,7 @@ module assembly_data_controller_0_0_data_controller
         .I2(data_tx_id[0]),
         .I3(data_tx_id[1]),
         .I4(data_tx[4]),
-        .O(\spi_tx[11]_i_1_n_0 ));
+        .O(p_2_out[11]));
   LUT5 #(
     .INIT(32'hAFFCA00C)) 
     \spi_tx[12]_i_1 
@@ -302,7 +297,7 @@ module assembly_data_controller_0_0_data_controller
         .I2(data_tx_id[0]),
         .I3(data_tx_id[1]),
         .I4(data_tx[5]),
-        .O(\spi_tx[12]_i_1_n_0 ));
+        .O(p_2_out[12]));
   LUT5 #(
     .INIT(32'hCAAFCAA0)) 
     \spi_tx[13]_i_1 
@@ -311,7 +306,7 @@ module assembly_data_controller_0_0_data_controller
         .I2(data_tx_id[1]),
         .I3(data_tx_id[0]),
         .I4(pan_in[6]),
-        .O(\spi_tx[13]_i_1_n_0 ));
+        .O(p_2_out[13]));
   LUT5 #(
     .INIT(32'hFE3EC202)) 
     \spi_tx[14]_i_1 
@@ -320,47 +315,43 @@ module assembly_data_controller_0_0_data_controller
         .I2(data_tx_id[1]),
         .I3(tilt_in[7]),
         .I4(data_tx[7]),
-        .O(\spi_tx[14]_i_1_n_0 ));
+        .O(p_2_out[14]));
+  LUT2 #(
+    .INIT(4'h9)) 
+    \spi_tx[15]_i_1 
+       (.I0(data_tx_id[1]),
+        .I1(data_tx_id[0]),
+        .O(data_tx0));
   LUT5 #(
     .INIT(32'hCAAFCAA0)) 
-    \spi_tx[15]_i_1 
+    \spi_tx[15]_i_2 
        (.I0(data_tx[8]),
         .I1(tilt_in[8]),
         .I2(data_tx_id[1]),
         .I3(data_tx_id[0]),
         .I4(pan_in[8]),
-        .O(\spi_tx[15]_i_1_n_0 ));
+        .O(p_2_out[15]));
   (* SOFT_HLUTNM = "soft_lutpair0" *) 
   LUT5 #(
-    .INIT(32'h69969669)) 
+    .INIT(32'h96696996)) 
     \spi_tx[1]_i_1 
        (.I0(\spi_tx[2]_i_2_n_0 ),
-        .I1(\spi_tx[8]_i_1_n_0 ),
-        .I2(\spi_tx[1]_i_2_n_0 ),
+        .I1(p_2_out[8]),
+        .I2(p_2_out[7]),
         .I3(data_tx_id[0]),
         .I4(data_tx_id[1]),
         .O(\spi_tx[1]_i_1_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair1" *) 
-  LUT5 #(
-    .INIT(32'h3550355F)) 
-    \spi_tx[1]_i_2 
-       (.I0(data_tx[0]),
-        .I1(tilt_in[0]),
-        .I2(data_tx_id[1]),
-        .I3(data_tx_id[0]),
-        .I4(pan_in[0]),
-        .O(\spi_tx[1]_i_2_n_0 ));
   LUT6 #(
     .INIT(64'h6996966996696996)) 
     \spi_tx[2]_i_1 
-       (.I0(\spi_tx[12]_i_1_n_0 ),
-        .I1(\spi_tx[11]_i_1_n_0 ),
-        .I2(\spi_tx[10]_i_1_n_0 ),
+       (.I0(p_2_out[12]),
+        .I1(p_2_out[11]),
+        .I2(p_2_out[10]),
         .I3(\spi_tx[2]_i_2_n_0 ),
         .I4(\spi_tx[2]_i_3_n_0 ),
-        .I5(\spi_tx[13]_i_1_n_0 ),
-        .O(parity_bits20_in));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+        .I5(p_2_out[13]),
+        .O(\spi_tx[2]_i_1_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT5 #(
     .INIT(32'h3550355F)) 
     \spi_tx[2]_i_2 
@@ -373,23 +364,29 @@ module assembly_data_controller_0_0_data_controller
   LUT6 #(
     .INIT(64'hAAA95AA9A5595559)) 
     \spi_tx[2]_i_3 
-       (.I0(\spi_tx[15]_i_1_n_0 ),
+       (.I0(p_2_out[15]),
         .I1(pan_in[7]),
         .I2(data_tx_id[0]),
         .I3(data_tx_id[1]),
         .I4(tilt_in[7]),
         .I5(data_tx[7]),
         .O(\spi_tx[2]_i_3_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair1" *) 
-  LUT5 #(
-    .INIT(32'hFE3EC202)) 
-    \spi_tx[7]_i_1 
-       (.I0(pan_in[0]),
+  LUT3 #(
+    .INIT(8'hEB)) 
+    \spi_tx[4]_i_1 
+       (.I0(spi_tx[3]),
         .I1(data_tx_id[0]),
         .I2(data_tx_id[1]),
-        .I3(tilt_in[0]),
+        .O(\spi_tx[4]_i_1_n_0 ));
+  LUT5 #(
+    .INIT(32'hAFFCA00C)) 
+    \spi_tx[7]_i_1 
+       (.I0(tilt_in[0]),
+        .I1(pan_in[0]),
+        .I2(data_tx_id[0]),
+        .I3(data_tx_id[1]),
         .I4(data_tx[0]),
-        .O(\spi_tx[7]_i_1_n_0 ));
+        .O(p_2_out[7]));
   LUT5 #(
     .INIT(32'hCAAFCAA0)) 
     \spi_tx[8]_i_1 
@@ -398,8 +395,8 @@ module assembly_data_controller_0_0_data_controller
         .I2(data_tx_id[1]),
         .I3(data_tx_id[0]),
         .I4(pan_in[1]),
-        .O(\spi_tx[8]_i_1_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+        .O(p_2_out[8]));
+  (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT5 #(
     .INIT(32'hFE3EC202)) 
     \spi_tx[9]_i_1 
@@ -408,77 +405,77 @@ module assembly_data_controller_0_0_data_controller
         .I2(data_tx_id[1]),
         .I3(tilt_in[2]),
         .I4(data_tx[2]),
-        .O(\spi_tx[9]_i_1_n_0 ));
+        .O(p_2_out[9]));
   FDRE #(
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_process.data_tx_reg[0] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[7]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[7]),
         .Q(data_tx[0]),
         .R(1'b0));
   FDRE #(
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_process.data_tx_reg[1] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[8]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[8]),
         .Q(data_tx[1]),
         .R(1'b0));
   FDRE #(
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_process.data_tx_reg[2] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[9]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[9]),
         .Q(data_tx[2]),
         .R(1'b0));
   FDRE #(
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_process.data_tx_reg[3] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[10]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[10]),
         .Q(data_tx[3]),
         .R(1'b0));
   FDRE #(
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_process.data_tx_reg[4] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[11]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[11]),
         .Q(data_tx[4]),
         .R(1'b0));
   FDRE #(
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_process.data_tx_reg[5] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[12]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[12]),
         .Q(data_tx[5]),
         .R(1'b0));
   FDRE #(
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_process.data_tx_reg[6] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[13]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[13]),
         .Q(data_tx[6]),
         .R(1'b0));
   FDRE #(
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_process.data_tx_reg[7] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[14]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[14]),
         .Q(data_tx[7]),
         .R(1'b0));
   FDRE #(
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_process.data_tx_reg[8] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[15]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[15]),
         .Q(data_tx[8]),
         .R(1'b0));
   FDRE #(
@@ -486,7 +483,7 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[0] 
        (.C(clk),
-        .CE(1'b1),
+        .CE(data_tx0),
         .D(\spi_tx[0]_i_1_n_0 ),
         .Q(spi_tx[0]),
         .R(1'b0));
@@ -495,8 +492,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[10] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[10]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[10]),
         .Q(spi_tx[9]),
         .R(1'b0));
   FDRE #(
@@ -504,8 +501,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[11] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[11]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[11]),
         .Q(spi_tx[10]),
         .R(1'b0));
   FDRE #(
@@ -513,8 +510,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[12] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[12]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[12]),
         .Q(spi_tx[11]),
         .R(1'b0));
   FDRE #(
@@ -522,8 +519,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[13] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[13]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[13]),
         .Q(spi_tx[12]),
         .R(1'b0));
   FDRE #(
@@ -531,8 +528,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[14] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[14]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[14]),
         .Q(spi_tx[13]),
         .R(1'b0));
   FDRE #(
@@ -540,8 +537,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[15] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[15]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[15]),
         .Q(spi_tx[14]),
         .R(1'b0));
   FDRE #(
@@ -549,7 +546,7 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[1] 
        (.C(clk),
-        .CE(1'b1),
+        .CE(data_tx0),
         .D(\spi_tx[1]_i_1_n_0 ),
         .Q(spi_tx[1]),
         .R(1'b0));
@@ -558,8 +555,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[2] 
        (.C(clk),
-        .CE(1'b1),
-        .D(parity_bits20_in),
+        .CE(data_tx0),
+        .D(\spi_tx[2]_i_1_n_0 ),
         .Q(spi_tx[2]),
         .R(1'b0));
   FDRE #(
@@ -568,7 +565,7 @@ module assembly_data_controller_0_0_data_controller
     \spi_tx_reg[4] 
        (.C(clk),
         .CE(1'b1),
-        .D(1'b1),
+        .D(\spi_tx[4]_i_1_n_0 ),
         .Q(spi_tx[3]),
         .R(1'b0));
   FDRE #(
@@ -576,7 +573,7 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[5] 
        (.C(clk),
-        .CE(1'b1),
+        .CE(data_tx0),
         .D(data_tx_id[0]),
         .Q(spi_tx[4]),
         .R(1'b0));
@@ -585,7 +582,7 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[6] 
        (.C(clk),
-        .CE(1'b1),
+        .CE(data_tx0),
         .D(data_tx_id[1]),
         .Q(spi_tx[5]),
         .R(1'b0));
@@ -594,8 +591,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[7] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[7]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[7]),
         .Q(spi_tx[6]),
         .R(1'b0));
   FDRE #(
@@ -603,8 +600,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[8] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[8]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[8]),
         .Q(spi_tx[7]),
         .R(1'b0));
   FDRE #(
@@ -612,8 +609,8 @@ module assembly_data_controller_0_0_data_controller
     .IS_C_INVERTED(1'b1)) 
     \spi_tx_reg[9] 
        (.C(clk),
-        .CE(1'b1),
-        .D(\spi_tx[9]_i_1_n_0 ),
+        .CE(data_tx0),
+        .D(p_2_out[9]),
         .Q(spi_tx[8]),
         .R(1'b0));
   (* XILINX_LEGACY_PRIM = "LD" *) 
@@ -621,7 +618,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \tilt_out_reg[0] 
        (.CLR(1'b0),
-        .D(spi_rx[6]),
+        .D(spi_rx[7]),
         .G(\tilt_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(tilt_out[0]));
@@ -630,7 +627,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \tilt_out_reg[1] 
        (.CLR(1'b0),
-        .D(spi_rx[7]),
+        .D(spi_rx[8]),
         .G(\tilt_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(tilt_out[1]));
@@ -639,7 +636,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \tilt_out_reg[2] 
        (.CLR(1'b0),
-        .D(spi_rx[8]),
+        .D(spi_rx[9]),
         .G(\tilt_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(tilt_out[2]));
@@ -648,7 +645,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \tilt_out_reg[3] 
        (.CLR(1'b0),
-        .D(spi_rx[9]),
+        .D(spi_rx[10]),
         .G(\tilt_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(tilt_out[3]));
@@ -657,7 +654,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \tilt_out_reg[4] 
        (.CLR(1'b0),
-        .D(spi_rx[10]),
+        .D(spi_rx[11]),
         .G(\tilt_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(tilt_out[4]));
@@ -666,7 +663,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \tilt_out_reg[5] 
        (.CLR(1'b0),
-        .D(spi_rx[11]),
+        .D(spi_rx[12]),
         .G(\tilt_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(tilt_out[5]));
@@ -675,7 +672,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \tilt_out_reg[6] 
        (.CLR(1'b0),
-        .D(spi_rx[12]),
+        .D(spi_rx[13]),
         .G(\tilt_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(tilt_out[6]));
@@ -684,7 +681,7 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \tilt_out_reg[7] 
        (.CLR(1'b0),
-        .D(spi_rx[13]),
+        .D(spi_rx[14]),
         .G(\tilt_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(tilt_out[7]));
@@ -693,19 +690,19 @@ module assembly_data_controller_0_0_data_controller
     .INIT(1'b0)) 
     \tilt_out_reg[8] 
        (.CLR(1'b0),
-        .D(spi_rx[14]),
+        .D(spi_rx[15]),
         .G(\tilt_out_reg[8]_i_1_n_0 ),
         .GE(1'b1),
         .Q(tilt_out[8]));
-  LUT6 #(
-    .INIT(64'h0000000000009000)) 
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  LUT5 #(
+    .INIT(32'h00008008)) 
     \tilt_out_reg[8]_i_1 
-       (.I0(spi_rx[2]),
-        .I1(spi_rx[3]),
-        .I2(spi_rx[5]),
+       (.I0(spi_rx[6]),
+        .I1(spi_rx[5]),
+        .I2(spi_rx[3]),
         .I3(spi_rx[4]),
         .I4(\pan_out_reg[8]_i_2_n_0 ),
-        .I5(\pan_out_reg[8]_i_3_n_0 ),
         .O(\tilt_out_reg[8]_i_1_n_0 ));
 endmodule
 `ifndef GLBL

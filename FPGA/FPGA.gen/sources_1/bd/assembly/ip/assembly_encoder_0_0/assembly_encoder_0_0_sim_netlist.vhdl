@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Thu May 20 21:49:33 2021
+-- Date        : Fri May 21 14:03:58 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_encoder_0_0/assembly_encoder_0_0_sim_netlist.vhdl
@@ -17,7 +17,7 @@ use UNISIM.VCOMPONENTS.ALL;
 entity assembly_encoder_0_0_encoder is
   port (
     col_p : out STD_LOGIC_VECTOR ( 1 downto 0 );
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    cnt : out STD_LOGIC_VECTOR ( 8 downto 0 );
     a : in STD_LOGIC;
     b : in STD_LOGIC;
     clk : in STD_LOGIC;
@@ -28,12 +28,13 @@ entity assembly_encoder_0_0_encoder is
 end assembly_encoder_0_0_encoder;
 
 architecture STRUCTURE of assembly_encoder_0_0_encoder is
-  signal cnt_t : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal cnt_t : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal \cnt_t1__0\ : STD_LOGIC;
-  signal \cnt_t[7]_i_1_n_0\ : STD_LOGIC;
+  signal \cnt_t[8]_i_1_n_0\ : STD_LOGIC;
   signal cnt_t_0 : STD_LOGIC;
-  signal cnt_t_reg : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal cnt_t_reg : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal \^col_p\ : STD_LOGIC_VECTOR ( 1 downto 0 );
+  signal \plusOp_carry__0_n_1\ : STD_LOGIC;
   signal \plusOp_carry__0_n_2\ : STD_LOGIC;
   signal \plusOp_carry__0_n_3\ : STD_LOGIC;
   signal \plusOp_carry_i_1__0_n_0\ : STD_LOGIC;
@@ -42,13 +43,13 @@ architecture STRUCTURE of assembly_encoder_0_0_encoder is
   signal plusOp_carry_i_2_n_0 : STD_LOGIC;
   signal \plusOp_carry_i_3__0_n_0\ : STD_LOGIC;
   signal plusOp_carry_i_3_n_0 : STD_LOGIC;
+  signal \plusOp_carry_i_4__0_n_0\ : STD_LOGIC;
   signal plusOp_carry_i_4_n_0 : STD_LOGIC;
   signal plusOp_carry_n_0 : STD_LOGIC;
   signal plusOp_carry_n_1 : STD_LOGIC;
   signal plusOp_carry_n_2 : STD_LOGIC;
   signal plusOp_carry_n_3 : STD_LOGIC;
-  signal \NLW_plusOp_carry__0_CO_UNCONNECTED\ : STD_LOGIC_VECTOR ( 3 downto 2 );
-  signal \NLW_plusOp_carry__0_O_UNCONNECTED\ : STD_LOGIC_VECTOR ( 3 to 3 );
+  signal \NLW_plusOp_carry__0_CO_UNCONNECTED\ : STD_LOGIC_VECTOR ( 3 to 3 );
   attribute ADDER_THRESHOLD : integer;
   attribute ADDER_THRESHOLD of plusOp_carry : label is 35;
   attribute ADDER_THRESHOLD of \plusOp_carry__0\ : label is 35;
@@ -152,6 +153,14 @@ b_t_reg: unisim.vcomponents.FDRE
       Q => cnt(7),
       R => '0'
     );
+\cnt_reg[8]\: unisim.vcomponents.FDRE
+     port map (
+      C => clk,
+      CE => '1',
+      D => cnt_t_reg(8),
+      Q => cnt(8),
+      R => '0'
+    );
 cnt_t1: unisim.vcomponents.LUT4
     generic map(
       INIT => X"4182"
@@ -171,7 +180,7 @@ cnt_t1: unisim.vcomponents.LUT4
       I0 => cnt_t_reg(0),
       O => cnt_t(0)
     );
-\cnt_t[7]_i_1\: unisim.vcomponents.LUT4
+\cnt_t[8]_i_1\: unisim.vcomponents.LUT4
     generic map(
       INIT => X"6996"
     )
@@ -180,7 +189,7 @@ cnt_t1: unisim.vcomponents.LUT4
       I1 => b,
       I2 => \^col_p\(0),
       I3 => \^col_p\(1),
-      O => \cnt_t[7]_i_1_n_0\
+      O => \cnt_t[8]_i_1_n_0\
     );
 \cnt_t_reg[0]\: unisim.vcomponents.FDRE
     generic map(
@@ -188,7 +197,7 @@ cnt_t1: unisim.vcomponents.LUT4
     )
         port map (
       C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
+      CE => \cnt_t[8]_i_1_n_0\,
       D => cnt_t(0),
       Q => cnt_t_reg(0),
       R => cnt_t_0
@@ -199,7 +208,7 @@ cnt_t1: unisim.vcomponents.LUT4
     )
         port map (
       C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
+      CE => \cnt_t[8]_i_1_n_0\,
       D => cnt_t(1),
       Q => cnt_t_reg(1),
       R => cnt_t_0
@@ -210,7 +219,7 @@ cnt_t1: unisim.vcomponents.LUT4
     )
         port map (
       C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
+      CE => \cnt_t[8]_i_1_n_0\,
       D => cnt_t(2),
       Q => cnt_t_reg(2),
       R => cnt_t_0
@@ -221,7 +230,7 @@ cnt_t1: unisim.vcomponents.LUT4
     )
         port map (
       C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
+      CE => \cnt_t[8]_i_1_n_0\,
       D => cnt_t(3),
       Q => cnt_t_reg(3),
       R => cnt_t_0
@@ -232,7 +241,7 @@ cnt_t1: unisim.vcomponents.LUT4
     )
         port map (
       C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
+      CE => \cnt_t[8]_i_1_n_0\,
       D => cnt_t(4),
       Q => cnt_t_reg(4),
       R => cnt_t_0
@@ -243,7 +252,7 @@ cnt_t1: unisim.vcomponents.LUT4
     )
         port map (
       C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
+      CE => \cnt_t[8]_i_1_n_0\,
       D => cnt_t(5),
       Q => cnt_t_reg(5),
       R => cnt_t_0
@@ -254,7 +263,7 @@ cnt_t1: unisim.vcomponents.LUT4
     )
         port map (
       C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
+      CE => \cnt_t[8]_i_1_n_0\,
       D => cnt_t(6),
       Q => cnt_t_reg(6),
       R => cnt_t_0
@@ -265,9 +274,20 @@ cnt_t1: unisim.vcomponents.LUT4
     )
         port map (
       C => clk,
-      CE => \cnt_t[7]_i_1_n_0\,
+      CE => \cnt_t[8]_i_1_n_0\,
       D => cnt_t(7),
       Q => cnt_t_reg(7),
+      R => cnt_t_0
+    );
+\cnt_t_reg[8]\: unisim.vcomponents.FDRE
+    generic map(
+      INIT => '0'
+    )
+        port map (
+      C => clk,
+      CE => \cnt_t[8]_i_1_n_0\,
+      D => cnt_t(8),
+      Q => cnt_t_reg(8),
       R => cnt_t_0
     );
 plusOp_carry: unisim.vcomponents.CARRY4
@@ -290,18 +310,18 @@ plusOp_carry: unisim.vcomponents.CARRY4
 \plusOp_carry__0\: unisim.vcomponents.CARRY4
      port map (
       CI => plusOp_carry_n_0,
-      CO(3 downto 2) => \NLW_plusOp_carry__0_CO_UNCONNECTED\(3 downto 2),
+      CO(3) => \NLW_plusOp_carry__0_CO_UNCONNECTED\(3),
+      CO(2) => \plusOp_carry__0_n_1\,
       CO(1) => \plusOp_carry__0_n_2\,
       CO(0) => \plusOp_carry__0_n_3\,
       CYINIT => '0',
-      DI(3 downto 2) => B"00",
-      DI(1 downto 0) => cnt_t_reg(5 downto 4),
-      O(3) => \NLW_plusOp_carry__0_O_UNCONNECTED\(3),
-      O(2 downto 0) => cnt_t(7 downto 5),
-      S(3) => '0',
-      S(2) => \plusOp_carry_i_1__0_n_0\,
-      S(1) => \plusOp_carry_i_2__0_n_0\,
-      S(0) => \plusOp_carry_i_3__0_n_0\
+      DI(3) => '0',
+      DI(2 downto 0) => cnt_t_reg(6 downto 4),
+      O(3 downto 0) => cnt_t(8 downto 5),
+      S(3) => \plusOp_carry_i_1__0_n_0\,
+      S(2) => \plusOp_carry_i_2__0_n_0\,
+      S(1) => \plusOp_carry_i_3__0_n_0\,
+      S(0) => \plusOp_carry_i_4__0_n_0\
     );
 plusOp_carry_i_1: unisim.vcomponents.LUT2
     generic map(
@@ -317,8 +337,8 @@ plusOp_carry_i_1: unisim.vcomponents.LUT2
       INIT => X"9"
     )
         port map (
-      I0 => cnt_t_reg(6),
-      I1 => cnt_t_reg(7),
+      I0 => cnt_t_reg(7),
+      I1 => cnt_t_reg(8),
       O => \plusOp_carry_i_1__0_n_0\
     );
 plusOp_carry_i_2: unisim.vcomponents.LUT2
@@ -335,8 +355,8 @@ plusOp_carry_i_2: unisim.vcomponents.LUT2
       INIT => X"9"
     )
         port map (
-      I0 => cnt_t_reg(5),
-      I1 => cnt_t_reg(6),
+      I0 => cnt_t_reg(6),
+      I1 => cnt_t_reg(7),
       O => \plusOp_carry_i_2__0_n_0\
     );
 plusOp_carry_i_3: unisim.vcomponents.LUT5
@@ -356,8 +376,8 @@ plusOp_carry_i_3: unisim.vcomponents.LUT5
       INIT => X"9"
     )
         port map (
-      I0 => cnt_t_reg(4),
-      I1 => cnt_t_reg(5),
+      I0 => cnt_t_reg(5),
+      I1 => cnt_t_reg(6),
       O => \plusOp_carry_i_3__0_n_0\
     );
 plusOp_carry_i_4: unisim.vcomponents.LUT5
@@ -372,6 +392,15 @@ plusOp_carry_i_4: unisim.vcomponents.LUT5
       I4 => cnt_t_reg(1),
       O => plusOp_carry_i_4_n_0
     );
+\plusOp_carry_i_4__0\: unisim.vcomponents.LUT2
+    generic map(
+      INIT => X"9"
+    )
+        port map (
+      I0 => cnt_t_reg(4),
+      I1 => cnt_t_reg(5),
+      O => \plusOp_carry_i_4__0_n_0\
+    );
 end STRUCTURE;
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -384,7 +413,7 @@ entity assembly_encoder_0_0 is
     b : in STD_LOGIC;
     rst : in STD_LOGIC;
     col_p : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    cnt : out STD_LOGIC_VECTOR ( 7 downto 0 )
+    cnt : out STD_LOGIC_VECTOR ( 8 downto 0 )
   );
   attribute NotValidForBitStream : boolean;
   attribute NotValidForBitStream of assembly_encoder_0_0 : entity is true;
@@ -419,7 +448,7 @@ U0: entity work.assembly_encoder_0_0_encoder
       a => \^a\,
       b => \^b\,
       clk => clk,
-      cnt(7 downto 0) => cnt(7 downto 0),
+      cnt(8 downto 0) => cnt(8 downto 0),
       col_p(1 downto 0) => \^col_p\(3 downto 2),
       rst => rst
     );

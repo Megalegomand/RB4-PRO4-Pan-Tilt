@@ -60,7 +60,7 @@ ENTITY assembly_encoder_tilt_0 IS
     b : IN STD_LOGIC;
     rst : IN STD_LOGIC;
     col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-    cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    cnt : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
   );
 END assembly_encoder_tilt_0;
 
@@ -77,7 +77,7 @@ ARCHITECTURE assembly_encoder_tilt_0_arch OF assembly_encoder_tilt_0 IS
       b : IN STD_LOGIC;
       rst : IN STD_LOGIC;
       col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-      cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+      cnt : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
     );
   END COMPONENT encoder;
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
@@ -91,7 +91,7 @@ ARCHITECTURE assembly_encoder_tilt_0_arch OF assembly_encoder_tilt_0 IS
 BEGIN
   U0 : encoder
     GENERIC MAP (
-      n_bits => 8
+      n_bits => 9
     )
     PORT MAP (
       clk => clk,

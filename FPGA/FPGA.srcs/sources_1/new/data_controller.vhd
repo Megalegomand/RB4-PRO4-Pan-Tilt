@@ -52,8 +52,8 @@ ARCHITECTURE Behavioral OF data_controller IS
         RETURN STD_LOGIC_VECTOR IS
         VARIABLE parity : STD_LOGIC_VECTOR(redundant_bits - 1 DOWNTO 0) := (OTHERS => '0');
     BEGIN
-        parity(1) := spi_data(1) XOR xor_reduce(spi_data(frame_width - frame_parity_split DOWNTO redundant_bits));
-        parity(2) := spi_data(2) XOR xor_reduce(spi_data(frame_width - 1 DOWNTO frame_width - frame_parity_split));
+        parity(1) := xor_reduce(spi_data(frame_width - frame_parity_split DOWNTO redundant_bits));
+        parity(2) := xor_reduce(spi_data(frame_width - 1 DOWNTO frame_width - frame_parity_split));
         parity(0) := NOT parity(1);
         RETURN parity;
     END FUNCTION parity_bits;
@@ -67,10 +67,12 @@ BEGIN
         VARIABLE data_tx_id_t : STD_LOGIC_VECTOR(data_id_bits - 1 DOWNTO 0);
 
         VARIABLE data_rx : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
+        
+        VARIABLE parity : STD_LOGIC_VECTOR(redundant_bits-1 downto 0);
     BEGIN
         data_tx_id_t := spi_rx(redundant_bits + data_id_bits - 1 DOWNTO redundant_bits);
         data_rx_id_t := spi_rx(redundant_bits + 2 * data_id_bits - 1 DOWNTO redundant_bits + data_id_bits);
-
+        
         IF (spi_rx(redundant_bits - 1 DOWNTO 0) = parity_bits(spi_rx)) THEN
             IF (data_rx_id_t = "11" OR data_rx_id_t = "00") THEN
                 IF (data_tx_id_t = "11" OR data_tx_id_t = "00") THEN
@@ -97,24 +99,23 @@ BEGIN
         VARIABLE data_tx : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
 
         VARIABLE spi_tx_t : STD_LOGIC_VECTOR(frame_width - 1 DOWNTO 0);
-
-        VARIABLE parity : STD_LOGIC_VECTOR(redundant_bits - 1 DOWNTO 0);
     BEGIN
         IF (falling_edge(clk)) THEN -- To not intefere with SPI reading and encoder writing on rising
-            CASE data_tx_id IS
-                WHEN "00" =>
-                    data_tx := pan_in;
-                WHEN "11" =>
-                    data_tx := tilt_in;
-                WHEN OTHERS => -- Should never happen
-                    NULL;
-            END CASE;
+            IF (data_tx_id = "11" OR data_tx_id = "00") THEN
+                CASE data_tx_id IS
+                    WHEN "00" =>
+                        data_tx := pan_in;
+                    WHEN "11" =>
+                        data_tx := tilt_in;
+                    WHEN OTHERS => -- Should never happen
+                        NULL;
+                END CASE;
 
-            spi_tx_t := data_tx & data_tx_id & "10" & "000";
-            parity := parity_bits(spi_tx_t);
-            spi_tx_t(redundant_bits-1 downto 0) := parity;
+                spi_tx_t := data_tx & data_tx_id & "10" & "000";
+                spi_tx_t(redundant_bits - 1 DOWNTO 0) := parity_bits(spi_tx_t);
 
-            spi_tx <= spi_tx_t;
+                spi_tx <= spi_tx_t;
+            END IF;
         END IF;
     END PROCESS;
 

@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Thu May 20 21:56:25 2021
+-- Date        : Fri May 21 22:15:09 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_data_controller_0_0/assembly_data_controller_0_0_sim_netlist.vhdl
@@ -19,10 +19,10 @@ entity assembly_data_controller_0_0_data_controller is
     pan_out : out STD_LOGIC_VECTOR ( 8 downto 0 );
     tilt_out : out STD_LOGIC_VECTOR ( 8 downto 0 );
     spi_tx : out STD_LOGIC_VECTOR ( 14 downto 0 );
-    spi_rx : in STD_LOGIC_VECTOR ( 14 downto 0 );
+    spi_rx : in STD_LOGIC_VECTOR ( 15 downto 0 );
     clk : in STD_LOGIC;
-    pan_in : in STD_LOGIC_VECTOR ( 8 downto 0 );
-    tilt_in : in STD_LOGIC_VECTOR ( 8 downto 0 )
+    tilt_in : in STD_LOGIC_VECTOR ( 8 downto 0 );
+    pan_in : in STD_LOGIC_VECTOR ( 8 downto 0 )
   );
   attribute ORIG_REF_NAME : string;
   attribute ORIG_REF_NAME of assembly_data_controller_0_0_data_controller : entity is "data_controller";
@@ -30,33 +30,29 @@ end assembly_data_controller_0_0_data_controller;
 
 architecture STRUCTURE of assembly_data_controller_0_0_data_controller is
   signal data_tx : STD_LOGIC_VECTOR ( 8 downto 0 );
+  signal data_tx0 : STD_LOGIC;
   signal data_tx_id : STD_LOGIC_VECTOR ( 1 downto 0 );
   signal \data_tx_id__0\ : STD_LOGIC;
-  signal \data_tx_id_reg[1]_i_2_n_0\ : STD_LOGIC;
-  signal \data_tx_id_reg[1]_i_3_n_0\ : STD_LOGIC;
+  signal p_2_out : STD_LOGIC_VECTOR ( 15 downto 7 );
   signal \pan_out_reg[8]_i_1_n_0\ : STD_LOGIC;
   signal \pan_out_reg[8]_i_2_n_0\ : STD_LOGIC;
   signal \pan_out_reg[8]_i_3_n_0\ : STD_LOGIC;
   signal \pan_out_reg[8]_i_4_n_0\ : STD_LOGIC;
-  signal parity_bits20_in : STD_LOGIC;
+  signal \pan_out_reg[8]_i_5_n_0\ : STD_LOGIC;
+  signal \pan_out_reg[8]_i_6_n_0\ : STD_LOGIC;
+  signal \^spi_tx\ : STD_LOGIC_VECTOR ( 14 downto 0 );
   signal \spi_tx[0]_i_1_n_0\ : STD_LOGIC;
-  signal \spi_tx[10]_i_1_n_0\ : STD_LOGIC;
-  signal \spi_tx[11]_i_1_n_0\ : STD_LOGIC;
-  signal \spi_tx[12]_i_1_n_0\ : STD_LOGIC;
-  signal \spi_tx[13]_i_1_n_0\ : STD_LOGIC;
-  signal \spi_tx[14]_i_1_n_0\ : STD_LOGIC;
-  signal \spi_tx[15]_i_1_n_0\ : STD_LOGIC;
   signal \spi_tx[1]_i_1_n_0\ : STD_LOGIC;
-  signal \spi_tx[1]_i_2_n_0\ : STD_LOGIC;
+  signal \spi_tx[2]_i_1_n_0\ : STD_LOGIC;
   signal \spi_tx[2]_i_2_n_0\ : STD_LOGIC;
   signal \spi_tx[2]_i_3_n_0\ : STD_LOGIC;
-  signal \spi_tx[7]_i_1_n_0\ : STD_LOGIC;
-  signal \spi_tx[8]_i_1_n_0\ : STD_LOGIC;
-  signal \spi_tx[9]_i_1_n_0\ : STD_LOGIC;
+  signal \spi_tx[4]_i_1_n_0\ : STD_LOGIC;
   signal \tilt_out_reg[8]_i_1_n_0\ : STD_LOGIC;
   attribute XILINX_LEGACY_PRIM : string;
   attribute XILINX_LEGACY_PRIM of \data_tx_id_reg[0]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \data_tx_id_reg[1]\ : label is "LD";
+  attribute SOFT_HLUTNM : string;
+  attribute SOFT_HLUTNM of \data_tx_id_reg[1]_i_1\ : label is "soft_lutpair2";
   attribute XILINX_LEGACY_PRIM of \pan_out_reg[0]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \pan_out_reg[1]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \pan_out_reg[2]\ : label is "LD";
@@ -66,13 +62,12 @@ architecture STRUCTURE of assembly_data_controller_0_0_data_controller is
   attribute XILINX_LEGACY_PRIM of \pan_out_reg[6]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \pan_out_reg[7]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \pan_out_reg[8]\ : label is "LD";
-  attribute SOFT_HLUTNM : string;
+  attribute SOFT_HLUTNM of \pan_out_reg[8]_i_1\ : label is "soft_lutpair3";
+  attribute SOFT_HLUTNM of \pan_out_reg[8]_i_6\ : label is "soft_lutpair3";
   attribute SOFT_HLUTNM of \spi_tx[0]_i_1\ : label is "soft_lutpair0";
   attribute SOFT_HLUTNM of \spi_tx[1]_i_1\ : label is "soft_lutpair0";
-  attribute SOFT_HLUTNM of \spi_tx[1]_i_2\ : label is "soft_lutpair1";
-  attribute SOFT_HLUTNM of \spi_tx[2]_i_2\ : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of \spi_tx[7]_i_1\ : label is "soft_lutpair1";
-  attribute SOFT_HLUTNM of \spi_tx[9]_i_1\ : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of \spi_tx[2]_i_2\ : label is "soft_lutpair1";
+  attribute SOFT_HLUTNM of \spi_tx[9]_i_1\ : label is "soft_lutpair1";
   attribute XILINX_LEGACY_PRIM of \tilt_out_reg[0]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \tilt_out_reg[1]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \tilt_out_reg[2]\ : label is "LD";
@@ -82,14 +77,16 @@ architecture STRUCTURE of assembly_data_controller_0_0_data_controller is
   attribute XILINX_LEGACY_PRIM of \tilt_out_reg[6]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \tilt_out_reg[7]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \tilt_out_reg[8]\ : label is "LD";
+  attribute SOFT_HLUTNM of \tilt_out_reg[8]_i_1\ : label is "soft_lutpair2";
 begin
+  spi_tx(14 downto 0) <= \^spi_tx\(14 downto 0);
 \data_tx_id_reg[0]\: unisim.vcomponents.LDCE
     generic map(
       INIT => '0'
     )
         port map (
       CLR => '0',
-      D => spi_rx(2),
+      D => spi_rx(3),
       G => \data_tx_id__0\,
       GE => '1',
       Q => data_tx_id(0)
@@ -100,41 +97,22 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(3),
+      D => spi_rx(4),
       G => \data_tx_id__0\,
       GE => '1',
       Q => data_tx_id(1)
     );
-\data_tx_id_reg[1]_i_1\: unisim.vcomponents.LUT6
+\data_tx_id_reg[1]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"0000001400000041"
+      INIT => X"00009009"
     )
         port map (
-      I0 => \pan_out_reg[8]_i_2_n_0\,
-      I1 => spi_rx(6),
-      I2 => spi_rx(8),
-      I3 => \data_tx_id_reg[1]_i_2_n_0\,
-      I4 => \data_tx_id_reg[1]_i_3_n_0\,
-      I5 => spi_rx(7),
+      I0 => spi_rx(6),
+      I1 => spi_rx(5),
+      I2 => spi_rx(3),
+      I3 => spi_rx(4),
+      I4 => \pan_out_reg[8]_i_2_n_0\,
       O => \data_tx_id__0\
-    );
-\data_tx_id_reg[1]_i_2\: unisim.vcomponents.LUT2
-    generic map(
-      INIT => X"6"
-    )
-        port map (
-      I0 => spi_rx(5),
-      I1 => spi_rx(4),
-      O => \data_tx_id_reg[1]_i_2_n_0\
-    );
-\data_tx_id_reg[1]_i_3\: unisim.vcomponents.LUT2
-    generic map(
-      INIT => X"6"
-    )
-        port map (
-      I0 => spi_rx(2),
-      I1 => spi_rx(3),
-      O => \data_tx_id_reg[1]_i_3_n_0\
     );
 \pan_out_reg[0]\: unisim.vcomponents.LDCE
     generic map(
@@ -142,7 +120,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(6),
+      D => spi_rx(7),
       G => \pan_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => pan_out(0)
@@ -153,7 +131,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(7),
+      D => spi_rx(8),
       G => \pan_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => pan_out(1)
@@ -164,7 +142,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(8),
+      D => spi_rx(9),
       G => \pan_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => pan_out(2)
@@ -175,7 +153,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(9),
+      D => spi_rx(10),
       G => \pan_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => pan_out(3)
@@ -186,7 +164,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(10),
+      D => spi_rx(11),
       G => \pan_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => pan_out(4)
@@ -197,7 +175,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(11),
+      D => spi_rx(12),
       G => \pan_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => pan_out(5)
@@ -208,7 +186,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(12),
+      D => spi_rx(13),
       G => \pan_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => pan_out(6)
@@ -219,7 +197,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(13),
+      D => spi_rx(14),
       G => \pan_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => pan_out(7)
@@ -230,48 +208,45 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(14),
+      D => spi_rx(15),
       G => \pan_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => pan_out(8)
     );
-\pan_out_reg[8]_i_1\: unisim.vcomponents.LUT6
+\pan_out_reg[8]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"0000000000000009"
+      INIT => X"00000009"
     )
         port map (
-      I0 => spi_rx(2),
-      I1 => spi_rx(3),
-      I2 => spi_rx(5),
-      I3 => spi_rx(4),
+      I0 => spi_rx(3),
+      I1 => spi_rx(4),
+      I2 => spi_rx(6),
+      I3 => spi_rx(5),
       I4 => \pan_out_reg[8]_i_2_n_0\,
-      I5 => \pan_out_reg[8]_i_3_n_0\,
       O => \pan_out_reg[8]_i_1_n_0\
     );
 \pan_out_reg[8]_i_2\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"FFFF69966996FFFF"
+      INIT => X"FF6FF6FFF6FFFF6F"
     )
         port map (
-      I0 => \pan_out_reg[8]_i_4_n_0\,
-      I1 => spi_rx(12),
-      I2 => spi_rx(14),
-      I3 => spi_rx(13),
-      I4 => spi_rx(0),
-      I5 => spi_rx(1),
+      I0 => \pan_out_reg[8]_i_3_n_0\,
+      I1 => \pan_out_reg[8]_i_4_n_0\,
+      I2 => spi_rx(0),
+      I3 => spi_rx(1),
+      I4 => \pan_out_reg[8]_i_5_n_0\,
+      I5 => \pan_out_reg[8]_i_6_n_0\,
       O => \pan_out_reg[8]_i_2_n_0\
     );
-\pan_out_reg[8]_i_3\: unisim.vcomponents.LUT6
+\pan_out_reg[8]_i_3\: unisim.vcomponents.LUT4
     generic map(
-      INIT => X"6996966996696996"
+      INIT => X"6996"
     )
         port map (
-      I0 => spi_rx(6),
-      I1 => spi_rx(8),
-      I2 => spi_rx(5),
-      I3 => spi_rx(4),
-      I4 => \data_tx_id_reg[1]_i_3_n_0\,
-      I5 => spi_rx(7),
+      I0 => spi_rx(12),
+      I1 => spi_rx(11),
+      I2 => spi_rx(10),
+      I3 => spi_rx(9),
       O => \pan_out_reg[8]_i_3_n_0\
     );
 \pan_out_reg[8]_i_4\: unisim.vcomponents.LUT4
@@ -279,22 +254,43 @@ begin
       INIT => X"6996"
     )
         port map (
-      I0 => spi_rx(9),
-      I1 => spi_rx(8),
-      I2 => spi_rx(11),
-      I3 => spi_rx(10),
+      I0 => spi_rx(2),
+      I1 => spi_rx(15),
+      I2 => spi_rx(14),
+      I3 => spi_rx(13),
       O => \pan_out_reg[8]_i_4_n_0\
+    );
+\pan_out_reg[8]_i_5\: unisim.vcomponents.LUT3
+    generic map(
+      INIT => X"96"
+    )
+        port map (
+      I0 => spi_rx(7),
+      I1 => spi_rx(9),
+      I2 => spi_rx(8),
+      O => \pan_out_reg[8]_i_5_n_0\
+    );
+\pan_out_reg[8]_i_6\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"6996"
+    )
+        port map (
+      I0 => spi_rx(4),
+      I1 => spi_rx(3),
+      I2 => spi_rx(5),
+      I3 => spi_rx(6),
+      O => \pan_out_reg[8]_i_6_n_0\
     );
 \spi_tx[0]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"96696996"
+      INIT => X"69969669"
     )
         port map (
-      I0 => \spi_tx[2]_i_2_n_0\,
-      I1 => \spi_tx[8]_i_1_n_0\,
-      I2 => \spi_tx[1]_i_2_n_0\,
-      I3 => data_tx_id(0),
-      I4 => data_tx_id(1),
+      I0 => data_tx_id(1),
+      I1 => data_tx_id(0),
+      I2 => p_2_out(7),
+      I3 => p_2_out(8),
+      I4 => \spi_tx[2]_i_2_n_0\,
       O => \spi_tx[0]_i_1_n_0\
     );
 \spi_tx[10]_i_1\: unisim.vcomponents.LUT5
@@ -307,7 +303,7 @@ begin
       I2 => data_tx_id(1),
       I3 => data_tx_id(0),
       I4 => pan_in(3),
-      O => \spi_tx[10]_i_1_n_0\
+      O => p_2_out(10)
     );
 \spi_tx[11]_i_1\: unisim.vcomponents.LUT5
     generic map(
@@ -319,7 +315,7 @@ begin
       I2 => data_tx_id(0),
       I3 => data_tx_id(1),
       I4 => data_tx(4),
-      O => \spi_tx[11]_i_1_n_0\
+      O => p_2_out(11)
     );
 \spi_tx[12]_i_1\: unisim.vcomponents.LUT5
     generic map(
@@ -331,7 +327,7 @@ begin
       I2 => data_tx_id(0),
       I3 => data_tx_id(1),
       I4 => data_tx(5),
-      O => \spi_tx[12]_i_1_n_0\
+      O => p_2_out(12)
     );
 \spi_tx[13]_i_1\: unisim.vcomponents.LUT5
     generic map(
@@ -343,7 +339,7 @@ begin
       I2 => data_tx_id(1),
       I3 => data_tx_id(0),
       I4 => pan_in(6),
-      O => \spi_tx[13]_i_1_n_0\
+      O => p_2_out(13)
     );
 \spi_tx[14]_i_1\: unisim.vcomponents.LUT5
     generic map(
@@ -355,9 +351,18 @@ begin
       I2 => data_tx_id(1),
       I3 => tilt_in(7),
       I4 => data_tx(7),
-      O => \spi_tx[14]_i_1_n_0\
+      O => p_2_out(14)
     );
-\spi_tx[15]_i_1\: unisim.vcomponents.LUT5
+\spi_tx[15]_i_1\: unisim.vcomponents.LUT2
+    generic map(
+      INIT => X"9"
+    )
+        port map (
+      I0 => data_tx_id(1),
+      I1 => data_tx_id(0),
+      O => data_tx0
+    );
+\spi_tx[15]_i_2\: unisim.vcomponents.LUT5
     generic map(
       INIT => X"CAAFCAA0"
     )
@@ -367,44 +372,32 @@ begin
       I2 => data_tx_id(1),
       I3 => data_tx_id(0),
       I4 => pan_in(8),
-      O => \spi_tx[15]_i_1_n_0\
+      O => p_2_out(15)
     );
 \spi_tx[1]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"69969669"
+      INIT => X"96696996"
     )
         port map (
       I0 => \spi_tx[2]_i_2_n_0\,
-      I1 => \spi_tx[8]_i_1_n_0\,
-      I2 => \spi_tx[1]_i_2_n_0\,
+      I1 => p_2_out(8),
+      I2 => p_2_out(7),
       I3 => data_tx_id(0),
       I4 => data_tx_id(1),
       O => \spi_tx[1]_i_1_n_0\
-    );
-\spi_tx[1]_i_2\: unisim.vcomponents.LUT5
-    generic map(
-      INIT => X"3550355F"
-    )
-        port map (
-      I0 => data_tx(0),
-      I1 => tilt_in(0),
-      I2 => data_tx_id(1),
-      I3 => data_tx_id(0),
-      I4 => pan_in(0),
-      O => \spi_tx[1]_i_2_n_0\
     );
 \spi_tx[2]_i_1\: unisim.vcomponents.LUT6
     generic map(
       INIT => X"6996966996696996"
     )
         port map (
-      I0 => \spi_tx[12]_i_1_n_0\,
-      I1 => \spi_tx[11]_i_1_n_0\,
-      I2 => \spi_tx[10]_i_1_n_0\,
+      I0 => p_2_out(12),
+      I1 => p_2_out(11),
+      I2 => p_2_out(10),
       I3 => \spi_tx[2]_i_2_n_0\,
       I4 => \spi_tx[2]_i_3_n_0\,
-      I5 => \spi_tx[13]_i_1_n_0\,
-      O => parity_bits20_in
+      I5 => p_2_out(13),
+      O => \spi_tx[2]_i_1_n_0\
     );
 \spi_tx[2]_i_2\: unisim.vcomponents.LUT5
     generic map(
@@ -423,7 +416,7 @@ begin
       INIT => X"AAA95AA9A5595559"
     )
         port map (
-      I0 => \spi_tx[15]_i_1_n_0\,
+      I0 => p_2_out(15),
       I1 => pan_in(7),
       I2 => data_tx_id(0),
       I3 => data_tx_id(1),
@@ -431,17 +424,27 @@ begin
       I5 => data_tx(7),
       O => \spi_tx[2]_i_3_n_0\
     );
-\spi_tx[7]_i_1\: unisim.vcomponents.LUT5
+\spi_tx[4]_i_1\: unisim.vcomponents.LUT3
     generic map(
-      INIT => X"FE3EC202"
+      INIT => X"EB"
     )
         port map (
-      I0 => pan_in(0),
+      I0 => \^spi_tx\(3),
       I1 => data_tx_id(0),
       I2 => data_tx_id(1),
-      I3 => tilt_in(0),
+      O => \spi_tx[4]_i_1_n_0\
+    );
+\spi_tx[7]_i_1\: unisim.vcomponents.LUT5
+    generic map(
+      INIT => X"AFFCA00C"
+    )
+        port map (
+      I0 => tilt_in(0),
+      I1 => pan_in(0),
+      I2 => data_tx_id(0),
+      I3 => data_tx_id(1),
       I4 => data_tx(0),
-      O => \spi_tx[7]_i_1_n_0\
+      O => p_2_out(7)
     );
 \spi_tx[8]_i_1\: unisim.vcomponents.LUT5
     generic map(
@@ -453,7 +456,7 @@ begin
       I2 => data_tx_id(1),
       I3 => data_tx_id(0),
       I4 => pan_in(1),
-      O => \spi_tx[8]_i_1_n_0\
+      O => p_2_out(8)
     );
 \spi_tx[9]_i_1\: unisim.vcomponents.LUT5
     generic map(
@@ -465,7 +468,7 @@ begin
       I2 => data_tx_id(1),
       I3 => tilt_in(2),
       I4 => data_tx(2),
-      O => \spi_tx[9]_i_1_n_0\
+      O => p_2_out(9)
     );
 \spi_tx_process.data_tx_reg[0]\: unisim.vcomponents.FDRE
     generic map(
@@ -473,8 +476,8 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[7]_i_1_n_0\,
+      CE => data_tx0,
+      D => p_2_out(7),
       Q => data_tx(0),
       R => '0'
     );
@@ -484,8 +487,8 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[8]_i_1_n_0\,
+      CE => data_tx0,
+      D => p_2_out(8),
       Q => data_tx(1),
       R => '0'
     );
@@ -495,8 +498,8 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[9]_i_1_n_0\,
+      CE => data_tx0,
+      D => p_2_out(9),
       Q => data_tx(2),
       R => '0'
     );
@@ -506,8 +509,8 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[10]_i_1_n_0\,
+      CE => data_tx0,
+      D => p_2_out(10),
       Q => data_tx(3),
       R => '0'
     );
@@ -517,8 +520,8 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[11]_i_1_n_0\,
+      CE => data_tx0,
+      D => p_2_out(11),
       Q => data_tx(4),
       R => '0'
     );
@@ -528,8 +531,8 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[12]_i_1_n_0\,
+      CE => data_tx0,
+      D => p_2_out(12),
       Q => data_tx(5),
       R => '0'
     );
@@ -539,8 +542,8 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[13]_i_1_n_0\,
+      CE => data_tx0,
+      D => p_2_out(13),
       Q => data_tx(6),
       R => '0'
     );
@@ -550,8 +553,8 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[14]_i_1_n_0\,
+      CE => data_tx0,
+      D => p_2_out(14),
       Q => data_tx(7),
       R => '0'
     );
@@ -561,8 +564,8 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[15]_i_1_n_0\,
+      CE => data_tx0,
+      D => p_2_out(15),
       Q => data_tx(8),
       R => '0'
     );
@@ -573,9 +576,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
+      CE => data_tx0,
       D => \spi_tx[0]_i_1_n_0\,
-      Q => spi_tx(0),
+      Q => \^spi_tx\(0),
       R => '0'
     );
 \spi_tx_reg[10]\: unisim.vcomponents.FDRE
@@ -585,9 +588,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[10]_i_1_n_0\,
-      Q => spi_tx(9),
+      CE => data_tx0,
+      D => p_2_out(10),
+      Q => \^spi_tx\(9),
       R => '0'
     );
 \spi_tx_reg[11]\: unisim.vcomponents.FDRE
@@ -597,9 +600,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[11]_i_1_n_0\,
-      Q => spi_tx(10),
+      CE => data_tx0,
+      D => p_2_out(11),
+      Q => \^spi_tx\(10),
       R => '0'
     );
 \spi_tx_reg[12]\: unisim.vcomponents.FDRE
@@ -609,9 +612,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[12]_i_1_n_0\,
-      Q => spi_tx(11),
+      CE => data_tx0,
+      D => p_2_out(12),
+      Q => \^spi_tx\(11),
       R => '0'
     );
 \spi_tx_reg[13]\: unisim.vcomponents.FDRE
@@ -621,9 +624,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[13]_i_1_n_0\,
-      Q => spi_tx(12),
+      CE => data_tx0,
+      D => p_2_out(13),
+      Q => \^spi_tx\(12),
       R => '0'
     );
 \spi_tx_reg[14]\: unisim.vcomponents.FDRE
@@ -633,9 +636,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[14]_i_1_n_0\,
-      Q => spi_tx(13),
+      CE => data_tx0,
+      D => p_2_out(14),
+      Q => \^spi_tx\(13),
       R => '0'
     );
 \spi_tx_reg[15]\: unisim.vcomponents.FDRE
@@ -645,9 +648,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[15]_i_1_n_0\,
-      Q => spi_tx(14),
+      CE => data_tx0,
+      D => p_2_out(15),
+      Q => \^spi_tx\(14),
       R => '0'
     );
 \spi_tx_reg[1]\: unisim.vcomponents.FDRE
@@ -657,9 +660,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
+      CE => data_tx0,
       D => \spi_tx[1]_i_1_n_0\,
-      Q => spi_tx(1),
+      Q => \^spi_tx\(1),
       R => '0'
     );
 \spi_tx_reg[2]\: unisim.vcomponents.FDRE
@@ -669,9 +672,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => parity_bits20_in,
-      Q => spi_tx(2),
+      CE => data_tx0,
+      D => \spi_tx[2]_i_1_n_0\,
+      Q => \^spi_tx\(2),
       R => '0'
     );
 \spi_tx_reg[4]\: unisim.vcomponents.FDRE
@@ -682,8 +685,8 @@ begin
         port map (
       C => clk,
       CE => '1',
-      D => '1',
-      Q => spi_tx(3),
+      D => \spi_tx[4]_i_1_n_0\,
+      Q => \^spi_tx\(3),
       R => '0'
     );
 \spi_tx_reg[5]\: unisim.vcomponents.FDRE
@@ -693,9 +696,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
+      CE => data_tx0,
       D => data_tx_id(0),
-      Q => spi_tx(4),
+      Q => \^spi_tx\(4),
       R => '0'
     );
 \spi_tx_reg[6]\: unisim.vcomponents.FDRE
@@ -705,9 +708,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
+      CE => data_tx0,
       D => data_tx_id(1),
-      Q => spi_tx(5),
+      Q => \^spi_tx\(5),
       R => '0'
     );
 \spi_tx_reg[7]\: unisim.vcomponents.FDRE
@@ -717,9 +720,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[7]_i_1_n_0\,
-      Q => spi_tx(6),
+      CE => data_tx0,
+      D => p_2_out(7),
+      Q => \^spi_tx\(6),
       R => '0'
     );
 \spi_tx_reg[8]\: unisim.vcomponents.FDRE
@@ -729,9 +732,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[8]_i_1_n_0\,
-      Q => spi_tx(7),
+      CE => data_tx0,
+      D => p_2_out(8),
+      Q => \^spi_tx\(7),
       R => '0'
     );
 \spi_tx_reg[9]\: unisim.vcomponents.FDRE
@@ -741,9 +744,9 @@ begin
     )
         port map (
       C => clk,
-      CE => '1',
-      D => \spi_tx[9]_i_1_n_0\,
-      Q => spi_tx(8),
+      CE => data_tx0,
+      D => p_2_out(9),
+      Q => \^spi_tx\(8),
       R => '0'
     );
 \tilt_out_reg[0]\: unisim.vcomponents.LDCE
@@ -752,7 +755,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(6),
+      D => spi_rx(7),
       G => \tilt_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => tilt_out(0)
@@ -763,7 +766,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(7),
+      D => spi_rx(8),
       G => \tilt_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => tilt_out(1)
@@ -774,7 +777,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(8),
+      D => spi_rx(9),
       G => \tilt_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => tilt_out(2)
@@ -785,7 +788,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(9),
+      D => spi_rx(10),
       G => \tilt_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => tilt_out(3)
@@ -796,7 +799,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(10),
+      D => spi_rx(11),
       G => \tilt_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => tilt_out(4)
@@ -807,7 +810,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(11),
+      D => spi_rx(12),
       G => \tilt_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => tilt_out(5)
@@ -818,7 +821,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(12),
+      D => spi_rx(13),
       G => \tilt_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => tilt_out(6)
@@ -829,7 +832,7 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(13),
+      D => spi_rx(14),
       G => \tilt_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => tilt_out(7)
@@ -840,22 +843,21 @@ begin
     )
         port map (
       CLR => '0',
-      D => spi_rx(14),
+      D => spi_rx(15),
       G => \tilt_out_reg[8]_i_1_n_0\,
       GE => '1',
       Q => tilt_out(8)
     );
-\tilt_out_reg[8]_i_1\: unisim.vcomponents.LUT6
+\tilt_out_reg[8]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"0000000000009000"
+      INIT => X"00008008"
     )
         port map (
-      I0 => spi_rx(2),
-      I1 => spi_rx(3),
-      I2 => spi_rx(5),
+      I0 => spi_rx(6),
+      I1 => spi_rx(5),
+      I2 => spi_rx(3),
       I3 => spi_rx(4),
       I4 => \pan_out_reg[8]_i_2_n_0\,
-      I5 => \pan_out_reg[8]_i_3_n_0\,
       O => \tilt_out_reg[8]_i_1_n_0\
     );
 end STRUCTURE;
@@ -908,8 +910,7 @@ U0: entity work.assembly_data_controller_0_0_data_controller
       clk => clk,
       pan_in(8 downto 0) => pan_in(8 downto 0),
       pan_out(8 downto 0) => pan_out(8 downto 0),
-      spi_rx(14 downto 2) => spi_rx(15 downto 3),
-      spi_rx(1 downto 0) => spi_rx(1 downto 0),
+      spi_rx(15 downto 0) => spi_rx(15 downto 0),
       spi_tx(14 downto 3) => \^spi_tx\(15 downto 4),
       spi_tx(2 downto 0) => \^spi_tx\(2 downto 0),
       tilt_in(8 downto 0) => tilt_in(8 downto 0),

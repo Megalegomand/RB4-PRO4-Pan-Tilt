@@ -67,7 +67,7 @@ void spi_init()
     // NVIC Enable interrupt 7 (SSI0)
     NVIC_EN0_R |= (1 << 7);
     // Set highest priority (lowest numberical value) allowed by FreeRTOS
-    NVIC_PRI1_R |= (101 << 29);
+    NVIC_PRI1_R |= (0b101 << 29);
 
     // Setup rx and tx queues
     spi_rx_queue = xQueueCreate(SPI_QUEUE_LENGTH, SPI_ITEM_SIZE);
@@ -109,42 +109,30 @@ void spi_write_task(void * pvParameters)
 
 void spi_read_isr()
 {
-    if (!(SSI0_SR_R & SSI_SR_BSY))
+    while (SSI0_SR_R & SSI_SR_RNE)
     { // Check for end of transmission with not busy
       // Check SPI recieved
-        configASSERT(SSI0_SR_R & SSI_SR_RNE);
-
         // Store data
         INT16U data = SSI0_DR_R;
         xQueueSendToBackFromISR(spi_rx_queue, &data, NULL);
     }
 }
 
-INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id,
-                        INT8U next_id)
+INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id)
 {
-    INT16U transmit;
     INT16U receive;
 
     INT16S rx_data;
     while (1)
     {
-        transmit = tx_data << 7;
-        transmit |= (data_tx_id & 0x03) << 5;
-        transmit |= (next_id & 0x03) << 3;
-
-        transmit |= redundant_bits(transmit);
-
-        xQueueSendToBack(spi_tx_queue, &transmit, portMAX_DELAY);
-
-        xQueueReceive(spi_rx_queue, &receive, portMAX_DELAY);
+        receive = spi_transmit(tx_data, data_tx_id, data_rx_id); // Next id, same as receive to prevent looping
 
         if (((receive >> 5) & 0x0003) == data_rx_id)
         { // Correct data recieved
             BOOLEAN tx_correct = ((receive >> 3) & 0x0003) == 0b10;
 
             BOOLEAN redundant_correct = redundant_bits(receive)
-                    == (((INT8U) receive) & 0x03);
+                    == (((INT8U) receive) & 0x07);
 
             if (tx_correct && redundant_correct)
             {
@@ -159,7 +147,24 @@ INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id,
         }
     }
 
-    return tx_data;
+    return rx_data;
+}
+
+INT16U spi_transmit(INT16S tx_data, INT8U data_tx_id, INT8U next_id)
+{
+    INT16U transmit;
+
+    transmit = tx_data << 7;
+    transmit |= (data_tx_id & 0x03) << 5;
+    transmit |= (next_id & 0x03) << 3;
+
+    transmit |= redundant_bits(transmit);
+
+    xQueueSendToBack(spi_tx_queue, &transmit, portMAX_DELAY);
+
+    INT16U ret;
+    xQueueReceive(spi_rx_queue, &ret, portMAX_DELAY);
+    return ret;
 }
 
 INT8U redundant_bits(INT16U transmission)
@@ -168,16 +173,16 @@ INT8U redundant_bits(INT16U transmission)
     INT8U p = 0;
     for (INT8U i = 9; i < 16; i++)
     {
-        p ^= (transmission << i) & 0x0001;
-    }
-    ret |= p << 3;
-
-    p = 0;
-    for (INT8U i = 3; i < 9; i++)
-    {
-        p ^= (transmission << i) & 0x0001;
+        p ^= (transmission >> i) & 0x0001;
     }
     ret |= p << 2;
+
+    p = 0;
+    for (INT8U i = 3; i <= 9; i++)
+    {
+        p ^= (transmission >> i) & 0x0001;
+    }
+    ret |= p << 1;
 
     ret |= (~p & 0x01);
 

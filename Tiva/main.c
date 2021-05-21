@@ -51,7 +51,7 @@ void test_task2(void * pvParameters)
 {
     while (1)
     {
-        spi_transmission(0b101010101, 0b00, 0b00, 0b00);
+        //spi_transmission(0b101010101, 0b00, 0b00, 0b00);
     }
 }
 
@@ -71,8 +71,8 @@ int main(void)
     pid_init(PID_TILT, 0.1f, 0.0f, 0.0f, 10);
 
     // Create tasks
-//    xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE + 100,
-//                NULL, PRIORITY_HIGH, NULL);
+    xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE + 100,
+                NULL, PRIORITY_HIGH, NULL);
 
     xTaskCreate(spi_write_task, "SPI write task",
     configMINIMAL_STACK_SIZE + 50,
@@ -86,10 +86,10 @@ int main(void)
     configMINIMAL_STACK_SIZE + 150,
                 NULL, PRIORITY_IDLE, NULL);
 
-    //xTaskCreate(test_task, "Test", configMINIMAL_STACK_SIZE+100,
-    //            NULL, PRIORITY_IDLE, NULL);
-    xTaskCreate(test_task2, "Test2", configMINIMAL_STACK_SIZE+100,
-                    NULL, PRIORITY_IDLE, NULL);
+//    xTaskCreate(test_task, "Test", configMINIMAL_STACK_SIZE+100,
+//                NULL, PRIORITY_IDLE, NULL);
+//    xTaskCreate(test_task2, "Test2", configMINIMAL_STACK_SIZE+100,
+//                    NULL, PRIORITY_IDLE, NULL);
 
     //Start scheduler
     vTaskStartScheduler();

@@ -59,6 +59,8 @@ module assembly_xlconcat_0_3 (
   In2,
   In3,
   In4,
+  In5,
+  In6,
   dout
 );
 
@@ -66,7 +68,9 @@ input wire [0 : 0] In0;
 input wire [0 : 0] In1;
 input wire [0 : 0] In2;
 input wire [0 : 0] In3;
-input wire [3 : 0] In4;
+input wire [1 : 0] In4;
+input wire [0 : 0] In5;
+input wire [0 : 0] In6;
 output wire [7 : 0] dout;
 
   xlconcat_v2_1_4_xlconcat #(
@@ -74,7 +78,7 @@ output wire [7 : 0] dout;
     .IN1_WIDTH(1),
     .IN2_WIDTH(1),
     .IN3_WIDTH(1),
-    .IN4_WIDTH(4),
+    .IN4_WIDTH(2),
     .IN5_WIDTH(1),
     .IN6_WIDTH(1),
     .IN7_WIDTH(1),
@@ -199,15 +203,15 @@ output wire [7 : 0] dout;
     .IN126_WIDTH(1),
     .IN127_WIDTH(1),
     .dout_width(8),
-    .NUM_PORTS(5)
+    .NUM_PORTS(7)
   ) inst (
     .In0(In0),
     .In1(In1),
     .In2(In2),
     .In3(In3),
     .In4(In4),
-    .In5(1'B0),
-    .In6(1'B0),
+    .In5(In5),
+    .In6(In6),
     .In7(1'B0),
     .In8(1'B0),
     .In9(1'B0),

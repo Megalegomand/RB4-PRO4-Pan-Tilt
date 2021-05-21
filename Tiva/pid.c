@@ -144,8 +144,6 @@ void pid_task(void * pvParameters)
     TickType_t xLastWakeTime = xTaskGetTickCount();
     TickType_t xLastWakeTime_prev;
 
-    INT16U msg;
-
     PID_DEBUG pid_debug;
 
     INT16S raw_pwm_pan = 0;
@@ -160,23 +158,21 @@ void pid_task(void * pvParameters)
     {
         xLastWakeTime_prev = xLastWakeTime; // To counteract queue effect
 
-        if (pantilt = PID_PAN)
+        if (pantilt == PID_PAN)
         {
-            raw_pos_pan = spi_transmission(SPI_PAN, raw_pwm_tilt, SPI_TILT,
-                                           SPI_PAN);
+            raw_pos_pan = spi_transmission(SPI_PAN, raw_pwm_tilt, SPI_TILT);
             FP32 pos_pan = raw_pos_pan * POS_MULTIPLIER;
             FP32 pwm_pan = pid_update(PID_PAN, pos_pan);
             raw_pwm_pan = pwm_pan * PWM_MULTIPLIER;
-            spi_transmission(SPI_TILT, raw_pwm_pan, SPI_PAN, SPI_TILT);
+            spi_transmit(raw_pwm_pan, SPI_PAN, SPI_TILT);
         }
         else
         {
-            raw_pos_tilt = spi_transmission(SPI_TILT, raw_pwm_pan, SPI_PAN,
-                                            SPI_TILT);
+            raw_pos_tilt = spi_transmission(SPI_TILT, raw_pwm_pan, SPI_PAN);
             FP32 pos_tilt = raw_pos_tilt * POS_MULTIPLIER;
             FP32 pwm_tilt = pid_update(PID_TILT, pos_tilt);
             raw_pwm_tilt = pwm_tilt * PWM_MULTIPLIER;
-            spi_transmission(SPI_PAN, raw_pwm_tilt, SPI_TILT, SPI_PAN);
+            spi_transmit(raw_pwm_tilt, SPI_TILT, SPI_PAN);
         }
 
         // Debug struct update
@@ -198,7 +194,7 @@ void pid_task(void * pvParameters)
             xQueueSendToBack(pid_debug_queue, &pid_debug, 0);
         }
 
-        if (pantilt = PID_PAN)
+        if (pantilt == PID_PAN)
         {
             pantilt = PID_TILT;
         }
@@ -210,7 +206,6 @@ void pid_task(void * pvParameters)
         xLastWakeTime = xLastWakeTime_prev;
 
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
-
     }
 }
 /***************** End of module **************/
