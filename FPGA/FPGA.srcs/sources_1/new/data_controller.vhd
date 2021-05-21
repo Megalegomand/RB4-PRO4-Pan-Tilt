@@ -44,9 +44,11 @@ END data_controller;
 
 ARCHITECTURE Behavioral OF data_controller IS
     SIGNAL data_tx_id : STD_LOGIC_VECTOR(data_id_bits - 1 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL data_rx_id : STD_LOGIC_VECTOR(data_id_bits - 1 DOWNTO 0);
+    SIGNAL data_rx : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
 
-    SIGNAL pan_out_t : STD_LOGIC;
-    SIGNAL tilt_out_t : STD_LOGIC;
+    SIGNAL pan_out_t : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
+    SIGNAL tilt_out_t : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
 
     CONSTANT frame_parity_split : POSITIVE := INTEGER(ceil(real(frame_width - redundant_bits) * 0.5));
 
@@ -69,8 +71,6 @@ BEGIN
         VARIABLE data_rx_id_t : STD_LOGIC_VECTOR(data_id_bits - 1 DOWNTO 0);
         VARIABLE data_tx_id_t : STD_LOGIC_VECTOR(data_id_bits - 1 DOWNTO 0);
 
-        VARIABLE data_rx : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
-
         VARIABLE parity : STD_LOGIC_VECTOR(redundant_bits - 1 DOWNTO 0);
     BEGIN
         data_tx_id_t := spi_rx(redundant_bits + data_id_bits - 1 DOWNTO redundant_bits);
@@ -79,17 +79,9 @@ BEGIN
         IF (spi_rx(redundant_bits - 1 DOWNTO 0) = parity_bits(spi_rx)) THEN
             IF (data_rx_id_t = "11" OR data_rx_id_t = "00") THEN
                 IF (data_tx_id_t = "11" OR data_tx_id_t = "00") THEN
-                    data_rx := spi_rx(frame_width - 1 DOWNTO frame_width - data_width);
+                    data_rx <= spi_rx(frame_width - 1 DOWNTO frame_width - data_width);
                     data_tx_id <= data_tx_id_t;
-
-                    CASE data_rx_id_t IS
-                        WHEN "00" =>
-                            pan_out_t <= data_rx;
-                        WHEN "11" =>
-                            tilt_out_t <= data_rx;
-                        WHEN OTHERS =>
-                            NULL;
-                    END CASE;
+                    data_rx_id <= data_rx_id_t;
                 END IF;
             END IF;
         END IF;
@@ -104,10 +96,6 @@ BEGIN
         VARIABLE spi_tx_t : STD_LOGIC_VECTOR(frame_width - 1 DOWNTO 0);
     BEGIN
         IF (falling_edge(clk)) THEN -- To not intefere with SPI reading and encoder writing on rising
-            -- Update output
-            pan_out <= pan_out_t;
-            tilt_out <= tilt_out_t;
-
             IF (data_tx_id = "11" OR data_tx_id = "00") THEN
                 CASE data_tx_id IS
                     WHEN "00" =>
@@ -126,4 +114,24 @@ BEGIN
         END IF;
     END PROCESS;
 
+    pan_out <= pan_out_t;
+    tilt_out <= tilt_out_t;
+
+    out_process : PROCESS (clk)
+    BEGIN
+        IF (falling_edge(clk)) THEN -- To not intefere with PWM reading on rising
+            CASE data_rx_id IS
+                WHEN "00" =>
+                    pan_out_t(data_width - 2 DOWNTO 0) <= abs(signed(data_rx));
+                    pan_out_t(data_width - 1) <= data_rx(data_width - 1);
+                    tilt_out_t <= tilt_out_t;
+                WHEN "11" =>
+                    pan_out_t <= pan_out_t;
+                    tilt_out_t(data_width - 2 DOWNTO 0) <= abs(signed(data_rx));
+                    tilt_out_t(data_width - 1) <= data_rx(data_width - 1);
+                WHEN OTHERS =>
+                    NULL;
+            END CASE;
+        END IF;
+    END PROCESS;
 END Behavioral;

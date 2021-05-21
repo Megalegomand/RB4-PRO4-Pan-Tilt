@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Fri May 21 22:15:09 2021
+// Date        : Fri May 21 23:40:10 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_data_controller_0_0/assembly_data_controller_0_0_sim_netlist.v
@@ -75,19 +75,21 @@ module assembly_data_controller_0_0_data_controller
   input [8:0]pan_in;
 
   wire clk;
+  wire [8:0]data_rx;
+  wire data_rx0;
+  wire data_rx__0;
+  wire [1:0]data_rx_id;
+  wire \data_rx_id_reg[1]_i_2_n_0 ;
+  wire \data_rx_id_reg[1]_i_3_n_0 ;
+  wire \data_rx_id_reg[1]_i_4_n_0 ;
+  wire \data_rx_id_reg[1]_i_6_n_0 ;
   wire [8:0]data_tx;
   wire data_tx0;
   wire [1:0]data_tx_id;
-  wire data_tx_id__0;
   wire [15:7]p_2_out;
   wire [8:0]pan_in;
   wire [8:0]pan_out;
-  wire \pan_out_reg[8]_i_1_n_0 ;
-  wire \pan_out_reg[8]_i_2_n_0 ;
-  wire \pan_out_reg[8]_i_3_n_0 ;
-  wire \pan_out_reg[8]_i_4_n_0 ;
-  wire \pan_out_reg[8]_i_5_n_0 ;
-  wire \pan_out_reg[8]_i_6_n_0 ;
+  wire \pan_out_t[8]_i_1_n_0 ;
   wire [15:0]spi_rx;
   wire [14:0]spi_tx;
   wire \spi_tx[0]_i_1_n_0 ;
@@ -98,15 +100,166 @@ module assembly_data_controller_0_0_data_controller
   wire \spi_tx[4]_i_1_n_0 ;
   wire [8:0]tilt_in;
   wire [8:0]tilt_out;
-  wire \tilt_out_reg[8]_i_1_n_0 ;
+  wire \tilt_out_t[8]_i_1_n_0 ;
 
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_id_reg[0] 
+       (.CLR(1'b0),
+        .D(spi_rx[5]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx_id[0]));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_id_reg[1] 
+       (.CLR(1'b0),
+        .D(spi_rx[6]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx_id[1]));
+  LUT5 #(
+    .INIT(32'h10800000)) 
+    \data_rx_id_reg[1]_i_1 
+       (.I0(spi_rx[1]),
+        .I1(\data_rx_id_reg[1]_i_2_n_0 ),
+        .I2(\data_rx_id_reg[1]_i_3_n_0 ),
+        .I3(spi_rx[0]),
+        .I4(\data_rx_id_reg[1]_i_4_n_0 ),
+        .O(data_rx__0));
+  LUT6 #(
+    .INIT(64'h9669699669969669)) 
+    \data_rx_id_reg[1]_i_2 
+       (.I0(spi_rx[8]),
+        .I1(spi_rx[7]),
+        .I2(spi_rx[9]),
+        .I3(data_rx0),
+        .I4(spi_rx[6]),
+        .I5(spi_rx[5]),
+        .O(\data_rx_id_reg[1]_i_2_n_0 ));
+  LUT5 #(
+    .INIT(32'h69969669)) 
+    \data_rx_id_reg[1]_i_3 
+       (.I0(\data_rx_id_reg[1]_i_6_n_0 ),
+        .I1(spi_rx[15]),
+        .I2(spi_rx[13]),
+        .I3(spi_rx[14]),
+        .I4(spi_rx[2]),
+        .O(\data_rx_id_reg[1]_i_3_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  LUT4 #(
+    .INIT(16'h9009)) 
+    \data_rx_id_reg[1]_i_4 
+       (.I0(spi_rx[5]),
+        .I1(spi_rx[6]),
+        .I2(spi_rx[3]),
+        .I3(spi_rx[4]),
+        .O(\data_rx_id_reg[1]_i_4_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  LUT2 #(
+    .INIT(4'h9)) 
+    \data_rx_id_reg[1]_i_5 
+       (.I0(spi_rx[4]),
+        .I1(spi_rx[3]),
+        .O(data_rx0));
+  LUT4 #(
+    .INIT(16'h6996)) 
+    \data_rx_id_reg[1]_i_6 
+       (.I0(spi_rx[11]),
+        .I1(spi_rx[12]),
+        .I2(spi_rx[9]),
+        .I3(spi_rx[10]),
+        .O(\data_rx_id_reg[1]_i_6_n_0 ));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_reg[0] 
+       (.CLR(1'b0),
+        .D(spi_rx[7]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx[0]));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_reg[1] 
+       (.CLR(1'b0),
+        .D(spi_rx[8]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx[1]));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_reg[2] 
+       (.CLR(1'b0),
+        .D(spi_rx[9]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx[2]));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_reg[3] 
+       (.CLR(1'b0),
+        .D(spi_rx[10]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx[3]));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_reg[4] 
+       (.CLR(1'b0),
+        .D(spi_rx[11]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx[4]));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_reg[5] 
+       (.CLR(1'b0),
+        .D(spi_rx[12]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx[5]));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_reg[6] 
+       (.CLR(1'b0),
+        .D(spi_rx[13]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx[6]));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_reg[7] 
+       (.CLR(1'b0),
+        .D(spi_rx[14]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx[7]));
+  (* XILINX_LEGACY_PRIM = "LD" *) 
+  LDCE #(
+    .INIT(1'b0)) 
+    \data_rx_reg[8] 
+       (.CLR(1'b0),
+        .D(spi_rx[15]),
+        .G(data_rx__0),
+        .GE(1'b1),
+        .Q(data_rx[8]));
   (* XILINX_LEGACY_PRIM = "LD" *) 
   LDCE #(
     .INIT(1'b0)) 
     \data_tx_id_reg[0] 
        (.CLR(1'b0),
         .D(spi_rx[3]),
-        .G(data_tx_id__0),
+        .G(data_rx__0),
         .GE(1'b1),
         .Q(data_tx_id[0]));
   (* XILINX_LEGACY_PRIM = "LD" *) 
@@ -115,152 +268,96 @@ module assembly_data_controller_0_0_data_controller
     \data_tx_id_reg[1] 
        (.CLR(1'b0),
         .D(spi_rx[4]),
-        .G(data_tx_id__0),
+        .G(data_rx__0),
         .GE(1'b1),
         .Q(data_tx_id[1]));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
-  LUT5 #(
-    .INIT(32'h00009009)) 
-    \data_tx_id_reg[1]_i_1 
-       (.I0(spi_rx[6]),
-        .I1(spi_rx[5]),
-        .I2(spi_rx[3]),
-        .I3(spi_rx[4]),
-        .I4(\pan_out_reg[8]_i_2_n_0 ),
-        .O(data_tx_id__0));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \pan_out_reg[0] 
-       (.CLR(1'b0),
-        .D(spi_rx[7]),
-        .G(\pan_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(pan_out[0]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \pan_out_reg[1] 
-       (.CLR(1'b0),
-        .D(spi_rx[8]),
-        .G(\pan_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(pan_out[1]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \pan_out_reg[2] 
-       (.CLR(1'b0),
-        .D(spi_rx[9]),
-        .G(\pan_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(pan_out[2]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \pan_out_reg[3] 
-       (.CLR(1'b0),
-        .D(spi_rx[10]),
-        .G(\pan_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(pan_out[3]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \pan_out_reg[4] 
-       (.CLR(1'b0),
-        .D(spi_rx[11]),
-        .G(\pan_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(pan_out[4]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \pan_out_reg[5] 
-       (.CLR(1'b0),
-        .D(spi_rx[12]),
-        .G(\pan_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(pan_out[5]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \pan_out_reg[6] 
-       (.CLR(1'b0),
-        .D(spi_rx[13]),
-        .G(\pan_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(pan_out[6]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \pan_out_reg[7] 
-       (.CLR(1'b0),
-        .D(spi_rx[14]),
-        .G(\pan_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(pan_out[7]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \pan_out_reg[8] 
-       (.CLR(1'b0),
-        .D(spi_rx[15]),
-        .G(\pan_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(pan_out[8]));
-  (* SOFT_HLUTNM = "soft_lutpair3" *) 
-  LUT5 #(
-    .INIT(32'h00000009)) 
-    \pan_out_reg[8]_i_1 
-       (.I0(spi_rx[3]),
-        .I1(spi_rx[4]),
-        .I2(spi_rx[6]),
-        .I3(spi_rx[5]),
-        .I4(\pan_out_reg[8]_i_2_n_0 ),
-        .O(\pan_out_reg[8]_i_1_n_0 ));
-  LUT6 #(
-    .INIT(64'hFF6FF6FFF6FFFF6F)) 
-    \pan_out_reg[8]_i_2 
-       (.I0(\pan_out_reg[8]_i_3_n_0 ),
-        .I1(\pan_out_reg[8]_i_4_n_0 ),
-        .I2(spi_rx[0]),
-        .I3(spi_rx[1]),
-        .I4(\pan_out_reg[8]_i_5_n_0 ),
-        .I5(\pan_out_reg[8]_i_6_n_0 ),
-        .O(\pan_out_reg[8]_i_2_n_0 ));
-  LUT4 #(
-    .INIT(16'h6996)) 
-    \pan_out_reg[8]_i_3 
-       (.I0(spi_rx[12]),
-        .I1(spi_rx[11]),
-        .I2(spi_rx[10]),
-        .I3(spi_rx[9]),
-        .O(\pan_out_reg[8]_i_3_n_0 ));
-  LUT4 #(
-    .INIT(16'h6996)) 
-    \pan_out_reg[8]_i_4 
-       (.I0(spi_rx[2]),
-        .I1(spi_rx[15]),
-        .I2(spi_rx[14]),
-        .I3(spi_rx[13]),
-        .O(\pan_out_reg[8]_i_4_n_0 ));
-  LUT3 #(
-    .INIT(8'h96)) 
-    \pan_out_reg[8]_i_5 
-       (.I0(spi_rx[7]),
-        .I1(spi_rx[9]),
-        .I2(spi_rx[8]),
-        .O(\pan_out_reg[8]_i_5_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair3" *) 
-  LUT4 #(
-    .INIT(16'h6996)) 
-    \pan_out_reg[8]_i_6 
-       (.I0(spi_rx[4]),
-        .I1(spi_rx[3]),
-        .I2(spi_rx[5]),
-        .I3(spi_rx[6]),
-        .O(\pan_out_reg[8]_i_6_n_0 ));
+  LUT2 #(
+    .INIT(4'h1)) 
+    \pan_out_t[8]_i_1 
+       (.I0(data_rx_id[0]),
+        .I1(data_rx_id[1]),
+        .O(\pan_out_t[8]_i_1_n_0 ));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \pan_out_t_reg[0] 
+       (.C(clk),
+        .CE(\pan_out_t[8]_i_1_n_0 ),
+        .D(data_rx[0]),
+        .Q(pan_out[0]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \pan_out_t_reg[1] 
+       (.C(clk),
+        .CE(\pan_out_t[8]_i_1_n_0 ),
+        .D(data_rx[1]),
+        .Q(pan_out[1]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \pan_out_t_reg[2] 
+       (.C(clk),
+        .CE(\pan_out_t[8]_i_1_n_0 ),
+        .D(data_rx[2]),
+        .Q(pan_out[2]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \pan_out_t_reg[3] 
+       (.C(clk),
+        .CE(\pan_out_t[8]_i_1_n_0 ),
+        .D(data_rx[3]),
+        .Q(pan_out[3]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \pan_out_t_reg[4] 
+       (.C(clk),
+        .CE(\pan_out_t[8]_i_1_n_0 ),
+        .D(data_rx[4]),
+        .Q(pan_out[4]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \pan_out_t_reg[5] 
+       (.C(clk),
+        .CE(\pan_out_t[8]_i_1_n_0 ),
+        .D(data_rx[5]),
+        .Q(pan_out[5]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \pan_out_t_reg[6] 
+       (.C(clk),
+        .CE(\pan_out_t[8]_i_1_n_0 ),
+        .D(data_rx[6]),
+        .Q(pan_out[6]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \pan_out_t_reg[7] 
+       (.C(clk),
+        .CE(\pan_out_t[8]_i_1_n_0 ),
+        .D(data_rx[7]),
+        .Q(pan_out[7]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \pan_out_t_reg[8] 
+       (.C(clk),
+        .CE(\pan_out_t[8]_i_1_n_0 ),
+        .D(data_rx[8]),
+        .Q(pan_out[8]),
+        .R(1'b0));
   (* SOFT_HLUTNM = "soft_lutpair0" *) 
   LUT5 #(
     .INIT(32'h69969669)) 
@@ -613,97 +710,93 @@ module assembly_data_controller_0_0_data_controller
         .D(p_2_out[9]),
         .Q(spi_tx[8]),
         .R(1'b0));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \tilt_out_reg[0] 
-       (.CLR(1'b0),
-        .D(spi_rx[7]),
-        .G(\tilt_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(tilt_out[0]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \tilt_out_reg[1] 
-       (.CLR(1'b0),
-        .D(spi_rx[8]),
-        .G(\tilt_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(tilt_out[1]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \tilt_out_reg[2] 
-       (.CLR(1'b0),
-        .D(spi_rx[9]),
-        .G(\tilt_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(tilt_out[2]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \tilt_out_reg[3] 
-       (.CLR(1'b0),
-        .D(spi_rx[10]),
-        .G(\tilt_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(tilt_out[3]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \tilt_out_reg[4] 
-       (.CLR(1'b0),
-        .D(spi_rx[11]),
-        .G(\tilt_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(tilt_out[4]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \tilt_out_reg[5] 
-       (.CLR(1'b0),
-        .D(spi_rx[12]),
-        .G(\tilt_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(tilt_out[5]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \tilt_out_reg[6] 
-       (.CLR(1'b0),
-        .D(spi_rx[13]),
-        .G(\tilt_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(tilt_out[6]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \tilt_out_reg[7] 
-       (.CLR(1'b0),
-        .D(spi_rx[14]),
-        .G(\tilt_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(tilt_out[7]));
-  (* XILINX_LEGACY_PRIM = "LD" *) 
-  LDCE #(
-    .INIT(1'b0)) 
-    \tilt_out_reg[8] 
-       (.CLR(1'b0),
-        .D(spi_rx[15]),
-        .G(\tilt_out_reg[8]_i_1_n_0 ),
-        .GE(1'b1),
-        .Q(tilt_out[8]));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
-  LUT5 #(
-    .INIT(32'h00008008)) 
-    \tilt_out_reg[8]_i_1 
-       (.I0(spi_rx[6]),
-        .I1(spi_rx[5]),
-        .I2(spi_rx[3]),
-        .I3(spi_rx[4]),
-        .I4(\pan_out_reg[8]_i_2_n_0 ),
-        .O(\tilt_out_reg[8]_i_1_n_0 ));
+  LUT2 #(
+    .INIT(4'h8)) 
+    \tilt_out_t[8]_i_1 
+       (.I0(data_rx_id[0]),
+        .I1(data_rx_id[1]),
+        .O(\tilt_out_t[8]_i_1_n_0 ));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \tilt_out_t_reg[0] 
+       (.C(clk),
+        .CE(\tilt_out_t[8]_i_1_n_0 ),
+        .D(data_rx[0]),
+        .Q(tilt_out[0]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \tilt_out_t_reg[1] 
+       (.C(clk),
+        .CE(\tilt_out_t[8]_i_1_n_0 ),
+        .D(data_rx[1]),
+        .Q(tilt_out[1]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \tilt_out_t_reg[2] 
+       (.C(clk),
+        .CE(\tilt_out_t[8]_i_1_n_0 ),
+        .D(data_rx[2]),
+        .Q(tilt_out[2]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \tilt_out_t_reg[3] 
+       (.C(clk),
+        .CE(\tilt_out_t[8]_i_1_n_0 ),
+        .D(data_rx[3]),
+        .Q(tilt_out[3]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \tilt_out_t_reg[4] 
+       (.C(clk),
+        .CE(\tilt_out_t[8]_i_1_n_0 ),
+        .D(data_rx[4]),
+        .Q(tilt_out[4]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \tilt_out_t_reg[5] 
+       (.C(clk),
+        .CE(\tilt_out_t[8]_i_1_n_0 ),
+        .D(data_rx[5]),
+        .Q(tilt_out[5]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \tilt_out_t_reg[6] 
+       (.C(clk),
+        .CE(\tilt_out_t[8]_i_1_n_0 ),
+        .D(data_rx[6]),
+        .Q(tilt_out[6]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \tilt_out_t_reg[7] 
+       (.C(clk),
+        .CE(\tilt_out_t[8]_i_1_n_0 ),
+        .D(data_rx[7]),
+        .Q(tilt_out[7]),
+        .R(1'b0));
+  FDRE #(
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
+    \tilt_out_t_reg[8] 
+       (.C(clk),
+        .CE(\tilt_out_t[8]_i_1_n_0 ),
+        .D(data_rx[8]),
+        .Q(tilt_out[8]),
+        .R(1'b0));
 endmodule
 `ifndef GLBL
 `define GLBL
