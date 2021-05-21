@@ -43,8 +43,8 @@ typedef struct
 #define PID_LIM_MIN         -12.0f
 #define PID_LIM_MAX         12.0f
 
-#define POS_MULTIPLIER 180.0f / 127.0f
-#define PWM_MULTIPLIER 127.0f / 12.0f
+#define POS_MULTIPLIER 180.0f / 255.0f
+#define PWM_MULTIPLIER 255.0f / 12.0f
 
 #define SETPOINT_QUEUE_LENGTH 1
 #define SETPOINT_QUEUE_WIDTH sizeof(FP32)
@@ -54,9 +54,9 @@ typedef struct
 
 typedef struct
 {
-    INT8S raw_pos[PID_CONTROLLERS_LENGTH];
+    INT16S raw_pos[PID_CONTROLLERS_LENGTH];
 
-    INT8S raw_pwm[PID_CONTROLLERS_LENGTH];
+    INT16S raw_pwm[PID_CONTROLLERS_LENGTH];
 
     PID_CONTAINER pid[PID_CONTROLLERS_LENGTH];
 } PID_DEBUG;

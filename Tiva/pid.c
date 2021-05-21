@@ -149,8 +149,8 @@ void pid_task(void * pvParameters)
     INT16S raw_pwm_pan = 0;
     INT16S raw_pwm_tilt = 0;
 
-    INT16U raw_pos_pan = 0;
-    INT16U raw_pos_tilt = 0;
+    INT16S raw_pos_pan = 0;
+    INT16S raw_pos_tilt = 0;
 
     INT8U pantilt = PID_PAN; //
 

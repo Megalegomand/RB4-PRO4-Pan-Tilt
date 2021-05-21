@@ -56,7 +56,7 @@ USE ieee.numeric_std.ALL;
 ENTITY assembly_pwm_0_0 IS
   PORT (
     clk : IN STD_LOGIC;
-    duty_cycle : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+    duty_cycle : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     o : OUT STD_LOGIC
   );
 END assembly_pwm_0_0;
@@ -70,7 +70,7 @@ ARCHITECTURE assembly_pwm_0_0_arch OF assembly_pwm_0_0 IS
     );
     PORT (
       clk : IN STD_LOGIC;
-      duty_cycle : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+      duty_cycle : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
       o : OUT STD_LOGIC
     );
   END COMPONENT pwm;
@@ -79,7 +79,7 @@ ARCHITECTURE assembly_pwm_0_0_arch OF assembly_pwm_0_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF assembly_pwm_0_0_arch : ARCHITECTURE IS "assembly_pwm_0_0,pwm,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF assembly_pwm_0_0_arch: ARCHITECTURE IS "assembly_pwm_0_0,pwm,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=pwm,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=7}";
+  ATTRIBUTE CORE_GENERATION_INFO OF assembly_pwm_0_0_arch: ARCHITECTURE IS "assembly_pwm_0_0,pwm,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=pwm,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=8}";
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
   ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_pwm_0_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
@@ -89,7 +89,7 @@ ARCHITECTURE assembly_pwm_0_0_arch OF assembly_pwm_0_0 IS
 BEGIN
   U0 : pwm
     GENERIC MAP (
-      n_bits => 7
+      n_bits => 8
     )
     PORT MAP (
       clk => clk,

@@ -12,8 +12,6 @@
     },
     "design_tree": {
       "clock_divider_0": "",
-      "xlslice_pan": "",
-      "xlslice_tilt": "",
       "xlslice_3": "",
       "not_gate_1": "",
       "xlslice_4": "",
@@ -27,7 +25,6 @@
       "spi_0": "",
       "encoder_tilt": "",
       "encoder_pan": "",
-      "xlslice_0": "",
       "xlslice_1": "",
       "data_controller_0": ""
     },
@@ -163,43 +160,6 @@
           }
         }
       },
-      "xlslice_pan": {
-        "vlnv": "xilinx.com:ip:xlslice:1.0",
-        "xci_name": "assembly_xlslice_0_2",
-        "xci_path": "ip/assembly_xlslice_0_2/assembly_xlslice_0_2.xci",
-        "inst_hier_path": "xlslice_pan",
-        "parameters": {
-          "DIN_FROM": {
-            "value": "7"
-          },
-          "DIN_WIDTH": {
-            "value": "16"
-          },
-          "DOUT_WIDTH": {
-            "value": "8"
-          }
-        }
-      },
-      "xlslice_tilt": {
-        "vlnv": "xilinx.com:ip:xlslice:1.0",
-        "xci_name": "assembly_xlslice_0_3",
-        "xci_path": "ip/assembly_xlslice_0_3/assembly_xlslice_0_3.xci",
-        "inst_hier_path": "xlslice_tilt",
-        "parameters": {
-          "DIN_FROM": {
-            "value": "15"
-          },
-          "DIN_TO": {
-            "value": "8"
-          },
-          "DIN_WIDTH": {
-            "value": "16"
-          },
-          "DOUT_WIDTH": {
-            "value": "8"
-          }
-        }
-      },
       "xlslice_3": {
         "vlnv": "xilinx.com:ip:xlslice:1.0",
         "xci_name": "assembly_xlslice_3_0",
@@ -207,13 +167,13 @@
         "inst_hier_path": "xlslice_3",
         "parameters": {
           "DIN_FROM": {
-            "value": "7"
+            "value": "8"
           },
           "DIN_TO": {
-            "value": "7"
+            "value": "8"
           },
           "DIN_WIDTH": {
-            "value": "8"
+            "value": "9"
           },
           "DOUT_WIDTH": {
             "value": "1"
@@ -246,16 +206,16 @@
         "inst_hier_path": "xlslice_4",
         "parameters": {
           "DIN_FROM": {
-            "value": "6"
+            "value": "7"
           },
           "DIN_TO": {
             "value": "0"
           },
           "DIN_WIDTH": {
-            "value": "8"
+            "value": "9"
           },
           "DOUT_WIDTH": {
-            "value": "7"
+            "value": "8"
           }
         }
       },
@@ -266,7 +226,7 @@
         "inst_hier_path": "pwm_pan",
         "parameters": {
           "n_bits": {
-            "value": "7"
+            "value": "8"
           }
         },
         "reference_info": {
@@ -281,7 +241,7 @@
           },
           "duty_cycle": {
             "direction": "I",
-            "left": "6",
+            "left": "7",
             "right": "0",
             "parameters": {
               "PortWidth": {
@@ -302,7 +262,7 @@
         "inst_hier_path": "pwm_tilt",
         "parameters": {
           "n_bits": {
-            "value": "7"
+            "value": "8"
           }
         },
         "reference_info": {
@@ -317,7 +277,7 @@
           },
           "duty_cycle": {
             "direction": "I",
-            "left": "6",
+            "left": "7",
             "right": "0"
           },
           "o": {
@@ -332,16 +292,16 @@
         "inst_hier_path": "xlslice_5",
         "parameters": {
           "DIN_FROM": {
-            "value": "6"
+            "value": "7"
           },
           "DIN_TO": {
             "value": "0"
           },
           "DIN_WIDTH": {
-            "value": "8"
+            "value": "9"
           },
           "DOUT_WIDTH": {
-            "value": "7"
+            "value": "8"
           }
         }
       },
@@ -352,13 +312,13 @@
         "inst_hier_path": "xlslice_6",
         "parameters": {
           "DIN_FROM": {
-            "value": "7"
+            "value": "8"
           },
           "DIN_TO": {
-            "value": "7"
+            "value": "8"
           },
           "DIN_WIDTH": {
-            "value": "8"
+            "value": "9"
           },
           "DOUT_WIDTH": {
             "value": "1"
@@ -582,26 +542,6 @@
           }
         }
       },
-      "xlslice_0": {
-        "vlnv": "xilinx.com:ip:xlslice:1.0",
-        "xci_name": "assembly_xlslice_0_4",
-        "xci_path": "ip/assembly_xlslice_0_4/assembly_xlslice_0_4.xci",
-        "inst_hier_path": "xlslice_0",
-        "parameters": {
-          "DIN_FROM": {
-            "value": "8"
-          },
-          "DIN_TO": {
-            "value": "1"
-          },
-          "DIN_WIDTH": {
-            "value": "9"
-          },
-          "DOUT_WIDTH": {
-            "value": "8"
-          }
-        }
-      },
       "xlslice_1": {
         "vlnv": "xilinx.com:ip:xlslice:1.0",
         "xci_name": "assembly_xlslice_1_0",
@@ -727,7 +667,7 @@
       },
       "xlslice_0_Dout": {
         "ports": [
-          "xlslice_pan/Dout",
+          "data_controller_0/pan_out",
           "xlslice_3/Din",
           "xlslice_4/Din"
         ]
@@ -754,12 +694,13 @@
       "pwm_0_o": {
         "ports": [
           "pwm_pan/o",
-          "pan_en"
+          "pan_en",
+          "xlconcat_spi_test/In5"
         ]
       },
       "xlslice_2_Dout": {
         "ports": [
-          "xlslice_tilt/Dout",
+          "data_controller_0/tilt_out",
           "xlslice_5/Din",
           "xlslice_6/Din"
         ]
@@ -773,7 +714,8 @@
       "pwm_tilt_o": {
         "ports": [
           "pwm_tilt/o",
-          "tilt_en"
+          "tilt_en",
+          "xlconcat_spi_test/In6"
         ]
       },
       "xlslice_6_Dout": {
@@ -833,7 +775,6 @@
       "encoder_tilt_cnt": {
         "ports": [
           "encoder_tilt/cnt",
-          "xlslice_0/Din",
           "data_controller_0/tilt_in"
         ]
       },

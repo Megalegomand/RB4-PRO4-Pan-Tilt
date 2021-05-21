@@ -56,7 +56,7 @@ USE ieee.numeric_std.ALL;
 ENTITY assembly_pwm_pan_0 IS
   PORT (
     clk : IN STD_LOGIC;
-    duty_cycle : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+    duty_cycle : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     o : OUT STD_LOGIC
   );
 END assembly_pwm_pan_0;
@@ -70,7 +70,7 @@ ARCHITECTURE assembly_pwm_pan_0_arch OF assembly_pwm_pan_0 IS
     );
     PORT (
       clk : IN STD_LOGIC;
-      duty_cycle : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+      duty_cycle : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
       o : OUT STD_LOGIC
     );
   END COMPONENT pwm;
@@ -83,7 +83,7 @@ ARCHITECTURE assembly_pwm_pan_0_arch OF assembly_pwm_pan_0 IS
 BEGIN
   U0 : pwm
     GENERIC MAP (
-      n_bits => 7
+      n_bits => 8
     )
     PORT MAP (
       clk => clk,

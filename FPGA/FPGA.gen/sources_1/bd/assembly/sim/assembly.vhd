@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Fri May 21 22:13:46 2021
+--Date        : Fri May 21 22:38:18 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -32,7 +32,7 @@ entity assembly is
     tilt_in2 : out STD_LOGIC_VECTOR ( 0 to 0 )
   );
   attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of assembly : entity is "assembly,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=assembly,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=19,numReposBlks=19,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=9,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
+  attribute CORE_GENERATION_INFO of assembly : entity is "assembly,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=assembly,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=16,numReposBlks=16,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=9,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
   attribute HW_HANDOFF : string;
   attribute HW_HANDOFF of assembly : entity is "assembly.hwdef";
 end assembly;
@@ -45,21 +45,9 @@ architecture STRUCTURE of assembly is
     clk_div : out STD_LOGIC
   );
   end component assembly_clock_divider_0_0;
-  component assembly_xlslice_0_2 is
-  port (
-    Din : in STD_LOGIC_VECTOR ( 15 downto 0 );
-    Dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
-  );
-  end component assembly_xlslice_0_2;
-  component assembly_xlslice_0_3 is
-  port (
-    Din : in STD_LOGIC_VECTOR ( 15 downto 0 );
-    Dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
-  );
-  end component assembly_xlslice_0_3;
   component assembly_xlslice_3_0 is
   port (
-    Din : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    Din : in STD_LOGIC_VECTOR ( 8 downto 0 );
     Dout : out STD_LOGIC_VECTOR ( 0 to 0 )
   );
   end component assembly_xlslice_3_0;
@@ -71,33 +59,33 @@ architecture STRUCTURE of assembly is
   end component assembly_not_gate_1_0;
   component assembly_xlslice_3_1 is
   port (
-    Din : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    Dout : out STD_LOGIC_VECTOR ( 6 downto 0 )
+    Din : in STD_LOGIC_VECTOR ( 8 downto 0 );
+    Dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component assembly_xlslice_3_1;
   component assembly_pwm_0_0 is
   port (
     clk : in STD_LOGIC;
-    duty_cycle : in STD_LOGIC_VECTOR ( 6 downto 0 );
+    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
     o : out STD_LOGIC
   );
   end component assembly_pwm_0_0;
   component assembly_pwm_pan_0 is
   port (
     clk : in STD_LOGIC;
-    duty_cycle : in STD_LOGIC_VECTOR ( 6 downto 0 );
+    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
     o : out STD_LOGIC
   );
   end component assembly_pwm_pan_0;
   component assembly_xlslice_4_0 is
   port (
-    Din : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    Dout : out STD_LOGIC_VECTOR ( 6 downto 0 )
+    Din : in STD_LOGIC_VECTOR ( 8 downto 0 );
+    Dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component assembly_xlslice_4_0;
   component assembly_xlslice_3_2 is
   port (
-    Din : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    Din : in STD_LOGIC_VECTOR ( 8 downto 0 );
     Dout : out STD_LOGIC_VECTOR ( 0 to 0 )
   );
   end component assembly_xlslice_3_2;
@@ -159,12 +147,6 @@ architecture STRUCTURE of assembly is
     cnt : out STD_LOGIC_VECTOR ( 8 downto 0 )
   );
   end component assembly_encoder_tilt_0;
-  component assembly_xlslice_0_4 is
-  port (
-    Din : in STD_LOGIC_VECTOR ( 8 downto 0 );
-    Dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
-  );
-  end component assembly_xlslice_0_4;
   component assembly_xlslice_1_0 is
   port (
     Din : in STD_LOGIC_VECTOR ( 15 downto 0 );
@@ -205,18 +187,15 @@ architecture STRUCTURE of assembly is
   signal tilt_a_1 : STD_LOGIC;
   signal tilt_b_1 : STD_LOGIC;
   signal xlconcat_spi_test_dout : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal xlslice_0_Dout : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal xlslice_0_Dout : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal xlslice_1_Dout : STD_LOGIC_VECTOR ( 1 downto 0 );
-  signal xlslice_2_Dout : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal xlslice_2_Dout : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal xlslice_3_Dout : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal xlslice_4_Dout : STD_LOGIC_VECTOR ( 6 downto 0 );
-  signal xlslice_5_Dout : STD_LOGIC_VECTOR ( 6 downto 0 );
+  signal xlslice_4_Dout : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal xlslice_5_Dout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal xlslice_6_Dout : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal NLW_data_controller_0_pan_out_UNCONNECTED : STD_LOGIC_VECTOR ( 8 downto 0 );
-  signal NLW_data_controller_0_tilt_out_UNCONNECTED : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal NLW_spi_0_state_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal NLW_xlconcat_0_dout_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal NLW_xlslice_0_Dout_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   attribute X_INTERFACE_INFO : string;
   attribute X_INTERFACE_INFO of clk : signal is "xilinx.com:signal:clock:1.0 CLK.CLK CLK";
   attribute X_INTERFACE_PARAMETER : string;
@@ -249,12 +228,12 @@ data_controller_0: component assembly_data_controller_0_0
      port map (
       clk => clock_divider_0_clk_div,
       pan_in(8 downto 0) => encoder_pan_cnt(8 downto 0),
-      pan_out(8 downto 0) => NLW_data_controller_0_pan_out_UNCONNECTED(8 downto 0),
+      pan_out(8 downto 0) => xlslice_0_Dout(8 downto 0),
       rst => i_0_1,
       spi_rx(15 downto 0) => spi_0_data_out(15 downto 0),
       spi_tx(15 downto 0) => data_controller_0_spi_tx(15 downto 0),
       tilt_in(8 downto 0) => encoder_tilt_cnt(8 downto 0),
-      tilt_out(8 downto 0) => NLW_data_controller_0_tilt_out_UNCONNECTED(8 downto 0)
+      tilt_out(8 downto 0) => xlslice_2_Dout(8 downto 0)
     );
 encoder_pan: component assembly_encoder_tilt_0
      port map (
@@ -287,13 +266,13 @@ not_gate_2: component assembly_not_gate_1_1
 pwm_pan: component assembly_pwm_0_0
      port map (
       clk => clock_divider_0_clk_div,
-      duty_cycle(6 downto 0) => xlslice_4_Dout(6 downto 0),
+      duty_cycle(7 downto 0) => xlslice_4_Dout(7 downto 0),
       o => pwm_0_o
     );
 pwm_tilt: component assembly_pwm_pan_0
      port map (
       clk => clock_divider_0_clk_div,
-      duty_cycle(6 downto 0) => xlslice_5_Dout(6 downto 0),
+      duty_cycle(7 downto 0) => xlslice_5_Dout(7 downto 0),
       o => pwm_tilt_o
     );
 spi_0: component assembly_spi_0_0
@@ -321,14 +300,9 @@ xlconcat_spi_test: component assembly_xlconcat_0_3
       In2(0) => sdi_0_1,
       In3(0) => spi_0_sdo,
       In4(1 downto 0) => xlslice_1_Dout(1 downto 0),
-      In5(0) => '0',
-      In6(0) => '0',
+      In5(0) => pwm_0_o,
+      In6(0) => pwm_tilt_o,
       dout(7 downto 0) => xlconcat_spi_test_dout(7 downto 0)
-    );
-xlslice_0: component assembly_xlslice_0_4
-     port map (
-      Din(8 downto 0) => encoder_tilt_cnt(8 downto 0),
-      Dout(7 downto 0) => NLW_xlslice_0_Dout_UNCONNECTED(7 downto 0)
     );
 xlslice_1: component assembly_xlslice_1_0
      port map (
@@ -337,32 +311,22 @@ xlslice_1: component assembly_xlslice_1_0
     );
 xlslice_3: component assembly_xlslice_3_0
      port map (
-      Din(7 downto 0) => xlslice_0_Dout(7 downto 0),
+      Din(8 downto 0) => xlslice_0_Dout(8 downto 0),
       Dout(0) => xlslice_3_Dout(0)
     );
 xlslice_4: component assembly_xlslice_3_1
      port map (
-      Din(7 downto 0) => xlslice_0_Dout(7 downto 0),
-      Dout(6 downto 0) => xlslice_4_Dout(6 downto 0)
+      Din(8 downto 0) => xlslice_0_Dout(8 downto 0),
+      Dout(7 downto 0) => xlslice_4_Dout(7 downto 0)
     );
 xlslice_5: component assembly_xlslice_4_0
      port map (
-      Din(7 downto 0) => xlslice_2_Dout(7 downto 0),
-      Dout(6 downto 0) => xlslice_5_Dout(6 downto 0)
+      Din(8 downto 0) => xlslice_2_Dout(8 downto 0),
+      Dout(7 downto 0) => xlslice_5_Dout(7 downto 0)
     );
 xlslice_6: component assembly_xlslice_3_2
      port map (
-      Din(7 downto 0) => xlslice_2_Dout(7 downto 0),
+      Din(8 downto 0) => xlslice_2_Dout(8 downto 0),
       Dout(0) => xlslice_6_Dout(0)
-    );
-xlslice_pan: component assembly_xlslice_0_2
-     port map (
-      Din(15 downto 0) => B"0000000000000000",
-      Dout(7 downto 0) => xlslice_0_Dout(7 downto 0)
-    );
-xlslice_tilt: component assembly_xlslice_0_3
-     port map (
-      Din(15 downto 0) => B"0000000000000000",
-      Dout(7 downto 0) => xlslice_2_Dout(7 downto 0)
     );
 end STRUCTURE;

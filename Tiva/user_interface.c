@@ -91,6 +91,7 @@ UI_MENUS ui_debug_menu()
     {
         // Obtain data
         xQueueReceive(pid_debug_queue, &pid_debug, portMAX_DELAY);
+
         printf("%-11i | %-12i | %-11i | %i\n\r", pid_debug.raw_pos[PID_PAN],
                         pid_debug.raw_pos[PID_TILT], pid_debug.raw_pwm[PID_PAN],
                         pid_debug.raw_pwm[PID_TILT]);
