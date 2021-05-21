@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Fri May 21 22:39:51 2021
+-- Date        : Sat May 22 00:18:09 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_pwm_pan_0/assembly_pwm_pan_0_sim_netlist.vhdl
@@ -29,11 +29,11 @@ architecture STRUCTURE of assembly_pwm_pan_0_pwm is
   signal cnt_reg : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal duty_cycle_t : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal duty_cycle_t1 : STD_LOGIC;
+  signal \duty_cycle_t[7]_i_1_n_0\ : STD_LOGIC;
   signal \duty_cycle_t[7]_i_2_n_0\ : STD_LOGIC;
   signal \^o\ : STD_LOGIC;
   signal o_i_1_n_0 : STD_LOGIC;
-  signal o_i_3_n_0 : STD_LOGIC;
-  signal o_i_4_n_0 : STD_LOGIC;
+  signal o_i_2_n_0 : STD_LOGIC;
   signal o_i_5_n_0 : STD_LOGIC;
   signal o_i_6_n_0 : STD_LOGIC;
   signal o_i_7_n_0 : STD_LOGIC;
@@ -47,7 +47,7 @@ architecture STRUCTURE of assembly_pwm_pan_0_pwm is
   attribute SOFT_HLUTNM of \cnt[4]_i_1\ : label is "soft_lutpair0";
   attribute SOFT_HLUTNM of \cnt[7]_i_1\ : label is "soft_lutpair2";
   attribute SOFT_HLUTNM of \duty_cycle_t[7]_i_2\ : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of o_i_2 : label is "soft_lutpair1";
+  attribute SOFT_HLUTNM of o_i_3 : label is "soft_lutpair1";
 begin
   o <= \^o\;
 \cnt[0]_i_1\: unisim.vcomponents.LUT1
@@ -243,7 +243,7 @@ begin
       I2 => cnt_reg(0),
       I3 => cnt_reg(3),
       I4 => cnt_reg(2),
-      O => p_0_in
+      O => \duty_cycle_t[7]_i_1_n_0\
     );
 \duty_cycle_t[7]_i_2\: unisim.vcomponents.LUT4
     generic map(
@@ -262,7 +262,7 @@ begin
     )
         port map (
       C => clk,
-      CE => p_0_in,
+      CE => \duty_cycle_t[7]_i_1_n_0\,
       D => duty_cycle(0),
       Q => duty_cycle_t(0),
       R => '0'
@@ -273,7 +273,7 @@ begin
     )
         port map (
       C => clk,
-      CE => p_0_in,
+      CE => \duty_cycle_t[7]_i_1_n_0\,
       D => duty_cycle(1),
       Q => duty_cycle_t(1),
       R => '0'
@@ -284,7 +284,7 @@ begin
     )
         port map (
       C => clk,
-      CE => p_0_in,
+      CE => \duty_cycle_t[7]_i_1_n_0\,
       D => duty_cycle(2),
       Q => duty_cycle_t(2),
       R => '0'
@@ -295,7 +295,7 @@ begin
     )
         port map (
       C => clk,
-      CE => p_0_in,
+      CE => \duty_cycle_t[7]_i_1_n_0\,
       D => duty_cycle(3),
       Q => duty_cycle_t(3),
       R => '0'
@@ -306,7 +306,7 @@ begin
     )
         port map (
       C => clk,
-      CE => p_0_in,
+      CE => \duty_cycle_t[7]_i_1_n_0\,
       D => duty_cycle(4),
       Q => duty_cycle_t(4),
       R => '0'
@@ -317,7 +317,7 @@ begin
     )
         port map (
       C => clk,
-      CE => p_0_in,
+      CE => \duty_cycle_t[7]_i_1_n_0\,
       D => duty_cycle(5),
       Q => duty_cycle_t(5),
       R => '0'
@@ -328,7 +328,7 @@ begin
     )
         port map (
       C => clk,
-      CE => p_0_in,
+      CE => \duty_cycle_t[7]_i_1_n_0\,
       D => duty_cycle(6),
       Q => duty_cycle_t(6),
       R => '0'
@@ -339,23 +339,35 @@ begin
     )
         port map (
       C => clk,
-      CE => p_0_in,
+      CE => \duty_cycle_t[7]_i_1_n_0\,
       D => duty_cycle(7),
       Q => duty_cycle_t(7),
       R => '0'
     );
 o_i_1: unisim.vcomponents.LUT4
     generic map(
-      INIT => X"F888"
+      INIT => X"00AE"
     )
         port map (
       I0 => \^o\,
-      I1 => duty_cycle_t1,
-      I2 => o_i_3_n_0,
-      I3 => o_i_4_n_0,
+      I1 => o_i_2_n_0,
+      I2 => duty_cycle_t1,
+      I3 => p_0_in,
       O => o_i_1_n_0
     );
 o_i_2: unisim.vcomponents.LUT5
+    generic map(
+      INIT => X"FFFFFFFE"
+    )
+        port map (
+      I0 => duty_cycle(2),
+      I1 => duty_cycle(3),
+      I2 => duty_cycle(0),
+      I3 => duty_cycle(1),
+      I4 => o_i_5_n_0,
+      O => o_i_2_n_0
+    );
+o_i_3: unisim.vcomponents.LUT5
     generic map(
       INIT => X"FFFFFFFE"
     )
@@ -366,18 +378,6 @@ o_i_2: unisim.vcomponents.LUT5
       I3 => cnt_reg(1),
       I4 => \duty_cycle_t[7]_i_2_n_0\,
       O => duty_cycle_t1
-    );
-o_i_3: unisim.vcomponents.LUT5
-    generic map(
-      INIT => X"FFFFFFFE"
-    )
-        port map (
-      I0 => duty_cycle(2),
-      I1 => duty_cycle(3),
-      I2 => duty_cycle(0),
-      I3 => duty_cycle(1),
-      I4 => o_i_5_n_0,
-      O => o_i_3_n_0
     );
 o_i_4: unisim.vcomponents.LUT6
     generic map(
@@ -390,7 +390,7 @@ o_i_4: unisim.vcomponents.LUT6
       I3 => cnt_reg(6),
       I4 => o_i_6_n_0,
       I5 => o_i_7_n_0,
-      O => o_i_4_n_0
+      O => p_0_in
     );
 o_i_5: unisim.vcomponents.LUT4
     generic map(

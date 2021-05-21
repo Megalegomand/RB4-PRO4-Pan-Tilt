@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Sat May 22 00:06:28 2021
+--Date        : Sat May 22 00:16:30 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -63,20 +63,6 @@ architecture STRUCTURE of assembly is
     Dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component assembly_xlslice_3_1;
-  component assembly_pwm_0_0 is
-  port (
-    clk : in STD_LOGIC;
-    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    o : out STD_LOGIC
-  );
-  end component assembly_pwm_0_0;
-  component assembly_pwm_pan_0 is
-  port (
-    clk : in STD_LOGIC;
-    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    o : out STD_LOGIC
-  );
-  end component assembly_pwm_pan_0;
   component assembly_xlslice_4_0 is
   port (
     Din : in STD_LOGIC_VECTOR ( 8 downto 0 );
@@ -165,6 +151,20 @@ architecture STRUCTURE of assembly is
     spi_tx : out STD_LOGIC_VECTOR ( 15 downto 0 )
   );
   end component assembly_data_controller_0_0;
+  component assembly_pwm_0_0 is
+  port (
+    clk : in STD_LOGIC;
+    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    o : out STD_LOGIC
+  );
+  end component assembly_pwm_0_0;
+  component assembly_pwm_pan_0 is
+  port (
+    clk : in STD_LOGIC;
+    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    o : out STD_LOGIC
+  );
+  end component assembly_pwm_pan_0;
   signal clk_1 : STD_LOGIC;
   signal clock_divider_0_clk_div : STD_LOGIC;
   signal data_controller_0_spi_tx : STD_LOGIC_VECTOR ( 15 downto 0 );

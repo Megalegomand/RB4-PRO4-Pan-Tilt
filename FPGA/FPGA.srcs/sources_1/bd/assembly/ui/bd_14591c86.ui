@@ -27,8 +27,6 @@ preplace inst clock_divider_0 -pg 1 -lvl 1 -x 120 -y 410 -defaultsOSRD
 preplace inst xlslice_3 -pg 1 -lvl 4 -x 960 -y 490 -defaultsOSRD
 preplace inst not_gate_1 -pg 1 -lvl 5 -x 1280 -y 450 -defaultsOSRD
 preplace inst xlslice_4 -pg 1 -lvl 4 -x 960 -y 710 -defaultsOSRD
-preplace inst pwm_pan -pg 1 -lvl 5 -x 1280 -y 700 -defaultsOSRD
-preplace inst pwm_tilt -pg 1 -lvl 5 -x 1280 -y 820 -defaultsOSRD
 preplace inst xlslice_5 -pg 1 -lvl 4 -x 960 -y 830 -defaultsOSRD
 preplace inst xlslice_6 -pg 1 -lvl 4 -x 960 -y 590 -defaultsOSRD
 preplace inst not_gate_2 -pg 1 -lvl 5 -x 1280 -y 570 -defaultsOSRD
@@ -39,6 +37,8 @@ preplace inst encoder_tilt -pg 1 -lvl 2 -x 340 -y 650 -defaultsOSRD
 preplace inst encoder_pan -pg 1 -lvl 2 -x 340 -y 490 -defaultsOSRD
 preplace inst xlslice_1 -pg 1 -lvl 4 -x 960 -y 310 -defaultsOSRD
 preplace inst data_controller_0 -pg 1 -lvl 3 -x 630 -y 240 -defaultsOSRD
+preplace inst pwm_pan -pg 1 -lvl 5 -x 1280 -y 700 -defaultsOSRD
+preplace inst pwm_tilt -pg 1 -lvl 5 -x 1280 -y 820 -defaultsOSRD
 preplace netloc ss_0_1 1 0 5 NJ 140 NJ 140 NJ 140 790 250 1110
 preplace netloc sclk_0_1 1 0 5 NJ 120 NJ 120 NJ 120 810 20 1140
 preplace netloc sdi_0_1 1 0 5 NJ 340 NJ 340 NJ 340 800 370 1140J

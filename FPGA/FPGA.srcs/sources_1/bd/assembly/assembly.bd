@@ -15,8 +15,6 @@
       "xlslice_3": "",
       "not_gate_1": "",
       "xlslice_4": "",
-      "pwm_pan": "",
-      "pwm_tilt": "",
       "xlslice_5": "",
       "xlslice_6": "",
       "not_gate_2": "",
@@ -26,7 +24,9 @@
       "encoder_tilt": "",
       "encoder_pan": "",
       "xlslice_1": "",
-      "data_controller_0": ""
+      "data_controller_0": "",
+      "pwm_pan": "",
+      "pwm_tilt": ""
     },
     "ports": {
       "clk": {
@@ -216,72 +216,6 @@
           },
           "DOUT_WIDTH": {
             "value": "8"
-          }
-        }
-      },
-      "pwm_pan": {
-        "vlnv": "xilinx.com:module_ref:pwm:1.0",
-        "xci_name": "assembly_pwm_0_0",
-        "xci_path": "ip/assembly_pwm_0_0/assembly_pwm_0_0.xci",
-        "inst_hier_path": "pwm_pan",
-        "parameters": {
-          "n_bits": {
-            "value": "8"
-          }
-        },
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "pwm",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I"
-          },
-          "duty_cycle": {
-            "direction": "I",
-            "left": "7",
-            "right": "0",
-            "parameters": {
-              "PortWidth": {
-                "value": "4",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "o": {
-            "direction": "O"
-          }
-        }
-      },
-      "pwm_tilt": {
-        "vlnv": "xilinx.com:module_ref:pwm:1.0",
-        "xci_name": "assembly_pwm_pan_0",
-        "xci_path": "ip/assembly_pwm_pan_0/assembly_pwm_pan_0.xci",
-        "inst_hier_path": "pwm_tilt",
-        "parameters": {
-          "n_bits": {
-            "value": "8"
-          }
-        },
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "pwm",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I"
-          },
-          "duty_cycle": {
-            "direction": "I",
-            "left": "7",
-            "right": "0"
-          },
-          "o": {
-            "direction": "O"
           }
         }
       },
@@ -624,6 +558,72 @@
             }
           }
         }
+      },
+      "pwm_pan": {
+        "vlnv": "xilinx.com:module_ref:pwm:1.0",
+        "xci_name": "assembly_pwm_0_0",
+        "xci_path": "ip/assembly_pwm_0_0/assembly_pwm_0_0.xci",
+        "inst_hier_path": "pwm_pan",
+        "parameters": {
+          "n_bits": {
+            "value": "8"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "pwm",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "duty_cycle": {
+            "direction": "I",
+            "left": "7",
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "4",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "o": {
+            "direction": "O"
+          }
+        }
+      },
+      "pwm_tilt": {
+        "vlnv": "xilinx.com:module_ref:pwm:1.0",
+        "xci_name": "assembly_pwm_pan_0",
+        "xci_path": "ip/assembly_pwm_pan_0/assembly_pwm_pan_0.xci",
+        "inst_hier_path": "pwm_tilt",
+        "parameters": {
+          "n_bits": {
+            "value": "8"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "pwm",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "duty_cycle": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "o": {
+            "direction": "O"
+          }
+        }
       }
     },
     "nets": {
@@ -651,12 +651,12 @@
       "clock_divider_0_clk_div": {
         "ports": [
           "clock_divider_0/clk_div",
-          "pwm_pan/clk",
-          "pwm_tilt/clk",
           "spi_0/clk",
           "encoder_tilt/clk",
           "encoder_pan/clk",
-          "data_controller_0/clk"
+          "data_controller_0/clk",
+          "pwm_pan/clk",
+          "pwm_tilt/clk"
         ]
       },
       "clk_1": {

@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Fri May 21 22:39:51 2021
+// Date        : Sat May 22 00:18:09 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_pwm_0_0/assembly_pwm_0_0_sim_netlist.v
@@ -48,11 +48,11 @@ module assembly_pwm_0_0_pwm
   wire [7:0]duty_cycle;
   wire [7:0]duty_cycle_t;
   wire duty_cycle_t1;
+  wire \duty_cycle_t[7]_i_1_n_0 ;
   wire \duty_cycle_t[7]_i_2_n_0 ;
   wire o;
   wire o_i_1_n_0;
-  wire o_i_3_n_0;
-  wire o_i_4_n_0;
+  wire o_i_2_n_0;
   wire o_i_5_n_0;
   wire o_i_6_n_0;
   wire o_i_7_n_0;
@@ -205,7 +205,7 @@ module assembly_pwm_0_0_pwm
         .I2(cnt_reg[0]),
         .I3(cnt_reg[3]),
         .I4(cnt_reg[2]),
-        .O(p_0_in));
+        .O(\duty_cycle_t[7]_i_1_n_0 ));
   (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT4 #(
     .INIT(16'hFFFE)) 
@@ -219,7 +219,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[0] 
        (.C(clk),
-        .CE(p_0_in),
+        .CE(\duty_cycle_t[7]_i_1_n_0 ),
         .D(duty_cycle[0]),
         .Q(duty_cycle_t[0]),
         .R(1'b0));
@@ -227,7 +227,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[1] 
        (.C(clk),
-        .CE(p_0_in),
+        .CE(\duty_cycle_t[7]_i_1_n_0 ),
         .D(duty_cycle[1]),
         .Q(duty_cycle_t[1]),
         .R(1'b0));
@@ -235,7 +235,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[2] 
        (.C(clk),
-        .CE(p_0_in),
+        .CE(\duty_cycle_t[7]_i_1_n_0 ),
         .D(duty_cycle[2]),
         .Q(duty_cycle_t[2]),
         .R(1'b0));
@@ -243,7 +243,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[3] 
        (.C(clk),
-        .CE(p_0_in),
+        .CE(\duty_cycle_t[7]_i_1_n_0 ),
         .D(duty_cycle[3]),
         .Q(duty_cycle_t[3]),
         .R(1'b0));
@@ -251,7 +251,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[4] 
        (.C(clk),
-        .CE(p_0_in),
+        .CE(\duty_cycle_t[7]_i_1_n_0 ),
         .D(duty_cycle[4]),
         .Q(duty_cycle_t[4]),
         .R(1'b0));
@@ -259,7 +259,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[5] 
        (.C(clk),
-        .CE(p_0_in),
+        .CE(\duty_cycle_t[7]_i_1_n_0 ),
         .D(duty_cycle[5]),
         .Q(duty_cycle_t[5]),
         .R(1'b0));
@@ -267,7 +267,7 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[6] 
        (.C(clk),
-        .CE(p_0_in),
+        .CE(\duty_cycle_t[7]_i_1_n_0 ),
         .D(duty_cycle[6]),
         .Q(duty_cycle_t[6]),
         .R(1'b0));
@@ -275,37 +275,37 @@ module assembly_pwm_0_0_pwm
     .INIT(1'b0)) 
     \duty_cycle_t_reg[7] 
        (.C(clk),
-        .CE(p_0_in),
+        .CE(\duty_cycle_t[7]_i_1_n_0 ),
         .D(duty_cycle[7]),
         .Q(duty_cycle_t[7]),
         .R(1'b0));
   LUT4 #(
-    .INIT(16'hF888)) 
+    .INIT(16'h00AE)) 
     o_i_1
        (.I0(o),
-        .I1(duty_cycle_t1),
-        .I2(o_i_3_n_0),
-        .I3(o_i_4_n_0),
+        .I1(o_i_2_n_0),
+        .I2(duty_cycle_t1),
+        .I3(p_0_in),
         .O(o_i_1_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT5 #(
     .INIT(32'hFFFFFFFE)) 
     o_i_2
+       (.I0(duty_cycle[2]),
+        .I1(duty_cycle[3]),
+        .I2(duty_cycle[0]),
+        .I3(duty_cycle[1]),
+        .I4(o_i_5_n_0),
+        .O(o_i_2_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair1" *) 
+  LUT5 #(
+    .INIT(32'hFFFFFFFE)) 
+    o_i_3
        (.I0(cnt_reg[2]),
         .I1(cnt_reg[3]),
         .I2(cnt_reg[0]),
         .I3(cnt_reg[1]),
         .I4(\duty_cycle_t[7]_i_2_n_0 ),
         .O(duty_cycle_t1));
-  LUT5 #(
-    .INIT(32'hFFFFFFFE)) 
-    o_i_3
-       (.I0(duty_cycle[2]),
-        .I1(duty_cycle[3]),
-        .I2(duty_cycle[0]),
-        .I3(duty_cycle[1]),
-        .I4(o_i_5_n_0),
-        .O(o_i_3_n_0));
   LUT6 #(
     .INIT(64'h9009000000000000)) 
     o_i_4
@@ -315,7 +315,7 @@ module assembly_pwm_0_0_pwm
         .I3(cnt_reg[6]),
         .I4(o_i_6_n_0),
         .I5(o_i_7_n_0),
-        .O(o_i_4_n_0));
+        .O(p_0_in));
   LUT4 #(
     .INIT(16'hFFFE)) 
     o_i_5
