@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Fri May 21 23:40:10 2021
+-- Date        : Sat May 22 00:07:47 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_data_controller_0_0/assembly_data_controller_0_0_sim_netlist.vhdl
@@ -40,7 +40,10 @@ architecture STRUCTURE of assembly_data_controller_0_0_data_controller is
   signal data_tx : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal data_tx0 : STD_LOGIC;
   signal data_tx_id : STD_LOGIC_VECTOR ( 1 downto 0 );
+  signal p_1_in : STD_LOGIC_VECTOR ( 7 downto 1 );
   signal p_2_out : STD_LOGIC_VECTOR ( 15 downto 7 );
+  signal \pan_out_t[5]_i_2_n_0\ : STD_LOGIC;
+  signal \pan_out_t[7]_i_2_n_0\ : STD_LOGIC;
   signal \pan_out_t[8]_i_1_n_0\ : STD_LOGIC;
   signal \^spi_tx\ : STD_LOGIC_VECTOR ( 14 downto 0 );
   signal \spi_tx[0]_i_1_n_0\ : STD_LOGIC;
@@ -54,8 +57,8 @@ architecture STRUCTURE of assembly_data_controller_0_0_data_controller is
   attribute XILINX_LEGACY_PRIM of \data_rx_id_reg[0]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \data_rx_id_reg[1]\ : label is "LD";
   attribute SOFT_HLUTNM : string;
-  attribute SOFT_HLUTNM of \data_rx_id_reg[1]_i_4\ : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of \data_rx_id_reg[1]_i_5\ : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of \data_rx_id_reg[1]_i_4\ : label is "soft_lutpair3";
+  attribute SOFT_HLUTNM of \data_rx_id_reg[1]_i_5\ : label is "soft_lutpair3";
   attribute XILINX_LEGACY_PRIM of \data_rx_reg[0]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \data_rx_reg[1]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \data_rx_reg[2]\ : label is "LD";
@@ -67,6 +70,12 @@ architecture STRUCTURE of assembly_data_controller_0_0_data_controller is
   attribute XILINX_LEGACY_PRIM of \data_rx_reg[8]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \data_tx_id_reg[0]\ : label is "LD";
   attribute XILINX_LEGACY_PRIM of \data_tx_id_reg[1]\ : label is "LD";
+  attribute SOFT_HLUTNM of \pan_out_t[1]_i_1\ : label is "soft_lutpair5";
+  attribute SOFT_HLUTNM of \pan_out_t[2]_i_1\ : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of \pan_out_t[3]_i_1\ : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of \pan_out_t[5]_i_1\ : label is "soft_lutpair5";
+  attribute SOFT_HLUTNM of \pan_out_t[6]_i_1\ : label is "soft_lutpair4";
+  attribute SOFT_HLUTNM of \pan_out_t[7]_i_1\ : label is "soft_lutpair4";
   attribute SOFT_HLUTNM of \spi_tx[0]_i_1\ : label is "soft_lutpair0";
   attribute SOFT_HLUTNM of \spi_tx[1]_i_1\ : label is "soft_lutpair0";
   attribute SOFT_HLUTNM of \spi_tx[2]_i_2\ : label is "soft_lutpair1";
@@ -284,6 +293,108 @@ begin
       GE => '1',
       Q => data_tx_id(1)
     );
+\pan_out_t[1]_i_1\: unisim.vcomponents.LUT3
+    generic map(
+      INIT => X"6C"
+    )
+        port map (
+      I0 => data_rx(0),
+      I1 => data_rx(1),
+      I2 => data_rx(8),
+      O => p_1_in(1)
+    );
+\pan_out_t[2]_i_1\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"1EF0"
+    )
+        port map (
+      I0 => data_rx(0),
+      I1 => data_rx(1),
+      I2 => data_rx(2),
+      I3 => data_rx(8),
+      O => p_1_in(2)
+    );
+\pan_out_t[3]_i_1\: unisim.vcomponents.LUT5
+    generic map(
+      INIT => X"01FEFF00"
+    )
+        port map (
+      I0 => data_rx(2),
+      I1 => data_rx(1),
+      I2 => data_rx(0),
+      I3 => data_rx(3),
+      I4 => data_rx(8),
+      O => p_1_in(3)
+    );
+\pan_out_t[4]_i_1\: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"0001FFFEFFFF0000"
+    )
+        port map (
+      I0 => data_rx(3),
+      I1 => data_rx(0),
+      I2 => data_rx(1),
+      I3 => data_rx(2),
+      I4 => data_rx(4),
+      I5 => data_rx(8),
+      O => p_1_in(4)
+    );
+\pan_out_t[5]_i_1\: unisim.vcomponents.LUT3
+    generic map(
+      INIT => X"9C"
+    )
+        port map (
+      I0 => \pan_out_t[5]_i_2_n_0\,
+      I1 => data_rx(5),
+      I2 => data_rx(8),
+      O => p_1_in(5)
+    );
+\pan_out_t[5]_i_2\: unisim.vcomponents.LUT5
+    generic map(
+      INIT => X"00000001"
+    )
+        port map (
+      I0 => data_rx(3),
+      I1 => data_rx(0),
+      I2 => data_rx(1),
+      I3 => data_rx(2),
+      I4 => data_rx(4),
+      O => \pan_out_t[5]_i_2_n_0\
+    );
+\pan_out_t[6]_i_1\: unisim.vcomponents.LUT3
+    generic map(
+      INIT => X"9C"
+    )
+        port map (
+      I0 => \pan_out_t[7]_i_2_n_0\,
+      I1 => data_rx(6),
+      I2 => data_rx(8),
+      O => p_1_in(6)
+    );
+\pan_out_t[7]_i_1\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"4BF0"
+    )
+        port map (
+      I0 => data_rx(6),
+      I1 => \pan_out_t[7]_i_2_n_0\,
+      I2 => data_rx(7),
+      I3 => data_rx(8),
+      O => p_1_in(7)
+    );
+\pan_out_t[7]_i_2\: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"0000000000000001"
+    )
+        port map (
+      I0 => data_rx(4),
+      I1 => data_rx(2),
+      I2 => data_rx(1),
+      I3 => data_rx(0),
+      I4 => data_rx(3),
+      I5 => data_rx(5),
+      O => \pan_out_t[7]_i_2_n_0\
+    );
 \pan_out_t[8]_i_1\: unisim.vcomponents.LUT2
     generic map(
       INIT => X"1"
@@ -313,7 +424,7 @@ begin
         port map (
       C => clk,
       CE => \pan_out_t[8]_i_1_n_0\,
-      D => data_rx(1),
+      D => p_1_in(1),
       Q => pan_out(1),
       R => '0'
     );
@@ -325,7 +436,7 @@ begin
         port map (
       C => clk,
       CE => \pan_out_t[8]_i_1_n_0\,
-      D => data_rx(2),
+      D => p_1_in(2),
       Q => pan_out(2),
       R => '0'
     );
@@ -337,7 +448,7 @@ begin
         port map (
       C => clk,
       CE => \pan_out_t[8]_i_1_n_0\,
-      D => data_rx(3),
+      D => p_1_in(3),
       Q => pan_out(3),
       R => '0'
     );
@@ -349,7 +460,7 @@ begin
         port map (
       C => clk,
       CE => \pan_out_t[8]_i_1_n_0\,
-      D => data_rx(4),
+      D => p_1_in(4),
       Q => pan_out(4),
       R => '0'
     );
@@ -361,7 +472,7 @@ begin
         port map (
       C => clk,
       CE => \pan_out_t[8]_i_1_n_0\,
-      D => data_rx(5),
+      D => p_1_in(5),
       Q => pan_out(5),
       R => '0'
     );
@@ -373,7 +484,7 @@ begin
         port map (
       C => clk,
       CE => \pan_out_t[8]_i_1_n_0\,
-      D => data_rx(6),
+      D => p_1_in(6),
       Q => pan_out(6),
       R => '0'
     );
@@ -385,7 +496,7 @@ begin
         port map (
       C => clk,
       CE => \pan_out_t[8]_i_1_n_0\,
-      D => data_rx(7),
+      D => p_1_in(7),
       Q => pan_out(7),
       R => '0'
     );
@@ -898,7 +1009,7 @@ begin
         port map (
       C => clk,
       CE => \tilt_out_t[8]_i_1_n_0\,
-      D => data_rx(1),
+      D => p_1_in(1),
       Q => tilt_out(1),
       R => '0'
     );
@@ -910,7 +1021,7 @@ begin
         port map (
       C => clk,
       CE => \tilt_out_t[8]_i_1_n_0\,
-      D => data_rx(2),
+      D => p_1_in(2),
       Q => tilt_out(2),
       R => '0'
     );
@@ -922,7 +1033,7 @@ begin
         port map (
       C => clk,
       CE => \tilt_out_t[8]_i_1_n_0\,
-      D => data_rx(3),
+      D => p_1_in(3),
       Q => tilt_out(3),
       R => '0'
     );
@@ -934,7 +1045,7 @@ begin
         port map (
       C => clk,
       CE => \tilt_out_t[8]_i_1_n_0\,
-      D => data_rx(4),
+      D => p_1_in(4),
       Q => tilt_out(4),
       R => '0'
     );
@@ -946,7 +1057,7 @@ begin
         port map (
       C => clk,
       CE => \tilt_out_t[8]_i_1_n_0\,
-      D => data_rx(5),
+      D => p_1_in(5),
       Q => tilt_out(5),
       R => '0'
     );
@@ -958,7 +1069,7 @@ begin
         port map (
       C => clk,
       CE => \tilt_out_t[8]_i_1_n_0\,
-      D => data_rx(6),
+      D => p_1_in(6),
       Q => tilt_out(6),
       R => '0'
     );
@@ -970,7 +1081,7 @@ begin
         port map (
       C => clk,
       CE => \tilt_out_t[8]_i_1_n_0\,
-      D => data_rx(7),
+      D => p_1_in(7),
       Q => tilt_out(7),
       R => '0'
     );

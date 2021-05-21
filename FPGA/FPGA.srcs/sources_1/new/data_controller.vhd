@@ -118,17 +118,17 @@ BEGIN
     tilt_out <= tilt_out_t;
 
     out_process : PROCESS (clk)
+        VARIABLE abs_conv : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
     BEGIN
         IF (falling_edge(clk)) THEN -- To not intefere with PWM reading on rising
+            abs_conv := STD_LOGIC_VECTOR(ABS(signed(data_rx)));
             CASE data_rx_id IS
                 WHEN "00" =>
-                    pan_out_t(data_width - 2 DOWNTO 0) <= abs(signed(data_rx));
-                    pan_out_t(data_width - 1) <= data_rx(data_width - 1);
+                    pan_out_t <= data_rx(data_width - 1) & abs_conv(data_width - 2 DOWNTO 0);
                     tilt_out_t <= tilt_out_t;
                 WHEN "11" =>
                     pan_out_t <= pan_out_t;
-                    tilt_out_t(data_width - 2 DOWNTO 0) <= abs(signed(data_rx));
-                    tilt_out_t(data_width - 1) <= data_rx(data_width - 1);
+                    tilt_out_t <= data_rx(data_width - 1) & abs_conv(data_width - 2 DOWNTO 0);
                 WHEN OTHERS =>
                     NULL;
             END CASE;

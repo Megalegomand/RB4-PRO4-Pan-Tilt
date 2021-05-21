@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Fri May 21 23:40:10 2021
+// Date        : Sat May 22 00:07:47 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_data_controller_0_0/assembly_data_controller_0_0_sim_netlist.v
@@ -86,9 +86,12 @@ module assembly_data_controller_0_0_data_controller
   wire [8:0]data_tx;
   wire data_tx0;
   wire [1:0]data_tx_id;
+  wire [7:1]p_1_in;
   wire [15:7]p_2_out;
   wire [8:0]pan_in;
   wire [8:0]pan_out;
+  wire \pan_out_t[5]_i_2_n_0 ;
+  wire \pan_out_t[7]_i_2_n_0 ;
   wire \pan_out_t[8]_i_1_n_0 ;
   wire [15:0]spi_rx;
   wire [14:0]spi_tx;
@@ -148,7 +151,7 @@ module assembly_data_controller_0_0_data_controller
         .I3(spi_rx[14]),
         .I4(spi_rx[2]),
         .O(\data_rx_id_reg[1]_i_3_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
   LUT4 #(
     .INIT(16'h9009)) 
     \data_rx_id_reg[1]_i_4 
@@ -157,7 +160,7 @@ module assembly_data_controller_0_0_data_controller
         .I2(spi_rx[3]),
         .I3(spi_rx[4]),
         .O(\data_rx_id_reg[1]_i_4_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
   LUT2 #(
     .INIT(4'h9)) 
     \data_rx_id_reg[1]_i_5 
@@ -271,6 +274,87 @@ module assembly_data_controller_0_0_data_controller
         .G(data_rx__0),
         .GE(1'b1),
         .Q(data_tx_id[1]));
+  (* SOFT_HLUTNM = "soft_lutpair5" *) 
+  LUT3 #(
+    .INIT(8'h6C)) 
+    \pan_out_t[1]_i_1 
+       (.I0(data_rx[0]),
+        .I1(data_rx[1]),
+        .I2(data_rx[8]),
+        .O(p_1_in[1]));
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  LUT4 #(
+    .INIT(16'h1EF0)) 
+    \pan_out_t[2]_i_1 
+       (.I0(data_rx[0]),
+        .I1(data_rx[1]),
+        .I2(data_rx[2]),
+        .I3(data_rx[8]),
+        .O(p_1_in[2]));
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  LUT5 #(
+    .INIT(32'h01FEFF00)) 
+    \pan_out_t[3]_i_1 
+       (.I0(data_rx[2]),
+        .I1(data_rx[1]),
+        .I2(data_rx[0]),
+        .I3(data_rx[3]),
+        .I4(data_rx[8]),
+        .O(p_1_in[3]));
+  LUT6 #(
+    .INIT(64'h0001FFFEFFFF0000)) 
+    \pan_out_t[4]_i_1 
+       (.I0(data_rx[3]),
+        .I1(data_rx[0]),
+        .I2(data_rx[1]),
+        .I3(data_rx[2]),
+        .I4(data_rx[4]),
+        .I5(data_rx[8]),
+        .O(p_1_in[4]));
+  (* SOFT_HLUTNM = "soft_lutpair5" *) 
+  LUT3 #(
+    .INIT(8'h9C)) 
+    \pan_out_t[5]_i_1 
+       (.I0(\pan_out_t[5]_i_2_n_0 ),
+        .I1(data_rx[5]),
+        .I2(data_rx[8]),
+        .O(p_1_in[5]));
+  LUT5 #(
+    .INIT(32'h00000001)) 
+    \pan_out_t[5]_i_2 
+       (.I0(data_rx[3]),
+        .I1(data_rx[0]),
+        .I2(data_rx[1]),
+        .I3(data_rx[2]),
+        .I4(data_rx[4]),
+        .O(\pan_out_t[5]_i_2_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair4" *) 
+  LUT3 #(
+    .INIT(8'h9C)) 
+    \pan_out_t[6]_i_1 
+       (.I0(\pan_out_t[7]_i_2_n_0 ),
+        .I1(data_rx[6]),
+        .I2(data_rx[8]),
+        .O(p_1_in[6]));
+  (* SOFT_HLUTNM = "soft_lutpair4" *) 
+  LUT4 #(
+    .INIT(16'h4BF0)) 
+    \pan_out_t[7]_i_1 
+       (.I0(data_rx[6]),
+        .I1(\pan_out_t[7]_i_2_n_0 ),
+        .I2(data_rx[7]),
+        .I3(data_rx[8]),
+        .O(p_1_in[7]));
+  LUT6 #(
+    .INIT(64'h0000000000000001)) 
+    \pan_out_t[7]_i_2 
+       (.I0(data_rx[4]),
+        .I1(data_rx[2]),
+        .I2(data_rx[1]),
+        .I3(data_rx[0]),
+        .I4(data_rx[3]),
+        .I5(data_rx[5]),
+        .O(\pan_out_t[7]_i_2_n_0 ));
   LUT2 #(
     .INIT(4'h1)) 
     \pan_out_t[8]_i_1 
@@ -292,7 +376,7 @@ module assembly_data_controller_0_0_data_controller
     \pan_out_t_reg[1] 
        (.C(clk),
         .CE(\pan_out_t[8]_i_1_n_0 ),
-        .D(data_rx[1]),
+        .D(p_1_in[1]),
         .Q(pan_out[1]),
         .R(1'b0));
   FDRE #(
@@ -301,7 +385,7 @@ module assembly_data_controller_0_0_data_controller
     \pan_out_t_reg[2] 
        (.C(clk),
         .CE(\pan_out_t[8]_i_1_n_0 ),
-        .D(data_rx[2]),
+        .D(p_1_in[2]),
         .Q(pan_out[2]),
         .R(1'b0));
   FDRE #(
@@ -310,7 +394,7 @@ module assembly_data_controller_0_0_data_controller
     \pan_out_t_reg[3] 
        (.C(clk),
         .CE(\pan_out_t[8]_i_1_n_0 ),
-        .D(data_rx[3]),
+        .D(p_1_in[3]),
         .Q(pan_out[3]),
         .R(1'b0));
   FDRE #(
@@ -319,7 +403,7 @@ module assembly_data_controller_0_0_data_controller
     \pan_out_t_reg[4] 
        (.C(clk),
         .CE(\pan_out_t[8]_i_1_n_0 ),
-        .D(data_rx[4]),
+        .D(p_1_in[4]),
         .Q(pan_out[4]),
         .R(1'b0));
   FDRE #(
@@ -328,7 +412,7 @@ module assembly_data_controller_0_0_data_controller
     \pan_out_t_reg[5] 
        (.C(clk),
         .CE(\pan_out_t[8]_i_1_n_0 ),
-        .D(data_rx[5]),
+        .D(p_1_in[5]),
         .Q(pan_out[5]),
         .R(1'b0));
   FDRE #(
@@ -337,7 +421,7 @@ module assembly_data_controller_0_0_data_controller
     \pan_out_t_reg[6] 
        (.C(clk),
         .CE(\pan_out_t[8]_i_1_n_0 ),
-        .D(data_rx[6]),
+        .D(p_1_in[6]),
         .Q(pan_out[6]),
         .R(1'b0));
   FDRE #(
@@ -346,7 +430,7 @@ module assembly_data_controller_0_0_data_controller
     \pan_out_t_reg[7] 
        (.C(clk),
         .CE(\pan_out_t[8]_i_1_n_0 ),
-        .D(data_rx[7]),
+        .D(p_1_in[7]),
         .Q(pan_out[7]),
         .R(1'b0));
   FDRE #(
@@ -731,7 +815,7 @@ module assembly_data_controller_0_0_data_controller
     \tilt_out_t_reg[1] 
        (.C(clk),
         .CE(\tilt_out_t[8]_i_1_n_0 ),
-        .D(data_rx[1]),
+        .D(p_1_in[1]),
         .Q(tilt_out[1]),
         .R(1'b0));
   FDRE #(
@@ -740,7 +824,7 @@ module assembly_data_controller_0_0_data_controller
     \tilt_out_t_reg[2] 
        (.C(clk),
         .CE(\tilt_out_t[8]_i_1_n_0 ),
-        .D(data_rx[2]),
+        .D(p_1_in[2]),
         .Q(tilt_out[2]),
         .R(1'b0));
   FDRE #(
@@ -749,7 +833,7 @@ module assembly_data_controller_0_0_data_controller
     \tilt_out_t_reg[3] 
        (.C(clk),
         .CE(\tilt_out_t[8]_i_1_n_0 ),
-        .D(data_rx[3]),
+        .D(p_1_in[3]),
         .Q(tilt_out[3]),
         .R(1'b0));
   FDRE #(
@@ -758,7 +842,7 @@ module assembly_data_controller_0_0_data_controller
     \tilt_out_t_reg[4] 
        (.C(clk),
         .CE(\tilt_out_t[8]_i_1_n_0 ),
-        .D(data_rx[4]),
+        .D(p_1_in[4]),
         .Q(tilt_out[4]),
         .R(1'b0));
   FDRE #(
@@ -767,7 +851,7 @@ module assembly_data_controller_0_0_data_controller
     \tilt_out_t_reg[5] 
        (.C(clk),
         .CE(\tilt_out_t[8]_i_1_n_0 ),
-        .D(data_rx[5]),
+        .D(p_1_in[5]),
         .Q(tilt_out[5]),
         .R(1'b0));
   FDRE #(
@@ -776,7 +860,7 @@ module assembly_data_controller_0_0_data_controller
     \tilt_out_t_reg[6] 
        (.C(clk),
         .CE(\tilt_out_t[8]_i_1_n_0 ),
-        .D(data_rx[6]),
+        .D(p_1_in[6]),
         .Q(tilt_out[6]),
         .R(1'b0));
   FDRE #(
@@ -785,7 +869,7 @@ module assembly_data_controller_0_0_data_controller
     \tilt_out_t_reg[7] 
        (.C(clk),
         .CE(\tilt_out_t[8]_i_1_n_0 ),
-        .D(data_rx[7]),
+        .D(p_1_in[7]),
         .Q(tilt_out[7]),
         .R(1'b0));
   FDRE #(
