@@ -117,22 +117,22 @@ UI_MENUS ui_debug_menu()
 UI_MENUS ui_waypoint_menu(char* buf)
 {
     ui_clear_screen();
-    uprintf(buf, "------------------------\n\r");
-    uprintf(buf, "Waypoint menu\n\r");
-    uprintf(buf, "1.Waypoint list \n\r");
-    uprintf(buf, "2.Add waypoint: \n\r");
-    uprintf(buf, "------------------------\n\r");
+    printf("------------------------\n\r");
+    printf("Waypoint menu\n\r");
+    printf("1.Waypoint list \n\r");
+    printf("2.Add waypoint: \n\r");
+    printf("------------------------\n\r");
 
     char msg;
     while (1)
     {
-        xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
+        //xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
         switch (msg)
         {
         case '1':
             return DEBUG;
         default:
-            uprintf(buf, "%c\n\rIncorrect input\n\r", msg);
+            printf("%c\n\rIncorrect input\n\r", msg);
             break;
         }
     }
