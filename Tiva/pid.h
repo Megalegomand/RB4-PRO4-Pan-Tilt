@@ -1,4 +1,6 @@
 /***************** Header *********************/
+#ifndef CONTROLSYSTEM_H_
+#define CONTROLSYSTEM_H_
 /***************** Include files **************/
 #include "tm4c123gh6pm.h"
 #include <stdint.h>
@@ -7,9 +9,8 @@
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
+#include "spi.h"
 /***************** Defines ********************/
-#ifndef CONTROLSYSTEM_H_
-#define CONTROLSYSTEM_H_
 
 typedef struct
 {
@@ -38,7 +39,7 @@ typedef struct
 #define PID_PAN             0
 #define PID_TILT            1
 
-#define PID_SAMPLE_TIME     0.1f
+#define PID_SAMPLE_TIME_MS  100
 #define PID_LIM_MIN         -12.0f
 #define PID_LIM_MAX         12.0f
 

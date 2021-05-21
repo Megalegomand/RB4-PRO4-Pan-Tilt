@@ -43,7 +43,7 @@ void spi_init(); // Initialize shared clock
 void spi_write_task(void * pvParameters);
 void spi_read_isr();
 
-INT16S spi_transmission(INT16S data, INT8U data_rx_id, INT8U data_tx_id, INT8U next_id);
+INT16S spi_transmission(INT8U data_rx_id, INT16S data, INT8U data_tx_id, INT8U next_id);
 INT8U redundant_bits(INT16U transmission);
 
 /********************************************** 

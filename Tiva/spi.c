@@ -97,25 +97,13 @@ void spi_write(INT16U data)
 
 void spi_write_task(void * pvParameters)
 {
-    // Periodic tasks definitions
-//    const TickType_t xPeriod = pdMS_TO_TICKS(PID_SAMPLE_TIME * 1000.0f);
-//    TickType_t xLastWakeTime = xTaskGetTickCount();
-//    TickType_t xLastWakeTime_prev;
 
     while (1)
     {
-
         // Write
-//        taskENTER_CRITICAL(); // Has to happen at exactly the same time
         INT16U msg;
-//        xLastWakeTime_prev = xLastWakeTime; // To counteract queue effect
         xQueueReceive(spi_tx_queue, &msg, portMAX_DELAY);
-//        xLastWakeTime = xLastWakeTime_prev;
         spi_write(msg);
-//        taskEXIT_CRITICAL();
-//
-//        // Wait
-//        vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }
 
@@ -132,7 +120,7 @@ void spi_read_isr()
     }
 }
 
-INT16S spi_transmission(INT16S tx_data, INT8U data_rx_id, INT8U data_tx_id,
+INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id,
                         INT8U next_id)
 {
     INT16U transmit;

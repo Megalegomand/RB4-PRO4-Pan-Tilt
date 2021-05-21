@@ -48,7 +48,7 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N)
     pid_controllers[pid].N = N;
 
     // Sample time
-    pid_controllers[pid].T = PID_SAMPLE_TIME;
+    pid_controllers[pid].T = PID_SAMPLE_TIME_MS / 1000.0f;
 
     // Limits
     pid_controllers[pid].lim_min = PID_LIM_MIN;
@@ -139,39 +139,54 @@ float pid_update(INT8U pid, FP32 position)
 
 void pid_task(void * pvParameters)
 {
+    // Periodic tasks definitions
+    const TickType_t xPeriod = pdMS_TO_TICKS(PID_SAMPLE_TIME_MS / 2);
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    TickType_t xLastWakeTime_prev;
+
     INT16U msg;
 
     PID_DEBUG pid_debug;
 
+    INT16S raw_pwm_pan = 0;
+    INT16S raw_pwm_tilt = 0;
+
+    INT16U raw_pos_pan = 0;
+    INT16U raw_pos_tilt = 0;
+
+    INT8U pantilt = PID_PAN; //
+
     while (1)
     {
-        xQueueReceive(spi_rx_queue, &msg, portMAX_DELAY);
+        xLastWakeTime_prev = xLastWakeTime; // To counteract queue effect
 
-        INT8S raw_pos_pan = msg & (0x00FF);
-        INT8S raw_pos_tilt = msg >> 8;
-
-        FP32 pos_pan = raw_pos_pan * POS_MULTIPLIER;
-        FP32 pos_tilt = raw_pos_tilt * POS_MULTIPLIER;
-
-        FP32 pwm_pan = pid_update(PID_PAN, pos_pan);
-        FP32 pwm_tilt = pid_update(PID_PAN, pos_tilt);
-
-        INT8S raw_pwm_pan = pwm_pan * PWM_MULTIPLIER;
-        INT8S raw_pwm_tilt = pwm_tilt * PWM_MULTIPLIER;
-
-        msg = (raw_pwm_tilt << 8) | raw_pwm_pan;
-
-        configASSERT(xQueueSendToBack(spi_tx_queue, &msg, 0));
+        if (pantilt = PID_PAN)
+        {
+            raw_pos_pan = spi_transmission(SPI_PAN, raw_pwm_tilt, SPI_TILT,
+                                           SPI_PAN);
+            FP32 pos_pan = raw_pos_pan * POS_MULTIPLIER;
+            FP32 pwm_pan = pid_update(PID_PAN, pos_pan);
+            raw_pwm_pan = pwm_pan * PWM_MULTIPLIER;
+            spi_transmission(SPI_TILT, raw_pwm_pan, SPI_PAN, SPI_TILT);
+        }
+        else
+        {
+            raw_pos_tilt = spi_transmission(SPI_TILT, raw_pwm_pan, SPI_PAN,
+                                            SPI_TILT);
+            FP32 pos_tilt = raw_pos_tilt * POS_MULTIPLIER;
+            FP32 pwm_tilt = pid_update(PID_TILT, pos_tilt);
+            raw_pwm_tilt = pwm_tilt * PWM_MULTIPLIER;
+            spi_transmission(SPI_PAN, raw_pwm_tilt, SPI_TILT, SPI_PAN);
+        }
 
         // Debug struct update
-        if (uxSemaphoreGetCount(debug_enabled) == 0)
+        if (uxSemaphoreGetCount(debug_enabled) == 0 && pantilt == PID_TILT)
         {
             pid_debug.raw_pos[PID_PAN] = raw_pos_pan;
             pid_debug.raw_pos[PID_TILT] = raw_pos_tilt;
 
             pid_debug.raw_pwm[PID_PAN] = raw_pwm_pan;
             pid_debug.raw_pwm[PID_TILT] = raw_pwm_tilt;
-
 
             // Dataloss is not important
             // Remove from queue if full
@@ -182,6 +197,20 @@ void pid_task(void * pvParameters)
             }
             xQueueSendToBack(pid_debug_queue, &pid_debug, 0);
         }
+
+        if (pantilt = PID_PAN)
+        {
+            pantilt = PID_TILT;
+        }
+        else
+        {
+            pantilt = PID_PAN;
+        }
+
+        xLastWakeTime = xLastWakeTime_prev;
+
+        vTaskDelayUntil(&xLastWakeTime, xPeriod);
+
     }
 }
 /***************** End of module **************/
