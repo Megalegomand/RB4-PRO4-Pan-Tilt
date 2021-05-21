@@ -67,6 +67,8 @@ int main(void)
     uart0_init(19200, 8, 1, 0);
     init_systick();
 
+    spi_transmission(0b101010101, 0b00, 0b11);
+
     // PID, Kp, Ki, Kd, N, setpoint queue
     pid_init(PID_PAN, 0.1f, 0.0f, 0.0f, 10);
     pid_init(PID_TILT, 0.1f, 0.0f, 0.0f, 10);

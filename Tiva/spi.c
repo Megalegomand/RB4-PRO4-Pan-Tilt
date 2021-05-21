@@ -23,6 +23,8 @@
 /***************** Variables ******************/
 QueueHandle_t spi_rx_queue;
 QueueHandle_t spi_tx_queue;
+
+INT8U expected_id = 0;
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
@@ -107,7 +109,7 @@ void spi_write_task(void * pvParameters)
 //        taskENTER_CRITICAL(); // Has to happen at exactly the same time
         INT16U msg;
 //        xLastWakeTime_prev = xLastWakeTime; // To counteract queue effect
-        xQueueReceive(spi_tx_queue, &msg, 0);
+        xQueueReceive(spi_tx_queue, &msg, portMAX_DELAY);
 //        xLastWakeTime = xLastWakeTime_prev;
         spi_write(msg);
 //        taskEXIT_CRITICAL();
@@ -135,13 +137,15 @@ INT16S spi_transmission(INT16S data, INT8U data_id, INT8U next_id)
     INT16U transmission;
     while (1)
     {
-        transmission = data << 8;
-        transmission |= (data_id & 0x03) << 6;
-        transmission |= (next_id & 0x03) << 4;
+        transmission = data << 7;
+        transmission |= (data_id & 0x03) << 5;
+        transmission |= (next_id & 0x03) << 3;
 
         transmission |= redundant_bits(transmission);
 
         xQueueSendToBack(spi_tx_queue, &transmission, portMAX_DELAY);
+
+
     }
 }
 

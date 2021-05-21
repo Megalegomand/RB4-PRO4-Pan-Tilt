@@ -35,8 +35,6 @@
 /***************** Variables ******************/ 
 extern QueueHandle_t spi_rx_queue;
 extern QueueHandle_t spi_tx_queue;
-
-INT8U expected_id = 0;
 /***************** Functions ******************/
 char spi_read(); // Read from the SPI register
 void spi_write(INT16U data); // Write to the SPI register
