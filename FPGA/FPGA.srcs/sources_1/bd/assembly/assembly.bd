@@ -685,7 +685,9 @@
           "spi_0/rst",
           "encoder_tilt/rst",
           "encoder_pan/rst",
-          "data_controller_0/rst"
+          "data_controller_0/rst",
+          "pwm_tilt/rst",
+          "pwm_pan/rst"
         ]
       },
       "data_controller_0_spi_tx": {
