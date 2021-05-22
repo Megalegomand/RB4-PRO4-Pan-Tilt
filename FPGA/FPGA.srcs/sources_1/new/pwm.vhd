@@ -34,6 +34,7 @@ ENTITY pwm IS
     GENERIC (
         n_bits : POSITIVE := 2);
     PORT (
+        rst : IN STD_LOGIC;
         clk : IN STD_LOGIC;
         duty_cycle : IN STD_LOGIC_VECTOR (n_bits - 1 DOWNTO 0);
         o : OUT STD_LOGIC);
@@ -46,6 +47,11 @@ BEGIN
 
     PROCESS (clk)
     BEGIN
+        IF (rst = '1') THEN
+            o <= '0';
+            duty_cycle_t <= (OTHERS => '0');
+            cnt <= (OTHERS => '0');
+        END IF;
         IF (rising_edge(clk)) THEN
             IF (or_reduce(cnt) = '0') THEN
                 duty_cycle_t <= duty_cycle;
