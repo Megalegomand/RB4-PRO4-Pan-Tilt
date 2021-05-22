@@ -33,7 +33,7 @@ typedef struct
     BOOLEAN saturated;
 
     QueueHandle_t* setpoint_queue;
-} PID_CONTAINER;
+} PID_Container;
 
 #define PID_CONTROLLERS_LENGTH 2
 #define PID_PAN             0
@@ -58,8 +58,8 @@ typedef struct
 
     INT16S raw_pwm[PID_CONTROLLERS_LENGTH];
 
-    PID_CONTAINER pid[PID_CONTROLLERS_LENGTH];
-} PID_DEBUG;
+    PID_Container pid[PID_CONTROLLERS_LENGTH];
+} PID_Debug;
 
 /***************** Variables ******************/
 extern QueueHandle_t spi_rx_queue;

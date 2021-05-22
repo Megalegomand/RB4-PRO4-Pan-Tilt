@@ -32,10 +32,10 @@ void waypoint_task(void* pvParameters)
 {
     INT16U i;
 
-    FP32 Degree_pr_Tick_p = (Waypoints[i].T / TICK_TIME)
-            / Waypoints[i].Pan_point;
-    FP32 Degree_pr_Tick_t = (Waypoints[i].T / TICK_TIME)
-            / Waypoints[i].Tilt_point;
+    FP32 Degree_pr_Tick_p = (waypoints[i].time / PID_SAMPLE_TIME_MS)
+            / waypoints[i].pan_point;
+    FP32 Degree_pr_Tick_t = (waypoints[i].time / PID_SAMPLE_TIME_MS)
+            / waypoints[i].tilt_point;
     FP32 Temp_pos_p;
     FP32 Temp_pos_t;
     INT16U Tick_counter;
@@ -43,8 +43,8 @@ void waypoint_task(void* pvParameters)
     while (1)
     {
 
-        if (Temp_pos_p <= Waypoints[i].Pan_point
-                && Temp_pos_t <= Waypoints[i].Tilt_point)
+        if (Temp_pos_p <= waypoints[i].pan_point
+                && Temp_pos_t <= waypoints[i].tilt_point)
         {
             //set setpoint for pan til temp pos
             Temp_pos_p = Tick_counter * Degree_pr_Tick_p;
@@ -68,8 +68,8 @@ void waypoint_list()
     ui_clear_screen();
     for (int i; i < number_of_waypoint; i++)
     {
-        printf("Pan: %2f | Tilt: %2f \n\r", Waypoints[i].Pan_point,
-               Waypoints[i].Tilt_point);
+        printf("Pan: %2f | Tilt: %2f \n\r", waypoints[i].pan_point,
+               waypoints[i].tilt_point);
     }
 }
 
@@ -81,7 +81,7 @@ void waypoint_edit()
  ***********************************************/
 {
     int i;
-    while(1)
+    while (1)
     {
         ui_clear_screen();
         printf("------------------------\n\r");
@@ -91,8 +91,8 @@ void waypoint_edit()
         int i;
         char msg;
 
-            uart0_getchar(&msg, portMAX_DELAY);
-            Waypoints[i].Pan_point = msg;
+        uart0_getchar(&msg, portMAX_DELAY);
+        waypoints[i].pan_point = msg;
 
         ui_clear_screen();
         printf("------------------------\n\r");
@@ -100,9 +100,8 @@ void waypoint_edit()
         printf("Insert tilt position: \n\r");
         printf("------------------------\n\r");
 
-           uart0_getchar(&msg, portMAX_DELAY);
-           Waypoints[i].Tilt_point = msg;
-
+        uart0_getchar(&msg, portMAX_DELAY);
+        waypoints[i].tilt_point = msg;
 
         ui_clear_screen();
         printf("------------------------\n\r");
@@ -110,10 +109,9 @@ void waypoint_edit()
         printf("Insert time to complete: \n\r");
         printf("------------------------\n\r");
 
-
-            uart0_getchar(&msg, portMAX_DELAY);
-            Waypoints[i].T = msg;
-       i++;
+        uart0_getchar(&msg, portMAX_DELAY);
+        waypoints[i].time = msg;
+        i++;
 
     }
 }

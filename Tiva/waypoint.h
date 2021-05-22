@@ -7,27 +7,25 @@
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
+#include "pid.h"
 /***************** Defines ********************/
 #ifndef WAYPOINT_H_
 #define WAYPOINT_H_
-#define TICK_TIME     0.01f
+
+#define WAYPOINT_LENGTH 10
+
 typedef struct
 {
-    FP32 Tilt_point;
-
-    FP32 Pan_point;
-
-    FP32 T;
-
-    BOOLEAN Active;
-
-}Waypoint;
+    BOOLEAN active;
+    FP32 tilt_point;
+    FP32 pan_point;
+    FP32 time;
+} Waypoint_Container;
 
 #endif /* WAYPOINT_H_ */
 /***************** Constants ******************/
-int number_of_waypoint = 10;
 /***************** Variables ******************/
-Waypoint Waypoints [number_of_waypoint];
+Waypoint_Container waypoints[WAYPOINT_LENGTH];
 /***************** Functions ******************/
 void waypoint_task (void* pvParameters);
 /**********************************************

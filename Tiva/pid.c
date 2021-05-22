@@ -20,7 +20,7 @@
 /***************** Defines ********************/
 /***************** Constants ******************/
 /***************** Variables ******************/
-PID_CONTAINER pid_controllers[PID_CONTROLLERS_LENGTH];
+PID_Container pid_controllers[PID_CONTROLLERS_LENGTH];
 
 QueueHandle_t setpoint_queues[PID_CONTROLLERS_LENGTH];
 
@@ -144,7 +144,7 @@ void pid_task(void * pvParameters)
     TickType_t xLastWakeTime = xTaskGetTickCount();
     TickType_t xLastWakeTime_prev;
 
-    PID_DEBUG pid_debug;
+    PID_Debug pid_debug;
 
     INT16S raw_pwm_pan = 0;
     INT16S raw_pwm_tilt = 0;
