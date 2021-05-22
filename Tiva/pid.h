@@ -50,7 +50,7 @@ typedef struct
 #define SETPOINT_QUEUE_WIDTH sizeof(FP32)
 
 #define DEBUG_QUEUE_LENGTH 1
-#define DEBUG_QUEUE_WIDTH sizeof(PID_DEBUG)
+#define DEBUG_QUEUE_WIDTH sizeof(PID_Debug)
 
 typedef struct
 {

@@ -19,14 +19,14 @@ typedef struct
     BOOLEAN active;
     FP32 tilt_point;
     FP32 pan_point;
-    FP32 time;
+    FP32 time_ms;
 } Waypoint_Container;
 
-#endif /* WAYPOINT_H_ */
 /***************** Constants ******************/
 /***************** Variables ******************/
-Waypoint_Container waypoints[WAYPOINT_LENGTH];
 /***************** Functions ******************/
+void waypoint_init();
+
 void waypoint_task (void* pvParameters);
 /**********************************************
  * Input: N/A
@@ -45,3 +45,8 @@ void waypoint_edit();
  * Output: readPosition
  * Function: getPosition()
  ***********************************************/
+
+Waypoint_Container waypoint_get(INT8U index);
+void waypoint_set(INT8U index, Waypoint_Container wp);
+
+#endif /* WAYPOINT_H_ */

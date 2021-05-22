@@ -138,4 +138,5 @@ UI_MENUS ui_waypoint_menu(char* buf)
         }
     }
 }
+
 /***************** End of module **************/
