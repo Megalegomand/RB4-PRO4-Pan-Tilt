@@ -144,18 +144,26 @@ void pid_task(void * pvParameters)
     {
         xLastWakeTime_prev = xLastWakeTime; // To counteract queue effect
 
-        if (pantilt == PID_PAN) {
-            pid_c.raw_pos[PID_PAN] = spi_transmission(SPI_PAN, pid_c.raw_pwm[PID_TILT], SPI_TILT);
-        } else if (pantilt == PID_TILT) {
-            pid_c.raw_pos[PID_TILT] = spi_transmission(SPI_TILT, pid_c.raw_pwm[PID_PAN], SPI_PAN);
+        if (pantilt == PID_PAN)
+        {
+            pid_c.raw_pos[PID_PAN] = spi_transmission(SPI_PAN,
+                                                      pid_c.raw_pwm[PID_TILT],
+                                                      SPI_TILT);
         }
+        else if (pantilt == PID_TILT)
+        {
+            pid_c.raw_pos[PID_TILT] = spi_transmission(SPI_TILT,
+                                                       pid_c.raw_pwm[PID_PAN],
+                                                       SPI_PAN);
+        }
+
         pid_c.pos[pantilt] = pid_c.raw_pos[pantilt] * POS_MULTIPLIER;
-
-        pid_c.pwm[pantilt] = pid_update(pantilt, pid_c.pos[pantilt], pid_c.setpoint[pantilt]);
-
+        pid_c.pwm[pantilt] = pid_update(pantilt, pid_c.pos[pantilt],
+                                        pid_c.setpoint[pantilt]);
         pid_c.raw_pwm[pantilt] = pid_c.pwm[pantilt] * PWM_MULTIPLIER;
 
-        spi_transmit(pid_c.raw_pwm[pantilt], pantilt, (pantilt == PID_PAN ? SPI_PAN : SPI_TILT));
+        spi_transmit(pid_c.raw_pwm[pantilt], pantilt,
+                     (pantilt == PID_PAN ? SPI_PAN : SPI_TILT));
 
         // Debug struct update
         if (uxSemaphoreGetCount(debug_enabled) == 0 && pantilt == PID_TILT)
