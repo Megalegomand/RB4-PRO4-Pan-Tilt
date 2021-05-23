@@ -566,6 +566,10 @@
               "ASSOCIATED_RESET": {
                 "value": "rst",
                 "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "assembly_clk",
+                "value_src": "default_prop"
               }
             }
           },
@@ -612,6 +616,10 @@
               "ASSOCIATED_RESET": {
                 "value": "rst",
                 "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "assembly_clk",
+                "value_src": "default_prop"
               }
             }
           },
@@ -648,21 +656,12 @@
           "xlconcat_spi_test/In2"
         ]
       },
-      "clock_divider_0_clk_div": {
-        "ports": [
-          "clock_divider_0/clk_div",
-          "spi_0/clk",
-          "encoder_tilt/clk",
-          "encoder_pan/clk",
-          "data_controller_0/clk",
-          "pwm_pan/clk",
-          "pwm_tilt/clk"
-        ]
-      },
       "clk_1": {
         "ports": [
           "clk",
-          "clock_divider_0/clk"
+          "clock_divider_0/clk",
+          "pwm_tilt/clk",
+          "pwm_pan/clk"
         ]
       },
       "xlslice_0_Dout": {
@@ -816,6 +815,15 @@
         "ports": [
           "not_gate_1/o",
           "pan_in2"
+        ]
+      },
+      "Net": {
+        "ports": [
+          "clock_divider_0/clk_div",
+          "spi_0/clk",
+          "data_controller_0/clk",
+          "encoder_tilt/clk",
+          "encoder_pan/clk"
         ]
       }
     }

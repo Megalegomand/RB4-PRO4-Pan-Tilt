@@ -353,8 +353,8 @@ proc create_root_design { parentCell } {
  ] $xlslice_6
 
   # Create port connections
-  connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk]
-  connect_bd_net -net clock_divider_0_clk_div [get_bd_pins clock_divider_0/clk_div] [get_bd_pins data_controller_0/clk] [get_bd_pins encoder_pan/clk] [get_bd_pins encoder_tilt/clk] [get_bd_pins pwm_pan/clk] [get_bd_pins pwm_tilt/clk] [get_bd_pins spi_0/clk]
+  connect_bd_net -net Net [get_bd_pins clock_divider_0/clk_div] [get_bd_pins data_controller_0/clk] [get_bd_pins encoder_pan/clk] [get_bd_pins encoder_tilt/clk] [get_bd_pins spi_0/clk]
+  connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk] [get_bd_pins pwm_pan/clk] [get_bd_pins pwm_tilt/clk]
   connect_bd_net -net data_controller_0_spi_tx [get_bd_pins data_controller_0/spi_tx] [get_bd_pins spi_0/data_in]
   connect_bd_net -net encoder_pan_cnt [get_bd_pins data_controller_0/pan_in] [get_bd_pins encoder_pan/cnt]
   connect_bd_net -net encoder_pan_col_p [get_bd_pins encoder_pan/col_p] [get_bd_pins xlconcat_0/In0]

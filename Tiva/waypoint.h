@@ -8,6 +8,7 @@
 #include "queue.h"
 #include "semphr.h"
 #include "pid.h"
+#include "printf.h"
 /***************** Defines ********************/
 #ifndef WAYPOINT_H_
 #define WAYPOINT_H_

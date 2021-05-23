@@ -161,7 +161,7 @@ void pid_task(void * pvParameters)
                      (pantilt == PID_PAN ? SPI_PAN : SPI_TILT));
 
         // Update setpoint
-        //pid_c.setpoint[pantilt] = waypoint_next_setpoint(pantilt, pid_c.pos[pantilt]);
+        pid_c.setpoint[pantilt] = waypoint_next_setpoint(pantilt, pid_c.pos[pantilt]);
 
         // Debug struct update
         if (uxSemaphoreGetCount(debug_enabled) == 0 && pantilt == PID_TILT)

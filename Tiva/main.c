@@ -65,6 +65,7 @@ int main(void)
     spi_init();
     uart0_init(19200, 8, 1, 0);
     init_systick();
+    waypoint_init();
 
     // PID, Kp, Ki, Kd, N, setpoint queue
     pid_init(PID_PAN, 0.5f, 0.1f, 0.1f, 10);

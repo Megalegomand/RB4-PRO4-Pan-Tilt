@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Sat May 22 20:43:54 2021
+--Date        : Sun May 23 15:28:48 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -162,8 +162,8 @@ architecture STRUCTURE of assembly is
     o : out STD_LOGIC
   );
   end component assembly_pwm_pan_0;
+  signal Net : STD_LOGIC;
   signal clk_1 : STD_LOGIC;
-  signal clock_divider_0_clk_div : STD_LOGIC;
   signal data_controller_0_spi_tx : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal encoder_pan_cnt : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal encoder_pan_col_p : STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -217,12 +217,12 @@ begin
 clock_divider_0: component assembly_clock_divider_0_0
      port map (
       clk => clk_1,
-      clk_div => clock_divider_0_clk_div,
+      clk_div => Net,
       rst => i_0_1
     );
 data_controller_0: component assembly_data_controller_0_0
      port map (
-      clk => clock_divider_0_clk_div,
+      clk => Net,
       pan_in(8 downto 0) => encoder_pan_cnt(8 downto 0),
       pan_out(8 downto 0) => xlslice_0_Dout(8 downto 0),
       rst => i_0_1,
@@ -235,7 +235,7 @@ encoder_pan: component assembly_encoder_tilt_0
      port map (
       a => pan_a_1,
       b => pan_b_1,
-      clk => clock_divider_0_clk_div,
+      clk => Net,
       cnt(8 downto 0) => encoder_pan_cnt(8 downto 0),
       col_p(3 downto 0) => encoder_pan_col_p(3 downto 0),
       rst => i_0_1
@@ -244,7 +244,7 @@ encoder_tilt: component assembly_encoder_0_0
      port map (
       a => tilt_a_1,
       b => tilt_b_1,
-      clk => clock_divider_0_clk_div,
+      clk => Net,
       cnt(8 downto 0) => encoder_tilt_cnt(8 downto 0),
       col_p(3 downto 0) => encoder_tilt_col_p(3 downto 0),
       rst => i_0_1
@@ -261,21 +261,21 @@ not_gate_2: component assembly_not_gate_1_1
     );
 pwm_pan: component assembly_pwm_0_0
      port map (
-      clk => clock_divider_0_clk_div,
+      clk => clk_1,
       duty_cycle(7 downto 0) => xlslice_4_Dout(7 downto 0),
       o => pwm_0_o,
       rst => i_0_1
     );
 pwm_tilt: component assembly_pwm_pan_0
      port map (
-      clk => clock_divider_0_clk_div,
+      clk => clk_1,
       duty_cycle(7 downto 0) => xlslice_5_Dout(7 downto 0),
       o => pwm_tilt_o,
       rst => i_0_1
     );
 spi_0: component assembly_spi_0_0
      port map (
-      clk => clock_divider_0_clk_div,
+      clk => Net,
       data_in(15 downto 0) => data_controller_0_spi_tx(15 downto 0),
       data_out(15 downto 0) => spi_0_data_out(15 downto 0),
       rst => i_0_1,
