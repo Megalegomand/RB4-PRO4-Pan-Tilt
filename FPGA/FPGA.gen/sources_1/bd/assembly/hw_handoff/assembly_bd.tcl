@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# clock_divider, data_controller, encoder, encoder, not_gate, not_gate, pwm, pwm, spi
+# clock_divider, clock_divider, data_controller, encoder, encoder, not_gate, not_gate, pwm, pwm, spi
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -196,6 +196,20 @@ proc create_root_design { parentCell } {
     set_property -dict [ list \
    CONFIG.n_bits {6} \
  ] $clock_divider_0
+
+  # Create instance: clock_divider_1, and set properties
+  set block_name clock_divider
+  set block_cell_name clock_divider_1
+  if { [catch {set clock_divider_1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $clock_divider_1 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+    set_property -dict [ list \
+   CONFIG.n_bits {4} \
+ ] $clock_divider_1
 
   # Create instance: data_controller_0, and set properties
   set block_name data_controller
@@ -354,13 +368,14 @@ proc create_root_design { parentCell } {
 
   # Create port connections
   connect_bd_net -net Net [get_bd_pins clock_divider_0/clk_div] [get_bd_pins data_controller_0/clk] [get_bd_pins encoder_pan/clk] [get_bd_pins encoder_tilt/clk] [get_bd_pins spi_0/clk]
-  connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk] [get_bd_pins pwm_pan/clk] [get_bd_pins pwm_tilt/clk]
+  connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk] [get_bd_pins clock_divider_1/clk]
+  connect_bd_net -net clock_divider_1_clk_div [get_bd_pins clock_divider_1/clk_div] [get_bd_pins pwm_pan/clk] [get_bd_pins pwm_tilt/clk]
   connect_bd_net -net data_controller_0_spi_tx [get_bd_pins data_controller_0/spi_tx] [get_bd_pins spi_0/data_in]
   connect_bd_net -net encoder_pan_cnt [get_bd_pins data_controller_0/pan_in] [get_bd_pins encoder_pan/cnt]
   connect_bd_net -net encoder_pan_col_p [get_bd_pins encoder_pan/col_p] [get_bd_pins xlconcat_0/In0]
   connect_bd_net -net encoder_tilt_cnt [get_bd_pins data_controller_0/tilt_in] [get_bd_pins encoder_tilt/cnt]
   connect_bd_net -net encoder_tilt_col_p [get_bd_pins encoder_tilt/col_p] [get_bd_pins xlconcat_0/In1]
-  connect_bd_net -net i_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins data_controller_0/rst] [get_bd_pins encoder_pan/rst] [get_bd_pins encoder_tilt/rst] [get_bd_pins pwm_pan/rst] [get_bd_pins pwm_tilt/rst] [get_bd_pins spi_0/rst]
+  connect_bd_net -net i_0_1 [get_bd_ports rst] [get_bd_pins clock_divider_0/rst] [get_bd_pins clock_divider_1/rst] [get_bd_pins data_controller_0/rst] [get_bd_pins encoder_pan/rst] [get_bd_pins encoder_tilt/rst] [get_bd_pins pwm_pan/rst] [get_bd_pins pwm_tilt/rst] [get_bd_pins spi_0/rst]
   connect_bd_net -net not_gate_1_o [get_bd_ports pan_in2] [get_bd_pins not_gate_1/o]
   connect_bd_net -net not_gate_2_o [get_bd_ports tilt_in2] [get_bd_pins not_gate_2/o]
   connect_bd_net -net pan_a_1 [get_bd_ports pan_a] [get_bd_pins encoder_pan/a]

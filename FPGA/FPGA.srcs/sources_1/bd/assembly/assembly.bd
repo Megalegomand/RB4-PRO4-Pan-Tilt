@@ -25,7 +25,8 @@
       "encoder_pan": "",
       "data_controller_0": "",
       "pwm_pan": "",
-      "pwm_tilt": ""
+      "pwm_tilt": "",
+      "clock_divider_1": ""
     },
     "ports": {
       "clk": {
@@ -632,6 +633,45 @@
             "direction": "O"
           }
         }
+      },
+      "clock_divider_1": {
+        "vlnv": "xilinx.com:module_ref:clock_divider:1.0",
+        "xci_name": "assembly_clock_divider_0_1",
+        "xci_path": "ip/assembly_clock_divider_0_1/assembly_clock_divider_0_1.xci",
+        "inst_hier_path": "clock_divider_1",
+        "parameters": {
+          "n_bits": {
+            "value": "4"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "clock_divider",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "assembly_clk",
+                "value_src": "default_prop"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "clk_div": {
+            "direction": "O"
+          }
+        }
       }
     },
     "nets": {
@@ -654,14 +694,6 @@
           "sdi",
           "spi_0/sdi",
           "xlconcat_spi_test/In2"
-        ]
-      },
-      "clk_1": {
-        "ports": [
-          "clk",
-          "clock_divider_0/clk",
-          "pwm_tilt/clk",
-          "pwm_pan/clk"
         ]
       },
       "xlslice_0_Dout": {
@@ -725,7 +757,8 @@
           "encoder_pan/rst",
           "data_controller_0/rst",
           "pwm_tilt/rst",
-          "pwm_pan/rst"
+          "pwm_pan/rst",
+          "clock_divider_1/rst"
         ]
       },
       "data_controller_0_spi_tx": {
@@ -824,6 +857,20 @@
           "data_controller_0/clk",
           "encoder_tilt/clk",
           "encoder_pan/clk"
+        ]
+      },
+      "clk_1": {
+        "ports": [
+          "clk",
+          "clock_divider_1/clk",
+          "clock_divider_0/clk"
+        ]
+      },
+      "clock_divider_1_clk_div": {
+        "ports": [
+          "clock_divider_1/clk_div",
+          "pwm_pan/clk",
+          "pwm_tilt/clk"
         ]
       }
     }

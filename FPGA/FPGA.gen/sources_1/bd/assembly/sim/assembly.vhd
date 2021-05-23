@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Sun May 23 15:28:49 2021
+--Date        : Sun May 23 15:35:34 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -32,7 +32,7 @@ entity assembly is
     tilt_in2 : out STD_LOGIC_VECTOR ( 0 to 0 )
   );
   attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of assembly : entity is "assembly,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=assembly,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=15,numReposBlks=15,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=9,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
+  attribute CORE_GENERATION_INFO of assembly : entity is "assembly,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=assembly,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=16,numReposBlks=16,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=10,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
   attribute HW_HANDOFF : string;
   attribute HW_HANDOFF of assembly : entity is "assembly.hwdef";
 end assembly;
@@ -162,8 +162,16 @@ architecture STRUCTURE of assembly is
     o : out STD_LOGIC
   );
   end component assembly_pwm_pan_0;
+  component assembly_clock_divider_0_1 is
+  port (
+    clk : in STD_LOGIC;
+    rst : in STD_LOGIC;
+    clk_div : out STD_LOGIC
+  );
+  end component assembly_clock_divider_0_1;
   signal Net : STD_LOGIC;
   signal clk_1 : STD_LOGIC;
+  signal clock_divider_1_clk_div : STD_LOGIC;
   signal data_controller_0_spi_tx : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal encoder_pan_cnt : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal encoder_pan_col_p : STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -220,6 +228,12 @@ clock_divider_0: component assembly_clock_divider_0_0
       clk_div => Net,
       rst => i_0_1
     );
+clock_divider_1: component assembly_clock_divider_0_1
+     port map (
+      clk => clk_1,
+      clk_div => clock_divider_1_clk_div,
+      rst => i_0_1
+    );
 data_controller_0: component assembly_data_controller_0_0
      port map (
       clk => Net,
@@ -261,14 +275,14 @@ not_gate_2: component assembly_not_gate_1_1
     );
 pwm_pan: component assembly_pwm_0_0
      port map (
-      clk => clk_1,
+      clk => clock_divider_1_clk_div,
       duty_cycle(7 downto 0) => xlslice_4_Dout(7 downto 0),
       o => pwm_0_o,
       rst => i_0_1
     );
 pwm_tilt: component assembly_pwm_pan_0
      port map (
-      clk => clk_1,
+      clk => clock_divider_1_clk_div,
       duty_cycle(7 downto 0) => xlslice_5_Dout(7 downto 0),
       o => pwm_tilt_o,
       rst => i_0_1

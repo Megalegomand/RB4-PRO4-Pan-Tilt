@@ -40,15 +40,22 @@ void waypoint_init()
     wp0.active = 1;
     wp0.tilt_point = 0.0f;
     wp0.pan_point = 0.0f;
-    wp0.time_ms = 10000;
+    wp0.time_ms = 5000;
     waypoints[0] = wp0;
 
     Waypoint wp1;
     wp1.active = 1;
     wp1.tilt_point = 100.0f;
     wp1.pan_point = 100.0f;
-    wp1.time_ms = 10000;
+    wp1.time_ms = 5000;
     waypoints[1] = wp1;
+
+    Waypoint wp2;
+    wp2.active = 1;
+    wp2.tilt_point = -100.0f;
+    wp2.pan_point = -100.0f;
+    wp2.time_ms = 5000;
+    waypoints[2] = wp2;
 
     xSemaphoreGive(waypoints_mutex); // Init mutex
 }
@@ -77,9 +84,9 @@ FP32 waypoint_next_setpoint(INT8U pid, FP32 pos)
     }
     else
     {
-        ret = wp_cont[pid].start_pos
-                + wp_cont[pid].tick_increment * wp_cont[pid].current_tick;
-
+//        ret = wp_cont[pid].start_pos
+//                + wp_cont[pid].tick_increment * wp_cont[pid].current_tick;
+        ret = wp_cont[pid].end_pos;
         wp_cont[pid].current_tick++;
     }
 
@@ -88,13 +95,16 @@ FP32 waypoint_next_setpoint(INT8U pid, FP32 pos)
 
 void waypoint_next(FP32 pos_pan, FP32 pos_tilt)
 {
-    do {
+    do
+    {
         current_waypoint = waypoint_get(current_waypoint_i);
         current_waypoint_i++;
-        if (current_waypoint_i >= WAYPOINT_LENGTH) {
+        if (current_waypoint_i >= WAYPOINT_LENGTH)
+        {
             current_waypoint_i = 0;
         }
-    } while (!current_waypoint.active);
+    }
+    while (!current_waypoint.active);
 
     for (INT8U i = 0; i < PID_CONTROLLERS_LENGTH; i++)
     {

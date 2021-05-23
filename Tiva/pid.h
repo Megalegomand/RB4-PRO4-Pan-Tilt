@@ -41,8 +41,8 @@ typedef struct
 #define PID_TILT            1
 
 #define PID_SAMPLE_TIME_MS  100
-#define PID_LIM_MIN         -12.0f
-#define PID_LIM_MAX         12.0f
+#define PID_LIM_MIN         -8.0f
+#define PID_LIM_MAX         8.0f
 
 #define POS_MULTIPLIER 180.0f / 255.0f
 #define PWM_MULTIPLIER 255.0f / 12.0f
