@@ -132,6 +132,9 @@ void pid_task(void * pvParameters)
 
     INT8U pantilt = PID_PAN; //
 
+    pid_c.setpoint[0] = 0.0f;
+    pid_c.setpoint[1] = 0.0f;
+
     while (1)
     {
         xLastWakeTime_prev = xLastWakeTime; // To counteract queue effect
@@ -156,6 +159,9 @@ void pid_task(void * pvParameters)
 
         spi_transmit(pid_c.raw_pwm[pantilt], pantilt,
                      (pantilt == PID_PAN ? SPI_PAN : SPI_TILT));
+
+        // Update setpoint
+        //pid_c.setpoint[pantilt] = waypoint_next_setpoint(pantilt, pid_c.pos[pantilt]);
 
         // Debug struct update
         if (uxSemaphoreGetCount(debug_enabled) == 0 && pantilt == PID_TILT)

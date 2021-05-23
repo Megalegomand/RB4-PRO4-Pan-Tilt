@@ -68,7 +68,7 @@ int main(void)
 
     // PID, Kp, Ki, Kd, N, setpoint queue
     pid_init(PID_PAN, 0.5f, 0.1f, 0.1f, 10);
-    pid_init(PID_TILT, 0.5f, 0.1f, 0.1f, 10);
+    pid_init(PID_TILT, 0.1f, 0.1f, 0.1f, 10);
 
     // Create tasks
     xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE + 100,

@@ -10,6 +10,7 @@
 #include "queue.h"
 #include "semphr.h"
 #include "spi.h"
+#include "waypoint.h"
 /***************** Defines ********************/
 
 typedef struct
