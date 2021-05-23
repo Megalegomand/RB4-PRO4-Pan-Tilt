@@ -130,14 +130,6 @@ void pid_task(void * pvParameters)
 
     PID_Control pid_c;
 
-    INT16S raw_pwm_pan = 0;
-    INT16S raw_pwm_tilt = 0;
-
-    INT16S raw_pos_pan = 0;
-    INT16S raw_pos_tilt = 0;
-
-    FP32 setpoint_pan = 0.0f;
-
     INT8U pantilt = PID_PAN; //
 
     while (1)
