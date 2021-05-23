@@ -50,16 +50,16 @@ typedef struct
 #define SETPOINT_QUEUE_WIDTH sizeof(FP32)
 
 #define DEBUG_QUEUE_LENGTH 1
-#define DEBUG_QUEUE_WIDTH sizeof(PID_Debug)
+#define DEBUG_QUEUE_WIDTH sizeof(PID_Control)
 
 typedef struct
 {
     INT16S raw_pos[PID_CONTROLLERS_LENGTH];
-
+    FP32 pos[PID_CONTROLLERS_LENGTH];
+    FP32 pwm[PID_CONTROLLERS_LENGTH];
+    FP32 setpoint[PID_CONTROLLERS_LENGTH];
     INT16S raw_pwm[PID_CONTROLLERS_LENGTH];
-
-    PID_Container pid[PID_CONTROLLERS_LENGTH];
-} PID_Debug;
+} PID_Control;
 
 /***************** Variables ******************/
 extern QueueHandle_t spi_rx_queue;
@@ -76,7 +76,7 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N);
  * Output: readPosition
  * Function: getPosition()
  ***********************************************/
-float pid_update(INT8U pid, FP32 position);
+float pid_update(INT8U pid, FP32 position, FP32 setpoint);
 /**********************************************
  * Input: N/A
  * Output: N/A

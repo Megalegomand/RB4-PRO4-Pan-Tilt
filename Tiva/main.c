@@ -42,7 +42,7 @@ void test_task(void * pvParameters)
         FP32 msg = 10.0f;
         //xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
         //xQueueSendToBack(uart0_tx_queue, &msg, portMAX_DELAY);
-        xQueueSendToBack(setpoint_queues[PID_PAN], &msg, portMAX_DELAY);
+        //xQueueSendToBack(setpoint_queues[PID_PAN], &msg, portMAX_DELAY);
     }
 }
 

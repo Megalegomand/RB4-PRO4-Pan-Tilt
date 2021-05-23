@@ -85,7 +85,7 @@ UI_MENUS ui_debug_menu()
 
     printf("raw_pos_pan | raw_pos_tilt | raw_pwm_pan | raw_pwm_tilt\n\r");
 
-    PID_Debug pid_debug;
+    PID_Control pid_debug;
 
     while (1)
     {

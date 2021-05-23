@@ -22,8 +22,6 @@
 /***************** Variables ******************/
 PID_Container pid_controllers[PID_CONTROLLERS_LENGTH];
 
-QueueHandle_t setpoint_queues[PID_CONTROLLERS_LENGTH];
-
 extern QueueHandle_t spi_rx_queue;
 extern QueueHandle_t spi_tx_queue;
 
@@ -62,11 +60,6 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N)
 
     pid_controllers[pid].saturated = 0;
 
-    // Queue
-    setpoint_queues[pid] = xQueueCreate(SETPOINT_QUEUE_LENGTH,
-                                        SETPOINT_QUEUE_WIDTH);
-    configASSERT(setpoint_queues[pid]);
-
     pid_debug_queue = xQueueCreate(DEBUG_QUEUE_LENGTH, DEBUG_QUEUE_WIDTH);
     configASSERT(pid_debug_queue);
 
@@ -79,17 +72,8 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N)
  * Output: controlvariable
  * Function: PID();
  ***********************************************/
-float pid_update(INT8U pid, FP32 position)
+float pid_update(INT8U pid, FP32 position, FP32 setpoint)
 {
-    // Get setpoint
-    FP32 setpoint;
-    //configASSERT(xQueueReceive(setpoint_queues[pid], &setpoint, 0));
-    xQueueReceive(setpoint_queues[pid], &setpoint, 0);
-
-    // Add start value
-    FP32 msg = 0.0f;
-    xQueueSendToBack(setpoint_queues[pid], &msg, portMAX_DELAY);
-
     // Error
     FP32 error = setpoint - position;
 
@@ -144,7 +128,7 @@ void pid_task(void * pvParameters)
     TickType_t xLastWakeTime = xTaskGetTickCount();
     TickType_t xLastWakeTime_prev;
 
-    PID_Debug pid_debug;
+    PID_Control pid_c;
 
     INT16S raw_pwm_pan = 0;
     INT16S raw_pwm_tilt = 0;
@@ -152,46 +136,32 @@ void pid_task(void * pvParameters)
     INT16S raw_pos_pan = 0;
     INT16S raw_pos_tilt = 0;
 
+    FP32 setpoint_pan = 0.0f;
+
     INT8U pantilt = PID_PAN; //
 
     while (1)
     {
         xLastWakeTime_prev = xLastWakeTime; // To counteract queue effect
 
-        if (pantilt == PID_PAN)
-        {
-            raw_pos_pan = spi_transmission(SPI_PAN, raw_pwm_tilt, SPI_TILT);
-            FP32 pos_pan = raw_pos_pan * POS_MULTIPLIER;
-            FP32 pwm_pan = pid_update(PID_PAN, pos_pan);
-            raw_pwm_pan = pwm_pan * PWM_MULTIPLIER;
-            spi_transmit(raw_pwm_pan, SPI_PAN, SPI_TILT);
+        if (pantilt == PID_PAN) {
+            pid_c.raw_pos[PID_PAN] = spi_transmission(SPI_PAN, pid_c.raw_pwm[PID_TILT], SPI_TILT);
+        } else if (pantilt == PID_TILT) {
+            pid_c.raw_pos[PID_TILT] = spi_transmission(SPI_TILT, pid_c.raw_pwm[PID_PAN], SPI_PAN);
         }
-        else
-        {
-            raw_pos_tilt = spi_transmission(SPI_TILT, raw_pwm_pan, SPI_PAN);
-            FP32 pos_tilt = raw_pos_tilt * POS_MULTIPLIER;
-            FP32 pwm_tilt = pid_update(PID_TILT, pos_tilt);
-            raw_pwm_tilt = pwm_tilt * PWM_MULTIPLIER;
-            spi_transmit(raw_pwm_tilt, SPI_TILT, SPI_PAN);
-        }
+        pid_c.pos[pantilt] = pid_c.raw_pos[pantilt] * POS_MULTIPLIER;
+
+        pid_c.pwm[pantilt] = pid_update(pantilt, pid_c.pos[pantilt], pid_c.setpoint[pantilt]);
+
+        pid_c.raw_pwm[pantilt] = pid_c.pwm[pantilt] * PWM_MULTIPLIER;
+
+        spi_transmit(pid_c.raw_pwm[pantilt], pantilt, (pantilt == PID_PAN ? SPI_PAN : SPI_TILT));
 
         // Debug struct update
         if (uxSemaphoreGetCount(debug_enabled) == 0 && pantilt == PID_TILT)
         {
-            pid_debug.raw_pos[PID_PAN] = raw_pos_pan;
-            pid_debug.raw_pos[PID_TILT] = raw_pos_tilt;
-
-            pid_debug.raw_pwm[PID_PAN] = raw_pwm_pan;
-            pid_debug.raw_pwm[PID_TILT] = raw_pwm_tilt;
-
             // Dataloss is not important
-            // Remove from queue if full
-            if (xQueueIsQueueFullFromISR(pid_debug_queue))
-            {
-                INT8U remmsg;
-                xQueueReceiveFromISR(pid_debug_queue, &remmsg, NULL);
-            }
-            xQueueSendToBack(pid_debug_queue, &pid_debug, 0);
+            xQueueSendToBack(pid_debug_queue, &pid_c, 0);
         }
 
         if (pantilt == PID_PAN)
