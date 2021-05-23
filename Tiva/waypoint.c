@@ -20,8 +20,13 @@
 /***************** Defines ********************/
 /***************** Constants ******************/
 /***************** Variables ******************/
-Waypoint_Container waypoints[WAYPOINT_LENGTH];
-SemaphoreHandle_t waypoints_mutex;
+static Waypoint waypoints[WAYPOINT_LENGTH];
+static SemaphoreHandle_t waypoints_mutex;
+
+static Waypoint current_waypoint;
+static INT8U current_waypoint_i = 0;
+
+static Waypoint_Container wp_cont[PID_CONTROLLERS_LENGTH];
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
@@ -31,63 +36,79 @@ void waypoint_init()
     waypoints_mutex = xSemaphoreCreateMutex();
     configASSERT(waypoints_mutex);
 
-    Waypoint_Container wp0;
+    Waypoint wp0;
     wp0.active = 1;
     wp0.tilt_point = 0.0f;
     wp0.pan_point = 0.0f;
-    wp0.time = 5000.0f;
+    wp0.time_ms = 5000;
     waypoints[0] = wp0;
 
-    Waypoint_Container wp1;
+    Waypoint wp1;
     wp1.active = 1;
     wp1.tilt_point = 45.0f;
     wp1.pan_point = 45.0f;
-    wp1.time = 5000.0f;
+    wp1.time_ms = 5000;
     waypoints[0] = wp1;
 
     xSemaphoreGive(waypoints_mutex); // Init mutex
 }
 
-void waypoint_task(void* pvParameters)
+FP32 waypoint_next_setpoint(INT8U pid, FP32 pos)
 /**********************************************
  * Input: N/A
  * Output: readPosition
  * Function: getPosition()
  ***********************************************/
 {
-    Waypoint_Container current_waypoint;
-    INT8U current_waypoint_i = 0;
-
-    INT16U i;
-
-    FP32 Degree_pr_Tick_p = (waypoints[i].time / PID_SAMPLE_TIME_MS)
-            / waypoints[i].pan_point;
-    FP32 Degree_pr_Tick_t = (waypoints[i].time / PID_SAMPLE_TIME_MS)
-            / waypoints[i].tilt_point;
-    FP32 Temp_pos_p;
-    FP32 Temp_pos_t;
-    INT16U Tick_counter;
-
-    while (1)
+    FP32 ret = 0.0f;
+    if (wp_cont[pid].current_tick >= wp_cont[pid].ticks)
     {
-        do
+        if (pid == PID_TILT)
         {
-            current_waypoint = waypoint_get(current_waypoint_i++);
+            waypoint_next(wp_cont[PID_PAN].start_pos, pos);
+            ret = wp_cont[pid].start_pos;
         }
-        while (!current_waypoint.active);
+        else if (pid == PID_PAN)
+        {
+            wp_cont[pid].start_pos = pos; // For updating next waypoint
+            ret = wp_cont[pid].end_pos;
+        }
+    }
+    else
+    {
+        ret = wp_cont[pid].start_pos
+                + wp_cont[pid].tick_increment * wp_cont[pid].ticks;
 
-        if (Temp_pos_p <= waypoints[i].pan_point
-                && Temp_pos_t <= waypoints[i].tilt_point)
+        wp_cont[pid].current_tick++;
+    }
+
+    return ret;
+}
+
+void waypoint_next(FP32 pos_pan, FP32 pos_tilt)
+{
+    current_waypoint = waypoint_get(current_waypoint_i++);
+
+    for (INT8U i = 0; i < PID_CONTROLLERS_LENGTH; i++)
+    {
+        if (i == PID_PAN)
         {
-            //set setpoint for pan til temp pos
-            Temp_pos_p = Tick_counter * Degree_pr_Tick_p;
-            //set setpoint for pan til temp pos
-            Temp_pos_t = Tick_counter * Degree_pr_Tick_t;
+            wp_cont[i].start_pos = pos_pan;
+            wp_cont[i].end_pos = current_waypoint.pan_point;
         }
+        else if (i == PID_TILT)
         {
-            i++;
+            wp_cont[i].start_pos = pos_tilt;
+            wp_cont[i].end_pos = current_waypoint.tilt_point;
         }
 
+        wp_cont[i].current_tick = 0;
+
+        wp_cont[i].ticks = (INT32U) current_waypoint.time_ms
+                / PID_SAMPLE_TIME_MS;
+
+        wp_cont[i].tick_increment = (wp_cont[i].end_pos - wp_cont[i].start_pos)
+                / wp_cont[i].ticks;
     }
 }
 
@@ -143,20 +164,20 @@ void waypoint_edit()
         printf("------------------------\n\r");
 
         uart0_getchar(&msg, portMAX_DELAY);
-        waypoints[i].time = msg;
+        waypoints[i].time_ms = msg;
         i++;
     }
 }
 
-Waypoint_Container waypoint_get(INT8U index)
+Waypoint waypoint_get(INT8U index)
 {
     xSemaphoreTake(waypoints_mutex, portMAX_DELAY);
-    Waypoint_Container ret = waypoints[index];
+    Waypoint ret = waypoints[index];
     xSemaphoreGive(waypoints_mutex);
     return ret;
 }
 
-void waypoint_set(INT8U index, Waypoint_Container wp)
+void waypoint_set(INT8U index, Waypoint wp)
 {
     xSemaphoreTake(waypoints_mutex, portMAX_DELAY);
     waypoints[index] = wp;
