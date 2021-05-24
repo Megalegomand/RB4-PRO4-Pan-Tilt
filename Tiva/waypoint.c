@@ -44,14 +44,14 @@ void waypoint_init()
     waypoints[0] = wp0;
 
     Waypoint wp1;
-    wp1.active = 1;
+    wp1.active = 0;
     wp1.tilt_point = 100.0f;
     wp1.pan_point = 100.0f;
     wp1.time_ms = 5000;
     waypoints[1] = wp1;
 
     Waypoint wp2;
-    wp2.active = 1;
+    wp2.active = 0;
     wp2.tilt_point = -100.0f;
     wp2.pan_point = -100.0f;
     wp2.time_ms = 5000;

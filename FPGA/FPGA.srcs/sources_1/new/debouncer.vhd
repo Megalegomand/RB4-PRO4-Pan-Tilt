@@ -96,7 +96,7 @@ begin
     ------------------------------------------------------------------------------
         case current_state is                       -- Remember all state transition cases
             when s_idle =>
-                if (inp = '1') then
+                if (inp = '0') then
                     next_state  <=  s_out;
                 else
                     next_state  <=  s_idle;              -- Use conditional logic based on input signals
@@ -104,15 +104,15 @@ begin
             when s_out =>
                 next_state <= s_idle_release;
             when s_idle_release =>
-                if (inp = '0') then
+                if (inp = '1') then
                     next_state <= s_release_wait;
                 else
                     next_state <= s_idle_release;
                 end if;
             when s_release_wait =>
-                if (and_reduce(cnt) = '1' and inp = '0') then
+                if (and_reduce(cnt) = '1' and inp = '1') then
                     next_state <= s_idle;
-                elsif (inp = '1') then
+                elsif (inp = '0') then
                     next_state <= s_idle_release;
                 else
                     next_state <= s_release_wait;

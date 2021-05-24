@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xAFF18C61C8C4232E",
+      "boundary_crc": "0x2164E2F4D8A718A7",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../FPGA.gen/sources_1/bd/assembly",
       "name": "assembly",
@@ -19,14 +19,17 @@
       "xlslice_6": "",
       "not_gate_2": "",
       "xlconcat_spi_test": "",
-      "xlconcat_0": "",
       "spi_0": "",
-      "encoder_tilt": "",
-      "encoder_pan": "",
       "data_controller_0": "",
       "pwm_pan": "",
       "pwm_tilt": "",
-      "clock_divider_1": ""
+      "clock_divider_1": "",
+      "encoder_tilt": "",
+      "encoder_pan": "",
+      "debouncer_pan_zero": "",
+      "debouncer_tilt_zero": "",
+      "xlslice_tilt": "",
+      "xlslice_pan": ""
     },
     "ports": {
       "clk": {
@@ -121,6 +124,12 @@
         }
       },
       "rst": {
+        "direction": "I"
+      },
+      "tilt_zero": {
+        "direction": "I"
+      },
+      "pan_zero": {
         "direction": "I"
       }
     },
@@ -288,25 +297,17 @@
         "xci_path": "ip/assembly_xlconcat_0_3/assembly_xlconcat_0_3.xci",
         "inst_hier_path": "xlconcat_spi_test",
         "parameters": {
-          "NUM_PORTS": {
-            "value": "8"
-          }
-        }
-      },
-      "xlconcat_0": {
-        "vlnv": "xilinx.com:ip:xlconcat:2.1",
-        "xci_name": "assembly_xlconcat_0_4",
-        "xci_path": "ip/assembly_xlconcat_0_4/assembly_xlconcat_0_4.xci",
-        "inst_hier_path": "xlconcat_0",
-        "parameters": {
           "IN0_WIDTH": {
             "value": "4"
           },
           "IN1_WIDTH": {
-            "value": "4"
+            "value": "1"
+          },
+          "IN3_WIDTH": {
+            "value": "2"
           },
           "NUM_PORTS": {
-            "value": "2"
+            "value": "4"
           }
         }
       },
@@ -377,102 +378,6 @@
           "data_out": {
             "direction": "O",
             "left": "15",
-            "right": "0"
-          }
-        }
-      },
-      "encoder_tilt": {
-        "vlnv": "xilinx.com:module_ref:encoder:1.0",
-        "xci_name": "assembly_encoder_0_0",
-        "xci_path": "ip/assembly_encoder_0_0/assembly_encoder_0_0.xci",
-        "inst_hier_path": "encoder_tilt",
-        "parameters": {
-          "n_bits": {
-            "value": "9"
-          }
-        },
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "encoder",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "rst",
-                "value_src": "constant"
-              }
-            }
-          },
-          "a": {
-            "direction": "I"
-          },
-          "b": {
-            "direction": "I"
-          },
-          "rst": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "col_p": {
-            "direction": "O",
-            "left": "3",
-            "right": "0"
-          },
-          "cnt": {
-            "direction": "O",
-            "left": "8",
-            "right": "0"
-          }
-        }
-      },
-      "encoder_pan": {
-        "vlnv": "xilinx.com:module_ref:encoder:1.0",
-        "xci_name": "assembly_encoder_tilt_0",
-        "xci_path": "ip/assembly_encoder_tilt_0/assembly_encoder_tilt_0.xci",
-        "inst_hier_path": "encoder_pan",
-        "parameters": {
-          "n_bits": {
-            "value": "9"
-          }
-        },
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "encoder",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "rst",
-                "value_src": "constant"
-              }
-            }
-          },
-          "a": {
-            "direction": "I"
-          },
-          "b": {
-            "direction": "I"
-          },
-          "rst": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "col_p": {
-            "direction": "O",
-            "left": "3",
-            "right": "0"
-          },
-          "cnt": {
-            "direction": "O",
-            "left": "8",
             "right": "0"
           }
         }
@@ -672,28 +577,237 @@
             "direction": "O"
           }
         }
+      },
+      "encoder_tilt": {
+        "vlnv": "xilinx.com:module_ref:encoder:1.0",
+        "xci_name": "assembly_encoder_0_0",
+        "xci_path": "ip/assembly_encoder_0_0/assembly_encoder_0_0.xci",
+        "inst_hier_path": "encoder_tilt",
+        "parameters": {
+          "n_bits": {
+            "value": "10"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "encoder",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "zero": {
+            "direction": "I"
+          },
+          "a": {
+            "direction": "I"
+          },
+          "b": {
+            "direction": "I"
+          },
+          "col_p": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "cnt": {
+            "direction": "O",
+            "left": "9",
+            "right": "0"
+          }
+        }
+      },
+      "encoder_pan": {
+        "vlnv": "xilinx.com:module_ref:encoder:1.0",
+        "xci_name": "assembly_encoder_tilt_0",
+        "xci_path": "ip/assembly_encoder_tilt_0/assembly_encoder_tilt_0.xci",
+        "inst_hier_path": "encoder_pan",
+        "parameters": {
+          "n_bits": {
+            "value": "10"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "encoder",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "zero": {
+            "direction": "I"
+          },
+          "a": {
+            "direction": "I"
+          },
+          "b": {
+            "direction": "I"
+          },
+          "col_p": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "cnt": {
+            "direction": "O",
+            "left": "9",
+            "right": "0"
+          }
+        }
+      },
+      "debouncer_pan_zero": {
+        "vlnv": "xilinx.com:module_ref:debouncer:1.0",
+        "xci_name": "assembly_debouncer_0_0",
+        "xci_path": "ip/assembly_debouncer_0_0/assembly_debouncer_0_0.xci",
+        "inst_hier_path": "debouncer_pan_zero",
+        "parameters": {
+          "cnt_bits": {
+            "value": "20"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "debouncer",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "inp": {
+            "direction": "I"
+          },
+          "outp": {
+            "direction": "O"
+          }
+        }
+      },
+      "debouncer_tilt_zero": {
+        "vlnv": "xilinx.com:module_ref:debouncer:1.0",
+        "xci_name": "assembly_debouncer_pan_zero_0",
+        "xci_path": "ip/assembly_debouncer_pan_zero_0/assembly_debouncer_pan_zero_0.xci",
+        "inst_hier_path": "debouncer_tilt_zero",
+        "parameters": {
+          "cnt_bits": {
+            "value": "20"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "debouncer",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "inp": {
+            "direction": "I"
+          },
+          "outp": {
+            "direction": "O"
+          }
+        }
+      },
+      "xlslice_tilt": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "xci_name": "assembly_xlslice_0_0",
+        "xci_path": "ip/assembly_xlslice_0_0/assembly_xlslice_0_0.xci",
+        "inst_hier_path": "xlslice_tilt",
+        "parameters": {
+          "DIN_FROM": {
+            "value": "9"
+          },
+          "DIN_TO": {
+            "value": "1"
+          },
+          "DIN_WIDTH": {
+            "value": "10"
+          },
+          "DOUT_WIDTH": {
+            "value": "9"
+          }
+        }
+      },
+      "xlslice_pan": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "xci_name": "assembly_xlslice_0_1",
+        "xci_path": "ip/assembly_xlslice_0_1/assembly_xlslice_0_1.xci",
+        "inst_hier_path": "xlslice_pan",
+        "parameters": {
+          "DIN_FROM": {
+            "value": "9"
+          },
+          "DIN_TO": {
+            "value": "1"
+          },
+          "DIN_WIDTH": {
+            "value": "10"
+          },
+          "DOUT_WIDTH": {
+            "value": "9"
+          }
+        }
       }
     },
     "nets": {
       "ss_0_1": {
         "ports": [
           "ss",
-          "spi_0/ss",
-          "xlconcat_spi_test/In1"
-        ]
-      },
-      "sclk_0_1": {
-        "ports": [
-          "sclk",
-          "xlconcat_spi_test/In0",
-          "spi_0/sclk"
+          "spi_0/ss"
         ]
       },
       "sdi_0_1": {
         "ports": [
           "sdi",
-          "spi_0/sdi",
-          "xlconcat_spi_test/In2"
+          "spi_0/sdi"
         ]
       },
       "xlslice_0_Dout": {
@@ -712,8 +826,7 @@
       "pwm_0_o": {
         "ports": [
           "pwm_pan/o",
-          "pan_en",
-          "xlconcat_spi_test/In5"
+          "pan_en"
         ]
       },
       "xlslice_2_Dout": {
@@ -732,20 +845,7 @@
       "pwm_tilt_o": {
         "ports": [
           "pwm_tilt/o",
-          "tilt_en",
-          "xlconcat_spi_test/In6"
-        ]
-      },
-      "pan_a_1": {
-        "ports": [
-          "pan_a",
-          "encoder_pan/a"
-        ]
-      },
-      "pan_b_1": {
-        "ports": [
-          "pan_b",
-          "encoder_pan/b"
+          "tilt_en"
         ]
       },
       "i_0_1": {
@@ -753,12 +853,14 @@
           "rst",
           "clock_divider_0/rst",
           "spi_0/rst",
-          "encoder_tilt/rst",
-          "encoder_pan/rst",
           "data_controller_0/rst",
           "pwm_tilt/rst",
           "pwm_pan/rst",
-          "clock_divider_1/rst"
+          "clock_divider_1/rst",
+          "encoder_tilt/rst",
+          "encoder_pan/rst",
+          "debouncer_pan_zero/rst",
+          "debouncer_tilt_zero/rst"
         ]
       },
       "data_controller_0_spi_tx": {
@@ -773,18 +875,6 @@
           "data_controller_0/spi_rx"
         ]
       },
-      "encoder_pan_cnt": {
-        "ports": [
-          "encoder_pan/cnt",
-          "data_controller_0/pan_in"
-        ]
-      },
-      "encoder_tilt_cnt": {
-        "ports": [
-          "encoder_tilt/cnt",
-          "data_controller_0/tilt_in"
-        ]
-      },
       "tilt_b_1": {
         "ports": [
           "tilt_b",
@@ -797,23 +887,10 @@
           "encoder_tilt/a"
         ]
       },
-      "encoder_tilt_col_p": {
-        "ports": [
-          "encoder_tilt/col_p",
-          "xlconcat_0/In1"
-        ]
-      },
-      "encoder_pan_col_p": {
-        "ports": [
-          "encoder_pan/col_p",
-          "xlconcat_0/In0"
-        ]
-      },
       "spi_0_sdo": {
         "ports": [
           "spi_0/sdo",
-          "sdo",
-          "xlconcat_spi_test/In3"
+          "sdo"
         ]
       },
       "xlconcat_spi_test_dout": {
@@ -826,8 +903,7 @@
         "ports": [
           "xlslice_6/Dout",
           "not_gate_2/i",
-          "tilt_in1",
-          "xlconcat_spi_test/In7"
+          "tilt_in1"
         ]
       },
       "not_gate_2_o": {
@@ -840,8 +916,7 @@
         "ports": [
           "xlslice_3/Dout",
           "pan_in1",
-          "not_gate_1/i",
-          "xlconcat_spi_test/In4"
+          "not_gate_1/i"
         ]
       },
       "not_gate_1_o": {
@@ -856,7 +931,9 @@
           "spi_0/clk",
           "data_controller_0/clk",
           "encoder_tilt/clk",
-          "encoder_pan/clk"
+          "encoder_pan/clk",
+          "debouncer_pan_zero/clk",
+          "debouncer_tilt_zero/clk"
         ]
       },
       "clk_1": {
@@ -871,6 +948,80 @@
           "clock_divider_1/clk_div",
           "pwm_pan/clk",
           "pwm_tilt/clk"
+        ]
+      },
+      "tilt_zero_1": {
+        "ports": [
+          "tilt_zero",
+          "xlconcat_spi_test/In1",
+          "debouncer_tilt_zero/inp"
+        ]
+      },
+      "pan_zero_1": {
+        "ports": [
+          "pan_zero",
+          "debouncer_pan_zero/inp"
+        ]
+      },
+      "debouncer_pan_zero_outp": {
+        "ports": [
+          "debouncer_pan_zero/outp",
+          "encoder_pan/zero"
+        ]
+      },
+      "debouncer_tilt_zero_outp": {
+        "ports": [
+          "debouncer_tilt_zero/outp",
+          "encoder_tilt/zero",
+          "xlconcat_spi_test/In2"
+        ]
+      },
+      "sclk_1": {
+        "ports": [
+          "sclk",
+          "spi_0/sclk"
+        ]
+      },
+      "pan_a_1": {
+        "ports": [
+          "pan_a",
+          "encoder_pan/a"
+        ]
+      },
+      "pan_b_1": {
+        "ports": [
+          "pan_b",
+          "encoder_pan/b"
+        ]
+      },
+      "encoder_tilt_col_p": {
+        "ports": [
+          "encoder_tilt/col_p",
+          "xlconcat_spi_test/In0"
+        ]
+      },
+      "encoder_tilt_cnt": {
+        "ports": [
+          "encoder_tilt/cnt",
+          "xlslice_tilt/Din"
+        ]
+      },
+      "xlslice_0_Dout1": {
+        "ports": [
+          "xlslice_tilt/Dout",
+          "data_controller_0/tilt_in"
+        ]
+      },
+      "encoder_pan_cnt": {
+        "ports": [
+          "encoder_pan/cnt",
+          "xlslice_pan/Din"
+        ]
+      },
+      "xlslice_1_Dout": {
+        "ports": [
+          "xlslice_pan/Dout",
+          "data_controller_0/pan_in"
         ]
       }
     }
