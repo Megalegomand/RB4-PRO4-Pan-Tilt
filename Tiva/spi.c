@@ -25,6 +25,9 @@ QueueHandle_t spi_rx_queue;
 QueueHandle_t spi_tx_queue;
 
 INT8U expected_id = 0;
+
+INT16U transmissions = 0;
+INT16U failed = 0;
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
@@ -144,6 +147,7 @@ INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id)
 
                 break;
             }
+            failed++;
         }
     }
 
@@ -152,6 +156,8 @@ INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id)
 
 INT16U spi_transmit(INT16S tx_data, INT8U data_tx_id, INT8U next_id)
 {
+    transmissions++;
+
     INT16U transmit;
 
     transmit = tx_data << 7;
@@ -178,7 +184,7 @@ INT8U redundant_bits(INT16U transmission)
     ret |= p << 2; // Odd parity
 
     // even parity
-    ret |= ~(p & 0x0001) << 1;
+    ret |= (~p & 0x01) << 1;
 
     ret |= (p & 0x01);
 

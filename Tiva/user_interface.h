@@ -26,6 +26,7 @@
 #include "pid.h"
 #include "semphr.h"
 #include "printf.h"
+#include "spi.h"
 /***************** Defines ********************/ 
 #ifndef USER_INTERFACE_H_
 #define USER_INTERFACE_H_

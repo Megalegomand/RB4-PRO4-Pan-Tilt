@@ -55,7 +55,7 @@ ARCHITECTURE Behavioral OF data_controller IS
         RETURN STD_LOGIC_VECTOR IS
         VARIABLE parity : STD_LOGIC_VECTOR(redundant_bits - 1 DOWNTO 0) := (OTHERS => '0');
     BEGIN
-        parity(2) := xor_reduce(spi_data(frame_width - frame_parity_split DOWNTO redundant_bits)); -- Odd parity
+        parity(2) := xor_reduce(spi_data(frame_width-1 DOWNTO redundant_bits)); -- Odd parity
         parity(1) := NOT parity(2); -- Even parity
         parity(0) := NOT parity(1);
         RETURN parity;
@@ -118,7 +118,7 @@ BEGIN
     out_process : PROCESS (clk)
         VARIABLE abs_conv : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
     BEGIN
-        IF (falling_edge(clk)) THEN -- To not intefere with PWM reading on rising
+        IF (rising_edge(clk)) THEN 
             abs_conv := STD_LOGIC_VECTOR(ABS(signed(data_rx)));
             CASE data_rx_id IS
                 WHEN "00" =>

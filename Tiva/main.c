@@ -72,8 +72,8 @@ int main(void)
     pid_init(PID_TILT, 2.689f, 4.366f, 0.4139f, 1000);
 
     // Create tasks
-    xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE + 100,
-                NULL, PRIORITY_HIGH, NULL);
+//    xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE + 100,
+//                NULL, PRIORITY_HIGH, NULL);
 
     xTaskCreate(spi_write_task, "SPI write task",
     configMINIMAL_STACK_SIZE + 50,

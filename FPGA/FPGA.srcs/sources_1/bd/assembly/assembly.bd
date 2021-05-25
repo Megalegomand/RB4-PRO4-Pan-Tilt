@@ -7,7 +7,8 @@
       "name": "assembly",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2020.2"
+      "tool_version": "2020.2",
+      "validated": "true"
     },
     "design_tree": {
       "clock_divider_0": "",
@@ -33,7 +34,33 @@
     "ports": {
       "clk": {
         "type": "clk",
-        "direction": "I"
+        "direction": "I",
+        "parameters": {
+          "ASSOCIATED_RESET": {
+            "value": "rst",
+            "value_src": "default"
+          },
+          "CLK_DOMAIN": {
+            "value": "assembly_clk",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.000",
+            "value_src": "default"
+          }
+        }
       },
       "ss": {
         "direction": "I"
@@ -88,7 +115,13 @@
       "ar": {
         "direction": "O",
         "left": "7",
-        "right": "0"
+        "right": "0",
+        "parameters": {
+          "PortWidth": {
+            "value": "8",
+            "value_src": "ip_prop"
+          }
+        }
       },
       "rst": {
         "direction": "I"
@@ -345,7 +378,13 @@
           "data_out": {
             "direction": "O",
             "left": "15",
-            "right": "0"
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "16",
+                "value_src": "ip_prop"
+              }
+            }
           }
         }
       },
@@ -724,7 +763,13 @@
           "spi_rx": {
             "direction": "I",
             "left": "15",
-            "right": "0"
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "16",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "pan_out": {
             "direction": "O",
@@ -739,7 +784,13 @@
           "spi_tx": {
             "direction": "O",
             "left": "15",
-            "right": "0"
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "16",
+                "value_src": "ip_prop"
+              }
+            }
           }
         }
       }
@@ -778,13 +829,6 @@
           "pan_en"
         ]
       },
-      "xlslice_2_Dout": {
-        "ports": [
-          "data_controller_0/tilt_out",
-          "xlslice_5/Din",
-          "xlslice_6/Din"
-        ]
-      },
       "xlslice_5_Dout": {
         "ports": [
           "xlslice_5/Dout",
@@ -812,18 +856,6 @@
           "data_controller_0/rst"
         ]
       },
-      "data_controller_0_spi_tx": {
-        "ports": [
-          "data_controller_0/spi_tx",
-          "spi_0/data_in"
-        ]
-      },
-      "spi_0_data_out": {
-        "ports": [
-          "spi_0/data_out",
-          "data_controller_0/spi_rx"
-        ]
-      },
       "tilt_b_1": {
         "ports": [
           "tilt_b",
@@ -841,12 +873,6 @@
           "spi_0/sdo",
           "sdo",
           "xlconcat_spi_test/In3"
-        ]
-      },
-      "xlconcat_spi_test_dout": {
-        "ports": [
-          "xlconcat_spi_test/dout",
-          "ar"
         ]
       },
       "xlslice_6_Dout": {
@@ -949,12 +975,6 @@
           "xlslice_tilt/Din"
         ]
       },
-      "xlslice_0_Dout1": {
-        "ports": [
-          "xlslice_tilt/Dout",
-          "data_controller_0/tilt_in"
-        ]
-      },
       "encoder_pan_cnt": {
         "ports": [
           "encoder_pan/cnt",
@@ -965,6 +985,32 @@
         "ports": [
           "xlslice_pan/Dout",
           "data_controller_0/pan_in"
+        ]
+      },
+      "data_controller_0_spi_tx": {
+        "ports": [
+          "data_controller_0/spi_tx",
+          "spi_0/data_in"
+        ]
+      },
+      "spi_0_data_out": {
+        "ports": [
+          "spi_0/data_out",
+          "data_controller_0/spi_rx"
+        ]
+      },
+      "xlconcat_spi_test_dout": {
+        "ports": [
+          "xlconcat_spi_test/dout",
+          "ar"
+        ]
+      },
+      "data_controller_0_tilt_out": {
+        "ports": [
+          "data_controller_0/tilt_out",
+          "xlslice_6/Din",
+          "xlslice_5/Din",
+          "data_controller_0/tilt_in"
         ]
       }
     }
