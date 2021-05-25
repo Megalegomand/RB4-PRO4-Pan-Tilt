@@ -49,7 +49,7 @@ void spi_init()
 
     // Setup of SSI format
     SSI0_CR0_R =
-    SSI_CR0_FRF_MOTO | SSI_CR0_DSS_16 | SSI_CR0_SPH/* | SSI_CR0_SPO*/; // Setting up Freescale SPI
+            SSI_CR0_FRF_MOTO | SSI_CR0_DSS_16 | SSI_CR0_SPH/* | SSI_CR0_SPO*/; // Setting up Freescale SPI
     SSI0_CR1_R |= SSI_CR1_EOT;
     SSI0_CC_R = 0;
     SSI0_CPSR_R = 1;

@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
--- Date        : Sat May 22 20:45:01 2021
+-- Date        : Tue May 25 09:52:50 2021
 -- Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_pwm_0_0/assembly_pwm_0_0_sim_netlist.vhdl
@@ -150,7 +150,8 @@ begin
     );
 \cnt_reg[0]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -161,7 +162,8 @@ begin
     );
 \cnt_reg[1]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -172,7 +174,8 @@ begin
     );
 \cnt_reg[2]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -183,7 +186,8 @@ begin
     );
 \cnt_reg[3]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -194,7 +198,8 @@ begin
     );
 \cnt_reg[4]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -205,7 +210,8 @@ begin
     );
 \cnt_reg[5]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -216,7 +222,8 @@ begin
     );
 \cnt_reg[6]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -227,7 +234,8 @@ begin
     );
 \cnt_reg[7]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -275,7 +283,8 @@ begin
     );
 \duty_cycle_t_reg[0]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -286,7 +295,8 @@ begin
     );
 \duty_cycle_t_reg[1]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -297,7 +307,8 @@ begin
     );
 \duty_cycle_t_reg[2]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -308,7 +319,8 @@ begin
     );
 \duty_cycle_t_reg[3]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -319,7 +331,8 @@ begin
     );
 \duty_cycle_t_reg[4]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -330,7 +343,8 @@ begin
     );
 \duty_cycle_t_reg[5]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -341,7 +355,8 @@ begin
     );
 \duty_cycle_t_reg[6]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -352,7 +367,8 @@ begin
     );
 \duty_cycle_t_reg[7]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '0'
+      INIT => '0',
+      IS_C_INVERTED => '1'
     )
         port map (
       C => clk,
@@ -456,7 +472,10 @@ o_i_8: unisim.vcomponents.LUT6
       O => o_i_8_n_0
     );
 o_reg: unisim.vcomponents.FDRE
-     port map (
+    generic map(
+      IS_C_INVERTED => '1'
+    )
+        port map (
       C => clk,
       CE => '1',
       D => o_i_1_n_0,

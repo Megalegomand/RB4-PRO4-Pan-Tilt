@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Mon May 24 13:45:44 2021
+--Date        : Tue May 25 11:14:06 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -85,10 +85,14 @@ architecture STRUCTURE of assembly is
   end component assembly_not_gate_1_1;
   component assembly_xlconcat_0_3 is
   port (
-    In0 : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    In0 : in STD_LOGIC_VECTOR ( 0 to 0 );
     In1 : in STD_LOGIC_VECTOR ( 0 to 0 );
     In2 : in STD_LOGIC_VECTOR ( 0 to 0 );
-    In3 : in STD_LOGIC_VECTOR ( 1 downto 0 );
+    In3 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In4 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In5 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In6 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    In7 : in STD_LOGIC_VECTOR ( 0 to 0 );
     dout : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component assembly_xlconcat_0_3;
@@ -117,22 +121,6 @@ architecture STRUCTURE of assembly is
     spi_tx : out STD_LOGIC_VECTOR ( 15 downto 0 )
   );
   end component assembly_data_controller_0_0;
-  component assembly_pwm_0_0 is
-  port (
-    rst : in STD_LOGIC;
-    clk : in STD_LOGIC;
-    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    o : out STD_LOGIC
-  );
-  end component assembly_pwm_0_0;
-  component assembly_pwm_pan_0 is
-  port (
-    rst : in STD_LOGIC;
-    clk : in STD_LOGIC;
-    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    o : out STD_LOGIC
-  );
-  end component assembly_pwm_pan_0;
   component assembly_clock_divider_0_1 is
   port (
     clk : in STD_LOGIC;
@@ -190,6 +178,22 @@ architecture STRUCTURE of assembly is
     Dout : out STD_LOGIC_VECTOR ( 8 downto 0 )
   );
   end component assembly_xlslice_0_1;
+  component assembly_pwm_0_0 is
+  port (
+    rst : in STD_LOGIC;
+    clk : in STD_LOGIC;
+    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    o : out STD_LOGIC
+  );
+  end component assembly_pwm_0_0;
+  component assembly_pwm_pan_0 is
+  port (
+    rst : in STD_LOGIC;
+    clk : in STD_LOGIC;
+    duty_cycle : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    o : out STD_LOGIC
+  );
+  end component assembly_pwm_pan_0;
   signal Net : STD_LOGIC;
   signal clk_1 : STD_LOGIC;
   signal clock_divider_1_clk_div : STD_LOGIC;
@@ -198,7 +202,6 @@ architecture STRUCTURE of assembly is
   signal debouncer_tilt_zero_outp : STD_LOGIC;
   signal encoder_pan_cnt : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal encoder_tilt_cnt : STD_LOGIC_VECTOR ( 9 downto 0 );
-  signal encoder_tilt_col_p : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal i_0_1 : STD_LOGIC;
   signal not_gate_1_o : STD_LOGIC;
   signal not_gate_2_o : STD_LOGIC;
@@ -225,6 +228,7 @@ architecture STRUCTURE of assembly is
   signal xlslice_5_Dout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal xlslice_6_Dout : STD_LOGIC_VECTOR ( 0 to 0 );
   signal NLW_encoder_pan_col_p_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
+  signal NLW_encoder_tilt_col_p_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal NLW_spi_0_state_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
   attribute X_INTERFACE_INFO : string;
   attribute X_INTERFACE_INFO of clk : signal is "xilinx.com:signal:clock:1.0 CLK.CLK CLK";
@@ -303,7 +307,7 @@ encoder_tilt: component assembly_encoder_0_0
       b => tilt_b_1,
       clk => Net,
       cnt(9 downto 0) => encoder_tilt_cnt(9 downto 0),
-      col_p(3 downto 0) => encoder_tilt_col_p(3 downto 0),
+      col_p(3 downto 0) => NLW_encoder_tilt_col_p_UNCONNECTED(3 downto 0),
       rst => i_0_1,
       zero => debouncer_tilt_zero_outp
     );
@@ -345,10 +349,14 @@ spi_0: component assembly_spi_0_0
     );
 xlconcat_spi_test: component assembly_xlconcat_0_3
      port map (
-      In0(3 downto 0) => encoder_tilt_col_p(3 downto 0),
-      In1(0) => tilt_zero_1,
-      In2(0) => debouncer_tilt_zero_outp,
-      In3(1 downto 0) => B"00",
+      In0(0) => sclk_1,
+      In1(0) => ss_0_1,
+      In2(0) => sdi_0_1,
+      In3(0) => spi_0_sdo,
+      In4(0) => '0',
+      In5(0) => '0',
+      In6(0) => '0',
+      In7(0) => '0',
       dout(7 downto 0) => xlconcat_spi_test_dout(7 downto 0)
     );
 xlslice_3: component assembly_xlslice_3_0

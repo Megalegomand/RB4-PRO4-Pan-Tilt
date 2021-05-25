@@ -83,7 +83,7 @@ UI_MENUS ui_debug_menu()
 
     ui_clear_screen();
 
-    printf("current_tick, time , raw_pos_pan , raw_pos_tilt , raw_pwm_pan , raw_pwm_tilt , pos_pan  , pos_tilt  , setpoint_pan , setpoint_tilt\n");
+    printf("current_tick, time , raw_pos_pan , raw_pos_tilt , raw_pwm_pan , raw_pwm_tilt , pos_pan  , pos_tilt  , setpoint_pan , setpoint_tilt\n\r");
 
     PID_Control pid_debug;
 
@@ -92,7 +92,7 @@ UI_MENUS ui_debug_menu()
         // Obtain data
         xQueueReceive(pid_debug_queue, &pid_debug, portMAX_DELAY);
 
-        printf("%-12i , %f , %-11i , %-12i , %-11i , %-12i , %-8f , %-8f , %-12f , %-13f \n",
+        printf("%-12i , %f , %-11i , %-12i , %-11i , %-12i , %-8f , %-8f , %-12f , %-13f \n\r",
                pid_debug.tick, pid_debug.tick * 0.05f, pid_debug.raw_pos[PID_PAN], pid_debug.raw_pos[PID_TILT],
                pid_debug.raw_pwm[PID_PAN], pid_debug.raw_pwm[PID_TILT],
                pid_debug.pos[PID_PAN], pid_debug.pos[PID_TILT],
