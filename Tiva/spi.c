@@ -171,20 +171,16 @@ INT8U redundant_bits(INT16U transmission)
 {
     INT8U ret = 0;
     INT8U p = 0;
-    for (INT8U i = 9; i < 16; i++)
+    for (INT8U i = 3; i < 16; i++)
     {
         p ^= (transmission >> i) & 0x0001;
     }
-    ret |= p << 2;
+    ret |= p << 2; // Odd parity
 
-    p = 0;
-    for (INT8U i = 3; i <= 9; i++)
-    {
-        p ^= (transmission >> i) & 0x0001;
-    }
-    ret |= p << 1;
+    // even parity
+    ret |= ~(p & 0x0001) << 1;
 
-    ret |= (~p & 0x01);
+    ret |= (p & 0x01);
 
     return ret;
 }

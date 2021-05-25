@@ -97,5 +97,10 @@ void pid_task(void * pvParameters);
  * Output: N/A
  * Function: adjustPWM()
  ***********************************************/
+
+void pid_reset(INT8U pid);
+
+void pid_stop();
+void pid_start();
 /***************** End of module **************/
 #endif /* CONTROLSYSTEM_H_ */

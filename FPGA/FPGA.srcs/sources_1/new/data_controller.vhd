@@ -50,15 +50,13 @@ ARCHITECTURE Behavioral OF data_controller IS
     SIGNAL pan_out_t : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
     SIGNAL tilt_out_t : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
 
-    CONSTANT frame_parity_split : POSITIVE := INTEGER(ceil(real(frame_width - redundant_bits) * 0.5));
-
     FUNCTION parity_bits (
         spi_data : IN STD_LOGIC_VECTOR(frame_width - 1 DOWNTO 0))
         RETURN STD_LOGIC_VECTOR IS
         VARIABLE parity : STD_LOGIC_VECTOR(redundant_bits - 1 DOWNTO 0) := (OTHERS => '0');
     BEGIN
-        parity(1) := xor_reduce(spi_data(frame_width - frame_parity_split DOWNTO redundant_bits));
-        parity(2) := xor_reduce(spi_data(frame_width - 1 DOWNTO frame_width - frame_parity_split));
+        parity(2) := xor_reduce(spi_data(frame_width - frame_parity_split DOWNTO redundant_bits)); -- Odd parity
+        parity(1) := NOT parity(2); -- Even parity
         parity(0) := NOT parity(1);
         RETURN parity;
     END FUNCTION parity_bits;

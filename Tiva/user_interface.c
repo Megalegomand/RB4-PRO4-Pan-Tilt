@@ -59,6 +59,7 @@ UI_MENUS ui_main_menu()
     printf("------------------------\n\r");
     printf("Select menu\n\r");
     printf("1. Debug view\n\r");
+    printf("2. SPI test\n\r");
     printf("------------------------\n\r");
 
     while (1)
@@ -69,6 +70,8 @@ UI_MENUS ui_main_menu()
         {
         case '1':
             return DEBUG;
+        case '2':
+            return SPI_TEST;
         default:
             msg++;
             printf("%c\n\rIncorrect input\n\r", msg);
@@ -93,7 +96,8 @@ UI_MENUS ui_debug_menu()
         xQueueReceive(pid_debug_queue, &pid_debug, portMAX_DELAY);
 
         printf("%-12i , %f , %-11i , %-12i , %-11i , %-12i , %-8f , %-8f , %-12f , %-13f \n\r",
-               pid_debug.tick, pid_debug.tick * 0.05f, pid_debug.raw_pos[PID_PAN], pid_debug.raw_pos[PID_TILT],
+               pid_debug.tick, pid_debug.tick * 0.05f,
+               pid_debug.raw_pos[PID_PAN], pid_debug.raw_pos[PID_TILT],
                pid_debug.raw_pwm[PID_PAN], pid_debug.raw_pwm[PID_TILT],
                pid_debug.pos[PID_PAN], pid_debug.pos[PID_TILT],
                pid_debug.setpoint[PID_PAN], pid_debug.setpoint[PID_TILT]);
@@ -115,6 +119,11 @@ UI_MENUS ui_debug_menu()
             }
         }
     }
+}
+
+UI_MENUS ui_spi_test()
+{
+
 }
 
 UI_MENUS ui_waypoint_menu(char* buf)
@@ -140,5 +149,6 @@ UI_MENUS ui_waypoint_menu(char* buf)
         }
     }
 }
+
 
 /***************** End of module **************/
