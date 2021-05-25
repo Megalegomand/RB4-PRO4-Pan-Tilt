@@ -83,17 +83,20 @@ UI_MENUS ui_debug_menu()
 
     ui_clear_screen();
 
-    printf("raw_pos_pan | raw_pos_tilt | raw_pwm_pan | raw_pwm_tilt\n\r");
+    printf("current_tick, time , raw_pos_pan , raw_pos_tilt , raw_pwm_pan , raw_pwm_tilt , pos_pan  , pos_tilt  , setpoint_pan , setpoint_tilt\n");
 
-    PID_DEBUG pid_debug;
+    PID_Control pid_debug;
 
     while (1)
     {
         // Obtain data
         xQueueReceive(pid_debug_queue, &pid_debug, portMAX_DELAY);
-        printf("%-11i | %-12i | %-11i | %i\n\r", pid_debug.raw_pos[PID_PAN],
-                        pid_debug.raw_pos[PID_TILT], pid_debug.raw_pwm[PID_PAN],
-                        pid_debug.raw_pwm[PID_TILT]);
+
+        printf("%-12i , %f , %-11i , %-12i , %-11i , %-12i , %-8f , %-8f , %-12f , %-13f \n",
+               pid_debug.tick, pid_debug.tick * 0.05f, pid_debug.raw_pos[PID_PAN], pid_debug.raw_pos[PID_TILT],
+               pid_debug.raw_pwm[PID_PAN], pid_debug.raw_pwm[PID_TILT],
+               pid_debug.pos[PID_PAN], pid_debug.pos[PID_TILT],
+               pid_debug.setpoint[PID_PAN], pid_debug.setpoint[PID_TILT]);
 
         // For controlling the menu
         uart0_getchar(&msg, 0);
@@ -117,24 +120,25 @@ UI_MENUS ui_debug_menu()
 UI_MENUS ui_waypoint_menu(char* buf)
 {
     ui_clear_screen();
-    uprintf(buf, "------------------------\n\r");
-    uprintf(buf, "Waypoint menu\n\r");
-    uprintf(buf, "1.Waypoint list \n\r");
-    uprintf(buf, "2.Add waypoint: \n\r");
-    uprintf(buf, "------------------------\n\r");
+    printf("------------------------\n\r");
+    printf("Waypoint menu\n\r");
+    printf("1.Waypoint list \n\r");
+    printf("2.Add waypoint: \n\r");
+    printf("------------------------\n\r");
 
     char msg;
     while (1)
     {
-        xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
+        //xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
         switch (msg)
         {
         case '1':
             return DEBUG;
         default:
-            uprintf(buf, "%c\n\rIncorrect input\n\r", msg);
+            printf("%c\n\rIncorrect input\n\r", msg);
             break;
         }
     }
 }
+
 /***************** End of module **************/

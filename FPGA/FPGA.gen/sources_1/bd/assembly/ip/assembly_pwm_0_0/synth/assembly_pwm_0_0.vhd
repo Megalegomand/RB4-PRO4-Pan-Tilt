@@ -55,8 +55,9 @@ USE ieee.numeric_std.ALL;
 
 ENTITY assembly_pwm_0_0 IS
   PORT (
+    rst : IN STD_LOGIC;
     clk : IN STD_LOGIC;
-    duty_cycle : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+    duty_cycle : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     o : OUT STD_LOGIC
   );
 END assembly_pwm_0_0;
@@ -69,8 +70,9 @@ ARCHITECTURE assembly_pwm_0_0_arch OF assembly_pwm_0_0 IS
       n_bits : INTEGER
     );
     PORT (
+      rst : IN STD_LOGIC;
       clk : IN STD_LOGIC;
-      duty_cycle : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+      duty_cycle : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
       o : OUT STD_LOGIC
     );
   END COMPONENT pwm;
@@ -79,19 +81,22 @@ ARCHITECTURE assembly_pwm_0_0_arch OF assembly_pwm_0_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF assembly_pwm_0_0_arch : ARCHITECTURE IS "assembly_pwm_0_0,pwm,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF assembly_pwm_0_0_arch: ARCHITECTURE IS "assembly_pwm_0_0,pwm,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=pwm,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=7}";
+  ATTRIBUTE CORE_GENERATION_INFO OF assembly_pwm_0_0_arch: ARCHITECTURE IS "assembly_pwm_0_0,pwm,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=pwm,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=8}";
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
   ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_pwm_0_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
-  ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, ASSOCIATED_RESET rst, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF clk: SIGNAL IS "xilinx.com:signal:clock:1.0 clk CLK";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF rst: SIGNAL IS "XIL_INTERFACENAME rst, POLARITY ACTIVE_LOW, INSERT_VIP 0";
+  ATTRIBUTE X_INTERFACE_INFO OF rst: SIGNAL IS "xilinx.com:signal:reset:1.0 rst RST";
 BEGIN
   U0 : pwm
     GENERIC MAP (
-      n_bits => 7
+      n_bits => 8
     )
     PORT MAP (
+      rst => rst,
       clk => clk,
       duty_cycle => duty_cycle,
       o => o

@@ -42,7 +42,7 @@ void test_task(void * pvParameters)
         FP32 msg = 10.0f;
         //xQueueReceive(uart0_rx_queue, &msg, portMAX_DELAY);
         //xQueueSendToBack(uart0_tx_queue, &msg, portMAX_DELAY);
-        xQueueSendToBack(setpoint_queues[PID_PAN], &msg, portMAX_DELAY);
+        //xQueueSendToBack(setpoint_queues[PID_PAN], &msg, portMAX_DELAY);
     }
 }
 
@@ -51,8 +51,7 @@ void test_task2(void * pvParameters)
 {
     while (1)
     {
-        INT8U msg = 10.0f;
-        xQueueSendToBack(setpoint_queues[PID_TILT], &msg, portMAX_DELAY);
+        //spi_transmission(0b101010101, 0b00, 0b00, 0b00);
     }
 }
 
@@ -64,12 +63,13 @@ void test_task2(void * pvParameters)
 int main(void)
 {
     spi_init();
-    uart0_init(19200, 8, 1, 0);
+    uart0_init(115200, 8, 1, 0);
     init_systick();
+    waypoint_init();
 
     // PID, Kp, Ki, Kd, N, setpoint queue
-    pid_init(PID_PAN, 0.1f, 0.0f, 0.0f, 10);
-    pid_init(PID_TILT, 0.1f, 0.0f, 0.0f, 10);
+    pid_init(PID_PAN, 10.03f, 9.09f, 2.16f, 1000);
+    pid_init(PID_TILT, 2.689f, 4.366f, 0.4139f, 1000);
 
     // Create tasks
     xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE + 100,
@@ -87,10 +87,10 @@ int main(void)
     configMINIMAL_STACK_SIZE + 150,
                 NULL, PRIORITY_IDLE, NULL);
 
-    //xTaskCreate(test_task, "Test", configMINIMAL_STACK_SIZE+100,
-    //            NULL, PRIORITY_IDLE, NULL);
-    //xTaskCreate(test_task2, "Test2", configMINIMAL_STACK_SIZE+100,
-    //                NULL, PRIORITY_IDLE, NULL);
+//    xTaskCreate(test_task, "Test", configMINIMAL_STACK_SIZE+100,
+//                NULL, PRIORITY_IDLE, NULL);
+//    xTaskCreate(test_task2, "Test2", configMINIMAL_STACK_SIZE+100,
+//                    NULL, PRIORITY_IDLE, NULL);
 
     //Start scheduler
     vTaskStartScheduler();

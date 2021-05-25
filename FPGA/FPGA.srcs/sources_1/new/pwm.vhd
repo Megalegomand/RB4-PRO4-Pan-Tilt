@@ -17,49 +17,55 @@
 -- Additional Comments:
 -- 
 ----------------------------------------------------------------------------------
-
-
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
-use IEEE.NUMERIC_STD.ALL;
-use ieee.std_logic_misc.all;
+USE IEEE.NUMERIC_STD.ALL;
+USE ieee.std_logic_misc.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity pwm is
-    Generic (
+ENTITY pwm IS
+    GENERIC (
         n_bits : POSITIVE := 2);
-    Port ( clk : in STD_LOGIC;
-           duty_cycle : in STD_LOGIC_VECTOR (n_bits-1 downto 0);
-           o : out STD_LOGIC);
-end pwm;
+    PORT (
+        rst : IN STD_LOGIC;
+        clk : IN STD_LOGIC;
+        duty_cycle : IN STD_LOGIC_VECTOR (n_bits - 1 DOWNTO 0);
+        o : OUT STD_LOGIC);
+END pwm;
 
-architecture Behavioral of pwm is
-    signal cnt : STD_LOGIC_VECTOR (n_bits-1 downto 0) := (others => '0');
-    signal duty_cycle_t : STD_LOGIC_VECTOR (n_bits-1 downto 0) := (others => '0');
-begin
+ARCHITECTURE Behavioral OF pwm IS
+    SIGNAL cnt : STD_LOGIC_VECTOR (n_bits - 1 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL duty_cycle_t : STD_LOGIC_VECTOR (n_bits - 1 DOWNTO 0) := (OTHERS => '0');
+BEGIN
 
-    process (clk)
-
-    begin
-        if (rising_edge(clk)) then
-            if (or_reduce(cnt) = '0') then
+    PROCESS (clk)
+    BEGIN
+        IF (rst = '1') THEN
+            o <= '0';
+            duty_cycle_t <= (OTHERS => '0');
+            cnt <= (OTHERS => '0');
+        END IF;
+        IF (rising_edge(clk)) THEN
+            IF (or_reduce(cnt) = '0') THEN
                 duty_cycle_t <= duty_cycle;
-                o <= '0';
-            end if;
-            
-            if (cnt = duty_cycle_t and or_reduce(duty_cycle) /= '0') then
-                o <= '1';
-            end if;
-            
-            cnt <= STD_LOGIC_VECTOR(unsigned(cnt) + 1);
-        end if;
-    end process;
+                IF (or_reduce(duty_cycle) /= '0') THEN
+                    o <= '1';
+                END IF;
+            END IF;
 
-end Behavioral;
+            IF (cnt = duty_cycle_t) THEN
+                o <= '0';
+            END IF;
+
+            cnt <= STD_LOGIC_VECTOR(unsigned(cnt) + 1);
+        END IF;
+    END PROCESS;
+
+END Behavioral;

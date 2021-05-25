@@ -56,11 +56,12 @@ USE ieee.numeric_std.ALL;
 ENTITY assembly_encoder_tilt_0 IS
   PORT (
     clk : IN STD_LOGIC;
+    rst : IN STD_LOGIC;
+    zero : IN STD_LOGIC;
     a : IN STD_LOGIC;
     b : IN STD_LOGIC;
-    rst : IN STD_LOGIC;
     col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-    cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    cnt : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
   );
 END assembly_encoder_tilt_0;
 
@@ -73,11 +74,12 @@ ARCHITECTURE assembly_encoder_tilt_0_arch OF assembly_encoder_tilt_0 IS
     );
     PORT (
       clk : IN STD_LOGIC;
+      rst : IN STD_LOGIC;
+      zero : IN STD_LOGIC;
       a : IN STD_LOGIC;
       b : IN STD_LOGIC;
-      rst : IN STD_LOGIC;
       col_p : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-      cnt : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+      cnt : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
     );
   END COMPONENT encoder;
   ATTRIBUTE X_CORE_INFO : STRING;
@@ -85,7 +87,7 @@ ARCHITECTURE assembly_encoder_tilt_0_arch OF assembly_encoder_tilt_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF assembly_encoder_tilt_0_arch : ARCHITECTURE IS "assembly_encoder_tilt_0,encoder,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF assembly_encoder_tilt_0_arch: ARCHITECTURE IS "assembly_encoder_tilt_0,encoder,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=encoder,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=8}";
+  ATTRIBUTE CORE_GENERATION_INFO OF assembly_encoder_tilt_0_arch: ARCHITECTURE IS "assembly_encoder_tilt_0,encoder,{x_ipProduct=Vivado 2020.2,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=encoder,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,n_bits=10}";
   ATTRIBUTE IP_DEFINITION_SOURCE : STRING;
   ATTRIBUTE IP_DEFINITION_SOURCE OF assembly_encoder_tilt_0_arch: ARCHITECTURE IS "module_ref";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
@@ -97,13 +99,14 @@ ARCHITECTURE assembly_encoder_tilt_0_arch OF assembly_encoder_tilt_0 IS
 BEGIN
   U0 : encoder
     GENERIC MAP (
-      n_bits => 8
+      n_bits => 10
     )
     PORT MAP (
       clk => clk,
+      rst => rst,
+      zero => zero,
       a => a,
       b => b,
-      rst => rst,
       col_p => col_p,
       cnt => cnt
     );

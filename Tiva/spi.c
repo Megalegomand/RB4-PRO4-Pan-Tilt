@@ -23,6 +23,8 @@
 /***************** Variables ******************/
 QueueHandle_t spi_rx_queue;
 QueueHandle_t spi_tx_queue;
+
+INT8U expected_id = 0;
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
@@ -46,7 +48,8 @@ void spi_init()
     dummy = SYSCTL_RCGC2_R; // Time delay
 
     // Setup of SSI format
-    SSI0_CR0_R = SSI_CR0_FRF_MOTO | SSI_CR0_DSS_16 | SSI_CR0_SPH/* | SSI_CR0_SPO*/; // Setting up Freescale SPI
+    SSI0_CR0_R =
+    SSI_CR0_FRF_MOTO | SSI_CR0_DSS_16 | SSI_CR0_SPH/* | SSI_CR0_SPO*/; // Setting up Freescale SPI
     SSI0_CR1_R |= SSI_CR1_EOT;
     SSI0_CC_R = 0;
     SSI0_CPSR_R = 1;
@@ -64,7 +67,7 @@ void spi_init()
     // NVIC Enable interrupt 7 (SSI0)
     NVIC_EN0_R |= (1 << 7);
     // Set highest priority (lowest numberical value) allowed by FreeRTOS
-    NVIC_PRI1_R |= (101 << 29);
+    NVIC_PRI1_R |= (0b101 << 29);
 
     // Setup rx and tx queues
     spi_rx_queue = xQueueCreate(SPI_QUEUE_LENGTH, SPI_ITEM_SIZE);
@@ -82,53 +85,108 @@ void spi_init()
  * Output: N/A
  * Function: spi_write
  ***********************************************/
-BOOLEAN spi_write(INT16U data)
+void spi_write(INT16U data)
 {
-    BOOLEAN ret = 0;
-    SSI0_CR1_R |= SSI_CR1_SSE;
-    if (SSI0_SR_R & SSI_SR_TNF)
-    {
-        SSI0_DR_R = data;
-        SSI0_CR1_R |= SSI_CR1_SSE;
-        ret = 1;
+    SSI0_CR1_R |= SSI_CR1_SSE; // Enable SPI
+    while (!(SSI0_SR_R & SSI_SR_TNF))
+    { // Wait for ready
     }
-    return ret;
+    SSI0_DR_R = data; // Send data
+    SSI0_CR1_R |= SSI_CR1_SSE; // Enable SPI
 }
 
 void spi_write_task(void * pvParameters)
 {
-    // Periodic tasks definitions
-    const TickType_t xPeriod = pdMS_TO_TICKS(PID_SAMPLE_TIME * 1000.0f);
-    TickType_t xLastWakeTime = xTaskGetTickCount();
-    TickType_t xLastWakeTime_prev;
 
     while (1)
     {
-
         // Write
-        taskENTER_CRITICAL(); // Has to happen at exactly the same time
         INT16U msg;
-        xLastWakeTime_prev = xLastWakeTime; // To counteract queue effect
-        configASSERT(xQueueReceive(spi_tx_queue, &msg, 0));
-        xLastWakeTime = xLastWakeTime_prev;
-        configASSERT(spi_write(msg));
-        taskEXIT_CRITICAL();
-
-        // Wait
-        vTaskDelayUntil(&xLastWakeTime, xPeriod);
+        xQueueReceive(spi_tx_queue, &msg, portMAX_DELAY);
+        spi_write(msg);
     }
 }
 
 void spi_read_isr()
 {
-    if (!(SSI0_SR_R & SSI_SR_BSY)) { // Check for end of transmission with not busy
-        // Check SPI recieved
-        configASSERT(SSI0_SR_R & SSI_SR_RNE);
-
+    while (SSI0_SR_R & SSI_SR_RNE)
+    { // Check for end of transmission with not busy
+      // Check SPI recieved
         // Store data
         INT16U data = SSI0_DR_R;
         xQueueSendToBackFromISR(spi_rx_queue, &data, NULL);
     }
+}
+
+INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id)
+{
+    INT16U receive;
+
+    INT16S rx_data;
+    while (1)
+    {
+        receive = spi_transmit(tx_data, data_tx_id, data_rx_id); // Next id, same as receive to prevent looping
+
+        if (((receive >> 5) & 0x0003) == data_rx_id)
+        { // Correct data recieved
+            BOOLEAN tx_correct = ((receive >> 3) & 0x0003) == 0b10;
+
+            BOOLEAN redundant_correct = redundant_bits(receive)
+                    == (((INT8U) receive) & 0x07);
+
+            if (tx_correct && redundant_correct)
+            {
+                rx_data = receive >> 7;
+                if (rx_data & 0x100)
+                { // Value is negative
+                    rx_data |= 0xFE00;
+                }
+
+                break;
+            }
+        }
+    }
+
+    return rx_data;
+}
+
+INT16U spi_transmit(INT16S tx_data, INT8U data_tx_id, INT8U next_id)
+{
+    INT16U transmit;
+
+    transmit = tx_data << 7;
+    transmit |= (data_tx_id & 0x03) << 5;
+    transmit |= (next_id & 0x03) << 3;
+
+    transmit |= redundant_bits(transmit);
+
+    xQueueSendToBack(spi_tx_queue, &transmit, portMAX_DELAY);
+
+    INT16U ret;
+    xQueueReceive(spi_rx_queue, &ret, portMAX_DELAY);
+    return ret;
+}
+
+INT8U redundant_bits(INT16U transmission)
+{
+    INT8U ret = 0;
+    INT8U p = 0;
+    for (INT8U i = 9; i < 16; i++)
+    {
+        p ^= (transmission >> i) & 0x0001;
+    }
+    ret |= p << 2;
+
+    p = 0;
+    for (INT8U i = 3; i <= 9; i++)
+    {
+        p ^= (transmission >> i) & 0x0001;
+    }
+    ret |= p << 1;
+
+    ret |= (~p & 0x01);
+
+    return ret;
 }
 
 /***************** End of module **************/
