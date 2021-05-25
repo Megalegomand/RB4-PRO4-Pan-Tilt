@@ -36,26 +36,55 @@ void waypoint_init()
     waypoints_mutex = xSemaphoreCreateMutex();
     configASSERT(waypoints_mutex);
 
-    Waypoint wp0;
-    wp0.active = 1;
-    wp0.tilt_point = 0.0f;
-    wp0.pan_point = 0.0f;
-    wp0.time_ms = 5000;
-    waypoints[0] = wp0;
+    Waypoint wp;
 
-    Waypoint wp1;
-    wp1.active = 0;
-    wp1.tilt_point = 100.0f;
-    wp1.pan_point = 100.0f;
-    wp1.time_ms = 5000;
-    waypoints[1] = wp1;
+    wp.active = 1;
+    wp.tilt_point = 0.0f;
+    wp.pan_point = 0.0f;
+    wp.time_ms = 10000;
+    waypoints[0] = wp;
 
-    Waypoint wp2;
-    wp2.active = 0;
-    wp2.tilt_point = -100.0f;
-    wp2.pan_point = -100.0f;
-    wp2.time_ms = 5000;
-    waypoints[2] = wp2;
+    wp.active = 1;
+    wp.tilt_point = 0.0f;
+    wp.pan_point = 1.0f;
+    wp.time_ms = 10000000;
+    waypoints[1] = wp;
+
+//    wp.active = 1;
+//    wp.tilt_point = 0.0f;
+//    wp.pan_point = 0.0f;
+//    wp.time_ms = 10000;
+//    waypoints[0] = wp;
+//
+//    wp.active = 1;
+//    wp.tilt_point = PI / 4.0f;
+//    wp.pan_point = PI / 4.0f;
+//    wp.time_ms = 1000;
+//    waypoints[1] = wp;
+//
+//    wp.active = 1;
+//    wp.tilt_point = PI / 4.0f;
+//    wp.pan_point = PI / 4.0f;
+//    wp.time_ms = 10000;
+//    waypoints[2] = wp;
+//
+//    wp.active = 1;
+//    wp.tilt_point = -PI / 4.0f;
+//    wp.pan_point = -PI / 4.0f;
+//    wp.time_ms = 2000;
+//    waypoints[3] = wp;
+//
+//    wp.active = 1;
+//    wp.tilt_point = -PI / 4.0f;
+//    wp.pan_point = -PI / 4.0f;
+//    wp.time_ms = 10000;
+//    waypoints[4] = wp;
+//
+//    wp.active = 1;
+//    wp.tilt_point = 0.0f;
+//    wp.pan_point = 0.0f;
+//    wp.time_ms = 1000;
+//    waypoints[5] = wp;
 
     xSemaphoreGive(waypoints_mutex); // Init mutex
 }

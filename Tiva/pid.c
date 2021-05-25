@@ -77,6 +77,10 @@ float pid_update(INT8U pid, FP32 position, FP32 setpoint)
     // Error
     FP32 error = setpoint - position;
 
+    if (fabs(error) <= PID_TOLERANCE) {
+        error = 0.0f;
+    }
+
     // Proportional term
     FP32 p_term = pid_controllers[pid].Kp * error;
 
@@ -147,6 +151,7 @@ void pid_task(void * pvParameters)
         }
         else if (pantilt == PID_TILT)
         {
+            pid_c.tick++;
             pid_c.raw_pos[PID_TILT] = spi_transmission(SPI_TILT,
                                                        pid_c.raw_pwm[PID_PAN],
                                                        SPI_PAN);

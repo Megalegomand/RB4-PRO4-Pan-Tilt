@@ -4,6 +4,8 @@
 /***************** Include files **************/
 #include "tm4c123gh6pm.h"
 #include <stdint.h>
+#include <stdlib.h>
+#include <math.h>
 #include "emp_type.h"
 #include "FreeRTOS.h"
 #include "task.h"
@@ -36,15 +38,19 @@ typedef struct
     QueueHandle_t* setpoint_queue;
 } PID_Container;
 
+#define PI 3.14159265359f
+
 #define PID_CONTROLLERS_LENGTH 2
 #define PID_PAN             0
 #define PID_TILT            1
 
 #define PID_SAMPLE_TIME_MS  100
-#define PID_LIM_MIN         -8.0f
-#define PID_LIM_MAX         8.0f
+#define PID_LIM_MIN         -12.0f
+#define PID_LIM_MAX         12.0f
 
-#define POS_MULTIPLIER 180.0f / 255.0f
+#define PID_TOLERANCE 0.05f
+
+#define POS_MULTIPLIER (PI / 2.0f) / 138.0f // Rotation / encoder ticks
 #define PWM_MULTIPLIER 255.0f / 12.0f
 
 #define SETPOINT_QUEUE_LENGTH 1
@@ -55,6 +61,7 @@ typedef struct
 
 typedef struct
 {
+    INT32U tick;
     INT16S raw_pos[PID_CONTROLLERS_LENGTH];
     FP32 pos[PID_CONTROLLERS_LENGTH];
     FP32 pwm[PID_CONTROLLERS_LENGTH];

@@ -63,13 +63,13 @@ void test_task2(void * pvParameters)
 int main(void)
 {
     spi_init();
-    uart0_init(19200, 8, 1, 0);
+    uart0_init(115200, 8, 1, 0);
     init_systick();
     waypoint_init();
 
     // PID, Kp, Ki, Kd, N, setpoint queue
-    pid_init(PID_PAN, 4.4201f, 1.8223f, 0.90907f, 1000);
-    pid_init(PID_TILT, 0.67538f, 0.34137f, 0.1133f, 1000);
+    pid_init(PID_PAN, 10.03f, 9.09f, 2.16f, 1000);
+    pid_init(PID_TILT, 2.689f, 4.366f, 0.4139f, 1000);
 
     // Create tasks
     xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE + 100,
