@@ -1009,7 +1009,12 @@
         "ports": [
           "data_controller_0/tilt_out",
           "xlslice_6/Din",
-          "xlslice_5/Din",
+          "xlslice_5/Din"
+        ]
+      },
+      "xlslice_tilt_Dout": {
+        "ports": [
+          "xlslice_tilt/Dout",
           "data_controller_0/tilt_in"
         ]
       }

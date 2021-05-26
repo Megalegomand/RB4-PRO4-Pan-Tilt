@@ -44,7 +44,7 @@ typedef struct
 #define PID_PAN             0
 #define PID_TILT            1
 
-#define PID_SAMPLE_TIME_MS  5
+#define PID_SAMPLE_TIME_MS  6
 #define PID_LIM_MIN         -12.0f
 #define PID_LIM_MAX         12.0f
 

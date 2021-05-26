@@ -138,7 +138,7 @@ void pid_task(void * pvParameters)
     pid_task_handle = xTaskGetCurrentTaskHandle();
 
     // Periodic tasks definitions
-    const TickType_t xPeriod = pdMS_TO_TICKS(PID_SAMPLE_TIME_MS / 2);
+    const TickType_t xPeriod = pdMS_TO_TICKS(PID_SAMPLE_TIME_MS * 0.5f);
     TickType_t xLastWakeTime = xTaskGetTickCount();
     TickType_t xLastWakeTime_prev;
 

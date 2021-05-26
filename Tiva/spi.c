@@ -112,12 +112,15 @@ void spi_write_task(void * pvParameters)
 
 void spi_read_isr()
 {
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
     while (SSI0_SR_R & SSI_SR_RNE)
     { // Check for end of transmission with not busy
       // Check SPI recieved
         // Store data
         INT16U data = SSI0_DR_R;
-        xQueueSendToBackFromISR(spi_rx_queue, &data, NULL);
+        xQueueSendToBackFromISR(spi_rx_queue, &data,  &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
 }
 
@@ -126,15 +129,18 @@ INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id)
     INT16U receive;
 
     INT16S rx_data;
+
+    BOOLEAN redundant_correct;
+    BOOLEAN tx_correct;
     while (1)
     {
         receive = spi_transmit(tx_data, data_tx_id, data_rx_id); // Next id, same as receive to prevent looping
 
         if (((receive >> 5) & 0x0003) == data_rx_id)
         { // Correct data recieved
-            BOOLEAN tx_correct = ((receive >> 3) & 0x0003) == 0b10;
+            tx_correct = ((receive >> 3) & 0x0003) == 0b10;
 
-            BOOLEAN redundant_correct = redundant_bits(receive)
+            redundant_correct = redundant_bits(receive)
                     == (((INT8U) receive) & 0x07);
 
             if (tx_correct && redundant_correct)
@@ -176,17 +182,11 @@ INT16U spi_transmit(INT16S tx_data, INT8U data_tx_id, INT8U next_id)
 INT8U redundant_bits(INT16U transmission)
 {
     INT8U ret = 0;
-    INT8U p = 0;
     for (INT8U i = 3; i < 16; i++)
     {
-        p ^= (transmission >> i) & 0x0001;
+        ret += (transmission >> i) & 0x0001;
     }
-    ret |= p << 2; // Odd parity
-
-    // even parity
-    ret |= (~p & 0x01) << 1;
-
-    ret |= (p & 0x01);
+    ret = ret & 0x0007;
 
     return ret;
 }

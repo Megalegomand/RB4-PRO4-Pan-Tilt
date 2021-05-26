@@ -54,15 +54,19 @@ ARCHITECTURE Behavioral OF data_controller IS
         spi_data : IN STD_LOGIC_VECTOR(frame_width - 1 DOWNTO 0))
         RETURN STD_LOGIC_VECTOR IS
         VARIABLE parity : STD_LOGIC_VECTOR(redundant_bits - 1 DOWNTO 0) := (OTHERS => '0');
+        VARIABLE cnt : UNSIGNED(redundant_bits - 1 DOWNTO 0);
     BEGIN
-        parity(2) := xor_reduce(spi_data(frame_width-1 DOWNTO redundant_bits)); -- Odd parity
-        parity(1) := NOT parity(2); -- Even parity
-        parity(0) := NOT parity(1);
+        FOR i IN redundant_bits TO frame_width - 1 LOOP --check for all the bits.
+            IF (spi_data(i) = '1') THEN --check if the bit is '1'
+                cnt := cnt + 1; --if its one, increment the count.
+            END IF;
+        END LOOP;
+        parity := STD_LOGIC_VECTOR(cnt);
         RETURN parity;
     END FUNCTION parity_bits;
 BEGIN
 
-    spi_rx_process : PROCESS (spi_rx)
+    spi_rx_process : PROCESS (clk)
         VARIABLE p1 : STD_LOGIC;
         VARIABLE p2 : STD_LOGIC;
 
@@ -71,15 +75,17 @@ BEGIN
 
         VARIABLE parity : STD_LOGIC_VECTOR(redundant_bits - 1 DOWNTO 0);
     BEGIN
-        data_tx_id_t := spi_rx(redundant_bits + data_id_bits - 1 DOWNTO redundant_bits);
-        data_rx_id_t := spi_rx(redundant_bits + 2 * data_id_bits - 1 DOWNTO redundant_bits + data_id_bits);
+        IF (falling_edge(clk)) THEN
+            data_tx_id_t := spi_rx(redundant_bits + data_id_bits - 1 DOWNTO redundant_bits);
+            data_rx_id_t := spi_rx(redundant_bits + 2 * data_id_bits - 1 DOWNTO redundant_bits + data_id_bits);
 
-        IF (spi_rx(redundant_bits - 1 DOWNTO 0) = parity_bits(spi_rx)) THEN
-            IF (data_rx_id_t = "11" OR data_rx_id_t = "00") THEN
-                IF (data_tx_id_t = "11" OR data_tx_id_t = "00") THEN
-                    data_rx <= spi_rx(frame_width - 1 DOWNTO frame_width - data_width);
-                    data_tx_id <= data_tx_id_t;
-                    data_rx_id <= data_rx_id_t;
+            IF (spi_rx(redundant_bits - 1 DOWNTO 0) = parity_bits(spi_rx)) THEN
+                IF (data_rx_id_t = "11" OR data_rx_id_t = "00") THEN
+                    IF (data_tx_id_t = "11" OR data_tx_id_t = "00") THEN
+                        data_rx <= spi_rx(frame_width - 1 DOWNTO frame_width - data_width);
+                        data_tx_id <= data_tx_id_t;
+                        data_rx_id <= data_rx_id_t;
+                    END IF;
                 END IF;
             END IF;
         END IF;
@@ -118,7 +124,7 @@ BEGIN
     out_process : PROCESS (clk)
         VARIABLE abs_conv : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);
     BEGIN
-        IF (rising_edge(clk)) THEN 
+        IF (rising_edge(clk)) THEN
             abs_conv := STD_LOGIC_VECTOR(ABS(signed(data_rx)));
             CASE data_rx_id IS
                 WHEN "00" =>

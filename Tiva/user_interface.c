@@ -161,10 +161,10 @@ UI_MENUS ui_spi_test()
     {
         spi_transmit(0, SPI_TILT, SPI_TILT);
 
-        for (INT16U i = 1; i <= 0x1FF; i++)
+        for (INT16U i = 1; i < 10000; i++)
         {
-            INT16U r = spi_transmit(i, SPI_TILT, SPI_TILT) >> 7;
-            if (r != i - 1)
+            INT16U r = spi_transmit(i, SPI_TILT, SPI_TILT);
+            if (r != 0b0101010101110111)
             {
                 failed++;
             }
@@ -172,21 +172,10 @@ UI_MENUS ui_spi_test()
     }
     else
     {
-        INT16U i_t = 0;
-
-        for (INT16U i = 1; i <= 0x1FF; i++)
+        for (INT16U i = 0; i < 10000; i++)
         {
-            spi_transmission(SPI_TILT, i, SPI_TILT);
-
-            i_t = i;
-            if (i_t & 0x0100)
-            { // Value is negative
-                i_t = 0xFF - i + 1;
-                i_t |= 0xFF00;
-            }
-
             INT16U r = spi_transmission(SPI_TILT, i, SPI_TILT);
-            if (i_t != r)
+            if (0b010101010 != r)
             {
                 protocolfailed++;
             }

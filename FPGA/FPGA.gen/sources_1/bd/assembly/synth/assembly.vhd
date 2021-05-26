@@ -1,7 +1,7 @@
 --Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
---Date        : Tue May 25 19:49:28 2021
+--Date        : Wed May 26 09:55:37 2021
 --Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 --Command     : generate_target assembly.bd
 --Design      : assembly
@@ -226,10 +226,10 @@ architecture STRUCTURE of assembly is
   signal xlslice_4_Dout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal xlslice_5_Dout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal xlslice_6_Dout : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal xlslice_tilt_Dout : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal NLW_encoder_pan_col_p_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal NLW_encoder_tilt_col_p_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal NLW_spi_0_state_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal NLW_xlslice_tilt_Dout_UNCONNECTED : STD_LOGIC_VECTOR ( 8 downto 0 );
   attribute X_INTERFACE_INFO : string;
   attribute X_INTERFACE_INFO of clk : signal is "xilinx.com:signal:clock:1.0 CLK.CLK CLK";
   attribute X_INTERFACE_PARAMETER : string;
@@ -274,7 +274,7 @@ data_controller_0: component assembly_data_controller_0_0
       rst => i_0_1,
       spi_rx(15 downto 0) => spi_0_data_out(15 downto 0),
       spi_tx(15 downto 0) => data_controller_0_spi_tx(15 downto 0),
-      tilt_in(8 downto 0) => data_controller_0_tilt_out(8 downto 0),
+      tilt_in(8 downto 0) => xlslice_tilt_Dout(8 downto 0),
       tilt_out(8 downto 0) => data_controller_0_tilt_out(8 downto 0)
     );
 debouncer_pan_zero: component assembly_debouncer_0_0
@@ -387,6 +387,6 @@ xlslice_pan: component assembly_xlslice_0_1
 xlslice_tilt: component assembly_xlslice_0_0
      port map (
       Din(9 downto 0) => encoder_tilt_cnt(9 downto 0),
-      Dout(8 downto 0) => NLW_xlslice_tilt_Dout_UNCONNECTED(8 downto 0)
+      Dout(8 downto 0) => xlslice_tilt_Dout(8 downto 0)
     );
 end STRUCTURE;

@@ -123,9 +123,6 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
-          <Proxy FileSetName="assembly_clock_divider_0_0"/>
-        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_not_gate_1_0/assembly_not_gate_1_0.xci">
           <Proxy FileSetName="assembly_not_gate_1_0"/>
         </CompFileExtendedInfo>
@@ -158,6 +155,9 @@
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_data_controller_0_0/assembly_data_controller_0_0.xci">
           <Proxy FileSetName="assembly_data_controller_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
+          <Proxy FileSetName="assembly_clock_divider_0_0"/>
         </CompFileExtendedInfo>
       </File>
       <File Path="$PGENDIR/sources_1/bd/assembly/hdl/assembly_wrapper.vhd">
@@ -449,9 +449,7 @@
     </Run>
     <Run Id="assembly_data_controller_0_0_synth_1" Type="Ft3:Synth" SrcSet="assembly_data_controller_0_0" Part="xc7z020clg400-1" ConstrsSet="assembly_data_controller_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/assembly_data_controller_0_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_data_controller_0_0_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -666,9 +664,7 @@
     </Run>
     <Run Id="assembly_data_controller_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg400-1" ConstrsSet="assembly_data_controller_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="assembly_data_controller_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/assembly_data_controller_0_0_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>

@@ -414,7 +414,7 @@ proc create_root_design { parentCell } {
   connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins clock_divider_0/clk] [get_bd_pins clock_divider_1/clk]
   connect_bd_net -net clock_divider_1_clk_div [get_bd_pins clock_divider_1/clk_div] [get_bd_pins pwm_pan/clk] [get_bd_pins pwm_tilt/clk]
   connect_bd_net -net data_controller_0_spi_tx [get_bd_pins data_controller_0/spi_tx] [get_bd_pins spi_0/data_in]
-  connect_bd_net -net data_controller_0_tilt_out [get_bd_pins data_controller_0/tilt_in] [get_bd_pins data_controller_0/tilt_out] [get_bd_pins xlslice_5/Din] [get_bd_pins xlslice_6/Din]
+  connect_bd_net -net data_controller_0_tilt_out [get_bd_pins data_controller_0/tilt_out] [get_bd_pins xlslice_5/Din] [get_bd_pins xlslice_6/Din]
   connect_bd_net -net debouncer_pan_zero_outp [get_bd_pins debouncer_pan_zero/outp] [get_bd_pins encoder_pan/zero]
   connect_bd_net -net debouncer_tilt_zero_outp [get_bd_pins debouncer_tilt_zero/outp] [get_bd_pins encoder_tilt/zero]
   connect_bd_net -net encoder_pan_cnt [get_bd_pins encoder_pan/cnt] [get_bd_pins xlslice_pan/Din]
@@ -442,6 +442,7 @@ proc create_root_design { parentCell } {
   connect_bd_net -net xlslice_4_Dout [get_bd_pins pwm_pan/duty_cycle] [get_bd_pins xlslice_4/Dout]
   connect_bd_net -net xlslice_5_Dout [get_bd_pins pwm_tilt/duty_cycle] [get_bd_pins xlslice_5/Dout]
   connect_bd_net -net xlslice_6_Dout [get_bd_ports tilt_in1] [get_bd_pins not_gate_2/i] [get_bd_pins xlslice_6/Dout]
+  connect_bd_net -net xlslice_tilt_Dout [get_bd_pins data_controller_0/tilt_in] [get_bd_pins xlslice_tilt/Dout]
 
   # Create address segments
 
