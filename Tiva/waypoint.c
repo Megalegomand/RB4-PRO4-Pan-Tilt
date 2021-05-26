@@ -41,7 +41,7 @@ void waypoint_init()
     wp.active = 1;
     wp.tilt_point = 0.0f;
     wp.pan_point = 0.0f;
-    wp.time_ms = 10000;
+    wp.time_ms = 5000;
     waypoints[0] = wp;
 
     wp.active = 1;

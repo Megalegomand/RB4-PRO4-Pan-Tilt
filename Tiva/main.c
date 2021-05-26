@@ -77,7 +77,7 @@ int main(void)
 
     xTaskCreate(spi_write_task, "SPI write task",
     configMINIMAL_STACK_SIZE + 50,
-                NULL, PRIORITY_HIGH, NULL);
+                NULL, PRIORITY_MEDIUM, NULL);
 
     xTaskCreate(uart0_write_task, "UART write task",
     configMINIMAL_STACK_SIZE + 50,
