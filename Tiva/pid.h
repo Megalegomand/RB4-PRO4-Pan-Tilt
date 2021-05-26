@@ -50,7 +50,7 @@ typedef struct
 
 #define PID_TOLERANCE 0.05f
 
-#define POS_MULTIPLIER (PI / 2.0f) / 138.0f // Rotation / encoder ticks
+#define POS_MULTIPLIER (PI / 2.0f) / 134.4f // Rotation / encoder ticks
 #define PWM_MULTIPLIER 255.0f / 12.0f
 
 #define SETPOINT_QUEUE_LENGTH 1

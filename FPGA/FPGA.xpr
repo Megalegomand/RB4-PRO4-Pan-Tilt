@@ -126,6 +126,9 @@
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_not_gate_1_0/assembly_not_gate_1_0.xci">
           <Proxy FileSetName="assembly_not_gate_1_0"/>
         </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
+          <Proxy FileSetName="assembly_clock_divider_0_0"/>
+        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_not_gate_1_1/assembly_not_gate_1_1.xci">
           <Proxy FileSetName="assembly_not_gate_1_1"/>
         </CompFileExtendedInfo>
@@ -155,9 +158,6 @@
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_data_controller_0_0/assembly_data_controller_0_0.xci">
           <Proxy FileSetName="assembly_data_controller_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="assembly.bd" FileRelPathName="ip/assembly_clock_divider_0_0/assembly_clock_divider_0_0.xci">
-          <Proxy FileSetName="assembly_clock_divider_0_0"/>
         </CompFileExtendedInfo>
       </File>
       <File Path="$PGENDIR/sources_1/bd/assembly/hdl/assembly_wrapper.vhd">
