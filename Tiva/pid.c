@@ -27,6 +27,8 @@ extern QueueHandle_t spi_tx_queue;
 
 SemaphoreHandle_t debug_enabled;
 QueueHandle_t pid_debug_queue;
+
+static TaskHandle_t pid_task_handle;
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
@@ -53,12 +55,7 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N)
     pid_controllers[pid].lim_max = PID_LIM_MAX;
 
     // Reset values
-    pid_controllers[pid].integrator = 0.0f;
-    pid_controllers[pid].differentiator = 0.0f;
-
-    pid_controllers[pid].prev_error = 0.0f;
-
-    pid_controllers[pid].saturated = 0;
+    pid_reset(pid);
 
     pid_debug_queue = xQueueCreate(DEBUG_QUEUE_LENGTH, DEBUG_QUEUE_WIDTH);
     configASSERT(pid_debug_queue);
@@ -66,6 +63,11 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N)
     debug_enabled = xSemaphoreCreateBinary();
     configASSERT(debug_enabled);
     xSemaphoreGive(debug_enabled);
+
+    // Setup pin for validation
+    GPIO_PORTA_DEN_R |= 0x40;
+    GPIO_PORTA_DIR_R |= 0x40;
+    GPIO_PORTA_DATA_R &= ~(0x40);
 }
 /**********************************************
  * Input: N/A
@@ -77,7 +79,8 @@ float pid_update(INT8U pid, FP32 position, FP32 setpoint)
     // Error
     FP32 error = setpoint - position;
 
-    if (fabs(error) <= PID_TOLERANCE) {
+    if (fabs(error) <= PID_TOLERANCE)
+    {
         error = 0.0f;
     }
 
@@ -121,14 +124,21 @@ float pid_update(INT8U pid, FP32 position, FP32 setpoint)
     // Store error
     pid_controllers[pid].prev_error = error;
 
+    if (fabs(error) <= PID_TOLERANCE)
+    {
+        out = 0.0f;
+    }
+
     /* Return pid_controllers output */
     return out;
 }
 
 void pid_task(void * pvParameters)
 {
+    pid_task_handle = xTaskGetCurrentTaskHandle();
+
     // Periodic tasks definitions
-    const TickType_t xPeriod = pdMS_TO_TICKS(PID_SAMPLE_TIME_MS / 2);
+    const TickType_t xPeriod = pdMS_TO_TICKS(PID_SAMPLE_TIME_MS * 0.5f);
     TickType_t xLastWakeTime = xTaskGetTickCount();
     TickType_t xLastWakeTime_prev;
 
@@ -148,6 +158,7 @@ void pid_task(void * pvParameters)
             pid_c.raw_pos[PID_PAN] = spi_transmission(SPI_PAN,
                                                       pid_c.raw_pwm[PID_TILT],
                                                       SPI_TILT);
+            GPIO_PORTA_DATA_R |= 0x40;
         }
         else if (pantilt == PID_TILT)
         {
@@ -155,6 +166,7 @@ void pid_task(void * pvParameters)
             pid_c.raw_pos[PID_TILT] = spi_transmission(SPI_TILT,
                                                        pid_c.raw_pwm[PID_PAN],
                                                        SPI_PAN);
+            GPIO_PORTA_DATA_R &= ~(0x40);
         }
 
         pid_c.pos[pantilt] = pid_c.raw_pos[pantilt] * POS_MULTIPLIER;
@@ -166,7 +178,8 @@ void pid_task(void * pvParameters)
                      (pantilt == PID_PAN ? SPI_PAN : SPI_TILT));
 
         // Update setpoint
-        pid_c.setpoint[pantilt] = waypoint_next_setpoint(pantilt, pid_c.pos[pantilt]);
+        pid_c.setpoint[pantilt] = waypoint_next_setpoint(pantilt,
+                                                         pid_c.pos[pantilt]);
 
         // Debug struct update
         if (uxSemaphoreGetCount(debug_enabled) == 0 && pantilt == PID_TILT)
@@ -188,6 +201,31 @@ void pid_task(void * pvParameters)
 
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
+}
+
+void pid_reset(INT8U pid)
+{
+    pid_controllers[pid].integrator = 0.0f;
+    pid_controllers[pid].differentiator = 0.0f;
+
+    pid_controllers[pid].prev_error = 0.0f;
+
+    pid_controllers[pid].saturated = 0;
+}
+
+void pid_stop()
+{
+    vTaskSuspend(pid_task_handle);
+
+    spi_transmission(SPI_TILT, 0, SPI_PAN);
+    spi_transmission(SPI_PAN, 0, SPI_PAN);
+}
+void pid_start()
+{
+    pid_reset(PID_PAN);
+    pid_reset(PID_TILT);
+
+    vTaskResume(pid_task_handle);
 }
 /***************** End of module **************/
 

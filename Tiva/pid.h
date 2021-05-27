@@ -44,13 +44,13 @@ typedef struct
 #define PID_PAN             0
 #define PID_TILT            1
 
-#define PID_SAMPLE_TIME_MS  100
+#define PID_SAMPLE_TIME_MS  5
 #define PID_LIM_MIN         -12.0f
 #define PID_LIM_MAX         12.0f
 
 #define PID_TOLERANCE 0.05f
 
-#define POS_MULTIPLIER (PI / 2.0f) / 138.0f // Rotation / encoder ticks
+#define POS_MULTIPLIER (PI / 2.0f) / 134.4f // Rotation / encoder ticks
 #define PWM_MULTIPLIER 255.0f / 12.0f
 
 #define SETPOINT_QUEUE_LENGTH 1
@@ -97,5 +97,10 @@ void pid_task(void * pvParameters);
  * Output: N/A
  * Function: adjustPWM()
  ***********************************************/
+
+void pid_reset(INT8U pid);
+
+void pid_stop();
+void pid_start();
 /***************** End of module **************/
 #endif /* CONTROLSYSTEM_H_ */

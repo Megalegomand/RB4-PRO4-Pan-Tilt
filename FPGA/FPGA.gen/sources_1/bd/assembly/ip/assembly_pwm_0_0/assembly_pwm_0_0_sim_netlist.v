@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-// Date        : Sat May 22 20:45:01 2021
+// Date        : Tue May 25 09:52:50 2021
 // Host        : lenovo-v330 running 64-bit Ubuntu 20.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/megalegomand/OneDrive/Uni/4Semester/PRO4/FPGA/FPGA.gen/sources_1/bd/assembly/ip/assembly_pwm_0_0/assembly_pwm_0_0_sim_netlist.v
@@ -143,7 +143,8 @@ module assembly_pwm_0_0_pwm
         .I5(cnt_reg[4]),
         .O(\cnt[7]_i_2_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_reg[0] 
        (.C(clk),
         .CE(1'b1),
@@ -151,7 +152,8 @@ module assembly_pwm_0_0_pwm
         .Q(cnt_reg[0]),
         .R(1'b0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_reg[1] 
        (.C(clk),
         .CE(1'b1),
@@ -159,7 +161,8 @@ module assembly_pwm_0_0_pwm
         .Q(cnt_reg[1]),
         .R(1'b0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_reg[2] 
        (.C(clk),
         .CE(1'b1),
@@ -167,7 +170,8 @@ module assembly_pwm_0_0_pwm
         .Q(cnt_reg[2]),
         .R(1'b0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_reg[3] 
        (.C(clk),
         .CE(1'b1),
@@ -175,7 +179,8 @@ module assembly_pwm_0_0_pwm
         .Q(cnt_reg[3]),
         .R(1'b0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_reg[4] 
        (.C(clk),
         .CE(1'b1),
@@ -183,7 +188,8 @@ module assembly_pwm_0_0_pwm
         .Q(cnt_reg[4]),
         .R(1'b0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_reg[5] 
        (.C(clk),
         .CE(1'b1),
@@ -191,7 +197,8 @@ module assembly_pwm_0_0_pwm
         .Q(cnt_reg[5]),
         .R(1'b0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_reg[6] 
        (.C(clk),
         .CE(1'b1),
@@ -199,7 +206,8 @@ module assembly_pwm_0_0_pwm
         .Q(cnt_reg[6]),
         .R(1'b0));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \cnt_reg[7] 
        (.C(clk),
         .CE(1'b1),
@@ -236,7 +244,8 @@ module assembly_pwm_0_0_pwm
         .I3(cnt_reg[6]),
         .O(\duty_cycle_t[7]_i_3_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \duty_cycle_t_reg[0] 
        (.C(clk),
         .CE(\duty_cycle_t[7]_i_2_n_0 ),
@@ -244,7 +253,8 @@ module assembly_pwm_0_0_pwm
         .Q(duty_cycle_t[0]),
         .R(\duty_cycle_t[7]_i_1_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \duty_cycle_t_reg[1] 
        (.C(clk),
         .CE(\duty_cycle_t[7]_i_2_n_0 ),
@@ -252,7 +262,8 @@ module assembly_pwm_0_0_pwm
         .Q(duty_cycle_t[1]),
         .R(\duty_cycle_t[7]_i_1_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \duty_cycle_t_reg[2] 
        (.C(clk),
         .CE(\duty_cycle_t[7]_i_2_n_0 ),
@@ -260,7 +271,8 @@ module assembly_pwm_0_0_pwm
         .Q(duty_cycle_t[2]),
         .R(\duty_cycle_t[7]_i_1_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \duty_cycle_t_reg[3] 
        (.C(clk),
         .CE(\duty_cycle_t[7]_i_2_n_0 ),
@@ -268,7 +280,8 @@ module assembly_pwm_0_0_pwm
         .Q(duty_cycle_t[3]),
         .R(\duty_cycle_t[7]_i_1_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \duty_cycle_t_reg[4] 
        (.C(clk),
         .CE(\duty_cycle_t[7]_i_2_n_0 ),
@@ -276,7 +289,8 @@ module assembly_pwm_0_0_pwm
         .Q(duty_cycle_t[4]),
         .R(\duty_cycle_t[7]_i_1_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \duty_cycle_t_reg[5] 
        (.C(clk),
         .CE(\duty_cycle_t[7]_i_2_n_0 ),
@@ -284,7 +298,8 @@ module assembly_pwm_0_0_pwm
         .Q(duty_cycle_t[5]),
         .R(\duty_cycle_t[7]_i_1_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \duty_cycle_t_reg[6] 
        (.C(clk),
         .CE(\duty_cycle_t[7]_i_2_n_0 ),
@@ -292,7 +307,8 @@ module assembly_pwm_0_0_pwm
         .Q(duty_cycle_t[6]),
         .R(\duty_cycle_t[7]_i_1_n_0 ));
   FDRE #(
-    .INIT(1'b0)) 
+    .INIT(1'b0),
+    .IS_C_INVERTED(1'b1)) 
     \duty_cycle_t_reg[7] 
        (.C(clk),
         .CE(\duty_cycle_t[7]_i_2_n_0 ),
@@ -370,7 +386,9 @@ module assembly_pwm_0_0_pwm
         .I4(duty_cycle_t[1]),
         .I5(cnt_reg[1]),
         .O(o_i_8_n_0));
-  FDRE o_reg
+  FDRE #(
+    .IS_C_INVERTED(1'b1)) 
+    o_reg
        (.C(clk),
         .CE(1'b1),
         .D(o_i_1_n_0),

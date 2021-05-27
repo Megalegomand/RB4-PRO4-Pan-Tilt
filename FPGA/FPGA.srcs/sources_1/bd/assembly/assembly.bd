@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x2164E2F4D8A718A7",
+      "boundary_crc": "0x2164E2F4902C9EA1",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../FPGA.gen/sources_1/bd/assembly",
       "name": "assembly",
@@ -20,16 +20,16 @@
       "not_gate_2": "",
       "xlconcat_spi_test": "",
       "spi_0": "",
-      "data_controller_0": "",
-      "pwm_pan": "",
-      "pwm_tilt": "",
       "clock_divider_1": "",
       "encoder_tilt": "",
       "encoder_pan": "",
       "debouncer_pan_zero": "",
       "debouncer_tilt_zero": "",
       "xlslice_tilt": "",
-      "xlslice_pan": ""
+      "xlslice_pan": "",
+      "pwm_pan": "",
+      "pwm_tilt": "",
+      "data_controller_0": ""
     },
     "ports": {
       "clk": {
@@ -298,16 +298,16 @@
         "inst_hier_path": "xlconcat_spi_test",
         "parameters": {
           "IN0_WIDTH": {
-            "value": "4"
+            "value": "1"
           },
           "IN1_WIDTH": {
             "value": "1"
           },
           "IN3_WIDTH": {
-            "value": "2"
+            "value": "1"
           },
           "NUM_PORTS": {
-            "value": "4"
+            "value": "8"
           }
         }
       },
@@ -378,63 +378,6 @@
           "data_out": {
             "direction": "O",
             "left": "15",
-            "right": "0"
-          }
-        }
-      },
-      "data_controller_0": {
-        "vlnv": "xilinx.com:module_ref:data_controller:1.0",
-        "xci_name": "assembly_data_controller_0_0",
-        "xci_path": "ip/assembly_data_controller_0_0/assembly_data_controller_0_0.xci",
-        "inst_hier_path": "data_controller_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "data_controller",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "rst",
-                "value_src": "constant"
-              }
-            }
-          },
-          "rst": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "pan_in": {
-            "direction": "I",
-            "left": "8",
-            "right": "0"
-          },
-          "tilt_in": {
-            "direction": "I",
-            "left": "8",
-            "right": "0"
-          },
-          "spi_rx": {
-            "direction": "I",
-            "left": "15",
-            "right": "0"
-          },
-          "pan_out": {
-            "direction": "O",
-            "left": "8",
-            "right": "0"
-          },
-          "tilt_out": {
-            "direction": "O",
-            "left": "8",
-            "right": "0"
-          },
-          "spi_tx": {
-            "direction": "O",
-            "left": "15",
             "right": "0",
             "parameters": {
               "PortWidth": {
@@ -442,100 +385,6 @@
                 "value_src": "ip_prop"
               }
             }
-          }
-        }
-      },
-      "pwm_pan": {
-        "vlnv": "xilinx.com:module_ref:pwm:1.0",
-        "xci_name": "assembly_pwm_0_0",
-        "xci_path": "ip/assembly_pwm_0_0/assembly_pwm_0_0.xci",
-        "inst_hier_path": "pwm_pan",
-        "parameters": {
-          "n_bits": {
-            "value": "8"
-          }
-        },
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "pwm",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "rst": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "rst",
-                "value_src": "constant"
-              },
-              "CLK_DOMAIN": {
-                "value": "assembly_clk",
-                "value_src": "default_prop"
-              }
-            }
-          },
-          "duty_cycle": {
-            "direction": "I",
-            "left": "7",
-            "right": "0",
-            "parameters": {
-              "PortWidth": {
-                "value": "4",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "o": {
-            "direction": "O"
-          }
-        }
-      },
-      "pwm_tilt": {
-        "vlnv": "xilinx.com:module_ref:pwm:1.0",
-        "xci_name": "assembly_pwm_pan_0",
-        "xci_path": "ip/assembly_pwm_pan_0/assembly_pwm_pan_0.xci",
-        "inst_hier_path": "pwm_tilt",
-        "parameters": {
-          "n_bits": {
-            "value": "8"
-          }
-        },
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "pwm",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "rst": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "rst",
-                "value_src": "constant"
-              },
-              "CLK_DOMAIN": {
-                "value": "assembly_clk",
-                "value_src": "default_prop"
-              }
-            }
-          },
-          "duty_cycle": {
-            "direction": "I",
-            "left": "7",
-            "right": "0"
-          },
-          "o": {
-            "direction": "O"
           }
         }
       },
@@ -795,19 +644,170 @@
             "value": "9"
           }
         }
+      },
+      "pwm_pan": {
+        "vlnv": "xilinx.com:module_ref:pwm:1.0",
+        "xci_name": "assembly_pwm_0_0",
+        "xci_path": "ip/assembly_pwm_0_0/assembly_pwm_0_0.xci",
+        "inst_hier_path": "pwm_pan",
+        "parameters": {
+          "n_bits": {
+            "value": "8"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "pwm",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "duty_cycle": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "o": {
+            "direction": "O"
+          }
+        }
+      },
+      "pwm_tilt": {
+        "vlnv": "xilinx.com:module_ref:pwm:1.0",
+        "xci_name": "assembly_pwm_pan_0",
+        "xci_path": "ip/assembly_pwm_pan_0/assembly_pwm_pan_0.xci",
+        "inst_hier_path": "pwm_tilt",
+        "parameters": {
+          "n_bits": {
+            "value": "8"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "pwm",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "duty_cycle": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "o": {
+            "direction": "O"
+          }
+        }
+      },
+      "data_controller_0": {
+        "vlnv": "xilinx.com:module_ref:data_controller:1.0",
+        "xci_name": "assembly_data_controller_0_0",
+        "xci_path": "ip/assembly_data_controller_0_0/assembly_data_controller_0_0.xci",
+        "inst_hier_path": "data_controller_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "data_controller",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "pan_in": {
+            "direction": "I",
+            "left": "8",
+            "right": "0"
+          },
+          "tilt_in": {
+            "direction": "I",
+            "left": "8",
+            "right": "0"
+          },
+          "spi_rx": {
+            "direction": "I",
+            "left": "15",
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "16",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "pan_out": {
+            "direction": "O",
+            "left": "8",
+            "right": "0"
+          },
+          "tilt_out": {
+            "direction": "O",
+            "left": "8",
+            "right": "0"
+          },
+          "spi_tx": {
+            "direction": "O",
+            "left": "15",
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "16",
+                "value_src": "ip_prop"
+              }
+            }
+          }
+        }
       }
     },
     "nets": {
       "ss_0_1": {
         "ports": [
           "ss",
-          "spi_0/ss"
+          "spi_0/ss",
+          "xlconcat_spi_test/In1"
         ]
       },
       "sdi_0_1": {
         "ports": [
           "sdi",
-          "spi_0/sdi"
+          "spi_0/sdi",
+          "xlconcat_spi_test/In2"
         ]
       },
       "xlslice_0_Dout": {
@@ -829,13 +829,6 @@
           "pan_en"
         ]
       },
-      "xlslice_2_Dout": {
-        "ports": [
-          "data_controller_0/tilt_out",
-          "xlslice_5/Din",
-          "xlslice_6/Din"
-        ]
-      },
       "xlslice_5_Dout": {
         "ports": [
           "xlslice_5/Dout",
@@ -853,26 +846,14 @@
           "rst",
           "clock_divider_0/rst",
           "spi_0/rst",
-          "data_controller_0/rst",
-          "pwm_tilt/rst",
-          "pwm_pan/rst",
           "clock_divider_1/rst",
           "encoder_tilt/rst",
           "encoder_pan/rst",
           "debouncer_pan_zero/rst",
-          "debouncer_tilt_zero/rst"
-        ]
-      },
-      "data_controller_0_spi_tx": {
-        "ports": [
-          "data_controller_0/spi_tx",
-          "spi_0/data_in"
-        ]
-      },
-      "spi_0_data_out": {
-        "ports": [
-          "spi_0/data_out",
-          "data_controller_0/spi_rx"
+          "debouncer_tilt_zero/rst",
+          "pwm_pan/rst",
+          "pwm_tilt/rst",
+          "data_controller_0/rst"
         ]
       },
       "tilt_b_1": {
@@ -890,13 +871,8 @@
       "spi_0_sdo": {
         "ports": [
           "spi_0/sdo",
-          "sdo"
-        ]
-      },
-      "xlconcat_spi_test_dout": {
-        "ports": [
-          "xlconcat_spi_test/dout",
-          "ar"
+          "sdo",
+          "xlconcat_spi_test/In3"
         ]
       },
       "xlslice_6_Dout": {
@@ -929,11 +905,11 @@
         "ports": [
           "clock_divider_0/clk_div",
           "spi_0/clk",
-          "data_controller_0/clk",
           "encoder_tilt/clk",
           "encoder_pan/clk",
           "debouncer_pan_zero/clk",
-          "debouncer_tilt_zero/clk"
+          "debouncer_tilt_zero/clk",
+          "data_controller_0/clk"
         ]
       },
       "clk_1": {
@@ -953,7 +929,6 @@
       "tilt_zero_1": {
         "ports": [
           "tilt_zero",
-          "xlconcat_spi_test/In1",
           "debouncer_tilt_zero/inp"
         ]
       },
@@ -972,14 +947,14 @@
       "debouncer_tilt_zero_outp": {
         "ports": [
           "debouncer_tilt_zero/outp",
-          "encoder_tilt/zero",
-          "xlconcat_spi_test/In2"
+          "encoder_tilt/zero"
         ]
       },
       "sclk_1": {
         "ports": [
           "sclk",
-          "spi_0/sclk"
+          "spi_0/sclk",
+          "xlconcat_spi_test/In0"
         ]
       },
       "pan_a_1": {
@@ -994,22 +969,10 @@
           "encoder_pan/b"
         ]
       },
-      "encoder_tilt_col_p": {
-        "ports": [
-          "encoder_tilt/col_p",
-          "xlconcat_spi_test/In0"
-        ]
-      },
       "encoder_tilt_cnt": {
         "ports": [
           "encoder_tilt/cnt",
           "xlslice_tilt/Din"
-        ]
-      },
-      "xlslice_0_Dout1": {
-        "ports": [
-          "xlslice_tilt/Dout",
-          "data_controller_0/tilt_in"
         ]
       },
       "encoder_pan_cnt": {
@@ -1022,6 +985,37 @@
         "ports": [
           "xlslice_pan/Dout",
           "data_controller_0/pan_in"
+        ]
+      },
+      "data_controller_0_spi_tx": {
+        "ports": [
+          "data_controller_0/spi_tx",
+          "spi_0/data_in"
+        ]
+      },
+      "spi_0_data_out": {
+        "ports": [
+          "spi_0/data_out",
+          "data_controller_0/spi_rx"
+        ]
+      },
+      "xlconcat_spi_test_dout": {
+        "ports": [
+          "xlconcat_spi_test/dout",
+          "ar"
+        ]
+      },
+      "data_controller_0_tilt_out": {
+        "ports": [
+          "data_controller_0/tilt_out",
+          "xlslice_6/Din",
+          "xlslice_5/Din"
+        ]
+      },
+      "xlslice_tilt_Dout": {
+        "ports": [
+          "xlslice_tilt/Dout",
+          "data_controller_0/tilt_in"
         ]
       }
     }

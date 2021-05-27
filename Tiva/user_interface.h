@@ -26,6 +26,7 @@
 #include "pid.h"
 #include "semphr.h"
 #include "printf.h"
+#include "spi.h"
 /***************** Defines ********************/ 
 #ifndef USER_INTERFACE_H_
 #define USER_INTERFACE_H_
@@ -34,7 +35,7 @@
 #define LEFT 0
 #define RIGHT 1
 /***************** Variables ******************/ 
-typedef enum UI_MENUS{MAIN, DEBUG} UI_MENUS;
+typedef enum UI_MENUS{MAIN, DEBUG, SPI_TEST} UI_MENUS;
 extern QueueHandle_t uart0_rx_queue;
 
 extern QueueHandle_t pid_debug_queue;
@@ -50,6 +51,7 @@ void ui_clear_screen();
 void ui_task(void* pvParameters);
 UI_MENUS ui_main_menu();
 UI_MENUS ui_debug_menu();
+UI_MENUS ui_spi_test();
 
 #endif /* USER_INTERFACE_H_ */
 /***************** End of module **************/

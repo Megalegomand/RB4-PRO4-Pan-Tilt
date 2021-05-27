@@ -52,7 +52,7 @@ BEGIN
             duty_cycle_t <= (OTHERS => '0');
             cnt <= (OTHERS => '0');
         END IF;
-        IF (rising_edge(clk)) THEN
+        IF (falling_edge(clk)) THEN
             IF (or_reduce(cnt) = '0') THEN
                 duty_cycle_t <= duty_cycle;
                 IF (or_reduce(duty_cycle) /= '0') THEN

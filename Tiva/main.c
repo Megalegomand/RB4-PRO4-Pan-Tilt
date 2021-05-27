@@ -68,8 +68,8 @@ int main(void)
     waypoint_init();
 
     // PID, Kp, Ki, Kd, N, setpoint queue
-    pid_init(PID_PAN, 10.03f, 9.09f, 2.16f, 1000);
-    pid_init(PID_TILT, 2.689f, 4.366f, 0.4139f, 1000);
+    pid_init(PID_PAN, 8.82f, 6.64f, 1.1713f, 1000);
+    pid_init(PID_TILT, 1.27f, 1.1152f, 0.1800f, 1000);
 
     // Create tasks
     xTaskCreate(pid_task, "PID controller", configMINIMAL_STACK_SIZE + 100,
@@ -77,7 +77,7 @@ int main(void)
 
     xTaskCreate(spi_write_task, "SPI write task",
     configMINIMAL_STACK_SIZE + 50,
-                NULL, PRIORITY_HIGH, NULL);
+                NULL, PRIORITY_MEDIUM, NULL);
 
     xTaskCreate(uart0_write_task, "UART write task",
     configMINIMAL_STACK_SIZE + 50,
