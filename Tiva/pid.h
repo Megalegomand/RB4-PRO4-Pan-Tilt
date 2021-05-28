@@ -14,7 +14,6 @@
 #include "spi.h"
 #include "waypoint.h"
 /***************** Defines ********************/
-
 typedef struct
 {
     FP32 Kp;
@@ -80,27 +79,41 @@ extern SemaphoreHandle_t debug_enabled;
 /***************** Functions ******************/
 void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N);
 /**********************************************
- * Input: N/A
- * Output: readPosition
- * Function: getPosition()
+ * Input: Designated PID, Potential term, Integral term, Derivative term, Filter coefficient
+ * Output: N/A
+ * Function: Initialize PID
  ***********************************************/
 float pid_update(INT8U pid, FP32 position, FP32 setpoint);
 /**********************************************
- * Input: N/A
- * Output: N/A
- * Function: PID()
+ * Input: Designated PID, Encoder position, Reference setpoint
+ * Output: controlvariable
+ * Function: Update PID
  ***********************************************/
 
 void pid_task(void * pvParameters);
 /**********************************************
- * Input: N/A
+ * Input: pvParameters
  * Output: N/A
- * Function: adjustPWM()
+ * Function: FreeRTOS PID task
  ***********************************************/
 
 void pid_reset(INT8U pid);
-
+/**********************************************
+ * Input: Designated pid controller
+ * Output: N/A
+ * Function: Reset the PID
+ ***********************************************/
 void pid_stop();
+/**********************************************
+ * Input: N/A
+ * Output: N/A
+ * Function: Stop PID
+ ***********************************************/
 void pid_start();
+/**********************************************
+ * Input: N/A
+ * Output: N/A
+ * Function: Start PID
+ ***********************************************/
 /***************** End of module **************/
 #endif /* CONTROLSYSTEM_H_ */

@@ -35,31 +35,52 @@ typedef struct
 /***************** Variables ******************/
 /***************** Functions ******************/
 void waypoint_init();
+/**********************************************
+ * Input: N/A
+ * Output: N/A
+ * Function: Initialize waypoint
+ ***********************************************/
 
 FP32 waypoint_next_setpoint(INT8U pid, FP32 pos);
 /**********************************************
- * Input: N/A
- * Output: readPosition
- * Function: getPosition()
+ * Input: Designated PID, desired position
+ * Output: waypoint
+ * Function: set waypoint as reference
  ***********************************************/
 
 void waypoint_next(FP32 pos_pan, FP32 pos_tilt);
-
+/**********************************************
+ * Input: Desired pan position, desired tilt position
+ * Output: waypoint
+ * Function: Add waypoint
+ ***********************************************/
 
 void waypoint_list();
 /**********************************************
  * Input: N/A
- * Output: readPosition
- * Function: getPosition()
+ * Output: N/A
+ * Function: Print the current waitpoint list to UI
  ***********************************************/
 void waypoint_edit();
 /**********************************************
  * Input: N/A
- * Output: readPosition
- * Function: getPosition()
+ * Output: N/A
+ * Function: Edit waypoint
  ***********************************************/
 
 Waypoint waypoint_get(INT8U index);
+/**********************************************
+ * Input: Index for waypoint list
+ * Output: Desired waypoint
+ * Function: Get waypoint
+ ***********************************************/
+
 void waypoint_set(INT8U index, Waypoint wp);
+/**********************************************
+ * Input: List index, Added waypoint
+ * Output: N/A
+ * Function: Set waypoint at index
+ ***********************************************/
+/***************** End of module **************/
 
 #endif /* WAYPOINT_H_ */

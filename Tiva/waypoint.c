@@ -32,6 +32,11 @@ static Waypoint_Container wp_cont[PID_CONTROLLERS_LENGTH];
  ***********************************************/
 
 void waypoint_init()
+/**********************************************
+ * Input: N/A
+ * Output: N/A
+ * Function: Initialize waypoint
+ ***********************************************/
 {
     waypoints_mutex = xSemaphoreCreateMutex();
     configASSERT(waypoints_mutex);
@@ -97,9 +102,9 @@ void waypoint_init()
 
 FP32 waypoint_next_setpoint(INT8U pid, FP32 pos)
 /**********************************************
- * Input: N/A
- * Output: readPosition
- * Function: getPosition()
+ * Input: Designated PID, desired position
+ * Output: waypoint
+ * Function: set next setpoint
  ***********************************************/
 {
     FP32 ret = 0.0f;
@@ -129,6 +134,11 @@ FP32 waypoint_next_setpoint(INT8U pid, FP32 pos)
 }
 
 void waypoint_next(FP32 pos_pan, FP32 pos_tilt)
+/**********************************************
+ * Input: Desired pan position, desired tilt position
+ * Output: waypoint
+ * Function: Update next waypoint
+ ***********************************************/
 {
     do
     {
@@ -167,8 +177,8 @@ void waypoint_next(FP32 pos_pan, FP32 pos_tilt)
 void waypoint_list()
 /**********************************************
  * Input: N/A
- * Output: readPosition
- * Function: getPosition()
+ * Output: N/A
+ * Function: Print the current waitpoint list to UI
  ***********************************************/
 {
     ui_clear_screen();
@@ -182,9 +192,10 @@ void waypoint_list()
 void waypoint_edit()
 /**********************************************
  * Input: N/A
- * Output: readPosition
- * Function: getPosition()
+ * Output: N/A
+ * Function: Edit waypoint
  ***********************************************/
+
 {
     int i;
     while (1)
@@ -222,6 +233,11 @@ void waypoint_edit()
 }
 
 Waypoint waypoint_get(INT8U index)
+/**********************************************
+ * Input: Index for waypoint list
+ * Output: Desired waypoint
+ * Function: Get waypoint
+ ***********************************************/
 {
     xSemaphoreTake(waypoints_mutex, portMAX_DELAY);
     Waypoint ret = waypoints[index];
@@ -230,8 +246,14 @@ Waypoint waypoint_get(INT8U index)
 }
 
 void waypoint_set(INT8U index, Waypoint wp)
+/**********************************************
+ * Input: List index, Added waypoint
+ * Output: N/A
+ * Function: Set waypoint at index
+ ***********************************************/
 {
     xSemaphoreTake(waypoints_mutex, portMAX_DELAY);
     waypoints[index] = wp;
     xSemaphoreGive(waypoints_mutex);
 }
+/***************** End of module **************/

@@ -99,8 +99,10 @@ INT32U lcrh_parity(INT8U parity)
 
 extern BOOLEAN uart0_tx_rdy()
 /*****************************************************************************
- *   Function : See module specification (.h-file).
- *****************************************************************************/
+*   Input    : -
+*   Output   : -
+*   Function : uart0 TX buffer ready
+******************************************************************************/
 {
     return ( UART0_FR_R & UART_FR_TXFE);
 }
@@ -108,8 +110,10 @@ extern BOOLEAN uart0_tx_rdy()
 extern void uart0_init(INT32U baud_rate, INT8U databits, INT8U stopbits,
                        INT8U parity)
 /*****************************************************************************
- *   Function : See module specification (.h-file).
- *****************************************************************************/
+*   Input    : -
+*   Output   : -
+*   Function : Initialize uart 0
+******************************************************************************/
 {
     INT32U BRD;
 
@@ -154,6 +158,11 @@ extern void uart0_init(INT32U baud_rate, INT8U databits, INT8U stopbits,
 }
 
 void uart0_read_isr()
+/*****************************************************************************
+*   Input    : N/A
+*   Output   : N/A
+*   Function : Uart read interrupt service routine
+******************************************************************************/
 {
     BaseType_t xHigherPriorityTaskWoken;
     xHigherPriorityTaskWoken = pdFALSE;
@@ -179,6 +188,11 @@ void uart0_read_isr()
 }
 
 void uart0_write_task(void * pvParameters)
+/*****************************************************************************
+*   Input    : -
+*   Output   : -
+*   Function : uart0 FreeRTOS task
+******************************************************************************/
 {
     INT8U msg;
     while (1)
@@ -198,6 +212,11 @@ void uart0_write_task(void * pvParameters)
 }
 
 void uart0_sendstring(char* c, INT8U length)
+/*****************************************************************************
+ *   Input    : Char, Length of string
+ *   Output   : -
+ *   Function : uart0 send string
+ ******************************************************************************/
 {
     for (int i = 0; i < length; i++)
     {
@@ -206,16 +225,32 @@ void uart0_sendstring(char* c, INT8U length)
 }
 
 void uart0_sendchar(char c)
+/*****************************************************************************
+*   Input    : Char
+*   Output   : -
+*   Function : uart0 send char
+******************************************************************************/
 {
     xQueueSendToBack(uart0_tx_queue, &c, portMAX_DELAY);
 }
 
 void _putchar(char c)
+/*****************************************************************************
+*   Input    : char
+*   Output   : -
+*   Function : uart0 put char in queue
+******************************************************************************/
+
 {
     uart0_sendchar(c);
 }
 
 BaseType_t uart0_getchar(INT8U* msg, TickType_t xTicksToWait)
+/*****************************************************************************
+*   Input    : message pointer, ticks to wait
+*   Output   : -
+*   Function : uart0 get char
+******************************************************************************/
 {
     return xQueueReceive(uart0_rx_queue, msg, xTicksToWait);
 }

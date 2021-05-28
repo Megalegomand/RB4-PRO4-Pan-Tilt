@@ -32,12 +32,13 @@ INT16U failed = 0;
  Functions: See module specification (h.file)
  ***********************************************/
 
-/**********************************************
- * Input:
- * Output:
- * Function:
- ***********************************************/
+
 void spi_init()
+/**********************************************
+ * Input: N/A
+ * Output: N/A
+ * Function: Initialize SPI
+ ***********************************************/
 {
     int dummy = 0;
 
@@ -83,12 +84,13 @@ void spi_init()
     INT16U value = 0;
     xQueueSendToBack(spi_tx_queue, &value, 0);
 }
+
+void spi_write(INT16U data)
 /********************************************** 
  * Input: Data
  * Output: N/A
- * Function: spi_write
+ * Function: write data to SPI
  ***********************************************/
-void spi_write(INT16U data)
 {
     SSI0_CR1_R |= SSI_CR1_SSE; // Enable SPI
     while (!(SSI0_SR_R & SSI_SR_TNF))
@@ -99,6 +101,11 @@ void spi_write(INT16U data)
 }
 
 void spi_write_task(void * pvParameters)
+/**********************************************
+ * Input: pvParameters
+ * Output: N/A
+ * Function: FreeRTOS spi_write task
+ ***********************************************/
 {
 
     while (1)
@@ -111,6 +118,11 @@ void spi_write_task(void * pvParameters)
 }
 
 void spi_read_isr()
+/**********************************************
+ * Input: N/A
+ * Output: N/A
+ * Function: SPI read interrupt service routine
+ ***********************************************/
 {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
@@ -125,6 +137,11 @@ void spi_read_isr()
 }
 
 INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id)
+/**********************************************
+ * Input: Recieved data ID, Transmission, Transmission data ID
+ * Output: Recieved data
+ * Function: Checks package to ensure data consistency
+ ***********************************************/
 {
     INT16U receive;
 
@@ -161,6 +178,11 @@ INT16S spi_transmission(INT8U data_rx_id, INT16S tx_data, INT8U data_tx_id)
 }
 
 INT16U spi_transmit(INT16S tx_data, INT8U data_tx_id, INT8U next_id)
+/**********************************************
+ * Input: Transmission data, Transmission ID, Next ID
+ * Output: Data frame
+ * Function: spi_write
+ ***********************************************/
 {
     transmissions++;
 
@@ -180,6 +202,11 @@ INT16U spi_transmit(INT16S tx_data, INT8U data_tx_id, INT8U next_id)
 }
 
 INT8U redundant_bits(INT16U transmission)
+/**********************************************
+ * Input: Transmission data
+ * Output: Redundant bits
+ * Function: find redundant bits
+ ***********************************************/
 {
     INT8U ret = 0;
     for (INT8U i = 3; i < 16; i++)

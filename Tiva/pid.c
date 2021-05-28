@@ -32,12 +32,13 @@ static TaskHandle_t pid_task_handle;
 /**********************************************
  Functions: See module specification (h.file)
  ***********************************************/
-/**********************************************
- * Input: N/A
- * Output: read_position
- * Function: getPosition()
- ***********************************************/
+
 void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N)
+/**********************************************
+ * Input: Designated PID, Potential term, Integral term, Derivative term, Filter coefficient
+ * Output: N/A
+ * Function: Initialize PID
+ ***********************************************/
 {
     // Controller params
     pid_controllers[pid].Kp = Kp;
@@ -69,12 +70,13 @@ void pid_init(INT8U pid, FP32 Kp, FP32 Ki, FP32 Kd, INT16U N)
     GPIO_PORTA_DIR_R |= 0x40;
     GPIO_PORTA_DATA_R &= ~(0x40);
 }
-/**********************************************
- * Input: N/A
- * Output: controlvariable
- * Function: PID();
- ***********************************************/
+
 float pid_update(INT8U pid, FP32 position, FP32 setpoint)
+/**********************************************
+ * Input: Designated PID, Encoder position, Reference setpoint
+ * Output: controlvariable
+ * Function: Update PID
+ ***********************************************/
 {
     // Error
     FP32 error = setpoint - position;
@@ -134,6 +136,11 @@ float pid_update(INT8U pid, FP32 position, FP32 setpoint)
 }
 
 void pid_task(void * pvParameters)
+/**********************************************
+ * Input: pvParameters
+ * Output: N/A
+ * Function: FreeRTOS PID task
+ ***********************************************/
 {
     pid_task_handle = xTaskGetCurrentTaskHandle();
 
@@ -204,6 +211,11 @@ void pid_task(void * pvParameters)
 }
 
 void pid_reset(INT8U pid)
+/**********************************************
+ * Input: Designated pid controller
+ * Output: N/A
+ * Function: Reset the PID
+ ***********************************************/
 {
     pid_controllers[pid].integrator = 0.0f;
     pid_controllers[pid].differentiator = 0.0f;
@@ -214,13 +226,24 @@ void pid_reset(INT8U pid)
 }
 
 void pid_stop()
+/**********************************************
+ * Input: N/A
+ * Output: N/A
+ * Function: Stop PID
+ ***********************************************/
 {
     vTaskSuspend(pid_task_handle);
 
     spi_transmission(SPI_TILT, 0, SPI_PAN);
     spi_transmission(SPI_PAN, 0, SPI_PAN);
 }
+
 void pid_start()
+/**********************************************
+ * Input: N/A
+ * Output: N/A
+ * Function: Start PID
+ ***********************************************/
 {
     pid_reset(PID_PAN);
     pid_reset(PID_TILT);
