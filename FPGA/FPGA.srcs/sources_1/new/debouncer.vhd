@@ -132,9 +132,9 @@ begin
     ------------------------------------------------------------------------------
     begin
     ------------------------------------------------------------------------------
-        case current_state is                       -- Remember all states
+        case current_state is                     
             when s_idle =>                           
-                outp <= '0';                               -- Remember to assign all signals
+                outp <= '0';                               
             when s_out =>
                 outp <= '1';
             when s_idle_release =>

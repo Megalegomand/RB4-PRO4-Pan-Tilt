@@ -33,7 +33,7 @@ ARCHITECTURE Behavioral OF spi IS
     SIGNAL data_out_t : STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0) := (OTHERS => '0');
     SIGNAL sdo_t : STD_LOGIC := '0';
 
-    TYPE STATE_TYPE IS (s_rst, s_wait, s_high, s_low); --  add states here
+    TYPE STATE_TYPE IS (s_rst, s_wait, s_high, s_low); 
     SIGNAL current_state : STATE_TYPE := s_rst;
     SIGNAL next_state : STATE_TYPE := s_rst;
 BEGIN
@@ -54,7 +54,7 @@ BEGIN
             current_state <= next_state; -- State transition (only valid from process exit)
 
             CASE current_state IS -- State transition assignments
-                WHEN s_rst => -- Remember all possibilities
+                WHEN s_rst => 
                     CASE next_state IS -- Use others and null for default
                         WHEN s_rst =>
                             NULL;
@@ -146,7 +146,7 @@ BEGIN
         ------------------------------------------------------------------------------
     BEGIN
         ------------------------------------------------------------------------------
-        CASE current_state IS -- Remember all state transition cases
+        CASE current_state IS 
             WHEN s_rst =>
                 IF (ss = '0') THEN
                     --if (sph = '0') then
@@ -208,7 +208,7 @@ BEGIN
         ------------------------------------------------------------------------------
     BEGIN
         ------------------------------------------------------------------------------
-        CASE current_state IS -- Remember all states
+        CASE current_state IS 
             WHEN s_rst =>
                 state <= "00" & reg_cnt(0) & reg_cnt(cnt_bits - 1);
                 sdo <= '0';
