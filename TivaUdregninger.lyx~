@@ -351,27 +351,5 @@ u_{d}\left(kT+T\right)=\frac{2DN\left(e\left(kT+T\right)-e\left(kT\right)\right)
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Formula 
-\[
--\frac{\left(2K_{d}\left(pos-prevpos\right)+\left(2*N-T\right)u\left(kT\right)\right)}{2*N+T}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\frac{2K_{d}\left(e\left(kT+T\right)-e\left(kT\right)\right)-u\left(kT\right)\left(2*N-T\right)}{2*N+T}
-\]
-
-\end_inset
-
-
-\end_layout
-
 \end_body
 \end_document

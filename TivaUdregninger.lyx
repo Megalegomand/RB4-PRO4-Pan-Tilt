@@ -89,7 +89,7 @@
 \begin_layout Standard
 \begin_inset Formula 
 \[
-P+I\frac{T_{s}}{2}\frac{z+1}{z-1}+D\frac{N}{1+N\frac{T_{s}}{2}\frac{z+1}{z-1}}
+K_{P}+K_{I}\frac{T_{s}}{2}\frac{z+1}{z-1}+K_{D}\frac{N}{1+N\frac{T_{s}}{2}\frac{z+1}{z-1}}
 \]
 
 \end_inset
