@@ -1,1 +1,0 @@
-"./heap_2.o" "./list.o" "./main.o" "./pid.o" "./port.o" "./printf.o" "./queue.o" "./spi.o" "./startup_frt.o" "./systick_frt.o" "./tasks.o" "./uart0.o" "./user_interface.o" "./waypoint.o" -Wl,-T"../tm4c123gh6pm.lds" 
