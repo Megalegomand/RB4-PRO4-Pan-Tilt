@@ -28,6 +28,7 @@
 //        These routines are thread safe and reentrant.
 //
 ///////////////////////////////////////////////////////////////////////////////
+// From https://github.com/mpaland/printf
 
 #ifndef _PRINTF_H_
 #define _PRINTF_H_

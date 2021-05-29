@@ -29,6 +29,7 @@
 //        malloc for printf (and may not be thread safe).
 //
 ///////////////////////////////////////////////////////////////////////////////
+// From https://github.com/mpaland/printf
 
 #include <stdbool.h>
 #include <stdint.h>

@@ -48,7 +48,7 @@ ARCHITECTURE behavioral OF encoder IS
     SIGNAL a_t : STD_LOGIC := '0';
     SIGNAL b_t : STD_LOGIC := '0';
     SIGNAL col : STD_LOGIC_VECTOR(3 DOWNTO 0);
-    SIGNAL zero_t : STD_LOGIC := '0';
+    SIGNAL zero_t : STD_LOGIC := '1';
 BEGIN
 
     col <= a_t & b_t & a & b;
@@ -64,23 +64,18 @@ BEGIN
         IF (rising_edge(clk)) THEN -- To counteract SPI reading on rising edge
             cnt <= STD_LOGIC_VECTOR(cnt_t);
 
-            IF (zero = '1') THEN
-                zero_t <= '1';
-            END IF;
-
             a_t <= a;
             b_t <= b;
 
+            zero_t <= zero;
+
             IF (col = "0010" OR col = "1011" OR col = "1101" OR col = "0100") THEN
-                IF (zero_t = '1') THEN
+                IF (zero_t = '1' and zero = '0') THEN
                     cnt_t <= (OTHERS => '0'); -- Reset 
-                    zero_t <= '0';
                 ELSE
                     cnt_t <= cnt_t + 1;
                 END IF;
             ELSIF (col = "0001" OR col = "0111" OR col = "1110" OR col = "1000") THEN
-                zero_t <= '0';
-
                 cnt_t <= cnt_t - 1;
             END IF;
         END IF;
